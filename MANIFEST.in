@@ -1,0 +1,4 @@
+include README.md
+include LICENSE
+recursive-include sandbox0 *.py
+recursive-include sandbox0 py.typed
