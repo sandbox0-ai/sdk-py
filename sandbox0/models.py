@@ -8,14 +8,14 @@ from typing import Optional
 class RunResult:
     sandbox_id: str
     context_id: str
-    output: str
+    output_raw: str
 
 
 @dataclass(frozen=True)
 class CmdResult:
     sandbox_id: str
     context_id: str
-    output: str
+    output_raw: str
 
 
 @dataclass(frozen=True)

@@ -31,7 +31,8 @@ class ContextResponse:
         language (Union[Unset, str]):
         cwd (Union[Unset, str]):
         env_vars (Union[Unset, ContextResponseEnvVars]):
-        output (Union[Unset, str]):
+        output_raw (Union[Unset, str]): Raw PTY output for CMD contexts with wait=true, may contain terminal control
+            characters
     """
 
     id: str
@@ -42,7 +43,7 @@ class ContextResponse:
     language: Union[Unset, str] = UNSET
     cwd: Union[Unset, str] = UNSET
     env_vars: Union[Unset, "ContextResponseEnvVars"] = UNSET
-    output: Union[Unset, str] = UNSET
+    output_raw: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -64,7 +65,7 @@ class ContextResponse:
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
 
-        output = self.output
+        output_raw = self.output_raw
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -83,8 +84,8 @@ class ContextResponse:
             field_dict["cwd"] = cwd
         if env_vars is not UNSET:
             field_dict["env_vars"] = env_vars
-        if output is not UNSET:
-            field_dict["output"] = output
+        if output_raw is not UNSET:
+            field_dict["output_raw"] = output_raw
 
         return field_dict
 
@@ -114,7 +115,7 @@ class ContextResponse:
         else:
             env_vars = ContextResponseEnvVars.from_dict(_env_vars)
 
-        output = d.pop("output", UNSET)
+        output_raw = d.pop("output_raw", UNSET)
 
         context_response = cls(
             id=id,
@@ -125,7 +126,7 @@ class ContextResponse:
             language=language,
             cwd=cwd,
             env_vars=env_vars,
-            output=output,
+            output_raw=output_raw,
         )
 
         context_response.additional_properties = d

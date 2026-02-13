@@ -20,7 +20,7 @@ def main() -> None:
                 idle_timeout_sec=60,
             ),
         )
-        print(run_result.output, end="")
+        print(run_result.output_raw, end="")
 
         cmd_result = sandbox.cmd(
             "bash -c 'echo $GREETING && pwd'",
@@ -31,7 +31,7 @@ def main() -> None:
                 idle_timeout_sec=60,
             ),
         )
-        print(f"cmd output:\n{cmd_result.output}", end="")
+        print(f"cmd output:\n{cmd_result.output_raw}", end="")
     finally:
         client.delete_sandbox(sandbox.id)
 

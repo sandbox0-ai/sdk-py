@@ -141,7 +141,7 @@ class Sandbox(
         opts = options or RunOptions()
         context_id = self._ensure_repl_context(language=language, options=opts)
         exec_resp = self.context_exec(context_id=context_id, input=input)
-        return RunResult(sandbox_id=self.id, context_id=context_id, output=exec_resp.output)
+        return RunResult(sandbox_id=self.id, context_id=context_id, output_raw=exec_resp.output_raw)
 
     def cmd(self, cmd: str, options: Optional[CmdOptions] = None) -> CmdResult:
         if not cmd.strip():
@@ -162,8 +162,8 @@ class Sandbox(
             ttl_sec=opts.ttl_sec if opts.ttl_sec is not None else UNSET,
         )
         context_resp = self.create_context(request=request)
-        output = "" if context_resp.output.__class__.__name__ == "Unset" else context_resp.output
-        return CmdResult(sandbox_id=self.id, context_id=context_resp.id, output=output)
+        output_raw = "" if context_resp.output_raw.__class__.__name__ == "Unset" else context_resp.output_raw
+        return CmdResult(sandbox_id=self.id, context_id=context_resp.id, output_raw=output_raw)
 
     def run_stream(
         self,

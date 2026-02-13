@@ -55,7 +55,7 @@ def main() -> None:
         stream.unsubscribe()
 
         cmd_result = sandbox.cmd("cat /tmp/sdk-py/hello.txt")
-        print(f"run output:\n{cmd_result.output}", end="")
+        print(f"run output:\n{cmd_result.output_raw}", end="")
         time.sleep(0.1)
     finally:
         client.delete_sandbox(sandbox.id)

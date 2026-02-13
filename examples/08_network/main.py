@@ -22,10 +22,10 @@ def main() -> None:
         print(f"current policy: {current}")
 
         shell = '/bin/curl -s -o /dev/null -w "%{http_code}\\n" --max-time 3 https://github.com'
-        print(sandbox.cmd(shell).output, end="")
+        print(sandbox.cmd(shell).output_raw, end="")
 
         sandbox.update_network_policy(TplSandboxNetworkPolicy(mode=TplSandboxNetworkPolicyMode.BLOCK_ALL))
-        print(sandbox.cmd(shell).output, end="")
+        print(sandbox.cmd(shell).output_raw, end="")
 
         sandbox.update_network_policy(
             TplSandboxNetworkPolicy(
@@ -33,7 +33,7 @@ def main() -> None:
                 egress=NetworkEgressPolicy(allowed_domains=["github.com"]),
             )
         )
-        print(sandbox.cmd(shell).output, end="")
+        print(sandbox.cmd(shell).output_raw, end="")
     finally:
         client.delete_sandbox(sandbox.id)
 

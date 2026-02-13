@@ -22,7 +22,7 @@ client = Client(token="your-token")
 sandbox = client.claim_sandbox("default")
 try:
     result = sandbox.run("python", "print('hello sandbox0')")
-    print(result.output)
+    print(result.output_raw)
 finally:
     client.delete_sandbox(sandbox.id)
 ```

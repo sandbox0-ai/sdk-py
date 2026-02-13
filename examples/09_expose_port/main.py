@@ -37,7 +37,7 @@ def main() -> None:
 
         print("Verifying server is running...")
         response = sandbox.cmd("curl -s http://localhost:8080/index.html")
-        print(f"Server response:\n{response.output}")
+        print(f"Server response:\n{response.output_raw}")
 
         all_ports = sandbox.get_exposed_ports()
         print("All exposed ports:")

@@ -9,22 +9,22 @@ T = TypeVar("T", bound="ContextExecResponse")
 
 @_attrs_define
 class ContextExecResponse:
-    """
+    r"""
     Attributes:
-        output (str):
+        output_raw (str): Raw PTY output, may contain terminal control characters (e.g. \r)
     """
 
-    output: str
+    output_raw: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        output = self.output
+        output_raw = self.output_raw
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "output": output,
+                "output_raw": output_raw,
             }
         )
 
@@ -33,10 +33,10 @@ class ContextExecResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        output = d.pop("output")
+        output_raw = d.pop("output_raw")
 
         context_exec_response = cls(
-            output=output,
+            output_raw=output_raw,
         )
 
         context_exec_response.additional_properties = d
