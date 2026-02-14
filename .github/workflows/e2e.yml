@@ -30,7 +30,7 @@ on:
       sdk_test_cmd:
         description: "SDK test command"
         required: true
-        default: "python -m unittest discover -s tests/e2e -p \"test_*.py\""
+        default: "pip install -e . && python -m unittest discover -s tests/e2e -p \"test_*.py\""
   push:
     branches:
       - main
@@ -51,7 +51,7 @@ jobs:
           INFRA_MANIFEST: ${{ inputs.infra_manifest || 'infra-operator/chart/samples/single-cluster/fullmode.yaml' }}
           INFRA_NAME: ${{ inputs.infra_name || 'fullmode' }}
           INFRA_NAMESPACE: ${{ inputs.infra_namespace || 'sandbox0-system' }}
-          SDK_TEST_CMD: ${{ inputs.sdk_test_cmd || 'python -m unittest discover -s tests/e2e -p "test_*.py"' }}
+          SDK_TEST_CMD: ${{ inputs.sdk_test_cmd || 'pip install -e . && python -m unittest discover -s tests/e2e -p "test_*.py"' }}
           TRACE_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           echo "Triggering workflow in $INFRA_REPO..."
