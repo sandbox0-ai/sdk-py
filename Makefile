@@ -1,4 +1,16 @@
-.PHONY: apispec build check typecheck check-dist publish-test publish clean
+.PHONY: apispec build check typecheck check-dist publish-test publish set-version release clean
+
+# Version for publishing (usage: make publish v=0.0.0)
+v ?=
+
+set-version:
+ifndef v
+	@echo "Error: version not specified. Usage: make set-version v=0.0.0"
+	@exit 1
+endif
+	@echo "Setting version to $(v)"
+	@sed -i.bak 's/^version = ".*"/version = "$(v)"/' pyproject.toml && rm -f pyproject.toml.bak
+	@echo "Version updated to $(v) in pyproject.toml"
 
 # Generate typed low-level SDK code from OpenAPI spec.
 apispec:
@@ -11,7 +23,7 @@ apispec:
 		--overwrite \
 		--output-path sandbox0/apispec
 
-build:
+build: clean
 	@python3 -m pip install --user build twine >/dev/null
 	@python3 -m build
 
@@ -32,10 +44,23 @@ check-dist: build
 	@python3 -m twine check dist/*
 
 publish-test: check-dist
-	@python3 -m twine upload --repository testpypi dist/*
+ifndef PYPI_TOKEN
+	@echo "Error: PYPI_TOKEN not set. Get your token from https://pypi.org/manage/account/token/"
+	@exit 1
+endif
+	@python3 -m twine upload --repository testpypi \
+		--username __token__ --password "$(PYPI_TOKEN)" dist/*
 
 publish: check-dist
-	@python3 -m twine upload dist/*
+ifndef PYPI_TOKEN
+	@echo "Error: PYPI_TOKEN not set. Get your token from https://pypi.org/manage/account/token/"
+	@exit 1
+endif
+	@python3 -m twine upload \
+		--username __token__ --password "$(PYPI_TOKEN)" dist/*
+
+release: set-version publish
+	@echo "Released version $(v) successfully!"
 
 clean:
 	@rm -rf build dist *.egg-info
