@@ -12,19 +12,24 @@ class UnmountRequest:
     """
     Attributes:
         sandboxvolume_id (str):
+        mount_session_id (str):
     """
 
     sandboxvolume_id: str
+    mount_session_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         sandboxvolume_id = self.sandboxvolume_id
+
+        mount_session_id = self.mount_session_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "sandboxvolume_id": sandboxvolume_id,
+                "mount_session_id": mount_session_id,
             }
         )
 
@@ -35,8 +40,11 @@ class UnmountRequest:
         d = dict(src_dict)
         sandboxvolume_id = d.pop("sandboxvolume_id")
 
+        mount_session_id = d.pop("mount_session_id")
+
         unmount_request = cls(
             sandboxvolume_id=sandboxvolume_id,
+            mount_session_id=mount_session_id,
         )
 
         unmount_request.additional_properties = d

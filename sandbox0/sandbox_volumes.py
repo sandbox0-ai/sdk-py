@@ -13,6 +13,7 @@ from sandbox0.apispec.models.success_mount_status_response import SuccessMountSt
 from sandbox0.apispec.models.success_unmounted_response import SuccessUnmountedResponse
 from sandbox0.apispec.models.unmount_request import UnmountRequest
 from sandbox0.apispec.models.volume_config import VolumeConfig
+from sandbox0.apispec.types import UNSET
 from sandbox0.response import ensure_data, ensure_model
 
 if TYPE_CHECKING:
@@ -27,7 +28,7 @@ class SandboxVolumesMixin:
         request = MountRequest(
             sandboxvolume_id=volume_id,
             mount_point=mount_point,
-            volume_config=config,
+            volume_config=config if config is not None else UNSET,
         )
         resp = post_api_v1_sandboxes_id_sandboxvolumes_mount.sync_detailed(
             id=self.id,
@@ -36,11 +37,11 @@ class SandboxVolumesMixin:
         )
         return ensure_data(resp, SuccessMountResponse)
 
-    def unmount(self: "Sandbox", volume_id: str) -> SuccessUnmountedResponse:
+    def unmount(self: "Sandbox", volume_id: str, mount_session_id: str) -> SuccessUnmountedResponse:
         resp = post_api_v1_sandboxes_id_sandboxvolumes_unmount.sync_detailed(
             id=self.id,
             client=self._client.api,
-            body=UnmountRequest(sandboxvolume_id=volume_id),
+            body=UnmountRequest(sandboxvolume_id=volume_id, mount_session_id=mount_session_id),
         )
         return ensure_model(resp, SuccessUnmountedResponse)
 

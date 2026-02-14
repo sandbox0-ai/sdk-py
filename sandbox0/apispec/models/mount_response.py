@@ -14,11 +14,13 @@ class MountResponse:
         sandboxvolume_id (str):
         mount_point (str):
         mounted_at (str):
+        mount_session_id (str):
     """
 
     sandboxvolume_id: str
     mount_point: str
     mounted_at: str
+    mount_session_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -28,6 +30,8 @@ class MountResponse:
 
         mounted_at = self.mounted_at
 
+        mount_session_id = self.mount_session_id
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -35,6 +39,7 @@ class MountResponse:
                 "sandboxvolume_id": sandboxvolume_id,
                 "mount_point": mount_point,
                 "mounted_at": mounted_at,
+                "mount_session_id": mount_session_id,
             }
         )
 
@@ -49,10 +54,13 @@ class MountResponse:
 
         mounted_at = d.pop("mounted_at")
 
+        mount_session_id = d.pop("mount_session_id")
+
         mount_response = cls(
             sandboxvolume_id=sandboxvolume_id,
             mount_point=mount_point,
             mounted_at=mounted_at,
+            mount_session_id=mount_session_id,
         )
 
         mount_response.additional_properties = d

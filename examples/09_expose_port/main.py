@@ -44,7 +44,8 @@ def main() -> None:
         for port in all_ports.ports:
             print(f"  - Port: {port.port}, Resume: {port.resume}, PublicURL: {port.public_url}")
     finally:
-        client.delete_sandbox(sandbox.id)
+        # client.delete_sandbox(sandbox.id)
+        pass
 
 
 if __name__ == "__main__":

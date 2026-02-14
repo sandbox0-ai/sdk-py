@@ -91,8 +91,13 @@ class ContextStream:
         self.send(StreamInput(type="signal", signal=signal))
 
     def iter_outputs(self) -> Any:
+        from websockets.exceptions import ConnectionClosedOK
+
         while True:
-            raw = self._conn.recv()
+            try:
+                raw = self._conn.recv()
+            except ConnectionClosedOK:
+                return
             if raw is None:
                 return
             if isinstance(raw, bytes):

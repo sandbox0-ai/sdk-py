@@ -18,7 +18,7 @@ def main() -> None:
         volume_id = volume.id
         print(f"volume created: {volume_id}")
         try:
-            sandbox.mount(volume_id, "/mnt/data")
+            mount_resp = sandbox.mount(volume_id, "/mnt/data")
             print(f"volume mounted: {volume_id}")
             try:
                 sandbox.write_file("/mnt/data/hello.txt", b"hello volume\n")
@@ -39,15 +39,15 @@ def main() -> None:
                 sandbox2 = client.claim_sandbox("default")
                 try:
                     print(f"new sandbox created: {sandbox2.id}")
-                    sandbox2.mount(volume_id, "/mnt/data")
+                    mount_resp2 = sandbox2.mount(volume_id, "/mnt/data")
                     try:
                         print("sandbox2 file content:\n" + sandbox2.read_file("/mnt/data/hello.txt").decode("utf-8"), end="")
                     finally:
-                        sandbox2.unmount(volume_id)
+                        sandbox2.unmount(volume_id, mount_resp2.mount_session_id)
                 finally:
                     client.delete_sandbox(sandbox2.id)
             finally:
-                sandbox.unmount(volume_id)
+                sandbox.unmount(volume_id, mount_resp.mount_session_id)
         finally:
             client.delete_volume(volume_id)
     finally:

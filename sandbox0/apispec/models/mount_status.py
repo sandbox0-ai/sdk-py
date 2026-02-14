@@ -21,12 +21,14 @@ class MountStatus:
         mount_point (Union[Unset, str]):
         mounted_at (Union[Unset, str]):
         mounted_duration_sec (Union[Unset, int]):
+        mount_session_id (Union[Unset, str]):
     """
 
     sandboxvolume_id: Union[Unset, str] = UNSET
     mount_point: Union[Unset, str] = UNSET
     mounted_at: Union[Unset, str] = UNSET
     mounted_duration_sec: Union[Unset, int] = UNSET
+    mount_session_id: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -37,6 +39,8 @@ class MountStatus:
         mounted_at = self.mounted_at
 
         mounted_duration_sec = self.mounted_duration_sec
+
+        mount_session_id = self.mount_session_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -49,6 +53,8 @@ class MountStatus:
             field_dict["mounted_at"] = mounted_at
         if mounted_duration_sec is not UNSET:
             field_dict["mounted_duration_sec"] = mounted_duration_sec
+        if mount_session_id is not UNSET:
+            field_dict["mount_session_id"] = mount_session_id
 
         return field_dict
 
@@ -63,11 +69,14 @@ class MountStatus:
 
         mounted_duration_sec = d.pop("mounted_duration_sec", UNSET)
 
+        mount_session_id = d.pop("mount_session_id", UNSET)
+
         mount_status = cls(
             sandboxvolume_id=sandboxvolume_id,
             mount_point=mount_point,
             mounted_at=mounted_at,
             mounted_duration_sec=mounted_duration_sec,
+            mount_session_id=mount_session_id,
         )
 
         mount_status.additional_properties = d
