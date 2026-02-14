@@ -10,8 +10,7 @@ from examples.common import create_client
 
 def main() -> None:
     client = create_client()
-    sandbox = client.claim_sandbox("default", config=SandboxConfig(hard_ttl=300))
-    try:
+    with client.sandboxes.open("default", config=SandboxConfig(hard_ttl=300)) as sandbox:
         directory = "/tmp/sdk-py"
         path = f"{directory}/hello.txt"
 
@@ -57,8 +56,6 @@ def main() -> None:
         cmd_result = sandbox.cmd("cat /tmp/sdk-py/hello.txt")
         print(f"run output:\n{cmd_result.output_raw}", end="")
         time.sleep(0.1)
-    finally:
-        client.delete_sandbox(sandbox.id)
 
 
 if __name__ == "__main__":

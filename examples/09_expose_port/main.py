@@ -10,11 +10,10 @@ from examples.common import create_client
 
 def main() -> None:
     client = create_client()
-    sandbox = client.claim_sandbox(
+    with client.sandboxes.open(
         "default",
         config=SandboxConfig(auto_resume=True),
-    )
-    try:
+    ) as sandbox:
         html = "<html><body><h1>Hello from Sandbox0!</h1></body></html>"
         sandbox.write_file("/tmp/index.html", html.encode("utf-8"))
         print("Uploaded index.html via file upload API")
@@ -43,9 +42,6 @@ def main() -> None:
         print("All exposed ports:")
         for port in all_ports.ports:
             print(f"  - Port: {port.port}, Resume: {port.resume}, PublicURL: {port.public_url}")
-    finally:
-        # client.delete_sandbox(sandbox.id)
-        pass
 
 
 if __name__ == "__main__":

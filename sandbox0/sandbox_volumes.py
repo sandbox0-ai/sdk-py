@@ -6,7 +6,6 @@ from sandbox0.apispec.api.sandbox_volumes import get_api_v1_sandboxes_id_sandbox
 from sandbox0.apispec.api.sandbox_volumes import post_api_v1_sandboxes_id_sandboxvolumes_mount
 from sandbox0.apispec.api.sandbox_volumes import post_api_v1_sandboxes_id_sandboxvolumes_unmount
 from sandbox0.apispec.models.mount_request import MountRequest
-from sandbox0.apispec.models.mount_response import MountResponse
 from sandbox0.apispec.models.mount_status import MountStatus
 from sandbox0.apispec.models.success_mount_response import SuccessMountResponse
 from sandbox0.apispec.models.success_mount_status_response import SuccessMountStatusResponse
@@ -15,6 +14,7 @@ from sandbox0.apispec.models.unmount_request import UnmountRequest
 from sandbox0.apispec.models.volume_config import VolumeConfig
 from sandbox0.apispec.types import UNSET
 from sandbox0.response import ensure_data, ensure_model
+from sandbox0.sessions import MountSession
 
 if TYPE_CHECKING:
     from sandbox0.sandbox import Sandbox
@@ -24,7 +24,7 @@ class SandboxVolumesMixin:
     id: str
     _client: any
 
-    def mount(self: "Sandbox", volume_id: str, mount_point: str, config: Optional[VolumeConfig] = None) -> MountResponse:
+    def mount(self: "Sandbox", volume_id: str, mount_point: str, config: Optional[VolumeConfig] = None) -> MountSession:
         request = MountRequest(
             sandboxvolume_id=volume_id,
             mount_point=mount_point,
@@ -35,7 +35,13 @@ class SandboxVolumesMixin:
             client=self._client.api,
             body=request,
         )
-        return ensure_data(resp, SuccessMountResponse)
+        mount_resp = ensure_data(resp, SuccessMountResponse)
+        return MountSession(
+            volume_id=volume_id,
+            mount_point=mount_resp.mount_point,
+            mount_session_id=mount_resp.mount_session_id,
+            unmount=lambda: self.unmount(volume_id, mount_resp.mount_session_id),
+        )
 
     def unmount(self: "Sandbox", volume_id: str, mount_session_id: str) -> SuccessUnmountedResponse:
         resp = post_api_v1_sandboxes_id_sandboxvolumes_unmount.sync_detailed(

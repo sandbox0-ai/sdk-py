@@ -10,8 +10,7 @@ from examples.common import create_client
 
 def main() -> None:
     client = create_client()
-    sandbox = client.claim_sandbox("default", config=SandboxConfig(hard_ttl=300))
-    try:
+    with client.sandboxes.open("default", config=SandboxConfig(hard_ttl=300)) as sandbox:
         print("REPL stream:")
         repl_stream = sandbox.run_stream("python")
         repl_outputs = []
@@ -36,8 +35,6 @@ def main() -> None:
         for output in cmd_stream.iter_outputs():
             print(output.data, end="")
         cmd_stream.close()
-    finally:
-        client.delete_sandbox(sandbox.id)
         time.sleep(0.1)
 
 

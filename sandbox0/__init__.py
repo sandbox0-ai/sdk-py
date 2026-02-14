@@ -9,7 +9,9 @@ from sandbox0.models import (
     StreamInput,
     StreamOutput,
 )
+from sandbox0.resources import Sandboxes, Volumes
 from sandbox0.sandbox import CmdOptions, RunOptions, Sandbox
+from sandbox0.sessions import MountSession, SandboxSession, VolumeSession
 
 __all__ = [
     "APIError",
@@ -19,9 +21,14 @@ __all__ = [
     "ExposedPort",
     "ExposedPortsResponse",
     "FileWatchResponse",
+    "MountSession",
     "RunOptions",
     "RunResult",
+    "Sandboxes",
     "Sandbox",
+    "SandboxSession",
     "StreamInput",
     "StreamOutput",
+    "Volumes",
+    "VolumeSession",
 ]

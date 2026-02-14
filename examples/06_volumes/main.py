@@ -12,46 +12,32 @@ from examples.common import create_client
 
 def main() -> None:
     client = create_client()
-    sandbox = client.claim_sandbox("default", config=SandboxConfig(hard_ttl=300))
-    try:
-        volume = client.create_volume(CreateSandboxVolumeRequest(access_mode=VolumeAccessMode.RWX))
-        volume_id = volume.id
-        print(f"volume created: {volume_id}")
-        try:
-            mount_resp = sandbox.mount(volume_id, "/mnt/data")
-            print(f"volume mounted: {volume_id}")
-            try:
+    with client.sandboxes.open("default", config=SandboxConfig(hard_ttl=300)) as sandbox:
+        with client.volumes.open(CreateSandboxVolumeRequest(access_mode=VolumeAccessMode.RWX)) as volume:
+            volume_id = volume.id
+            print(f"volume created: {volume_id}")
+
+            with sandbox.mount(volume_id, "/mnt/data"):
+                print(f"volume mounted: {volume_id}")
                 sandbox.write_file("/mnt/data/hello.txt", b"hello volume\n")
                 print("file written: /mnt/data/hello.txt")
 
                 snapshot_name = f"snap-{int(time.time())}"
-                snapshot = client.create_volume_snapshot(volume_id, CreateSnapshotRequest(name=snapshot_name))
+                snapshot = client.volumes.create_snapshot(volume_id, CreateSnapshotRequest(name=snapshot_name))
                 print(f"snapshot created: {snapshot.id}")
 
                 sandbox.write_file("/mnt/data/hello.txt", b"hello volume\nsecond line\n")
                 print("file updated: /mnt/data/hello.txt")
                 print("file content:\n" + sandbox.read_file("/mnt/data/hello.txt").decode("utf-8"), end="")
 
-                client.restore_volume_snapshot(volume_id, snapshot.id)
+                client.volumes.restore_snapshot(volume_id, snapshot.id)
                 print(f"snapshot restored: {snapshot.id}")
                 print("file content:\n" + sandbox.read_file("/mnt/data/hello.txt").decode("utf-8"), end="")
 
-                sandbox2 = client.claim_sandbox("default")
-                try:
+                with client.sandboxes.open("default") as sandbox2:
                     print(f"new sandbox created: {sandbox2.id}")
-                    mount_resp2 = sandbox2.mount(volume_id, "/mnt/data")
-                    try:
+                    with sandbox2.mount(volume_id, "/mnt/data"):
                         print("sandbox2 file content:\n" + sandbox2.read_file("/mnt/data/hello.txt").decode("utf-8"), end="")
-                    finally:
-                        sandbox2.unmount(volume_id, mount_resp2.mount_session_id)
-                finally:
-                    client.delete_sandbox(sandbox2.id)
-            finally:
-                sandbox.unmount(volume_id, mount_resp.mount_session_id)
-        finally:
-            client.delete_volume(volume_id)
-    finally:
-        client.delete_sandbox(sandbox.id)
 
 
 if __name__ == "__main__":

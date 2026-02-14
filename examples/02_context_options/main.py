@@ -8,8 +8,7 @@ from examples.common import create_client
 
 def main() -> None:
     client = create_client()
-    sandbox = client.claim_sandbox("default", config=SandboxConfig(hard_ttl=300))
-    try:
+    with client.sandboxes.open("default", config=SandboxConfig(hard_ttl=300)) as sandbox:
         run_result = sandbox.run(
             "python",
             'import os, pathlib; print(pathlib.Path.cwd()); print(os.getenv("GREETING"))',
@@ -32,8 +31,6 @@ def main() -> None:
             ),
         )
         print(f"cmd output:\n{cmd_result.output_raw}", end="")
-    finally:
-        client.delete_sandbox(sandbox.id)
 
 
 if __name__ == "__main__":

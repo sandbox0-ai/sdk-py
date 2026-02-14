@@ -13,7 +13,7 @@ def main() -> None:
     webhook_secret = os.getenv("SANDBOX0_WEBHOOK_SECRET", "")
 
     client = create_client()
-    sandbox = client.claim_sandbox(
+    with client.sandboxes.open(
         "default",
         config=SandboxConfig(
             hard_ttl=300,
@@ -23,14 +23,13 @@ def main() -> None:
                 watch_dir="/tmp33/webhook-demo",
             ),
         ),
-    )
-    try:
+    ) as sandbox:
         sandbox.run("bash", "echo webhook test")
         print("process started")
 
-        client.pause_sandbox(sandbox.id)
+        client.sandboxes.pause(sandbox.id)
         print("sandbox paused")
-        client.resume_sandbox(sandbox.id)
+        client.sandboxes.resume(sandbox.id)
         print("sandbox resumed")
 
         try:
@@ -46,8 +45,6 @@ def main() -> None:
         sandbox.cmd(f'/bin/sh -c "chmod 600 {base_dir}/file-renamed.txt"')
         sandbox.delete_file(base_dir + "/file-renamed.txt")
         print("file modified")
-    finally:
-        client.delete_sandbox(sandbox.id)
 
 
 if __name__ == "__main__":

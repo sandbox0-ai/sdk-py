@@ -10,14 +10,13 @@ from examples.common import create_client
 
 def main() -> None:
     client = create_client()
-    sandbox = client.claim_sandbox(
+    with client.sandboxes.open(
         "default",
         config=SandboxConfig(
             hard_ttl=600,
             network=TplSandboxNetworkPolicy(mode=TplSandboxNetworkPolicyMode.ALLOW_ALL),
         ),
-    )
-    try:
+    ) as sandbox:
         current = sandbox.get_network_policy()
         print(f"current policy: {current}")
 
@@ -34,8 +33,6 @@ def main() -> None:
             )
         )
         print(sandbox.cmd(shell).output_raw, end="")
-    finally:
-        client.delete_sandbox(sandbox.id)
 
 
 if __name__ == "__main__":

@@ -6,16 +6,14 @@ from urllib.parse import urlparse, urlunparse
 import httpx
 
 from sandbox0.apispec.client import AuthenticatedClient
-from sandbox0.client_sandboxes import ClientSandboxesMixin
-from sandbox0.client_templates import ClientTemplatesMixin
-from sandbox0.client_volumes import ClientVolumesMixin
+from sandbox0.resources import Sandboxes, Volumes
 from sandbox0.response_normalize import normalize_response_hook, normalize_response_hook_async
 from sandbox0.sandbox import Sandbox
 
 DEFAULT_BASE_URL = "https://api.sandbox0.ai"
 
 
-class Client(ClientSandboxesMixin, ClientTemplatesMixin, ClientVolumesMixin):
+class Client:
     def __init__(
         self,
         *,
@@ -68,6 +66,8 @@ class Client(ClientSandboxesMixin, ClientTemplatesMixin, ClientVolumesMixin):
             )
         )
         self.base_url = base_url
+        self.sandboxes = Sandboxes(self)
+        self.volumes = Volumes(self)
 
     @property
     def api(self) -> AuthenticatedClient:
