@@ -94,3 +94,14 @@ class Client:
         # Reuse generated client's auth/header behavior for WebSocket upgrade requests.
         http_client = self._api.get_httpx_client()
         return dict(http_client.headers)
+
+    def close(self) -> None:
+        """Close the underlying HTTP clients and release resources."""
+        self._api.__exit__(None, None, None)
+
+    def __enter__(self) -> "Client":
+        self._api.__enter__()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        self.close()

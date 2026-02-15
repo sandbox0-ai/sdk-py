@@ -3,13 +3,14 @@ import unittest
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.models import ExposedPort
 
-from tests.e2e.helpers import claim_sandbox, new_client, require_config
+from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config
 
 
 class TestSandboxExposedPorts(unittest.TestCase):
     def test_exposed_ports_lifecycle(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
         # Enable auto_resume to allow resume=True on exposed ports
         config = SandboxConfig(auto_resume=True)
         sandbox = claim_sandbox(self, client, cfg, config=config)

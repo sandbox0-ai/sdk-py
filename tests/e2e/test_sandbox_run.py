@@ -2,13 +2,14 @@ import unittest
 
 from sandbox0.sandbox import CmdOptions, RunOptions
 
-from tests.e2e.helpers import claim_sandbox, new_client, require_config
+from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config
 
 
 class TestSandboxRun(unittest.TestCase):
     def test_run_and_cmd(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
         sandbox = claim_sandbox(self, client, cfg)
 
         run_result = sandbox.run(

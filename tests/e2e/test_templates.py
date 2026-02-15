@@ -13,13 +13,14 @@ from sandbox0.apispec.models.success_message_response import SuccessMessageRespo
 from sandbox0.apispec.models.template_update_request import TemplateUpdateRequest
 from sandbox0.response import ensure_data, ensure_model
 
-from tests.e2e.helpers import new_client, require_config
+from tests.e2e.helpers import close_client, new_client, require_config
 
 
 class TestTemplates(unittest.TestCase):
     def test_template_crud(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
 
         list_resp = list_templates(client=client.api)
         data = ensure_data(list_resp, SuccessTemplateListResponse)

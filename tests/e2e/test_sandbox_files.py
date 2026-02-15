@@ -1,13 +1,14 @@
 import time
 import unittest
 
-from tests.e2e.helpers import claim_sandbox, new_client, require_config, wait_for_watch_event
+from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config, wait_for_watch_event
 
 
 class TestSandboxFiles(unittest.TestCase):
     def test_file_operations(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
         sandbox = claim_sandbox(self, client, cfg)
 
         base_dir = f"/tmp/sdk-py-e2e-{time.time_ns()}"

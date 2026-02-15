@@ -5,13 +5,14 @@ from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxV
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
 from sandbox0.sessions import VolumeSession
 
-from tests.e2e.helpers import new_client, require_config
+from tests.e2e.helpers import close_client, new_client, require_config
 
 
 class TestVolumes(unittest.TestCase):
     def test_volume_and_snapshot_lifecycle(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
 
         volume = client.volumes.create(CreateSandboxVolumeRequest())
         self.assertTrue(volume.id)
@@ -57,6 +58,7 @@ class TestVolumes(unittest.TestCase):
     def test_volume_open_session(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
 
         with client.volumes.open(CreateSandboxVolumeRequest()) as volume:
             self.assertTrue(volume.id)

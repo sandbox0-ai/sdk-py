@@ -2,7 +2,7 @@ import unittest
 
 from sandbox0 import Client
 
-from tests.e2e.helpers import e2e_token, require_config
+from tests.e2e.helpers import close_client, e2e_token, require_config
 
 
 class TestClient(unittest.TestCase):
@@ -17,6 +17,7 @@ class TestClient(unittest.TestCase):
             user_agent="sdk-py-e2e",
             headers={"X-SDK-E2E": "1"},
         )
+        self.addCleanup(close_client, client)
 
         http_client = client.api.get_httpx_client()
         self.assertEqual(http_client.headers.get("User-Agent"), "sdk-py-e2e")

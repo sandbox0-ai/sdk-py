@@ -96,7 +96,16 @@ def e2e_token(cfg: E2EConfig) -> str:
 
 
 def new_client(cfg: E2EConfig, token: Optional[str] = None, **kwargs) -> Client:
-    return Client(token=token or e2e_token(cfg), base_url=cfg.base_url, **kwargs)
+    client = Client(token=token or e2e_token(cfg), base_url=cfg.base_url, **kwargs)
+    return client
+
+
+def close_client(client: Client) -> None:
+    """Close a client, ignoring any exceptions."""
+    try:
+        client.close()
+    except Exception:
+        pass
 
 
 def claim_sandbox(testcase, client: Client, cfg: E2EConfig, config: Optional[SandboxConfig] = None) -> Sandbox:

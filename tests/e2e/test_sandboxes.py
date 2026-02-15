@@ -8,13 +8,14 @@ from sandbox0.apispec.models.tpl_sandbox_network_policy_mode import TplSandboxNe
 from sandbox0.apispec.models.webhook_config import WebhookConfig
 from sandbox0.sessions import SandboxSession
 
-from tests.e2e.helpers import claim_sandbox, new_client, require_config
+from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config
 
 
 class TestSandboxes(unittest.TestCase):
     def test_sandbox_lifecycle(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
 
         env_vars = SandboxConfigEnvVars()
         env_vars.additional_properties["SDK_PY_E2E"] = "true"
@@ -54,6 +55,7 @@ class TestSandboxes(unittest.TestCase):
     def test_sandbox_open_session(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
 
         with client.sandboxes.open(cfg.template) as sandbox:
             self.assertTrue(sandbox.id)

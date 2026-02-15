@@ -7,13 +7,14 @@ from sandbox0.apispec.models.create_repl_context_request import CreateREPLContex
 from sandbox0.apispec.models.process_type import ProcessType
 from sandbox0.apispec.models.pty_size import PTYSize
 
-from tests.e2e.helpers import claim_sandbox, new_client, require_config
+from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config
 
 
 class TestSandboxContexts(unittest.TestCase):
     def test_context_operations(self) -> None:
         cfg = require_config(self)
         client = new_client(cfg)
+        self.addCleanup(close_client, client)
         sandbox = claim_sandbox(self, client, cfg)
 
         env_vars = CreateContextRequestEnvVars()
