@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Optional, Type, TypeVar
+from typing import Any, Mapping, Optional, Type, TypeVar
 
 from sandbox0.apispec.models.error_envelope import ErrorEnvelope
 from sandbox0.apispec.types import Response
@@ -73,7 +73,7 @@ def _unexpected_response(response: Response[Any]) -> APIError:
     )
 
 
-def _request_id_from_headers(headers: dict[str, str]) -> Optional[str]:
+def _request_id_from_headers(headers: Mapping[str, str]) -> Optional[str]:
     for key in ("X-Request-Id", "X-Request-ID", "Request-Id", "Request-ID"):
         value = headers.get(key)
         if value:

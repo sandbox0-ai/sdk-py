@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Any, TYPE_CHECKING
 
 from sandbox0.apispec.api.templates import delete_api_v1_templates_id
 from sandbox0.apispec.api.templates import get_api_v1_templates
@@ -20,9 +20,9 @@ if TYPE_CHECKING:
 
 
 class ClientTemplatesMixin:
-    _api: any
+    _api: Any
 
-    def list_templates(self: "Client") -> list[Template]:
+    def list_templates(self: "Client") -> list[Template]:  # type: ignore[misc]
         resp = get_api_v1_templates.sync_detailed(client=self._api)
         data = ensure_data(resp, SuccessTemplateListResponse)
         templates = data.templates
@@ -31,21 +31,21 @@ class ClientTemplatesMixin:
         return templates
 
     # Backward-compatible alias.
-    def list_template(self: "Client") -> list[Template]:
-        return self.list_templates()
+    def list_template(self: "Client") -> list[Template]:  # type: ignore[misc]
+        return self.list_templates()  # type: ignore[attr-defined]
 
-    def get_template(self: "Client", template_id: str) -> Template:
+    def get_template(self: "Client", template_id: str) -> Template:  # type: ignore[misc]
         resp = get_api_v1_templates_id.sync_detailed(id=template_id, client=self._api)
         return ensure_data(resp, SuccessTemplateResponse)
 
-    def create_template(self: "Client", request: TemplateCreateRequest) -> Template:
+    def create_template(self: "Client", request: TemplateCreateRequest) -> Template:  # type: ignore[misc]
         resp = post_api_v1_templates.sync_detailed(client=self._api, body=request)
         return ensure_data(resp, SuccessTemplateResponse)
 
-    def update_template(self: "Client", template_id: str, request: TemplateUpdateRequest) -> Template:
+    def update_template(self: "Client", template_id: str, request: TemplateUpdateRequest) -> Template:  # type: ignore[misc]
         resp = put_api_v1_templates_id.sync_detailed(id=template_id, client=self._api, body=request)
         return ensure_data(resp, SuccessTemplateResponse)
 
-    def delete_template(self: "Client", template_id: str) -> SuccessMessageResponse:
+    def delete_template(self: "Client", template_id: str) -> SuccessMessageResponse:  # type: ignore[misc]
         resp = delete_api_v1_templates_id.sync_detailed(id=template_id, client=self._api)
         return ensure_model(resp, SuccessMessageResponse)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 
 from sandbox0.apispec.api.sandboxes import delete_api_v1_sandboxes_id
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes_id
@@ -74,7 +74,7 @@ class Sandboxes:
 
     def open(self, template: str, config: Optional[SandboxConfig] = None) -> SandboxSession:
         sandbox = self.claim(template, config=config)
-        return SandboxSession(sandbox, closer=lambda: self.delete(sandbox.id))
+        return SandboxSession(sandbox, closer=lambda: None if self.delete(sandbox.id) else None)
 
     def get(self, sandbox_id: str) -> APISandbox:
         resp = get_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._client.api)
@@ -123,9 +123,9 @@ class Volumes:
 
     def open(self, request: CreateSandboxVolumeRequest) -> VolumeSession:
         volume = self.create(request)
-        return VolumeSession(volume, closer=lambda: self.delete(volume.id))
+        return VolumeSession(volume, closer=lambda: None if self.delete(volume.id) else None)
 
-    def list(self) -> list[SandboxVolume]:
+    def list(self) -> List[SandboxVolume]:
         resp = get_api_v1_sandboxvolumes.sync_detailed(client=self._client.api)
         data = ensure_data(resp, SuccessSandboxVolumeListResponse)
         return data
@@ -142,7 +142,7 @@ class Volumes:
         resp = post_api_v1_sandboxvolumes_id_snapshots.sync_detailed(id=volume_id, client=self._client.api, body=request)
         return ensure_data(resp, SuccessSnapshotResponse)
 
-    def list_snapshots(self, volume_id: str) -> list[Snapshot]:
+    def list_snapshots(self, volume_id: str) -> List[Snapshot]:
         resp = get_api_v1_sandboxvolumes_id_snapshots.sync_detailed(id=volume_id, client=self._client.api)
         data = ensure_data(resp, SuccessSnapshotListResponse)
         return data

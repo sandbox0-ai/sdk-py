@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 class SandboxSession:
-    def __init__(self, sandbox: "Sandbox", closer: Callable[[], None]) -> None:
+    def __init__(self, sandbox: "Sandbox", closer: Callable[[], object]) -> None:
         self._sandbox = sandbox
         self._closer = closer
         self._closed = False
@@ -26,13 +26,12 @@ class SandboxSession:
     def __enter__(self) -> "Sandbox":
         return self._sandbox
 
-    def __exit__(self, exc_type, exc, tb) -> bool:
+    def __exit__(self, exc_type: object, exc: object, tb: object) -> None:
         self.close()
-        return False
 
 
 class VolumeSession:
-    def __init__(self, volume: "SandboxVolume", closer: Callable[[], None]) -> None:
+    def __init__(self, volume: "SandboxVolume", closer: Callable[[], object]) -> None:
         self._volume = volume
         self._closer = closer
         self._closed = False
@@ -50,9 +49,8 @@ class VolumeSession:
     def __enter__(self) -> "SandboxVolume":
         return self._volume
 
-    def __exit__(self, exc_type, exc, tb) -> bool:
+    def __exit__(self, exc_type: object, exc: object, tb: object) -> None:
         self.close()
-        return False
 
 
 class MountSession:
@@ -62,7 +60,7 @@ class MountSession:
         volume_id: str,
         mount_point: str,
         mount_session_id: str,
-        unmount: Callable[[], None],
+        unmount: Callable[[], object],
     ) -> None:
         self.volume_id = volume_id
         self.mount_point = mount_point
@@ -79,6 +77,5 @@ class MountSession:
     def __enter__(self) -> "MountSession":
         return self
 
-    def __exit__(self, exc_type, exc, tb) -> bool:
+    def __exit__(self, exc_type: object, exc: object, tb: object) -> None:
         self.close()
-        return False

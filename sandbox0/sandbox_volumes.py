@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING
 
 from sandbox0.apispec.api.sandbox_volumes import get_api_v1_sandboxes_id_sandboxvolumes_status
 from sandbox0.apispec.api.sandbox_volumes import post_api_v1_sandboxes_id_sandboxvolumes_mount
@@ -22,9 +22,9 @@ if TYPE_CHECKING:
 
 class SandboxVolumesMixin:
     id: str
-    _client: any
+    _client: Any
 
-    def mount(self: "Sandbox", volume_id: str, mount_point: str, config: Optional[VolumeConfig] = None) -> MountSession:
+    def mount(self: "Sandbox", volume_id: str, mount_point: str, config: Optional[VolumeConfig] = None) -> MountSession:  # type: ignore[misc]
         request = MountRequest(
             sandboxvolume_id=volume_id,
             mount_point=mount_point,
@@ -43,7 +43,7 @@ class SandboxVolumesMixin:
             unmount=lambda: self.unmount(volume_id, mount_resp.mount_session_id),
         )
 
-    def unmount(self: "Sandbox", volume_id: str, mount_session_id: str) -> SuccessUnmountedResponse:
+    def unmount(self: "Sandbox", volume_id: str, mount_session_id: str) -> SuccessUnmountedResponse:  # type: ignore[misc]
         resp = post_api_v1_sandboxes_id_sandboxvolumes_unmount.sync_detailed(
             id=self.id,
             client=self._client.api,
@@ -51,7 +51,7 @@ class SandboxVolumesMixin:
         )
         return ensure_model(resp, SuccessUnmountedResponse)
 
-    def mount_status(self: "Sandbox") -> list[MountStatus]:
+    def mount_status(self: "Sandbox") -> list[MountStatus]:  # type: ignore[misc]
         resp = get_api_v1_sandboxes_id_sandboxvolumes_status.sync_detailed(id=self.id, client=self._client.api)
         data = ensure_data(resp, SuccessMountStatusResponse)
         mounts = data.mounts

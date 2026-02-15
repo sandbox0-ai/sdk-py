@@ -34,11 +34,7 @@ check:
 
 typecheck:
 	@python3 -m pip install --user mypy >/dev/null
-	@python3 -m mypy --ignore-missing-imports --follow-imports=skip \
-		sandbox0/client.py \
-		sandbox0/sandbox.py \
-		sandbox0/response.py \
-		sandbox0/response_normalize.py
+	@python3 -m mypy sandbox0/
 
 check-dist: build
 	@python3 -m twine check dist/*

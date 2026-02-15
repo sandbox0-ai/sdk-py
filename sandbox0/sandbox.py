@@ -5,7 +5,7 @@ import shlex
 import threading
 import time
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional, cast
 
 from sandbox0.apispec.models.create_cmd_context_request import CreateCMDContextRequest
 from sandbox0.apispec.models.create_context_request import CreateContextRequest
@@ -167,14 +167,14 @@ class Sandbox(
             ttl_sec=opts.ttl_sec if opts.ttl_sec is not None else UNSET,
         )
         context_resp = self.create_context(request=request)
-        output_raw = "" if context_resp.output_raw.__class__.__name__ == "Unset" else context_resp.output_raw
+        output_raw = "" if context_resp.output_raw.__class__.__name__ == "Unset" else cast(str, context_resp.output_raw)
         return CmdResult(sandbox_id=self.id, context_id=context_resp.id, output_raw=output_raw)
 
     def connect_ws_context(self, context_id: str) -> ContextStream:
         from websockets.sync.client import connect
 
-        ws_url = self._client.websocket_url(f"/api/v1/sandboxes/{self.id}/contexts/{context_id}/ws")
-        conn = connect(ws_url, additional_headers=self._client.ws_headers())
+        ws_url = self._client.websocket_url(f"/api/v1/sandboxes/{self.id}/contexts/{context_id}/ws")  # type: ignore[union-attr]
+        conn = connect(ws_url, additional_headers=self._client.ws_headers())  # type: ignore[union-attr]
         return ContextStream(conn=conn, sandbox_id=self.id, context_id=context_id)
 
     def _ensure_repl_context(self, language: str, options: RunOptions) -> str:
