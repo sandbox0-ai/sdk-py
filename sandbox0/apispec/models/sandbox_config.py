@@ -33,7 +33,7 @@ class SandboxConfig:
         auto_resume (Union[Unset, bool]): Sandbox-level resume gate for paused sandboxes. When false, any inbound
             request
             (API or public exposure) must not auto resume the sandbox.
-             Default: False.
+             Default: True.
         exposed_ports (Union[Unset, list['ExposedPortConfig']]):
     """
 
@@ -42,7 +42,7 @@ class SandboxConfig:
     hard_ttl: Union[Unset, int] = UNSET
     network: Union[Unset, "TplSandboxNetworkPolicy"] = UNSET
     webhook: Union[Unset, "WebhookConfig"] = UNSET
-    auto_resume: Union[Unset, bool] = False
+    auto_resume: Union[Unset, bool] = True
     exposed_ports: Union[Unset, list["ExposedPortConfig"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
