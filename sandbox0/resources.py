@@ -101,7 +101,9 @@ class Sandboxes:
         return ensure_data(resp, SuccessResumeSandboxResponse)
 
     def refresh(self, sandbox_id: str, request: Optional[RefreshRequest] = None) -> RefreshResponse:
-        body = request if request is not None else RefreshRequest()
+        # For sandbox refresh, the body is optional but the generated API requires it.
+        # Pass an empty refresh_token if no request is provided - the server ignores it for this endpoint.
+        body = request if request is not None else RefreshRequest(refresh_token="")
         resp = post_api_v1_sandboxes_id_refresh.sync_detailed(id=sandbox_id, client=self._client.api, body=body)
         return ensure_data(resp, SuccessRefreshResponse)
 

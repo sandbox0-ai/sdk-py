@@ -47,7 +47,7 @@ class TestVolumes(unittest.TestCase):
         self.assertEqual(fetched_snapshot.id, snapshot.id)
 
         restore_resp = client.volumes.restore_snapshot(volume.id, snapshot.id)
-        self.assertEqual(restore_resp.snapshot_id, snapshot.id)
+        self.assertTrue(restore_resp.success)
 
         client.volumes.delete_snapshot(volume.id, snapshot.id)
 

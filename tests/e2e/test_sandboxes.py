@@ -45,7 +45,7 @@ class TestSandboxes(unittest.TestCase):
         self.assertTrue(paused.paused)
 
         resumed = client.sandboxes.resume(sandbox.id)
-        self.assertFalse(resumed.paused)
+        self.assertTrue(resumed.resumed)
 
         refresh = client.sandboxes.refresh(sandbox.id)
         self.assertEqual(refresh.sandbox_id, sandbox.id)
