@@ -22,7 +22,7 @@ class TestSandboxContexts(unittest.TestCase):
 
         repl_req = CreateContextRequest(
             type_=ProcessType.REPL,
-            repl=CreateREPLContextRequest(language="python"),
+            repl=CreateREPLContextRequest(alias="python"),
             pty_size=PTYSize(rows=24, cols=80),
             env_vars=env_vars,
             idle_timeout_sec=60,

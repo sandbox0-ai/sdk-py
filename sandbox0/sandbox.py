@@ -140,11 +140,11 @@ class Sandbox(
         self._repl_context_by_lang: dict[str, str] = {}
         self._lock = threading.Lock()
 
-    def run(self, language: str, input: str, options: Optional[RunOptions] = None) -> RunResult:
+    def run(self, alias: str, input: str, options: Optional[RunOptions] = None) -> RunResult:
         if not input.strip():
             raise ValueError("input cannot be empty")
         opts = options or RunOptions()
-        context_id = self._ensure_repl_context(language=language, options=opts)
+        context_id = self._ensure_repl_context(alias=alias, options=opts)
         exec_resp = self.context_exec(context_id=context_id, input=input)
         return RunResult(sandbox_id=self.id, context_id=context_id, output_raw=exec_resp.output_raw)
 
@@ -177,17 +177,17 @@ class Sandbox(
         conn = connect(ws_url, additional_headers=self._client.ws_headers())  # type: ignore[union-attr]
         return ContextStream(conn=conn, sandbox_id=self.id, context_id=context_id)
 
-    def _ensure_repl_context(self, language: str, options: RunOptions) -> str:
+    def _ensure_repl_context(self, alias: str, options: RunOptions) -> str:
         if options.context_id:
             return options.context_id
-        lang = language.strip() or "python"
+        lang = alias.strip() or "python"
         with self._lock:
             cached = self._repl_context_by_lang.get(lang)
         if cached:
             return cached
         request = CreateContextRequest(
             type_=ProcessType.REPL,
-            repl=CreateREPLContextRequest(language=lang),
+            repl=CreateREPLContextRequest(alias=lang),
             cwd=options.cwd if options.cwd is not None else UNSET,
             env_vars=self._build_env_vars(options.env_vars),
             pty_size=self._build_pty(options.pty_rows, options.pty_cols),

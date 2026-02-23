@@ -22,18 +22,18 @@ T = TypeVar("T", bound="CreateREPLContextRequest")
 class CreateREPLContextRequest:
     """
     Attributes:
-        language (Union[Unset, str]):
+        alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
         input_ (Union[Unset, str]):
         repl_config (Union[Unset, REPLConfig]):
     """
 
-    language: Union[Unset, str] = UNSET
+    alias: Union[Unset, str] = UNSET
     input_: Union[Unset, str] = UNSET
     repl_config: Union[Unset, "REPLConfig"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        language = self.language
+        alias = self.alias
 
         input_ = self.input_
 
@@ -44,8 +44,8 @@ class CreateREPLContextRequest:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if language is not UNSET:
-            field_dict["language"] = language
+        if alias is not UNSET:
+            field_dict["alias"] = alias
         if input_ is not UNSET:
             field_dict["input"] = input_
         if repl_config is not UNSET:
@@ -58,7 +58,7 @@ class CreateREPLContextRequest:
         from ..models.repl_config import REPLConfig
 
         d = dict(src_dict)
-        language = d.pop("language", UNSET)
+        alias = d.pop("alias", UNSET)
 
         input_ = d.pop("input", UNSET)
 
@@ -70,7 +70,7 @@ class CreateREPLContextRequest:
             repl_config = REPLConfig.from_dict(_repl_config)
 
         create_repl_context_request = cls(
-            language=language,
+            alias=alias,
             input_=input_,
             repl_config=repl_config,
         )

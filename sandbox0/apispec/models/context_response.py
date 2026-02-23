@@ -28,7 +28,7 @@ class ContextResponse:
         running (bool):
         paused (bool):
         created_at (str):
-        language (Union[Unset, str]):
+        alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
         cwd (Union[Unset, str]):
         env_vars (Union[Unset, ContextResponseEnvVars]):
         output_raw (Union[Unset, str]): Raw PTY output for CMD contexts with wait=true, may contain terminal control
@@ -40,7 +40,7 @@ class ContextResponse:
     running: bool
     paused: bool
     created_at: str
-    language: Union[Unset, str] = UNSET
+    alias: Union[Unset, str] = UNSET
     cwd: Union[Unset, str] = UNSET
     env_vars: Union[Unset, "ContextResponseEnvVars"] = UNSET
     output_raw: Union[Unset, str] = UNSET
@@ -57,7 +57,7 @@ class ContextResponse:
 
         created_at = self.created_at
 
-        language = self.language
+        alias = self.alias
 
         cwd = self.cwd
 
@@ -78,8 +78,8 @@ class ContextResponse:
                 "created_at": created_at,
             }
         )
-        if language is not UNSET:
-            field_dict["language"] = language
+        if alias is not UNSET:
+            field_dict["alias"] = alias
         if cwd is not UNSET:
             field_dict["cwd"] = cwd
         if env_vars is not UNSET:
@@ -104,7 +104,7 @@ class ContextResponse:
 
         created_at = d.pop("created_at")
 
-        language = d.pop("language", UNSET)
+        alias = d.pop("alias", UNSET)
 
         cwd = d.pop("cwd", UNSET)
 
@@ -123,7 +123,7 @@ class ContextResponse:
             running=running,
             paused=paused,
             created_at=created_at,
-            language=language,
+            alias=alias,
             cwd=cwd,
             env_vars=env_vars,
             output_raw=output_raw,

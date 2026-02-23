@@ -24,7 +24,7 @@ class ContextResourceUsage:
     Attributes:
         context_id (Union[Unset, str]):
         type_ (Union[Unset, str]):
-        language (Union[Unset, str]):
+        alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
         running (Union[Unset, bool]):
         paused (Union[Unset, bool]):
         usage (Union[Unset, ResourceUsage]):
@@ -32,7 +32,7 @@ class ContextResourceUsage:
 
     context_id: Union[Unset, str] = UNSET
     type_: Union[Unset, str] = UNSET
-    language: Union[Unset, str] = UNSET
+    alias: Union[Unset, str] = UNSET
     running: Union[Unset, bool] = UNSET
     paused: Union[Unset, bool] = UNSET
     usage: Union[Unset, "ResourceUsage"] = UNSET
@@ -43,7 +43,7 @@ class ContextResourceUsage:
 
         type_ = self.type_
 
-        language = self.language
+        alias = self.alias
 
         running = self.running
 
@@ -60,8 +60,8 @@ class ContextResourceUsage:
             field_dict["context_id"] = context_id
         if type_ is not UNSET:
             field_dict["type"] = type_
-        if language is not UNSET:
-            field_dict["language"] = language
+        if alias is not UNSET:
+            field_dict["alias"] = alias
         if running is not UNSET:
             field_dict["running"] = running
         if paused is not UNSET:
@@ -80,7 +80,7 @@ class ContextResourceUsage:
 
         type_ = d.pop("type", UNSET)
 
-        language = d.pop("language", UNSET)
+        alias = d.pop("alias", UNSET)
 
         running = d.pop("running", UNSET)
 
@@ -96,7 +96,7 @@ class ContextResourceUsage:
         context_resource_usage = cls(
             context_id=context_id,
             type_=type_,
-            language=language,
+            alias=alias,
             running=running,
             paused=paused,
             usage=usage,

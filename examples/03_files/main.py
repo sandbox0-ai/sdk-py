@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+import sys
 import threading
 import time
+from pathlib import Path
+
+# Allow running examples directly without installing the package
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 

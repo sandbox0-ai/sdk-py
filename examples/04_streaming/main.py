@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+import sys
 import threading
 import time
+from pathlib import Path
+
+# Allow running examples directly without installing the package
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from sandbox0.apispec.models.create_cmd_context_request import CreateCMDContextRequest
 from sandbox0.apispec.models.create_context_request import CreateContextRequest
@@ -19,7 +24,7 @@ def main() -> None:
         print("REPL stream:")
         repl_request = CreateContextRequest(
             type_=ProcessType.REPL,
-            repl=CreateREPLContextRequest(language="python"),
+            repl=CreateREPLContextRequest(alias="python"),
         )
         repl_ctx = sandbox.create_context(request=repl_request)
         repl_stream = sandbox.connect_ws_context(repl_ctx.id)
