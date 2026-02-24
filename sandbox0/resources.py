@@ -13,6 +13,7 @@ from sandbox0.apispec.api.sandboxes import put_api_v1_sandboxes_id
 from sandbox0.apispec.api.sandbox_volumes import delete_api_v1_sandboxvolumes_id
 from sandbox0.apispec.api.sandbox_volumes import get_api_v1_sandboxvolumes
 from sandbox0.apispec.api.sandbox_volumes import get_api_v1_sandboxvolumes_id
+from sandbox0.apispec.api.sandbox_volumes import post_api_v1_sandboxvolumes_id_fork
 from sandbox0.apispec.api.sandbox_volumes import post_api_v1_sandboxvolumes
 from sandbox0.apispec.api.snapshots import delete_api_v1_sandboxvolumes_id_snapshots_snapshot_id
 from sandbox0.apispec.api.snapshots import get_api_v1_sandboxvolumes_id_snapshots
@@ -22,6 +23,7 @@ from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapsho
 from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
+from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.refresh_request import RefreshRequest
 from sandbox0.apispec.models.refresh_response import RefreshResponse
@@ -137,6 +139,11 @@ class Volumes:
     def delete(self, volume_id: str) -> SuccessDeletedResponse:
         resp = delete_api_v1_sandboxvolumes_id.sync_detailed(id=volume_id, client=self._client.api)
         return ensure_model(resp, SuccessDeletedResponse)
+
+    def fork(self, volume_id: str, request: Optional[ForkVolumeRequest] = None) -> SandboxVolume:
+        body = request if request is not None else ForkVolumeRequest()
+        resp = post_api_v1_sandboxvolumes_id_fork.sync_detailed(id=volume_id, client=self._client.api, body=body)
+        return ensure_data(resp, SuccessSandboxVolumeResponse)
 
     def create_snapshot(self, volume_id: str, request: CreateSnapshotRequest) -> Snapshot:
         resp = post_api_v1_sandboxvolumes_id_snapshots.sync_detailed(id=volume_id, client=self._client.api, body=request)

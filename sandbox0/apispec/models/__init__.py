@@ -58,6 +58,7 @@ from .file_watch_unsubscribe_request import FileWatchUnsubscribeRequest
 from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAction
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
+from .fork_volume_request import ForkVolumeRequest
 from .get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from .identity import Identity
 from .label_selector import LabelSelector
@@ -266,6 +267,7 @@ __all__ = (
     "FileWatchUnsubscribedType",
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
+    "ForkVolumeRequest",
     "GetApiV1SandboxesStatus",
     "Identity",
     "LabelSelector",
