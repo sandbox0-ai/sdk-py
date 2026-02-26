@@ -1,5 +1,6 @@
 import unittest
 
+from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_config_env_vars import SandboxConfigEnvVars
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
@@ -65,3 +66,38 @@ class TestSandboxes(unittest.TestCase):
         sandbox = session.sandbox
         self.assertTrue(sandbox.id)
         session.close()
+
+    def test_list_sandboxes(self) -> None:
+        cfg = require_config(self)
+        client = new_client(cfg)
+        self.addCleanup(close_client, client)
+
+        # Create a sandbox to ensure there's at least one
+        sandbox = claim_sandbox(self, client, cfg)
+
+        # Test list via client method
+        sandboxes = client.list_sandboxes(
+            status=GetApiV1SandboxesStatus.RUNNING,
+            limit=10,
+        )
+        self.assertIsInstance(sandboxes, list)
+        self.assertGreater(len(sandboxes), 0)
+        found = any(sb.id == sandbox.id for sb in sandboxes)
+        self.assertTrue(found, f"Sandbox {sandbox.id} not found in list")
+
+        # Test list via sandboxes resource
+        sandboxes2 = client.sandboxes.list(
+            status="running",
+            template_id=cfg.template,
+            limit=10,
+        )
+        self.assertIsInstance(sandboxes2, list)
+        self.assertGreater(len(sandboxes2), 0)
+        found2 = any(sb.id == sandbox.id for sb in sandboxes2)
+        self.assertTrue(found2, f"Sandbox {sandbox.id} not found in resource list")
+
+        # Test with paused filter (should not include running sandbox)
+        sandboxes3 = client.list_sandboxes(paused=True, limit=10)
+        self.assertIsInstance(sandboxes3, list)
+        found3 = any(sb.id == sandbox.id for sb in sandboxes3)
+        self.assertFalse(found3, f"Running sandbox {sandbox.id} should not be in paused list")

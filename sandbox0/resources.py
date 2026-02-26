@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import List, Optional, TYPE_CHECKING
+from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 from sandbox0.apispec.api.sandboxes import delete_api_v1_sandboxes_id
+from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes_id
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes_id_status
 from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes
@@ -24,6 +25,7 @@ from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
 from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
+from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.refresh_request import RefreshRequest
 from sandbox0.apispec.models.refresh_response import RefreshResponse
@@ -31,6 +33,7 @@ from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxRespons
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
+from sandbox0.apispec.models.sandbox_summary import SandboxSummary
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.sandbox_volume import SandboxVolume
 from sandbox0.apispec.models.snapshot import Snapshot
@@ -41,12 +44,14 @@ from sandbox0.apispec.models.success_pause_sandbox_response import SuccessPauseS
 from sandbox0.apispec.models.success_refresh_response import SuccessRefreshResponse
 from sandbox0.apispec.models.success_resume_sandbox_response import SuccessResumeSandboxResponse
 from sandbox0.apispec.models.success_restore_response import SuccessRestoreResponse
+from sandbox0.apispec.models.success_sandbox_list_response import SuccessSandboxListResponse
 from sandbox0.apispec.models.success_sandbox_response import SuccessSandboxResponse
 from sandbox0.apispec.models.success_sandbox_status_response import SuccessSandboxStatusResponse
 from sandbox0.apispec.models.success_sandbox_volume_list_response import SuccessSandboxVolumeListResponse
 from sandbox0.apispec.models.success_sandbox_volume_response import SuccessSandboxVolumeResponse
 from sandbox0.apispec.models.success_snapshot_list_response import SuccessSnapshotListResponse
 from sandbox0.apispec.models.success_snapshot_response import SuccessSnapshotResponse
+from sandbox0.apispec.types import UNSET
 from sandbox0.response import ensure_data, ensure_model
 from sandbox0.sessions import SandboxSession, VolumeSession
 
@@ -108,6 +113,32 @@ class Sandboxes:
         body = request if request is not None else RefreshRequest(refresh_token="")
         resp = post_api_v1_sandboxes_id_refresh.sync_detailed(id=sandbox_id, client=self._client.api, body=body)
         return ensure_data(resp, SuccessRefreshResponse)
+
+    def list(
+        self,
+        *,
+        status: Union[GetApiV1SandboxesStatus, str] = UNSET,  # type: ignore[assignment]
+        template_id: str = UNSET,  # type: ignore[assignment]
+        paused: bool = UNSET,  # type: ignore[assignment]
+        limit: int = 50,
+        offset: int = 0,
+    ) -> List[SandboxSummary]:
+        status_enum: Union[GetApiV1SandboxesStatus, Any] = UNSET
+        if status != UNSET:
+            if isinstance(status, str):
+                status_enum = GetApiV1SandboxesStatus(status)
+            else:
+                status_enum = status
+        resp = get_api_v1_sandboxes.sync_detailed(
+            client=self._client.api,
+            status=status_enum,
+            template_id=template_id,
+            paused=paused,
+            limit=limit,
+            offset=offset,
+        )
+        data = ensure_data(resp, SuccessSandboxListResponse)
+        return data.sandboxes
 
     def sandbox(self, sandbox_id: str) -> "Sandbox":
         from sandbox0.sandbox import Sandbox
