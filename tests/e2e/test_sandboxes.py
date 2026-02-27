@@ -3,6 +3,7 @@ import unittest
 from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_config_env_vars import SandboxConfigEnvVars
+from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
 from sandbox0.apispec.models.tpl_sandbox_network_policy_mode import TplSandboxNetworkPolicyMode
@@ -39,7 +40,7 @@ class TestSandboxes(unittest.TestCase):
 
         updated = client.sandboxes.update(
             sandbox.id,
-            SandboxUpdateRequest(config=SandboxConfig(auto_resume=False)),
+            SandboxUpdateRequest(config=SandboxUpdateConfig(auto_resume=False)),
         )
         self.assertFalse(updated.auto_resume)
 

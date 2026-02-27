@@ -1,4 +1,4 @@
-.PHONY: apispec build check typecheck check-dist publish-test publish set-version release clean test-e2e
+.PHONY: apispec build check typecheck check-dist publish-test publish set-version release clean test-e2e install
 
 # E2E tests (requires S0_E2E_BASE_URL and S0_E2E_PASSWORD env vars)
 test-e2e:
@@ -65,3 +65,9 @@ release: set-version publish
 
 clean:
 	@rm -rf build dist *.egg-info
+
+# Local installation for development/testing (editable mode)
+install:
+	@echo "Installing sandbox0 in editable mode..."
+	@pip install -e .
+	@echo "Done. You can now import sandbox0 in your Python project."

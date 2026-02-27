@@ -115,6 +115,7 @@ from .sandbox_template_condition import SandboxTemplateCondition
 from .sandbox_template_spec import SandboxTemplateSpec
 from .sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
 from .sandbox_template_status import SandboxTemplateStatus
+from .sandbox_update_config import SandboxUpdateConfig
 from .sandbox_update_request import SandboxUpdateRequest
 from .sandbox_volume import SandboxVolume
 from .security_context import SecurityContext
@@ -324,6 +325,7 @@ __all__ = (
     "SandboxTemplateSpec",
     "SandboxTemplateSpecEnvVars",
     "SandboxTemplateStatus",
+    "SandboxUpdateConfig",
     "SandboxUpdateRequest",
     "SandboxVolume",
     "SecurityContext",
