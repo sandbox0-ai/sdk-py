@@ -106,6 +106,7 @@ from .resume_sandbox_response import ResumeSandboxResponse
 from .sandbox import Sandbox
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
+from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_status import SandboxStatus
 from .sandbox_summary import SandboxSummary
@@ -316,6 +317,7 @@ __all__ = (
     "Sandbox",
     "SandboxConfig",
     "SandboxConfigEnvVars",
+    "SandboxRefreshRequest",
     "SandboxResourceUsage",
     "SandboxStatus",
     "SandboxSummary",

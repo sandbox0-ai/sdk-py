@@ -6,7 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
-from ...models.refresh_request import RefreshRequest
+from ...models.sandbox_refresh_request import SandboxRefreshRequest
 from ...models.success_refresh_response import SuccessRefreshResponse
 from ...types import Response
 
@@ -14,7 +14,7 @@ from ...types import Response
 def _get_kwargs(
     id: str,
     *,
-    body: RefreshRequest,
+    body: SandboxRefreshRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -67,13 +67,13 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: RefreshRequest,
+    body: SandboxRefreshRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRefreshResponse]]:
     """Refresh sandbox TTL
 
     Args:
         id (str):
-        body (RefreshRequest):
+        body (SandboxRefreshRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -99,13 +99,13 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: RefreshRequest,
+    body: SandboxRefreshRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRefreshResponse]]:
     """Refresh sandbox TTL
 
     Args:
         id (str):
-        body (RefreshRequest):
+        body (SandboxRefreshRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,13 +126,13 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: RefreshRequest,
+    body: SandboxRefreshRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRefreshResponse]]:
     """Refresh sandbox TTL
 
     Args:
         id (str):
-        body (RefreshRequest):
+        body (SandboxRefreshRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,13 +156,13 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: RefreshRequest,
+    body: SandboxRefreshRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRefreshResponse]]:
     """Refresh sandbox TTL
 
     Args:
         id (str):
-        body (RefreshRequest):
+        body (SandboxRefreshRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

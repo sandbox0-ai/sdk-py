@@ -14,7 +14,7 @@ from sandbox0.apispec.api.sandboxes import put_api_v1_sandboxes_id
 from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.claim_response import ClaimResponse
 from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
-from sandbox0.apispec.models.refresh_request import RefreshRequest
+from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
@@ -81,8 +81,8 @@ class ClientSandboxesMixin:
         resp = post_api_v1_sandboxes_id_resume.sync_detailed(id=sandbox_id, client=self._api)
         return ensure_data(resp, SuccessResumeSandboxResponse)
 
-    def refresh_sandbox(self: "Client", sandbox_id: str, request: Optional[RefreshRequest] = None) -> RefreshResponse:  # type: ignore[misc]
-        body = request if request is not None else RefreshRequest(refresh_token="")
+    def refresh_sandbox(self: "Client", sandbox_id: str, request: Optional[SandboxRefreshRequest] = None) -> RefreshResponse:  # type: ignore[misc]
+        body = request if request is not None else SandboxRefreshRequest()
         resp = post_api_v1_sandboxes_id_refresh.sync_detailed(id=sandbox_id, client=self._api, body=body)
         return ensure_data(resp, SuccessRefreshResponse)
 
