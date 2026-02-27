@@ -28,13 +28,14 @@ if TYPE_CHECKING:
 
 @dataclass
 class RunOptions:
+    """Options for sandbox.run().
+
+    Attributes:
+        context_id: Use a specific context ID instead of the default cached REPL context.
+            Use this when you need custom envVars, cwd, or other context settings.
+            Create a context first with create_context(), then pass its ID here.
+    """
     context_id: Optional[str] = None
-    idle_timeout_sec: Optional[int] = None
-    ttl_sec: Optional[int] = None
-    cwd: Optional[str] = None
-    env_vars: Optional[Dict[str, str]] = None
-    pty_rows: Optional[int] = None
-    pty_cols: Optional[int] = None
 
 
 @dataclass
@@ -185,14 +186,10 @@ class Sandbox(
             cached = self._repl_context_by_lang.get(lang)
         if cached:
             return cached
+        # Create a default REPL context with no custom settings
         request = CreateContextRequest(
             type_=ProcessType.REPL,
             repl=CreateREPLContextRequest(alias=lang),
-            cwd=options.cwd if options.cwd is not None else UNSET,
-            env_vars=self._build_env_vars(options.env_vars),
-            pty_size=self._build_pty(options.pty_rows, options.pty_cols),
-            idle_timeout_sec=options.idle_timeout_sec if options.idle_timeout_sec is not None else UNSET,
-            ttl_sec=options.ttl_sec if options.ttl_sec is not None else UNSET,
         )
         context_resp = self.create_context(request=request)
         context_id = context_resp.id
