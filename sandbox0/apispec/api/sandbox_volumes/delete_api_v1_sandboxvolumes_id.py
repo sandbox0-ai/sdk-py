@@ -7,17 +7,26 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_deleted_response import SuccessDeletedResponse
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
+    *,
+    force: Union[Unset, bool] = False,
 ) -> dict[str, Any]:
+    params: dict[str, Any] = {}
+
+    params["force"] = force
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: dict[str, Any] = {
         "method": "delete",
         "url": "/api/v1/sandboxvolumes/{id}".format(
             id=id,
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -57,11 +66,13 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
+    force: Union[Unset, bool] = False,
 ) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete sandbox volume
 
     Args:
         id (str):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -73,6 +84,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        force=force,
     )
 
     response = client.get_httpx_client().request(
@@ -86,11 +98,13 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
+    force: Union[Unset, bool] = False,
 ) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete sandbox volume
 
     Args:
         id (str):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -103,6 +117,7 @@ def sync(
     return sync_detailed(
         id=id,
         client=client,
+        force=force,
     ).parsed
 
 
@@ -110,11 +125,13 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
+    force: Union[Unset, bool] = False,
 ) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete sandbox volume
 
     Args:
         id (str):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,6 +143,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        force=force,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -137,11 +155,13 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
+    force: Union[Unset, bool] = False,
 ) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete sandbox volume
 
     Args:
         id (str):
+        force (Union[Unset, bool]):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -155,5 +175,6 @@ async def asyncio(
         await asyncio_detailed(
             id=id,
             client=client,
+            force=force,
         )
     ).parsed

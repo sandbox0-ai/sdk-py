@@ -47,8 +47,8 @@ class ClientVolumesMixin:
         resp = get_api_v1_sandboxvolumes_id.sync_detailed(id=volume_id, client=self._api)
         return ensure_data(resp, SuccessSandboxVolumeResponse)
 
-    def delete_volume(self: "Client", volume_id: str) -> SuccessDeletedResponse:  # type: ignore[misc]
-        resp = delete_api_v1_sandboxvolumes_id.sync_detailed(id=volume_id, client=self._api)
+    def delete_volume(self: "Client", volume_id: str, *, force: bool = False) -> SuccessDeletedResponse:  # type: ignore[misc]
+        resp = delete_api_v1_sandboxvolumes_id.sync_detailed(id=volume_id, client=self._api, force=force)
         return ensure_model(resp, SuccessDeletedResponse)
 
     def create_volume_snapshot(self: "Client", volume_id: str, request: CreateSnapshotRequest) -> Snapshot:  # type: ignore[misc]

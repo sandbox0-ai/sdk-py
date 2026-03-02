@@ -165,8 +165,12 @@ class Volumes:
         resp = get_api_v1_sandboxvolumes_id.sync_detailed(id=volume_id, client=self._client.api)
         return ensure_data(resp, SuccessSandboxVolumeResponse)
 
-    def delete(self, volume_id: str) -> SuccessDeletedResponse:
-        resp = delete_api_v1_sandboxvolumes_id.sync_detailed(id=volume_id, client=self._client.api)
+    def delete(self, volume_id: str, *, force: bool = False) -> SuccessDeletedResponse:
+        resp = delete_api_v1_sandboxvolumes_id.sync_detailed(
+            id=volume_id,
+            client=self._client.api,
+            force=force,
+        )
         return ensure_model(resp, SuccessDeletedResponse)
 
     def fork(self, volume_id: str, request: Optional[ForkVolumeRequest] = None) -> SandboxVolume:

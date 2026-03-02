@@ -25,6 +25,7 @@ class SandboxStatus:
         status (Union[Unset, str]):
         claimed_at (Union[Unset, str]):
         expires_at (Union[Unset, str]):
+        hard_expires_at (Union[Unset, str]):
         created_at (Union[Unset, str]):
     """
 
@@ -36,6 +37,7 @@ class SandboxStatus:
     status: Union[Unset, str] = UNSET
     claimed_at: Union[Unset, str] = UNSET
     expires_at: Union[Unset, str] = UNSET
+    hard_expires_at: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -55,6 +57,8 @@ class SandboxStatus:
         claimed_at = self.claimed_at
 
         expires_at = self.expires_at
+
+        hard_expires_at = self.hard_expires_at
 
         created_at = self.created_at
 
@@ -77,6 +81,8 @@ class SandboxStatus:
             field_dict["claimed_at"] = claimed_at
         if expires_at is not UNSET:
             field_dict["expires_at"] = expires_at
+        if hard_expires_at is not UNSET:
+            field_dict["hard_expires_at"] = hard_expires_at
         if created_at is not UNSET:
             field_dict["created_at"] = created_at
 
@@ -101,6 +107,8 @@ class SandboxStatus:
 
         expires_at = d.pop("expires_at", UNSET)
 
+        hard_expires_at = d.pop("hard_expires_at", UNSET)
+
         created_at = d.pop("created_at", UNSET)
 
         sandbox_status = cls(
@@ -112,6 +120,7 @@ class SandboxStatus:
             status=status,
             claimed_at=claimed_at,
             expires_at=expires_at,
+            hard_expires_at=hard_expires_at,
             created_at=created_at,
         )
 

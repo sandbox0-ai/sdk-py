@@ -12,6 +12,7 @@ from sandbox0.models import (
 from sandbox0.resources import Sandboxes, Volumes
 from sandbox0.sandbox import CmdOptions, RunOptions, Sandbox
 from sandbox0.sessions import MountSession, SandboxSession, VolumeSession
+from sandbox0.webhook_signature import verify_webhook_signature
 
 __all__ = [
     "APIError",
@@ -31,4 +32,5 @@ __all__ = [
     "StreamOutput",
     "Volumes",
     "VolumeSession",
+    "verify_webhook_signature",
 ]

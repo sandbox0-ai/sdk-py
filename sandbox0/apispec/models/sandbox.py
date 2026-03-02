@@ -31,7 +31,8 @@ class Sandbox:
         paused (bool):
         auto_resume (bool):
         pod_name (str):
-        expires_at (datetime.datetime):
+        expires_at (datetime.datetime): Soft expiration timestamp. Zero value means not set.
+        hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
         claimed_at (datetime.datetime):
         created_at (datetime.datetime):
         user_id (Union[Unset, str]):
@@ -46,6 +47,7 @@ class Sandbox:
     auto_resume: bool
     pod_name: str
     expires_at: datetime.datetime
+    hard_expires_at: datetime.datetime
     claimed_at: datetime.datetime
     created_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
@@ -68,6 +70,8 @@ class Sandbox:
         pod_name = self.pod_name
 
         expires_at = self.expires_at.isoformat()
+
+        hard_expires_at = self.hard_expires_at.isoformat()
 
         claimed_at = self.claimed_at.isoformat()
 
@@ -94,6 +98,7 @@ class Sandbox:
                 "auto_resume": auto_resume,
                 "pod_name": pod_name,
                 "expires_at": expires_at,
+                "hard_expires_at": hard_expires_at,
                 "claimed_at": claimed_at,
                 "created_at": created_at,
             }
@@ -126,6 +131,8 @@ class Sandbox:
 
         expires_at = isoparse(d.pop("expires_at"))
 
+        hard_expires_at = isoparse(d.pop("hard_expires_at"))
+
         claimed_at = isoparse(d.pop("claimed_at"))
 
         created_at = isoparse(d.pop("created_at"))
@@ -148,6 +155,7 @@ class Sandbox:
             auto_resume=auto_resume,
             pod_name=pod_name,
             expires_at=expires_at,
+            hard_expires_at=hard_expires_at,
             claimed_at=claimed_at,
             created_at=created_at,
             user_id=user_id,

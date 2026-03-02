@@ -86,7 +86,7 @@ class ClientSandboxesMixin:
         resp = post_api_v1_sandboxes_id_refresh.sync_detailed(id=sandbox_id, client=self._api, body=body)
         return ensure_data(resp, SuccessRefreshResponse)
 
-    def list_sandboxes(
+    def list_sandboxes(  # type: ignore[misc]
         self: "Client",
         *,
         status: Union[GetApiV1SandboxesStatus, str] = UNSET,  # type: ignore[assignment]
@@ -94,7 +94,7 @@ class ClientSandboxesMixin:
         paused: bool = UNSET,  # type: ignore[assignment]
         limit: int = 50,
         offset: int = 0,
-    ) -> List[SandboxSummary]:  # type: ignore[misc]
+    ) -> List[SandboxSummary]:
         status_enum: Union[GetApiV1SandboxesStatus, Any] = UNSET
         if status != UNSET:
             if isinstance(status, str):

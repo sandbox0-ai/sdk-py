@@ -27,6 +27,7 @@ class SandboxSummary:
         paused (bool):
         created_at (datetime.datetime):
         expires_at (datetime.datetime):
+        hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
         cluster_id (Union[None, Unset, str]): Cluster where sandbox runs (multi-cluster only)
     """
 
@@ -36,6 +37,7 @@ class SandboxSummary:
     paused: bool
     created_at: datetime.datetime
     expires_at: datetime.datetime
+    hard_expires_at: datetime.datetime
     cluster_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -51,6 +53,8 @@ class SandboxSummary:
         created_at = self.created_at.isoformat()
 
         expires_at = self.expires_at.isoformat()
+
+        hard_expires_at = self.hard_expires_at.isoformat()
 
         cluster_id: Union[None, Unset, str]
         if isinstance(self.cluster_id, Unset):
@@ -68,6 +72,7 @@ class SandboxSummary:
                 "paused": paused,
                 "created_at": created_at,
                 "expires_at": expires_at,
+                "hard_expires_at": hard_expires_at,
             }
         )
         if cluster_id is not UNSET:
@@ -90,6 +95,8 @@ class SandboxSummary:
 
         expires_at = isoparse(d.pop("expires_at"))
 
+        hard_expires_at = isoparse(d.pop("hard_expires_at"))
+
         def _parse_cluster_id(data: object) -> Union[None, Unset, str]:
             if data is None:
                 return data
@@ -106,6 +113,7 @@ class SandboxSummary:
             paused=paused,
             created_at=created_at,
             expires_at=expires_at,
+            hard_expires_at=hard_expires_at,
             cluster_id=cluster_id,
         )
 
