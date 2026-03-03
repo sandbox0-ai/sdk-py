@@ -13,12 +13,10 @@ class PoolStrategy:
     Attributes:
         min_idle (int):
         max_idle (int):
-        auto_scale (bool):
     """
 
     min_idle: int
     max_idle: int
-    auto_scale: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -26,15 +24,12 @@ class PoolStrategy:
 
         max_idle = self.max_idle
 
-        auto_scale = self.auto_scale
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "minIdle": min_idle,
                 "maxIdle": max_idle,
-                "autoScale": auto_scale,
             }
         )
 
@@ -47,12 +42,9 @@ class PoolStrategy:
 
         max_idle = d.pop("maxIdle")
 
-        auto_scale = d.pop("autoScale")
-
         pool_strategy = cls(
             min_idle=min_idle,
             max_idle=max_idle,
-            auto_scale=auto_scale,
         )
 
         pool_strategy.additional_properties = d
