@@ -15,6 +15,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.sandbox_template_spec import SandboxTemplateSpec
+    from ..models.sandbox_template_status import SandboxTemplateStatus
 
 
 T = TypeVar("T", bound="Template")
@@ -31,6 +32,7 @@ class Template:
         updated_at (datetime.datetime):
         team_id (Union[Unset, str]):
         user_id (Union[Unset, str]):
+        status (Union[Unset, SandboxTemplateStatus]):
     """
 
     template_id: str
@@ -40,6 +42,7 @@ class Template:
     updated_at: datetime.datetime
     team_id: Union[Unset, str] = UNSET
     user_id: Union[Unset, str] = UNSET
+    status: Union[Unset, "SandboxTemplateStatus"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -57,6 +60,10 @@ class Template:
 
         user_id = self.user_id
 
+        status: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.status, Unset):
+            status = self.status.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -72,12 +79,15 @@ class Template:
             field_dict["team_id"] = team_id
         if user_id is not UNSET:
             field_dict["user_id"] = user_id
+        if status is not UNSET:
+            field_dict["status"] = status
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_template_spec import SandboxTemplateSpec
+        from ..models.sandbox_template_status import SandboxTemplateStatus
 
         d = dict(src_dict)
         template_id = d.pop("template_id")
@@ -94,6 +104,13 @@ class Template:
 
         user_id = d.pop("user_id", UNSET)
 
+        _status = d.pop("status", UNSET)
+        status: Union[Unset, SandboxTemplateStatus]
+        if isinstance(_status, Unset):
+            status = UNSET
+        else:
+            status = SandboxTemplateStatus.from_dict(_status)
+
         template = cls(
             template_id=template_id,
             scope=scope,
@@ -102,6 +119,7 @@ class Template:
             updated_at=updated_at,
             team_id=team_id,
             user_id=user_id,
+            status=status,
         )
 
         template.additional_properties = d

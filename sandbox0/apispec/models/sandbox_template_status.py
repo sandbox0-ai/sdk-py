@@ -5,6 +5,7 @@ from typing import (
     Any,
     TypeVar,
     Union,
+    cast,
 )
 
 from attrs import define as _attrs_define
@@ -27,13 +28,13 @@ class SandboxTemplateStatus:
         idle_count (Union[Unset, int]):
         active_count (Union[Unset, int]):
         conditions (Union[Unset, list['SandboxTemplateCondition']]):
-        last_update_time (Union[Unset, datetime.datetime]):
+        last_update_time (Union[None, Unset, datetime.datetime]):
     """
 
     idle_count: Union[Unset, int] = UNSET
     active_count: Union[Unset, int] = UNSET
     conditions: Union[Unset, list["SandboxTemplateCondition"]] = UNSET
-    last_update_time: Union[Unset, datetime.datetime] = UNSET
+    last_update_time: Union[None, Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -48,9 +49,13 @@ class SandboxTemplateStatus:
                 conditions_item = conditions_item_data.to_dict()
                 conditions.append(conditions_item)
 
-        last_update_time: Union[Unset, str] = UNSET
-        if not isinstance(self.last_update_time, Unset):
+        last_update_time: Union[None, Unset, str]
+        if isinstance(self.last_update_time, Unset):
+            last_update_time = UNSET
+        elif isinstance(self.last_update_time, datetime.datetime):
             last_update_time = self.last_update_time.isoformat()
+        else:
+            last_update_time = self.last_update_time
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -82,12 +87,24 @@ class SandboxTemplateStatus:
 
             conditions.append(conditions_item)
 
-        _last_update_time = d.pop("lastUpdateTime", UNSET)
-        last_update_time: Union[Unset, datetime.datetime]
-        if isinstance(_last_update_time, Unset):
-            last_update_time = UNSET
-        else:
-            last_update_time = isoparse(_last_update_time)
+        def _parse_last_update_time(
+            data: object,
+        ) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                last_update_time_type_0 = isoparse(data)
+
+                return last_update_time_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        last_update_time = _parse_last_update_time(d.pop("lastUpdateTime", UNSET))
 
         sandbox_template_status = cls(
             idle_count=idle_count,

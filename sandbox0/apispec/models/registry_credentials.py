@@ -20,14 +20,16 @@ class RegistryCredentials:
     """
     Attributes:
         provider (str):
-        registry (str):
+        push_registry (str):
+        pull_registry (str):
         username (str):
         password (str):
         expires_at (Union[Unset, datetime.datetime]):
     """
 
     provider: str
-    registry: str
+    push_registry: str
+    pull_registry: str
     username: str
     password: str
     expires_at: Union[Unset, datetime.datetime] = UNSET
@@ -36,7 +38,9 @@ class RegistryCredentials:
     def to_dict(self) -> dict[str, Any]:
         provider = self.provider
 
-        registry = self.registry
+        push_registry = self.push_registry
+
+        pull_registry = self.pull_registry
 
         username = self.username
 
@@ -51,7 +55,8 @@ class RegistryCredentials:
         field_dict.update(
             {
                 "provider": provider,
-                "registry": registry,
+                "pushRegistry": push_registry,
+                "pullRegistry": pull_registry,
                 "username": username,
                 "password": password,
             }
@@ -66,7 +71,9 @@ class RegistryCredentials:
         d = dict(src_dict)
         provider = d.pop("provider")
 
-        registry = d.pop("registry")
+        push_registry = d.pop("pushRegistry")
+
+        pull_registry = d.pop("pullRegistry")
 
         username = d.pop("username")
 
@@ -81,7 +88,8 @@ class RegistryCredentials:
 
         registry_credentials = cls(
             provider=provider,
-            registry=registry,
+            push_registry=push_registry,
+            pull_registry=pull_registry,
             username=username,
             password=password,
             expires_at=expires_at,
