@@ -6,6 +6,7 @@ from urllib.parse import urlparse, urlunparse
 import httpx
 
 from sandbox0.apispec.client import AuthenticatedClient
+from sandbox0.client_credential_sources import ClientCredentialSourcesMixin
 from sandbox0.client_sandboxes import ClientSandboxesMixin
 from sandbox0.client_templates import ClientTemplatesMixin
 from sandbox0.client_volumes import ClientVolumesMixin
@@ -16,7 +17,12 @@ from sandbox0.sandbox import Sandbox
 DEFAULT_BASE_URL = "https://api.sandbox0.ai"
 
 
-class Client(ClientSandboxesMixin, ClientTemplatesMixin, ClientVolumesMixin):
+class Client(
+    ClientSandboxesMixin,
+    ClientTemplatesMixin,
+    ClientVolumesMixin,
+    ClientCredentialSourcesMixin,
+):
     def __init__(
         self,
         *,

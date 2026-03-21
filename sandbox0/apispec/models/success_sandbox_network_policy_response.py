@@ -12,7 +12,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
+    from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
 
 T = TypeVar("T", bound="SuccessSandboxNetworkPolicyResponse")
@@ -23,11 +23,11 @@ class SuccessSandboxNetworkPolicyResponse:
     """
     Attributes:
         success (bool):
-        data (Union[Unset, TplSandboxNetworkPolicy]):
+        data (Union[Unset, SandboxNetworkPolicy]):
     """
 
     success: bool
-    data: Union[Unset, "TplSandboxNetworkPolicy"] = UNSET
+    data: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,17 +51,17 @@ class SuccessSandboxNetworkPolicyResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, TplSandboxNetworkPolicy]
+        data: Union[Unset, SandboxNetworkPolicy]
         if isinstance(_data, Unset):
             data = UNSET
         else:
-            data = TplSandboxNetworkPolicy.from_dict(_data)
+            data = SandboxNetworkPolicy.from_dict(_data)
 
         success_sandbox_network_policy_response = cls(
             success=success,
