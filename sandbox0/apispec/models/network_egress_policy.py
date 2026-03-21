@@ -13,7 +13,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.egress_credential_rule import EgressCredentialRule
     from ..models.port_spec import PortSpec
+    from ..models.traffic_rule import TrafficRule
 
 
 T = TypeVar("T", bound="NetworkEgressPolicy")
@@ -21,14 +23,32 @@ T = TypeVar("T", bound="NetworkEgressPolicy")
 
 @_attrs_define
 class NetworkEgressPolicy:
-    """
-    Attributes:
-        allowed_cidrs (Union[Unset, list[str]]):
-        allowed_domains (Union[Unset, list[str]]):
-        allowed_ports (Union[Unset, list['PortSpec']]):
-        denied_domains (Union[Unset, list[str]]):
-        denied_cidrs (Union[Unset, list[str]]):
-        denied_ports (Union[Unset, list['PortSpec']]):
+    """Egress rule set interpreted by the selected network mode.
+    In `allow-all`, only `denied*` fields are enforced.
+    In `block-all`, only `allowed*` fields are enforced.
+    `trafficRules` is a rule-based alternative and must not be combined
+    with the legacy `allowed*`/`denied*` fields.
+
+        Attributes:
+            allowed_cidrs (Union[Unset, list[str]]): Legacy CIDR allowlist used only when mode is `block-all`. Use
+                `trafficRules` instead.
+            allowed_domains (Union[Unset, list[str]]): Legacy domain allowlist used only when mode is `block-all`. Use
+                `trafficRules` instead.
+            allowed_ports (Union[Unset, list['PortSpec']]): Legacy port/protocol allowlist used only when mode is `block-
+                all`. Use `trafficRules` instead.
+            denied_domains (Union[Unset, list[str]]): Legacy domain denylist used only when mode is `allow-all`. Use
+                `trafficRules` instead.
+            denied_cidrs (Union[Unset, list[str]]): Legacy CIDR denylist used only when mode is `allow-all`. Use
+                `trafficRules` instead.
+            denied_ports (Union[Unset, list['PortSpec']]): Legacy port/protocol denylist used only when mode is `allow-all`.
+                Use `trafficRules` instead.
+            traffic_rules (Union[Unset, list['TrafficRule']]): Ordered egress allow/deny rules. The first matching rule wins
+                and
+                unmatched traffic falls back to `mode`.
+            credential_rules (Union[Unset, list['EgressCredentialRule']]): Structured egress auth injection rules resolved
+                by the manager runtime egress auth path.
+                These rules are orthogonal to allow/deny matching and are intended for
+                destination-scoped outbound auth behavior.
     """
 
     allowed_cidrs: Union[Unset, list[str]] = UNSET
@@ -37,6 +57,8 @@ class NetworkEgressPolicy:
     denied_domains: Union[Unset, list[str]] = UNSET
     denied_cidrs: Union[Unset, list[str]] = UNSET
     denied_ports: Union[Unset, list["PortSpec"]] = UNSET
+    traffic_rules: Union[Unset, list["TrafficRule"]] = UNSET
+    credential_rules: Union[Unset, list["EgressCredentialRule"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -70,6 +92,20 @@ class NetworkEgressPolicy:
                 denied_ports_item = denied_ports_item_data.to_dict()
                 denied_ports.append(denied_ports_item)
 
+        traffic_rules: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.traffic_rules, Unset):
+            traffic_rules = []
+            for traffic_rules_item_data in self.traffic_rules:
+                traffic_rules_item = traffic_rules_item_data.to_dict()
+                traffic_rules.append(traffic_rules_item)
+
+        credential_rules: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.credential_rules, Unset):
+            credential_rules = []
+            for credential_rules_item_data in self.credential_rules:
+                credential_rules_item = credential_rules_item_data.to_dict()
+                credential_rules.append(credential_rules_item)
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -85,12 +121,18 @@ class NetworkEgressPolicy:
             field_dict["deniedCidrs"] = denied_cidrs
         if denied_ports is not UNSET:
             field_dict["deniedPorts"] = denied_ports
+        if traffic_rules is not UNSET:
+            field_dict["trafficRules"] = traffic_rules
+        if credential_rules is not UNSET:
+            field_dict["credentialRules"] = credential_rules
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.egress_credential_rule import EgressCredentialRule
         from ..models.port_spec import PortSpec
+        from ..models.traffic_rule import TrafficRule
 
         d = dict(src_dict)
         allowed_cidrs = cast(list[str], d.pop("allowedCidrs", UNSET))
@@ -115,6 +157,22 @@ class NetworkEgressPolicy:
 
             denied_ports.append(denied_ports_item)
 
+        traffic_rules = []
+        _traffic_rules = d.pop("trafficRules", UNSET)
+        for traffic_rules_item_data in _traffic_rules or []:
+            traffic_rules_item = TrafficRule.from_dict(traffic_rules_item_data)
+
+            traffic_rules.append(traffic_rules_item)
+
+        credential_rules = []
+        _credential_rules = d.pop("credentialRules", UNSET)
+        for credential_rules_item_data in _credential_rules or []:
+            credential_rules_item = EgressCredentialRule.from_dict(
+                credential_rules_item_data
+            )
+
+            credential_rules.append(credential_rules_item)
+
         network_egress_policy = cls(
             allowed_cidrs=allowed_cidrs,
             allowed_domains=allowed_domains,
@@ -122,6 +180,8 @@ class NetworkEgressPolicy:
             denied_domains=denied_domains,
             denied_cidrs=denied_cidrs,
             denied_ports=denied_ports,
+            traffic_rules=traffic_rules,
+            credential_rules=credential_rules,
         )
 
         network_egress_policy.additional_properties = d

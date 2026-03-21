@@ -26,6 +26,7 @@ class Team:
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
         owner_id (Union[None, Unset, str]):
+        home_region_id (Union[None, Unset, str]):
     """
 
     id: str
@@ -34,6 +35,7 @@ class Team:
     created_at: datetime.datetime
     updated_at: datetime.datetime
     owner_id: Union[None, Unset, str] = UNSET
+    home_region_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -53,6 +55,12 @@ class Team:
         else:
             owner_id = self.owner_id
 
+        home_region_id: Union[None, Unset, str]
+        if isinstance(self.home_region_id, Unset):
+            home_region_id = UNSET
+        else:
+            home_region_id = self.home_region_id
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -66,6 +74,8 @@ class Team:
         )
         if owner_id is not UNSET:
             field_dict["owner_id"] = owner_id
+        if home_region_id is not UNSET:
+            field_dict["home_region_id"] = home_region_id
 
         return field_dict
 
@@ -91,6 +101,15 @@ class Team:
 
         owner_id = _parse_owner_id(d.pop("owner_id", UNSET))
 
+        def _parse_home_region_id(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        home_region_id = _parse_home_region_id(d.pop("home_region_id", UNSET))
+
         team = cls(
             id=id,
             name=name,
@@ -98,6 +117,7 @@ class Team:
             created_at=created_at,
             updated_at=updated_at,
             owner_id=owner_id,
+            home_region_id=home_region_id,
         )
 
         team.additional_properties = d

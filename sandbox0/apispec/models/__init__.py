@@ -1,10 +1,12 @@
 """Contains all the data models used in inputs/outputs"""
 
+from .active_team import ActiveTeam
 from .add_team_member_request import AddTeamMemberRequest
 from .add_team_member_request_role import AddTeamMemberRequestRole
 from .affinity import Affinity
 from .api_key import APIKey
 from .auth_provider import AuthProvider
+from .cache_policy_spec import CachePolicySpec
 from .capabilities import Capabilities
 from .change_password_request import ChangePasswordRequest
 from .claim_request import ClaimRequest
@@ -33,10 +35,22 @@ from .create_api_key_response import CreateAPIKeyResponse
 from .create_cmd_context_request import CreateCMDContextRequest
 from .create_context_request import CreateContextRequest
 from .create_context_request_env_vars import CreateContextRequestEnvVars
+from .create_region_request import CreateRegionRequest
 from .create_repl_context_request import CreateREPLContextRequest
 from .create_sandbox_volume_request import CreateSandboxVolumeRequest
 from .create_snapshot_request import CreateSnapshotRequest
 from .create_team_request import CreateTeamRequest
+from .credential_binding import CredentialBinding
+from .credential_projection_type import CredentialProjectionType
+from .credential_source_metadata import CredentialSourceMetadata
+from .credential_source_resolver_kind import CredentialSourceResolverKind
+from .credential_source_write_request import CredentialSourceWriteRequest
+from .credential_source_write_spec import CredentialSourceWriteSpec
+from .egress_auth_failure_policy import EgressAuthFailurePolicy
+from .egress_auth_protocol import EgressAuthProtocol
+from .egress_auth_rollout_mode import EgressAuthRolloutMode
+from .egress_credential_rule import EgressCredentialRule
+from .egress_tls_mode import EgressTLSMode
 from .env_var import EnvVar
 from .error import Error
 from .error_envelope import ErrorEnvelope
@@ -60,7 +74,10 @@ from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_volume_request import ForkVolumeRequest
 from .get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
+from .http_headers_projection import HTTPHeadersProjection
 from .identity import Identity
+from .issue_region_token_request import IssueRegionTokenRequest
+from .issue_region_token_response import IssueRegionTokenResponse
 from .label_selector import LabelSelector
 from .label_selector_match_labels import LabelSelectorMatchLabels
 from .label_selector_requirement import LabelSelectorRequirement
@@ -89,9 +106,12 @@ from .port_spec import PortSpec
 from .pre_stop_hook import PreStopHook
 from .preferred_scheduling_term import PreferredSchedulingTerm
 from .process_type import ProcessType
+from .projected_header import ProjectedHeader
+from .projection_spec import ProjectionSpec
 from .pty_size import PTYSize
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
+from .region import Region
 from .register_request import RegisterRequest
 from .registry_credentials import RegistryCredentials
 from .repl_config import REPLConfig
@@ -106,6 +126,8 @@ from .resume_sandbox_response import ResumeSandboxResponse
 from .sandbox import Sandbox
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
+from .sandbox_network_policy import SandboxNetworkPolicy
+from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_status import SandboxStatus
@@ -122,6 +144,13 @@ from .sandbox_volume import SandboxVolume
 from .security_context import SecurityContext
 from .signal_context_request import SignalContextRequest
 from .snapshot import Snapshot
+from .static_headers_source_spec import StaticHeadersSourceSpec
+from .static_headers_source_spec_values import StaticHeadersSourceSpecValues
+from .static_tls_client_certificate_source_spec import (
+    StaticTLSClientCertificateSourceSpec,
+)
+from .static_username_password_source_spec import StaticUsernamePasswordSourceSpec
+from .success_active_team_response import SuccessActiveTeamResponse
 from .success_api_key_list_response import SuccessAPIKeyListResponse
 from .success_api_key_list_response_data import SuccessAPIKeyListResponseData
 from .success_auth_providers_response import SuccessAuthProvidersResponse
@@ -135,6 +164,8 @@ from .success_context_stats_response import SuccessContextStatsResponse
 from .success_create_api_key_response import SuccessCreateAPIKeyResponse
 from .success_created_response import SuccessCreatedResponse
 from .success_created_response_data import SuccessCreatedResponseData
+from .success_credential_source_list_response import SuccessCredentialSourceListResponse
+from .success_credential_source_response import SuccessCredentialSourceResponse
 from .success_deleted_response import SuccessDeletedResponse
 from .success_deleted_response_data import SuccessDeletedResponseData
 from .success_envelope import SuccessEnvelope
@@ -149,6 +180,7 @@ from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
 from .success_identity_list_response import SuccessIdentityListResponse
 from .success_identity_list_response_data import SuccessIdentityListResponseData
+from .success_issue_region_token_response import SuccessIssueRegionTokenResponse
 from .success_login_response import SuccessLoginResponse
 from .success_message_response import SuccessMessageResponse
 from .success_message_response_data import SuccessMessageResponseData
@@ -159,6 +191,9 @@ from .success_moved_response import SuccessMovedResponse
 from .success_moved_response_data import SuccessMovedResponseData
 from .success_pause_sandbox_response import SuccessPauseSandboxResponse
 from .success_refresh_response import SuccessRefreshResponse
+from .success_region_list_response import SuccessRegionListResponse
+from .success_region_list_response_data import SuccessRegionListResponseData
+from .success_region_response import SuccessRegionResponse
 from .success_registry_credentials_response import SuccessRegistryCredentialsResponse
 from .success_resized_response import SuccessResizedResponse
 from .success_resized_response_data import SuccessResizedResponseData
@@ -195,27 +230,35 @@ from .team_member import TeamMember
 from .template import Template
 from .template_create_request import TemplateCreateRequest
 from .template_update_request import TemplateUpdateRequest
+from .tls_client_certificate_projection import TLSClientCertificateProjection
 from .toleration import Toleration
 from .tpl_sandbox_network_policy import TplSandboxNetworkPolicy
 from .tpl_sandbox_network_policy_mode import TplSandboxNetworkPolicyMode
+from .traffic_rule import TrafficRule
+from .traffic_rule_action import TrafficRuleAction
+from .traffic_rule_app_protocol import TrafficRuleAppProtocol
 from .unmount_request import UnmountRequest
 from .update_exposed_ports_request import UpdateExposedPortsRequest
+from .update_region_request import UpdateRegionRequest
 from .update_team_member_request import UpdateTeamMemberRequest
 from .update_team_member_request_role import UpdateTeamMemberRequestRole
 from .update_team_request import UpdateTeamRequest
 from .update_user_request import UpdateUserRequest
 from .user import User
+from .username_password_projection import UsernamePasswordProjection
 from .volume_access_mode import VolumeAccessMode
 from .volume_config import VolumeConfig
 from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
 __all__ = (
+    "ActiveTeam",
     "AddTeamMemberRequest",
     "AddTeamMemberRequestRole",
     "Affinity",
     "APIKey",
     "AuthProvider",
+    "CachePolicySpec",
     "Capabilities",
     "ChangePasswordRequest",
     "ClaimRequest",
@@ -244,10 +287,22 @@ __all__ = (
     "CreateCMDContextRequest",
     "CreateContextRequest",
     "CreateContextRequestEnvVars",
+    "CreateRegionRequest",
     "CreateREPLContextRequest",
     "CreateSandboxVolumeRequest",
     "CreateSnapshotRequest",
     "CreateTeamRequest",
+    "CredentialBinding",
+    "CredentialProjectionType",
+    "CredentialSourceMetadata",
+    "CredentialSourceResolverKind",
+    "CredentialSourceWriteRequest",
+    "CredentialSourceWriteSpec",
+    "EgressAuthFailurePolicy",
+    "EgressAuthProtocol",
+    "EgressAuthRolloutMode",
+    "EgressCredentialRule",
+    "EgressTLSMode",
     "EnvVar",
     "Error",
     "ErrorEnvelope",
@@ -271,7 +326,10 @@ __all__ = (
     "FileWatchUnsubscribeRequestAction",
     "ForkVolumeRequest",
     "GetApiV1SandboxesStatus",
+    "HTTPHeadersProjection",
     "Identity",
+    "IssueRegionTokenRequest",
+    "IssueRegionTokenResponse",
     "LabelSelector",
     "LabelSelectorMatchLabels",
     "LabelSelectorRequirement",
@@ -300,9 +358,12 @@ __all__ = (
     "PreferredSchedulingTerm",
     "PreStopHook",
     "ProcessType",
+    "ProjectedHeader",
+    "ProjectionSpec",
     "PTYSize",
     "RefreshRequest",
     "RefreshResponse",
+    "Region",
     "RegisterRequest",
     "RegistryCredentials",
     "REPLConfig",
@@ -317,6 +378,8 @@ __all__ = (
     "Sandbox",
     "SandboxConfig",
     "SandboxConfigEnvVars",
+    "SandboxNetworkPolicy",
+    "SandboxNetworkPolicyMode",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
     "SandboxStatus",
@@ -333,6 +396,11 @@ __all__ = (
     "SecurityContext",
     "SignalContextRequest",
     "Snapshot",
+    "StaticHeadersSourceSpec",
+    "StaticHeadersSourceSpecValues",
+    "StaticTLSClientCertificateSourceSpec",
+    "StaticUsernamePasswordSourceSpec",
+    "SuccessActiveTeamResponse",
     "SuccessAPIKeyListResponse",
     "SuccessAPIKeyListResponseData",
     "SuccessAuthProvidersResponse",
@@ -346,6 +414,8 @@ __all__ = (
     "SuccessCreateAPIKeyResponse",
     "SuccessCreatedResponse",
     "SuccessCreatedResponseData",
+    "SuccessCredentialSourceListResponse",
+    "SuccessCredentialSourceResponse",
     "SuccessDeletedResponse",
     "SuccessDeletedResponseData",
     "SuccessEnvelope",
@@ -360,6 +430,7 @@ __all__ = (
     "SuccessHealthResponseData",
     "SuccessIdentityListResponse",
     "SuccessIdentityListResponseData",
+    "SuccessIssueRegionTokenResponse",
     "SuccessLoginResponse",
     "SuccessMessageResponse",
     "SuccessMessageResponseData",
@@ -370,6 +441,9 @@ __all__ = (
     "SuccessMovedResponseData",
     "SuccessPauseSandboxResponse",
     "SuccessRefreshResponse",
+    "SuccessRegionListResponse",
+    "SuccessRegionListResponseData",
+    "SuccessRegionResponse",
     "SuccessRegistryCredentialsResponse",
     "SuccessResizedResponse",
     "SuccessResizedResponseData",
@@ -406,16 +480,22 @@ __all__ = (
     "Template",
     "TemplateCreateRequest",
     "TemplateUpdateRequest",
+    "TLSClientCertificateProjection",
     "Toleration",
     "TplSandboxNetworkPolicy",
     "TplSandboxNetworkPolicyMode",
+    "TrafficRule",
+    "TrafficRuleAction",
+    "TrafficRuleAppProtocol",
     "UnmountRequest",
     "UpdateExposedPortsRequest",
+    "UpdateRegionRequest",
     "UpdateTeamMemberRequest",
     "UpdateTeamMemberRequestRole",
     "UpdateTeamRequest",
     "UpdateUserRequest",
     "User",
+    "UsernamePasswordProjection",
     "VolumeAccessMode",
     "VolumeConfig",
     "WebhookConfig",

@@ -8,6 +8,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from sandbox0.apispec.models.network_egress_policy import NetworkEgressPolicy
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
+from sandbox0.apispec.models.sandbox_network_policy import SandboxNetworkPolicy
+from sandbox0.apispec.models.sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from sandbox0.apispec.models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
 from sandbox0.apispec.models.tpl_sandbox_network_policy_mode import TplSandboxNetworkPolicyMode
 
@@ -29,12 +31,12 @@ def main() -> None:
         shell = '/bin/curl -s -o /dev/null -w "%{http_code}\\n" --max-time 3 https://github.com'
         print(sandbox.cmd(shell).output_raw, end="")
 
-        sandbox.update_network_policy(TplSandboxNetworkPolicy(mode=TplSandboxNetworkPolicyMode.BLOCK_ALL))
+        sandbox.update_network_policy(SandboxNetworkPolicy(mode=SandboxNetworkPolicyMode.BLOCK_ALL))
         print(sandbox.cmd(shell).output_raw, end="")
 
         sandbox.update_network_policy(
-            TplSandboxNetworkPolicy(
-                mode=TplSandboxNetworkPolicyMode.BLOCK_ALL,
+            SandboxNetworkPolicy(
+                mode=SandboxNetworkPolicyMode.BLOCK_ALL,
                 egress=NetworkEgressPolicy(allowed_domains=["github.com"]),
             )
         )

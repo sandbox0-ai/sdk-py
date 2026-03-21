@@ -5,21 +5,23 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.error_envelope import ErrorEnvelope
-from ...models.success_user_response import SuccessUserResponse
-from ...models.update_user_request import UpdateUserRequest
+from ...models.credential_source_write_request import CredentialSourceWriteRequest
+from ...models.success_credential_source_response import SuccessCredentialSourceResponse
 from ...types import Response
 
 
 def _get_kwargs(
+    name: str,
     *,
-    body: UpdateUserRequest,
+    body: CredentialSourceWriteRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/users/me",
+        "url": "/api/v1/credential-sources/{name}".format(
+            name=name,
+        ),
     }
 
     _kwargs["json"] = body.to_dict()
@@ -32,21 +34,11 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessUserResponse]]:
+) -> Optional[SuccessCredentialSourceResponse]:
     if response.status_code == 200:
-        response_200 = SuccessUserResponse.from_dict(response.json())
+        response_200 = SuccessCredentialSourceResponse.from_dict(response.json())
 
         return response_200
-
-    if response.status_code == 400:
-        response_400 = ErrorEnvelope.from_dict(response.json())
-
-        return response_400
-
-    if response.status_code == 401:
-        response_401 = ErrorEnvelope.from_dict(response.json())
-
-        return response_401
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -56,7 +48,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessUserResponse]]:
+) -> Response[SuccessCredentialSourceResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -66,24 +58,27 @@ def _build_response(
 
 
 def sync_detailed(
+    name: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Response[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    body: CredentialSourceWriteRequest,
+) -> Response[SuccessCredentialSourceResponse]:
+    """Update credential source
 
     Args:
-        body (UpdateUserRequest):
+        name (str):
+        body (CredentialSourceWriteRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessUserResponse]]
+        Response[SuccessCredentialSourceResponse]
     """
 
     kwargs = _get_kwargs(
+        name=name,
         body=body,
     )
 
@@ -95,48 +90,54 @@ def sync_detailed(
 
 
 def sync(
+    name: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Optional[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    body: CredentialSourceWriteRequest,
+) -> Optional[SuccessCredentialSourceResponse]:
+    """Update credential source
 
     Args:
-        body (UpdateUserRequest):
+        name (str):
+        body (CredentialSourceWriteRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessUserResponse]
+        SuccessCredentialSourceResponse
     """
 
     return sync_detailed(
+        name=name,
         client=client,
         body=body,
     ).parsed
 
 
 async def asyncio_detailed(
+    name: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Response[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    body: CredentialSourceWriteRequest,
+) -> Response[SuccessCredentialSourceResponse]:
+    """Update credential source
 
     Args:
-        body (UpdateUserRequest):
+        name (str):
+        body (CredentialSourceWriteRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessUserResponse]]
+        Response[SuccessCredentialSourceResponse]
     """
 
     kwargs = _get_kwargs(
+        name=name,
         body=body,
     )
 
@@ -146,25 +147,28 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    name: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Optional[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    body: CredentialSourceWriteRequest,
+) -> Optional[SuccessCredentialSourceResponse]:
+    """Update credential source
 
     Args:
-        body (UpdateUserRequest):
+        name (str):
+        body (CredentialSourceWriteRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessUserResponse]
+        SuccessCredentialSourceResponse
     """
 
     return (
         await asyncio_detailed(
+            name=name,
             client=client,
             body=body,
         )
