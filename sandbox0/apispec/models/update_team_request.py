@@ -3,7 +3,6 @@ from typing import (
     Any,
     TypeVar,
     Union,
-    cast,
 )
 
 from attrs import define as _attrs_define
@@ -20,24 +19,16 @@ class UpdateTeamRequest:
     Attributes:
         name (Union[Unset, str]):
         slug (Union[Unset, str]):
-        home_region_id (Union[None, Unset, str]):
     """
 
     name: Union[Unset, str] = UNSET
     slug: Union[Unset, str] = UNSET
-    home_region_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
 
         slug = self.slug
-
-        home_region_id: Union[None, Unset, str]
-        if isinstance(self.home_region_id, Unset):
-            home_region_id = UNSET
-        else:
-            home_region_id = self.home_region_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -46,8 +37,6 @@ class UpdateTeamRequest:
             field_dict["name"] = name
         if slug is not UNSET:
             field_dict["slug"] = slug
-        if home_region_id is not UNSET:
-            field_dict["home_region_id"] = home_region_id
 
         return field_dict
 
@@ -58,19 +47,9 @@ class UpdateTeamRequest:
 
         slug = d.pop("slug", UNSET)
 
-        def _parse_home_region_id(data: object) -> Union[None, Unset, str]:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(Union[None, Unset, str], data)
-
-        home_region_id = _parse_home_region_id(d.pop("home_region_id", UNSET))
-
         update_team_request = cls(
             name=name,
             slug=slug,
-            home_region_id=home_region_id,
         )
 
         update_team_request.additional_properties = d
