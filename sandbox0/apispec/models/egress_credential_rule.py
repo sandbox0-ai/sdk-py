@@ -28,7 +28,7 @@ class EgressCredentialRule:
     """
     Attributes:
         credential_ref (str): Stable binding ref to resolve when this traffic rule matches.
-            The referenced binding must be present in `credential_bindings`.
+            The referenced binding must be present in `network.credentialBindings`.
         name (Union[Unset, str]): Optional stable identifier used for merge and replacement.
         rollout (Union[Unset, EgressAuthRolloutMode]):
         protocol (Union[Unset, EgressAuthProtocol]):

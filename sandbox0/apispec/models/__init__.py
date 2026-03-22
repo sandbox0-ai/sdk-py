@@ -232,8 +232,6 @@ from .template_create_request import TemplateCreateRequest
 from .template_update_request import TemplateUpdateRequest
 from .tls_client_certificate_projection import TLSClientCertificateProjection
 from .toleration import Toleration
-from .tpl_sandbox_network_policy import TplSandboxNetworkPolicy
-from .tpl_sandbox_network_policy_mode import TplSandboxNetworkPolicyMode
 from .traffic_rule import TrafficRule
 from .traffic_rule_action import TrafficRuleAction
 from .traffic_rule_app_protocol import TrafficRuleAppProtocol
@@ -482,8 +480,6 @@ __all__ = (
     "TemplateUpdateRequest",
     "TLSClientCertificateProjection",
     "Toleration",
-    "TplSandboxNetworkPolicy",
-    "TplSandboxNetworkPolicyMode",
     "TrafficRule",
     "TrafficRuleAction",
     "TrafficRuleAppProtocol",

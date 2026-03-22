@@ -14,12 +14,11 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.container_spec import ContainerSpec
-    from ..models.credential_binding import CredentialBinding
     from ..models.lifecycle_policy import LifecyclePolicy
     from ..models.pod_spec_override import PodSpecOverride
     from ..models.pool_strategy import PoolStrategy
+    from ..models.sandbox_network_policy import SandboxNetworkPolicy
     from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-    from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
 
 
 T = TypeVar("T", bound="SandboxTemplateSpec")
@@ -35,10 +34,7 @@ class SandboxTemplateSpec:
         main_container (Union[Unset, ContainerSpec]):
         sidecars (Union[Unset, list['ContainerSpec']]):
         pod (Union[Unset, PodSpecOverride]):
-        network (Union[Unset, TplSandboxNetworkPolicy]): Template-level outbound network policy.
-            `allow-all` permits traffic by default and applies `denied*` rules as subtractive filters.
-            `block-all` denies traffic by default and applies `allowed*` rules as additive exceptions.
-        credential_bindings (Union[Unset, list['CredentialBinding']]):
+        network (Union[Unset, SandboxNetworkPolicy]):
         pool (Union[Unset, PoolStrategy]):
         lifecycle (Union[Unset, LifecyclePolicy]):
         env_vars (Union[Unset, SandboxTemplateSpecEnvVars]):
@@ -54,8 +50,7 @@ class SandboxTemplateSpec:
     main_container: Union[Unset, "ContainerSpec"] = UNSET
     sidecars: Union[Unset, list["ContainerSpec"]] = UNSET
     pod: Union[Unset, "PodSpecOverride"] = UNSET
-    network: Union[Unset, "TplSandboxNetworkPolicy"] = UNSET
-    credential_bindings: Union[Unset, list["CredentialBinding"]] = UNSET
+    network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     pool: Union[Unset, "PoolStrategy"] = UNSET
     lifecycle: Union[Unset, "LifecyclePolicy"] = UNSET
     env_vars: Union[Unset, "SandboxTemplateSpecEnvVars"] = UNSET
@@ -92,13 +87,6 @@ class SandboxTemplateSpec:
         network: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.network, Unset):
             network = self.network.to_dict()
-
-        credential_bindings: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.credential_bindings, Unset):
-            credential_bindings = []
-            for credential_bindings_item_data in self.credential_bindings:
-                credential_bindings_item = credential_bindings_item_data.to_dict()
-                credential_bindings.append(credential_bindings_item)
 
         pool: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pool, Unset):
@@ -139,8 +127,6 @@ class SandboxTemplateSpec:
             field_dict["pod"] = pod
         if network is not UNSET:
             field_dict["network"] = network
-        if credential_bindings is not UNSET:
-            field_dict["credentialBindings"] = credential_bindings
         if pool is not UNSET:
             field_dict["pool"] = pool
         if lifecycle is not UNSET:
@@ -161,12 +147,11 @@ class SandboxTemplateSpec:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.container_spec import ContainerSpec
-        from ..models.credential_binding import CredentialBinding
         from ..models.lifecycle_policy import LifecyclePolicy
         from ..models.pod_spec_override import PodSpecOverride
         from ..models.pool_strategy import PoolStrategy
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
 
         d = dict(src_dict)
         description = d.pop("description", UNSET)
@@ -197,20 +182,11 @@ class SandboxTemplateSpec:
             pod = PodSpecOverride.from_dict(_pod)
 
         _network = d.pop("network", UNSET)
-        network: Union[Unset, TplSandboxNetworkPolicy]
+        network: Union[Unset, SandboxNetworkPolicy]
         if isinstance(_network, Unset):
             network = UNSET
         else:
-            network = TplSandboxNetworkPolicy.from_dict(_network)
-
-        credential_bindings = []
-        _credential_bindings = d.pop("credentialBindings", UNSET)
-        for credential_bindings_item_data in _credential_bindings or []:
-            credential_bindings_item = CredentialBinding.from_dict(
-                credential_bindings_item_data
-            )
-
-            credential_bindings.append(credential_bindings_item)
+            network = SandboxNetworkPolicy.from_dict(_network)
 
         _pool = d.pop("pool", UNSET)
         pool: Union[Unset, PoolStrategy]
@@ -249,7 +225,6 @@ class SandboxTemplateSpec:
             sidecars=sidecars,
             pod=pod,
             network=network,
-            credential_bindings=credential_bindings,
             pool=pool,
             lifecycle=lifecycle,
             env_vars=env_vars,

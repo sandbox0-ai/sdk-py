@@ -12,9 +12,8 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.credential_binding import CredentialBinding
     from ..models.exposed_port_config import ExposedPortConfig
-    from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
+    from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
 
 T = TypeVar("T", bound="SandboxUpdateConfig")
@@ -28,12 +27,7 @@ class SandboxUpdateConfig:
         Attributes:
             ttl (Union[Unset, int]):
             hard_ttl (Union[Unset, int]):
-            network (Union[Unset, TplSandboxNetworkPolicy]): Template-level outbound network policy.
-                `allow-all` permits traffic by default and applies `denied*` rules as subtractive filters.
-                `block-all` denies traffic by default and applies `allowed*` rules as additive exceptions.
-            credential_bindings (Union[Unset, list['CredentialBinding']]): Runtime-updatable credential bindings referenced
-                by egress
-                credential rules through `credentialRef`.
+            network (Union[Unset, SandboxNetworkPolicy]):
             auto_resume (Union[Unset, bool]): Sandbox-level resume gate for paused sandboxes. When false, any inbound
                 request
                 (API or public exposure) must not auto resume the sandbox.
@@ -43,8 +37,7 @@ class SandboxUpdateConfig:
 
     ttl: Union[Unset, int] = UNSET
     hard_ttl: Union[Unset, int] = UNSET
-    network: Union[Unset, "TplSandboxNetworkPolicy"] = UNSET
-    credential_bindings: Union[Unset, list["CredentialBinding"]] = UNSET
+    network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     auto_resume: Union[Unset, bool] = True
     exposed_ports: Union[Unset, list["ExposedPortConfig"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -57,13 +50,6 @@ class SandboxUpdateConfig:
         network: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.network, Unset):
             network = self.network.to_dict()
-
-        credential_bindings: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.credential_bindings, Unset):
-            credential_bindings = []
-            for credential_bindings_item_data in self.credential_bindings:
-                credential_bindings_item = credential_bindings_item_data.to_dict()
-                credential_bindings.append(credential_bindings_item)
 
         auto_resume = self.auto_resume
 
@@ -83,8 +69,6 @@ class SandboxUpdateConfig:
             field_dict["hard_ttl"] = hard_ttl
         if network is not UNSET:
             field_dict["network"] = network
-        if credential_bindings is not UNSET:
-            field_dict["credential_bindings"] = credential_bindings
         if auto_resume is not UNSET:
             field_dict["auto_resume"] = auto_resume
         if exposed_ports is not UNSET:
@@ -94,9 +78,8 @@ class SandboxUpdateConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.credential_binding import CredentialBinding
         from ..models.exposed_port_config import ExposedPortConfig
-        from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
         d = dict(src_dict)
         ttl = d.pop("ttl", UNSET)
@@ -104,20 +87,11 @@ class SandboxUpdateConfig:
         hard_ttl = d.pop("hard_ttl", UNSET)
 
         _network = d.pop("network", UNSET)
-        network: Union[Unset, TplSandboxNetworkPolicy]
+        network: Union[Unset, SandboxNetworkPolicy]
         if isinstance(_network, Unset):
             network = UNSET
         else:
-            network = TplSandboxNetworkPolicy.from_dict(_network)
-
-        credential_bindings = []
-        _credential_bindings = d.pop("credential_bindings", UNSET)
-        for credential_bindings_item_data in _credential_bindings or []:
-            credential_bindings_item = CredentialBinding.from_dict(
-                credential_bindings_item_data
-            )
-
-            credential_bindings.append(credential_bindings_item)
+            network = SandboxNetworkPolicy.from_dict(_network)
 
         auto_resume = d.pop("auto_resume", UNSET)
 
@@ -132,7 +106,6 @@ class SandboxUpdateConfig:
             ttl=ttl,
             hard_ttl=hard_ttl,
             network=network,
-            credential_bindings=credential_bindings,
             auto_resume=auto_resume,
             exposed_ports=exposed_ports,
         )
