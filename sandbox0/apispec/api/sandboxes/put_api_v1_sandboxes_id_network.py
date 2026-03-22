@@ -5,17 +5,17 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.sandbox_network_policy import SandboxNetworkPolicy
 from ...models.success_sandbox_network_policy_response import (
     SuccessSandboxNetworkPolicyResponse,
 )
-from ...models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
 from ...types import Response
 
 
 def _get_kwargs(
     id: str,
     *,
-    body: TplSandboxNetworkPolicy,
+    body: SandboxNetworkPolicy,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -63,13 +63,13 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: TplSandboxNetworkPolicy,
+    body: SandboxNetworkPolicy,
 ) -> Response[SuccessSandboxNetworkPolicyResponse]:
     """Update sandbox network policy
 
     Args:
         id (str):
-        body (TplSandboxNetworkPolicy):
+        body (SandboxNetworkPolicy):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,13 +95,13 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: TplSandboxNetworkPolicy,
+    body: SandboxNetworkPolicy,
 ) -> Optional[SuccessSandboxNetworkPolicyResponse]:
     """Update sandbox network policy
 
     Args:
         id (str):
-        body (TplSandboxNetworkPolicy):
+        body (SandboxNetworkPolicy):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,13 +122,13 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: TplSandboxNetworkPolicy,
+    body: SandboxNetworkPolicy,
 ) -> Response[SuccessSandboxNetworkPolicyResponse]:
     """Update sandbox network policy
 
     Args:
         id (str):
-        body (TplSandboxNetworkPolicy):
+        body (SandboxNetworkPolicy):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -152,13 +152,13 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: TplSandboxNetworkPolicy,
+    body: SandboxNetworkPolicy,
 ) -> Optional[SuccessSandboxNetworkPolicyResponse]:
     """Update sandbox network policy
 
     Args:
         id (str):
-        body (TplSandboxNetworkPolicy):
+        body (SandboxNetworkPolicy):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -21,10 +21,17 @@ T = TypeVar("T", bound="TplSandboxNetworkPolicy")
 
 @_attrs_define
 class TplSandboxNetworkPolicy:
-    """
-    Attributes:
-        mode (TplSandboxNetworkPolicyMode):
-        egress (Union[Unset, NetworkEgressPolicy]):
+    """Template-level outbound network policy.
+    `allow-all` permits traffic by default and applies `denied*` rules as subtractive filters.
+    `block-all` denies traffic by default and applies `allowed*` rules as additive exceptions.
+
+        Attributes:
+            mode (TplSandboxNetworkPolicyMode):
+            egress (Union[Unset, NetworkEgressPolicy]): Egress rule set interpreted by the selected network mode.
+                In `allow-all`, only `denied*` fields are enforced.
+                In `block-all`, only `allowed*` fields are enforced.
+                `trafficRules` is a rule-based alternative and must not be combined
+                with the legacy `allowed*`/`denied*` fields.
     """
 
     mode: TplSandboxNetworkPolicyMode

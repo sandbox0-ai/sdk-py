@@ -56,6 +56,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 409:
+        response_409 = ErrorEnvelope.from_dict(response.json())
+
+        return response_409
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -80,6 +85,8 @@ def sync_detailed(
     body: UpdateTeamRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Update a team
+
+     Team home region is immutable after creation and cannot be changed through this endpoint.
 
     Args:
         id (str):
@@ -113,6 +120,8 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Update a team
 
+     Team home region is immutable after creation and cannot be changed through this endpoint.
+
     Args:
         id (str):
         body (UpdateTeamRequest):
@@ -139,6 +148,8 @@ async def asyncio_detailed(
     body: UpdateTeamRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Update a team
+
+     Team home region is immutable after creation and cannot be changed through this endpoint.
 
     Args:
         id (str):
@@ -169,6 +180,8 @@ async def asyncio(
     body: UpdateTeamRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Update a team
+
+     Team home region is immutable after creation and cannot be changed through this endpoint.
 
     Args:
         id (str):
