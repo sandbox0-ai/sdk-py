@@ -1,8 +1,14 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="AuthProvider")
 
@@ -14,11 +20,15 @@ class AuthProvider:
         id (str):
         name (str):
         type_ (str):
+        external_auth_portal_url (Union[Unset, str]): When set, browser login for this provider should redirect to this
+            external URL instead of initiating the OIDC flow directly. Used for deployments that host their own
+            authorization portal.
     """
 
     id: str
     name: str
     type_: str
+    external_auth_portal_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -27,6 +37,8 @@ class AuthProvider:
         name = self.name
 
         type_ = self.type_
+
+        external_auth_portal_url = self.external_auth_portal_url
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -37,6 +49,8 @@ class AuthProvider:
                 "type": type_,
             }
         )
+        if external_auth_portal_url is not UNSET:
+            field_dict["external_auth_portal_url"] = external_auth_portal_url
 
         return field_dict
 
@@ -49,10 +63,13 @@ class AuthProvider:
 
         type_ = d.pop("type")
 
+        external_auth_portal_url = d.pop("external_auth_portal_url", UNSET)
+
         auth_provider = cls(
             id=id,
             name=name,
             type_=type_,
+            external_auth_portal_url=external_auth_portal_url,
         )
 
         auth_provider.additional_properties = d

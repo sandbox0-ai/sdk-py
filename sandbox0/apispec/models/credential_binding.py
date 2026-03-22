@@ -23,7 +23,7 @@ T = TypeVar("T", bound="CredentialBinding")
 class CredentialBinding:
     """
     Attributes:
-        ref (str): Stable credential binding reference matched by `credentialRef`.
+        ref (str): Stable binding identifier matched by `credentialRef`.
         source_ref (str): Region-scoped credential source reference resolved by `manager`.
         projection (ProjectionSpec):
         cache_policy (Union[Unset, CachePolicySpec]):

@@ -11,8 +11,8 @@ T = TypeVar("T", bound="ProjectedHeader")
 class ProjectedHeader:
     """
     Attributes:
-        name (str):
-        value_template (str):
+        name (str): Outbound header name.
+        value_template (str): Template rendered against the resolved credential source payload.
     """
 
     name: str

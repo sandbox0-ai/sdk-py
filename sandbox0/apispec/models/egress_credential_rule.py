@@ -27,7 +27,8 @@ T = TypeVar("T", bound="EgressCredentialRule")
 class EgressCredentialRule:
     """
     Attributes:
-        credential_ref (str): Broker-managed credential binding reference to resolve for matching traffic.
+        credential_ref (str): Stable binding ref to resolve when this traffic rule matches.
+            The referenced binding must be present in `credential_bindings`.
         name (Union[Unset, str]): Optional stable identifier used for merge and replacement.
         rollout (Union[Unset, EgressAuthRolloutMode]):
         protocol (Union[Unset, EgressAuthProtocol]):

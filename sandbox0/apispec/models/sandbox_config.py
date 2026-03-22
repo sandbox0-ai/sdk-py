@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from ..models.credential_binding import CredentialBinding
     from ..models.exposed_port_config import ExposedPortConfig
     from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-    from ..models.sandbox_network_policy import SandboxNetworkPolicy
+    from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
     from ..models.webhook_config import WebhookConfig
 
 
@@ -29,9 +29,12 @@ class SandboxConfig:
         env_vars (Union[Unset, SandboxConfigEnvVars]):
         ttl (Union[Unset, int]):
         hard_ttl (Union[Unset, int]):
-        network (Union[Unset, SandboxNetworkPolicy]):
-        credential_bindings (Union[Unset, list['CredentialBinding']]): Legacy sibling field. Prefer
-            `network.credentialBindings`.
+        network (Union[Unset, TplSandboxNetworkPolicy]): Template-level outbound network policy.
+            `allow-all` permits traffic by default and applies `denied*` rules as subtractive filters.
+            `block-all` denies traffic by default and applies `allowed*` rules as additive exceptions.
+        credential_bindings (Union[Unset, list['CredentialBinding']]): Sandbox-scoped credential bindings that can be
+            referenced by egress
+            credential rules through `credentialRef`.
         webhook (Union[Unset, WebhookConfig]):
         auto_resume (Union[Unset, bool]): Sandbox-level resume gate for paused sandboxes. When false, any inbound
             request
@@ -43,7 +46,7 @@ class SandboxConfig:
     env_vars: Union[Unset, "SandboxConfigEnvVars"] = UNSET
     ttl: Union[Unset, int] = UNSET
     hard_ttl: Union[Unset, int] = UNSET
-    network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
+    network: Union[Unset, "TplSandboxNetworkPolicy"] = UNSET
     credential_bindings: Union[Unset, list["CredentialBinding"]] = UNSET
     webhook: Union[Unset, "WebhookConfig"] = UNSET
     auto_resume: Union[Unset, bool] = True
@@ -110,7 +113,7 @@ class SandboxConfig:
         from ..models.credential_binding import CredentialBinding
         from ..models.exposed_port_config import ExposedPortConfig
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
         from ..models.webhook_config import WebhookConfig
 
         d = dict(src_dict)
@@ -126,11 +129,11 @@ class SandboxConfig:
         hard_ttl = d.pop("hard_ttl", UNSET)
 
         _network = d.pop("network", UNSET)
-        network: Union[Unset, SandboxNetworkPolicy]
+        network: Union[Unset, TplSandboxNetworkPolicy]
         if isinstance(_network, Unset):
             network = UNSET
         else:
-            network = SandboxNetworkPolicy.from_dict(_network)
+            network = TplSandboxNetworkPolicy.from_dict(_network)
 
         credential_bindings = []
         _credential_bindings = d.pop("credential_bindings", UNSET)
