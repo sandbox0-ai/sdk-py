@@ -73,7 +73,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """Delete a region from the global directory
+    """Delete a region from the global gateway
 
     Args:
         id (str):
@@ -102,7 +102,7 @@ def sync(
     *,
     client: AuthenticatedClient,
 ) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """Delete a region from the global directory
+    """Delete a region from the global gateway
 
     Args:
         id (str):
@@ -126,7 +126,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """Delete a region from the global directory
+    """Delete a region from the global gateway
 
     Args:
         id (str):
@@ -153,7 +153,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 ) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """Delete a region from the global directory
+    """Delete a region from the global gateway
 
     Args:
         id (str):

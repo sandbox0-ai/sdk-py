@@ -19,13 +19,13 @@ class UpdateRegionRequest:
     """
     Attributes:
         display_name (Union[Unset, str]):
-        edge_gateway_url (Union[Unset, str]):
+        regional_gateway_url (Union[Unset, str]):
         metering_export_url (Union[None, Unset, str]):
         enabled (Union[Unset, bool]):
     """
 
     display_name: Union[Unset, str] = UNSET
-    edge_gateway_url: Union[Unset, str] = UNSET
+    regional_gateway_url: Union[Unset, str] = UNSET
     metering_export_url: Union[None, Unset, str] = UNSET
     enabled: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -33,7 +33,7 @@ class UpdateRegionRequest:
     def to_dict(self) -> dict[str, Any]:
         display_name = self.display_name
 
-        edge_gateway_url = self.edge_gateway_url
+        regional_gateway_url = self.regional_gateway_url
 
         metering_export_url: Union[None, Unset, str]
         if isinstance(self.metering_export_url, Unset):
@@ -48,8 +48,8 @@ class UpdateRegionRequest:
         field_dict.update({})
         if display_name is not UNSET:
             field_dict["display_name"] = display_name
-        if edge_gateway_url is not UNSET:
-            field_dict["edge_gateway_url"] = edge_gateway_url
+        if regional_gateway_url is not UNSET:
+            field_dict["regional_gateway_url"] = regional_gateway_url
         if metering_export_url is not UNSET:
             field_dict["metering_export_url"] = metering_export_url
         if enabled is not UNSET:
@@ -62,7 +62,7 @@ class UpdateRegionRequest:
         d = dict(src_dict)
         display_name = d.pop("display_name", UNSET)
 
-        edge_gateway_url = d.pop("edge_gateway_url", UNSET)
+        regional_gateway_url = d.pop("regional_gateway_url", UNSET)
 
         def _parse_metering_export_url(data: object) -> Union[None, Unset, str]:
             if data is None:
@@ -79,7 +79,7 @@ class UpdateRegionRequest:
 
         update_region_request = cls(
             display_name=display_name,
-            edge_gateway_url=edge_gateway_url,
+            regional_gateway_url=regional_gateway_url,
             metering_export_url=metering_export_url,
             enabled=enabled,
         )

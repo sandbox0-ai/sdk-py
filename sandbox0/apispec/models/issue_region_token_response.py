@@ -21,13 +21,13 @@ class IssueRegionTokenResponse:
         region_id (str):
         token (str):
         expires_at (int):
-        edge_gateway_url (Union[None, Unset, str]):
+        regional_gateway_url (Union[None, Unset, str]):
     """
 
     region_id: str
     token: str
     expires_at: int
-    edge_gateway_url: Union[None, Unset, str] = UNSET
+    regional_gateway_url: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -37,11 +37,11 @@ class IssueRegionTokenResponse:
 
         expires_at = self.expires_at
 
-        edge_gateway_url: Union[None, Unset, str]
-        if isinstance(self.edge_gateway_url, Unset):
-            edge_gateway_url = UNSET
+        regional_gateway_url: Union[None, Unset, str]
+        if isinstance(self.regional_gateway_url, Unset):
+            regional_gateway_url = UNSET
         else:
-            edge_gateway_url = self.edge_gateway_url
+            regional_gateway_url = self.regional_gateway_url
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -52,8 +52,8 @@ class IssueRegionTokenResponse:
                 "expires_at": expires_at,
             }
         )
-        if edge_gateway_url is not UNSET:
-            field_dict["edge_gateway_url"] = edge_gateway_url
+        if regional_gateway_url is not UNSET:
+            field_dict["regional_gateway_url"] = regional_gateway_url
 
         return field_dict
 
@@ -66,20 +66,22 @@ class IssueRegionTokenResponse:
 
         expires_at = d.pop("expires_at")
 
-        def _parse_edge_gateway_url(data: object) -> Union[None, Unset, str]:
+        def _parse_regional_gateway_url(data: object) -> Union[None, Unset, str]:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(Union[None, Unset, str], data)
 
-        edge_gateway_url = _parse_edge_gateway_url(d.pop("edge_gateway_url", UNSET))
+        regional_gateway_url = _parse_regional_gateway_url(
+            d.pop("regional_gateway_url", UNSET)
+        )
 
         issue_region_token_response = cls(
             region_id=region_id,
             token=token,
             expires_at=expires_at,
-            edge_gateway_url=edge_gateway_url,
+            regional_gateway_url=regional_gateway_url,
         )
 
         issue_region_token_response.additional_properties = d

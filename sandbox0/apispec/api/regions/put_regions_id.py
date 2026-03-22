@@ -84,7 +84,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: UpdateRegionRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Update a region in the global directory
+    """Update a region in the global gateway
 
     Args:
         id (str):
@@ -116,7 +116,7 @@ def sync(
     client: AuthenticatedClient,
     body: UpdateRegionRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Update a region in the global directory
+    """Update a region in the global gateway
 
     Args:
         id (str):
@@ -143,7 +143,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: UpdateRegionRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Update a region in the global directory
+    """Update a region in the global gateway
 
     Args:
         id (str):
@@ -173,7 +173,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: UpdateRegionRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Update a region in the global directory
+    """Update a region in the global gateway
 
     Args:
         id (str):

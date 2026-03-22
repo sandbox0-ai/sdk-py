@@ -23,7 +23,7 @@ class ActiveTeam:
         home_region_id (str):
         team_role (Union[Unset, str]):
         default_team (Union[Unset, bool]):
-        edge_gateway_url (Union[None, Unset, str]):
+        regional_gateway_url (Union[None, Unset, str]):
     """
 
     user_id: str
@@ -31,7 +31,7 @@ class ActiveTeam:
     home_region_id: str
     team_role: Union[Unset, str] = UNSET
     default_team: Union[Unset, bool] = UNSET
-    edge_gateway_url: Union[None, Unset, str] = UNSET
+    regional_gateway_url: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -45,11 +45,11 @@ class ActiveTeam:
 
         default_team = self.default_team
 
-        edge_gateway_url: Union[None, Unset, str]
-        if isinstance(self.edge_gateway_url, Unset):
-            edge_gateway_url = UNSET
+        regional_gateway_url: Union[None, Unset, str]
+        if isinstance(self.regional_gateway_url, Unset):
+            regional_gateway_url = UNSET
         else:
-            edge_gateway_url = self.edge_gateway_url
+            regional_gateway_url = self.regional_gateway_url
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -64,8 +64,8 @@ class ActiveTeam:
             field_dict["team_role"] = team_role
         if default_team is not UNSET:
             field_dict["default_team"] = default_team
-        if edge_gateway_url is not UNSET:
-            field_dict["edge_gateway_url"] = edge_gateway_url
+        if regional_gateway_url is not UNSET:
+            field_dict["regional_gateway_url"] = regional_gateway_url
 
         return field_dict
 
@@ -82,14 +82,16 @@ class ActiveTeam:
 
         default_team = d.pop("default_team", UNSET)
 
-        def _parse_edge_gateway_url(data: object) -> Union[None, Unset, str]:
+        def _parse_regional_gateway_url(data: object) -> Union[None, Unset, str]:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(Union[None, Unset, str], data)
 
-        edge_gateway_url = _parse_edge_gateway_url(d.pop("edge_gateway_url", UNSET))
+        regional_gateway_url = _parse_regional_gateway_url(
+            d.pop("regional_gateway_url", UNSET)
+        )
 
         active_team = cls(
             user_id=user_id,
@@ -97,7 +99,7 @@ class ActiveTeam:
             home_region_id=home_region_id,
             team_role=team_role,
             default_team=default_team,
-            edge_gateway_url=edge_gateway_url,
+            regional_gateway_url=regional_gateway_url,
         )
 
         active_team.additional_properties = d

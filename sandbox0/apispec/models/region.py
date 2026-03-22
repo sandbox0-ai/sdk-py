@@ -19,14 +19,14 @@ class Region:
     """
     Attributes:
         id (str):
-        edge_gateway_url (str):
+        regional_gateway_url (str):
         enabled (bool):
         display_name (Union[Unset, str]):
         metering_export_url (Union[None, Unset, str]):
     """
 
     id: str
-    edge_gateway_url: str
+    regional_gateway_url: str
     enabled: bool
     display_name: Union[Unset, str] = UNSET
     metering_export_url: Union[None, Unset, str] = UNSET
@@ -35,7 +35,7 @@ class Region:
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
-        edge_gateway_url = self.edge_gateway_url
+        regional_gateway_url = self.regional_gateway_url
 
         enabled = self.enabled
 
@@ -52,7 +52,7 @@ class Region:
         field_dict.update(
             {
                 "id": id,
-                "edge_gateway_url": edge_gateway_url,
+                "regional_gateway_url": regional_gateway_url,
                 "enabled": enabled,
             }
         )
@@ -68,7 +68,7 @@ class Region:
         d = dict(src_dict)
         id = d.pop("id")
 
-        edge_gateway_url = d.pop("edge_gateway_url")
+        regional_gateway_url = d.pop("regional_gateway_url")
 
         enabled = d.pop("enabled")
 
@@ -87,7 +87,7 @@ class Region:
 
         region = cls(
             id=id,
-            edge_gateway_url=edge_gateway_url,
+            regional_gateway_url=regional_gateway_url,
             enabled=enabled,
             display_name=display_name,
             metering_export_url=metering_export_url,

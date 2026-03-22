@@ -5,8 +5,8 @@ from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_config_env_vars import SandboxConfigEnvVars
 from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
-from sandbox0.apispec.models.tpl_sandbox_network_policy import TplSandboxNetworkPolicy
-from sandbox0.apispec.models.tpl_sandbox_network_policy_mode import TplSandboxNetworkPolicyMode
+from sandbox0.apispec.models.sandbox_network_policy import SandboxNetworkPolicy
+from sandbox0.apispec.models.sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from sandbox0.apispec.models.webhook_config import WebhookConfig
 from sandbox0.sessions import SandboxSession
 
@@ -26,7 +26,7 @@ class TestSandboxes(unittest.TestCase):
             ttl=300,
             hard_ttl=600,
             auto_resume=True,
-            network=TplSandboxNetworkPolicy(mode=TplSandboxNetworkPolicyMode.ALLOW_ALL),
+            network=SandboxNetworkPolicy(mode=SandboxNetworkPolicyMode.ALLOW_ALL),
             webhook=WebhookConfig(url="https://example.com/webhook", secret="secret", watch_dir="/workspace"),
         )
 

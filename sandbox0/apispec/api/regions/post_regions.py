@@ -80,7 +80,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: CreateRegionRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Create a region in the global directory
+    """Create a region in the global gateway
 
     Args:
         body (CreateRegionRequest):
@@ -109,7 +109,7 @@ def sync(
     client: AuthenticatedClient,
     body: CreateRegionRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Create a region in the global directory
+    """Create a region in the global gateway
 
     Args:
         body (CreateRegionRequest):
@@ -133,7 +133,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: CreateRegionRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Create a region in the global directory
+    """Create a region in the global gateway
 
     Args:
         body (CreateRegionRequest):
@@ -160,7 +160,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: CreateRegionRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegionResponse]]:
-    """Create a region in the global directory
+    """Create a region in the global gateway
 
     Args:
         body (CreateRegionRequest):

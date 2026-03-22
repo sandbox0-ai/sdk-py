@@ -58,7 +58,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessRegionListResponse]]:
-    """List regions in the global directory
+    """List regions in the global gateway
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -81,7 +81,7 @@ def sync(
     *,
     client: AuthenticatedClient,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegionListResponse]]:
-    """List regions in the global directory
+    """List regions in the global gateway
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,7 +100,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessRegionListResponse]]:
-    """List regions in the global directory
+    """List regions in the global gateway
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -121,7 +121,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegionListResponse]]:
-    """List regions in the global directory
+    """List regions in the global gateway
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
