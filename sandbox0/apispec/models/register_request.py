@@ -1,8 +1,15 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="RegisterRequest")
 
@@ -14,11 +21,14 @@ class RegisterRequest:
         email (str):
         password (str):
         name (str):
+        home_region_id (Union[None, Unset, str]): Required in global-gateway mode because registration creates the
+            user's default team.
     """
 
     email: str
     password: str
     name: str
+    home_region_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -27,6 +37,12 @@ class RegisterRequest:
         password = self.password
 
         name = self.name
+
+        home_region_id: Union[None, Unset, str]
+        if isinstance(self.home_region_id, Unset):
+            home_region_id = UNSET
+        else:
+            home_region_id = self.home_region_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -37,6 +53,8 @@ class RegisterRequest:
                 "name": name,
             }
         )
+        if home_region_id is not UNSET:
+            field_dict["home_region_id"] = home_region_id
 
         return field_dict
 
@@ -49,10 +67,20 @@ class RegisterRequest:
 
         name = d.pop("name")
 
+        def _parse_home_region_id(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        home_region_id = _parse_home_region_id(d.pop("home_region_id", UNSET))
+
         register_request = cls(
             email=email,
             password=password,
             name=name,
+            home_region_id=home_region_id,
         )
 
         register_request.additional_properties = d
