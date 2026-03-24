@@ -11,11 +11,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="IssueRegionTokenResponse")
+T = TypeVar("T", bound="RegionalSession")
 
 
 @_attrs_define
-class IssueRegionTokenResponse:
+class RegionalSession:
     """
     Attributes:
         region_id (str):
@@ -77,15 +77,15 @@ class IssueRegionTokenResponse:
             d.pop("regional_gateway_url", UNSET)
         )
 
-        issue_region_token_response = cls(
+        regional_session = cls(
             region_id=region_id,
             token=token,
             expires_at=expires_at,
             regional_gateway_url=regional_gateway_url,
         )
 
-        issue_region_token_response.additional_properties = d
-        return issue_region_token_response
+        regional_session.additional_properties = d
+        return regional_session
 
     @property
     def additional_keys(self) -> list[str]:

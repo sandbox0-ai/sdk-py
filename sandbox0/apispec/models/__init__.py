@@ -73,11 +73,12 @@ from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAc
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_volume_request import ForkVolumeRequest
+from .gateway_metadata import GatewayMetadata
+from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from .http_headers_projection import HTTPHeadersProjection
 from .identity import Identity
 from .issue_region_token_request import IssueRegionTokenRequest
-from .issue_region_token_response import IssueRegionTokenResponse
 from .label_selector import LabelSelector
 from .label_selector_match_labels import LabelSelectorMatchLabels
 from .label_selector_requirement import LabelSelectorRequirement
@@ -112,6 +113,7 @@ from .pty_size import PTYSize
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
 from .region import Region
+from .regional_session import RegionalSession
 from .register_request import RegisterRequest
 from .registry_credentials import RegistryCredentials
 from .repl_config import REPLConfig
@@ -176,6 +178,7 @@ from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
 from .success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
 from .success_file_stat_response import SuccessFileStatResponse
+from .success_gateway_metadata_response import SuccessGatewayMetadataResponse
 from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
 from .success_identity_list_response import SuccessIdentityListResponse
@@ -323,11 +326,12 @@ __all__ = (
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
     "ForkVolumeRequest",
+    "GatewayMetadata",
+    "GatewayMetadataGatewayMode",
     "GetApiV1SandboxesStatus",
     "HTTPHeadersProjection",
     "Identity",
     "IssueRegionTokenRequest",
-    "IssueRegionTokenResponse",
     "LabelSelector",
     "LabelSelectorMatchLabels",
     "LabelSelectorRequirement",
@@ -362,6 +366,7 @@ __all__ = (
     "RefreshRequest",
     "RefreshResponse",
     "Region",
+    "RegionalSession",
     "RegisterRequest",
     "RegistryCredentials",
     "REPLConfig",
@@ -424,6 +429,7 @@ __all__ = (
     "SuccessFileReadResponse",
     "SuccessFileReadResponseDataType1",
     "SuccessFileStatResponse",
+    "SuccessGatewayMetadataResponse",
     "SuccessHealthResponse",
     "SuccessHealthResponseData",
     "SuccessIdentityListResponse",

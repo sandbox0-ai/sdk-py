@@ -12,22 +12,22 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.regional_session import RegionalSession
+    from ..models.gateway_metadata import GatewayMetadata
 
 
-T = TypeVar("T", bound="SuccessIssueRegionTokenResponse")
+T = TypeVar("T", bound="SuccessGatewayMetadataResponse")
 
 
 @_attrs_define
-class SuccessIssueRegionTokenResponse:
+class SuccessGatewayMetadataResponse:
     """
     Attributes:
         success (bool):
-        data (Union[Unset, RegionalSession]):
+        data (Union[Unset, GatewayMetadata]):
     """
 
     success: bool
-    data: Union[Unset, "RegionalSession"] = UNSET
+    data: Union[Unset, "GatewayMetadata"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,25 +51,25 @@ class SuccessIssueRegionTokenResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.regional_session import RegionalSession
+        from ..models.gateway_metadata import GatewayMetadata
 
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, RegionalSession]
+        data: Union[Unset, GatewayMetadata]
         if isinstance(_data, Unset):
             data = UNSET
         else:
-            data = RegionalSession.from_dict(_data)
+            data = GatewayMetadata.from_dict(_data)
 
-        success_issue_region_token_response = cls(
+        success_gateway_metadata_response = cls(
             success=success,
             data=data,
         )
 
-        success_issue_region_token_response.additional_properties = d
-        return success_issue_region_token_response
+        success_gateway_metadata_response.additional_properties = d
+        return success_gateway_metadata_response
 
     @property
     def additional_keys(self) -> list[str]:
