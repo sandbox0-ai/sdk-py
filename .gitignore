@@ -28,6 +28,7 @@ htmlcov/
 .vscode/
 *.swp
 *.swo
+fswatch-sh.sh
 
 # OS files
 .DS_Store
