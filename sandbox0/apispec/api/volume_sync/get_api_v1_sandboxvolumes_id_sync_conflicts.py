@@ -5,48 +5,44 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.error_envelope import ErrorEnvelope
-from ...models.success_user_response import SuccessUserResponse
-from ...models.update_user_request import UpdateUserRequest
-from ...types import Response
+from ...models.success_volume_sync_conflict_list_response import (
+    SuccessVolumeSyncConflictListResponse,
+)
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
+    id: str,
     *,
-    body: UpdateUserRequest,
+    status: Union[Unset, str] = UNSET,
+    limit: Union[Unset, int] = 256,
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
+    params: dict[str, Any] = {}
+
+    params["status"] = status
+
+    params["limit"] = limit
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
-        "method": "put",
-        "url": "/tenant/active",
+        "method": "get",
+        "url": "/api/v1/sandboxvolumes/{id}/sync/conflicts".format(
+            id=id,
+        ),
+        "params": params,
     }
 
-    _kwargs["json"] = body.to_dict()
-
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessUserResponse]]:
+) -> Optional[SuccessVolumeSyncConflictListResponse]:
     if response.status_code == 200:
-        response_200 = SuccessUserResponse.from_dict(response.json())
+        response_200 = SuccessVolumeSyncConflictListResponse.from_dict(response.json())
 
         return response_200
-
-    if response.status_code == 400:
-        response_400 = ErrorEnvelope.from_dict(response.json())
-
-        return response_400
-
-    if response.status_code == 401:
-        response_401 = ErrorEnvelope.from_dict(response.json())
-
-        return response_401
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -56,7 +52,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessUserResponse]]:
+) -> Response[SuccessVolumeSyncConflictListResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -66,25 +62,31 @@ def _build_response(
 
 
 def sync_detailed(
+    id: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Response[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    status: Union[Unset, str] = UNSET,
+    limit: Union[Unset, int] = 256,
+) -> Response[SuccessVolumeSyncConflictListResponse]:
+    """List volume sync conflicts
 
     Args:
-        body (UpdateUserRequest):
+        id (str):
+        status (Union[Unset, str]):
+        limit (Union[Unset, int]):  Default: 256.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessUserResponse]]
+        Response[SuccessVolumeSyncConflictListResponse]
     """
 
     kwargs = _get_kwargs(
-        body=body,
+        id=id,
+        status=status,
+        limit=limit,
     )
 
     response = client.get_httpx_client().request(
@@ -95,49 +97,61 @@ def sync_detailed(
 
 
 def sync(
+    id: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Optional[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    status: Union[Unset, str] = UNSET,
+    limit: Union[Unset, int] = 256,
+) -> Optional[SuccessVolumeSyncConflictListResponse]:
+    """List volume sync conflicts
 
     Args:
-        body (UpdateUserRequest):
+        id (str):
+        status (Union[Unset, str]):
+        limit (Union[Unset, int]):  Default: 256.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessUserResponse]
+        SuccessVolumeSyncConflictListResponse
     """
 
     return sync_detailed(
+        id=id,
         client=client,
-        body=body,
+        status=status,
+        limit=limit,
     ).parsed
 
 
 async def asyncio_detailed(
+    id: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Response[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    status: Union[Unset, str] = UNSET,
+    limit: Union[Unset, int] = 256,
+) -> Response[SuccessVolumeSyncConflictListResponse]:
+    """List volume sync conflicts
 
     Args:
-        body (UpdateUserRequest):
+        id (str):
+        status (Union[Unset, str]):
+        limit (Union[Unset, int]):  Default: 256.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessUserResponse]]
+        Response[SuccessVolumeSyncConflictListResponse]
     """
 
     kwargs = _get_kwargs(
-        body=body,
+        id=id,
+        status=status,
+        limit=limit,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -146,26 +160,32 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    id: str,
     *,
     client: AuthenticatedClient,
-    body: UpdateUserRequest,
-) -> Optional[Union[ErrorEnvelope, SuccessUserResponse]]:
-    """Update current user
+    status: Union[Unset, str] = UNSET,
+    limit: Union[Unset, int] = 256,
+) -> Optional[SuccessVolumeSyncConflictListResponse]:
+    """List volume sync conflicts
 
     Args:
-        body (UpdateUserRequest):
+        id (str):
+        status (Union[Unset, str]):
+        limit (Union[Unset, int]):  Default: 256.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessUserResponse]
+        SuccessVolumeSyncConflictListResponse
     """
 
     return (
         await asyncio_detailed(
+            id=id,
             client=client,
-            body=body,
+            status=status,
+            limit=limit,
         )
     ).parsed
