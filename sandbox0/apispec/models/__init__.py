@@ -5,10 +5,15 @@ from .add_team_member_request import AddTeamMemberRequest
 from .add_team_member_request_role import AddTeamMemberRequestRole
 from .affinity import Affinity
 from .api_key import APIKey
+from .append_replica_changes_request import AppendReplicaChangesRequest
+from .append_replica_changes_response import AppendReplicaChangesResponse
 from .auth_provider import AuthProvider
 from .cache_policy_spec import CachePolicySpec
 from .capabilities import Capabilities
 from .change_password_request import ChangePasswordRequest
+from .change_request import ChangeRequest
+from .change_request_entry_kind import ChangeRequestEntryKind
+from .change_request_metadata import ChangeRequestMetadata
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
 from .container_spec import ContainerSpec
@@ -40,6 +45,7 @@ from .create_repl_context_request import CreateREPLContextRequest
 from .create_sandbox_volume_request import CreateSandboxVolumeRequest
 from .create_snapshot_request import CreateSnapshotRequest
 from .create_team_request import CreateTeamRequest
+from .create_volume_sync_bootstrap_request import CreateVolumeSyncBootstrapRequest
 from .credential_binding import CredentialBinding
 from .credential_projection_type import CredentialProjectionType
 from .credential_source_metadata import CredentialSourceMetadata
@@ -83,6 +89,8 @@ from .label_selector import LabelSelector
 from .label_selector_match_labels import LabelSelectorMatchLabels
 from .label_selector_requirement import LabelSelectorRequirement
 from .lifecycle_policy import LifecyclePolicy
+from .list_volume_sync_changes_response import ListVolumeSyncChangesResponse
+from .list_volume_sync_conflicts_response import ListVolumeSyncConflictsResponse
 from .login_request import LoginRequest
 from .login_response import LoginResponse
 from .mount_request import MountRequest
@@ -122,6 +130,10 @@ from .repl_prompt_config import REPLPromptConfig
 from .repl_ready_config import REPLReadyConfig
 from .repl_ready_mode import REPLReadyMode
 from .resize_context_request import ResizeContextRequest
+from .resolve_volume_sync_conflict_request import ResolveVolumeSyncConflictRequest
+from .resolve_volume_sync_conflict_request_status import (
+    ResolveVolumeSyncConflictRequestStatus,
+)
 from .resource_quota import ResourceQuota
 from .resource_usage import ResourceUsage
 from .resume_sandbox_response import ResumeSandboxResponse
@@ -226,8 +238,26 @@ from .success_template_response import SuccessTemplateResponse
 from .success_unmounted_response import SuccessUnmountedResponse
 from .success_unmounted_response_data import SuccessUnmountedResponseData
 from .success_user_response import SuccessUserResponse
+from .success_volume_sync_append_response import SuccessVolumeSyncAppendResponse
+from .success_volume_sync_bootstrap_response import SuccessVolumeSyncBootstrapResponse
+from .success_volume_sync_change_list_response import (
+    SuccessVolumeSyncChangeListResponse,
+)
+from .success_volume_sync_conflict_list_response import (
+    SuccessVolumeSyncConflictListResponse,
+)
+from .success_volume_sync_conflict_response import SuccessVolumeSyncConflictResponse
+from .success_volume_sync_replica_response import SuccessVolumeSyncReplicaResponse
 from .success_written_response import SuccessWrittenResponse
 from .success_written_response_data import SuccessWrittenResponseData
+from .sync_conflict import SyncConflict
+from .sync_conflict_metadata_type_0 import SyncConflictMetadataType0
+from .sync_event_type import SyncEventType
+from .sync_journal_entry import SyncJournalEntry
+from .sync_journal_entry_entry_kind import SyncJournalEntryEntryKind
+from .sync_journal_entry_metadata_type_0 import SyncJournalEntryMetadataType0
+from .sync_journal_entry_source import SyncJournalEntrySource
+from .sync_replica import SyncReplica
 from .team import Team
 from .team_member import TeamMember
 from .template import Template
@@ -241,14 +271,42 @@ from .traffic_rule_app_protocol import TrafficRuleAppProtocol
 from .unmount_request import UnmountRequest
 from .update_exposed_ports_request import UpdateExposedPortsRequest
 from .update_region_request import UpdateRegionRequest
+from .update_sync_replica_cursor_request import UpdateSyncReplicaCursorRequest
 from .update_team_member_request import UpdateTeamMemberRequest
 from .update_team_member_request_role import UpdateTeamMemberRequestRole
 from .update_team_request import UpdateTeamRequest
 from .update_user_request import UpdateUserRequest
+from .upsert_sync_replica_request import UpsertSyncReplicaRequest
 from .user import User
 from .username_password_projection import UsernamePasswordProjection
 from .volume_access_mode import VolumeAccessMode
 from .volume_config import VolumeConfig
+from .volume_sync_bootstrap import VolumeSyncBootstrap
+from .volume_sync_bootstrap_compatibility_conflict_details import (
+    VolumeSyncBootstrapCompatibilityConflictDetails,
+)
+from .volume_sync_bootstrap_compatibility_conflict_details_reason import (
+    VolumeSyncBootstrapCompatibilityConflictDetailsReason,
+)
+from .volume_sync_bootstrap_conflict_error_envelope import (
+    VolumeSyncBootstrapConflictErrorEnvelope,
+)
+from .volume_sync_bootstrap_conflict_error_envelope_error import (
+    VolumeSyncBootstrapConflictErrorEnvelopeError,
+)
+from .volume_sync_compatibility_issue import VolumeSyncCompatibilityIssue
+from .volume_sync_filesystem_capabilities import VolumeSyncFilesystemCapabilities
+from .volume_sync_replica_envelope import VolumeSyncReplicaEnvelope
+from .volume_sync_reseed_required_details import VolumeSyncReseedRequiredDetails
+from .volume_sync_reseed_required_details_reason import (
+    VolumeSyncReseedRequiredDetailsReason,
+)
+from .volume_sync_reseed_required_error_envelope import (
+    VolumeSyncReseedRequiredErrorEnvelope,
+)
+from .volume_sync_reseed_required_error_envelope_error import (
+    VolumeSyncReseedRequiredErrorEnvelopeError,
+)
 from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
@@ -258,10 +316,15 @@ __all__ = (
     "AddTeamMemberRequestRole",
     "Affinity",
     "APIKey",
+    "AppendReplicaChangesRequest",
+    "AppendReplicaChangesResponse",
     "AuthProvider",
     "CachePolicySpec",
     "Capabilities",
     "ChangePasswordRequest",
+    "ChangeRequest",
+    "ChangeRequestEntryKind",
+    "ChangeRequestMetadata",
     "ClaimRequest",
     "ClaimResponse",
     "ContainerSpec",
@@ -293,6 +356,7 @@ __all__ = (
     "CreateSandboxVolumeRequest",
     "CreateSnapshotRequest",
     "CreateTeamRequest",
+    "CreateVolumeSyncBootstrapRequest",
     "CredentialBinding",
     "CredentialProjectionType",
     "CredentialSourceMetadata",
@@ -336,6 +400,8 @@ __all__ = (
     "LabelSelectorMatchLabels",
     "LabelSelectorRequirement",
     "LifecyclePolicy",
+    "ListVolumeSyncChangesResponse",
+    "ListVolumeSyncConflictsResponse",
     "LoginRequest",
     "LoginResponse",
     "MountRequest",
@@ -375,6 +441,8 @@ __all__ = (
     "REPLReadyConfig",
     "REPLReadyMode",
     "ResizeContextRequest",
+    "ResolveVolumeSyncConflictRequest",
+    "ResolveVolumeSyncConflictRequestStatus",
     "ResourceQuota",
     "ResourceUsage",
     "ResumeSandboxResponse",
@@ -477,8 +545,22 @@ __all__ = (
     "SuccessUnmountedResponse",
     "SuccessUnmountedResponseData",
     "SuccessUserResponse",
+    "SuccessVolumeSyncAppendResponse",
+    "SuccessVolumeSyncBootstrapResponse",
+    "SuccessVolumeSyncChangeListResponse",
+    "SuccessVolumeSyncConflictListResponse",
+    "SuccessVolumeSyncConflictResponse",
+    "SuccessVolumeSyncReplicaResponse",
     "SuccessWrittenResponse",
     "SuccessWrittenResponseData",
+    "SyncConflict",
+    "SyncConflictMetadataType0",
+    "SyncEventType",
+    "SyncJournalEntry",
+    "SyncJournalEntryEntryKind",
+    "SyncJournalEntryMetadataType0",
+    "SyncJournalEntrySource",
+    "SyncReplica",
     "Team",
     "TeamMember",
     "Template",
@@ -492,14 +574,28 @@ __all__ = (
     "UnmountRequest",
     "UpdateExposedPortsRequest",
     "UpdateRegionRequest",
+    "UpdateSyncReplicaCursorRequest",
     "UpdateTeamMemberRequest",
     "UpdateTeamMemberRequestRole",
     "UpdateTeamRequest",
     "UpdateUserRequest",
+    "UpsertSyncReplicaRequest",
     "User",
     "UsernamePasswordProjection",
     "VolumeAccessMode",
     "VolumeConfig",
+    "VolumeSyncBootstrap",
+    "VolumeSyncBootstrapCompatibilityConflictDetails",
+    "VolumeSyncBootstrapCompatibilityConflictDetailsReason",
+    "VolumeSyncBootstrapConflictErrorEnvelope",
+    "VolumeSyncBootstrapConflictErrorEnvelopeError",
+    "VolumeSyncCompatibilityIssue",
+    "VolumeSyncFilesystemCapabilities",
+    "VolumeSyncReplicaEnvelope",
+    "VolumeSyncReseedRequiredDetails",
+    "VolumeSyncReseedRequiredDetailsReason",
+    "VolumeSyncReseedRequiredErrorEnvelope",
+    "VolumeSyncReseedRequiredErrorEnvelopeError",
     "WebhookConfig",
     "WeightedPodAffinityTerm",
 )
