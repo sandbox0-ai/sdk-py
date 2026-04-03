@@ -13,15 +13,30 @@ from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapsho
 from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapshots_snapshot_id_restore
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
+from sandbox0.apispec.models.file_info import FileInfo
 from sandbox0.apispec.models.sandbox_volume import SandboxVolume
 from sandbox0.apispec.models.snapshot import Snapshot
+from sandbox0.apispec.models.success_created_response import SuccessCreatedResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
+from sandbox0.apispec.models.success_moved_response import SuccessMovedResponse
 from sandbox0.apispec.models.success_restore_response import SuccessRestoreResponse
 from sandbox0.apispec.models.success_sandbox_volume_list_response import SuccessSandboxVolumeListResponse
 from sandbox0.apispec.models.success_sandbox_volume_response import SuccessSandboxVolumeResponse
 from sandbox0.apispec.models.success_snapshot_list_response import SuccessSnapshotListResponse
 from sandbox0.apispec.models.success_snapshot_response import SuccessSnapshotResponse
+from sandbox0.apispec.models.success_written_response import SuccessWrittenResponse
 from sandbox0.response import ensure_data, ensure_model
+from sandbox0.sandbox_files import FileWatchStream
+from sandbox0.volume_files import (
+    delete_volume_file,
+    list_volume_files,
+    mkdir_volume_file,
+    move_volume_file,
+    read_volume_file,
+    stat_volume_file,
+    watch_volume_files,
+    write_volume_file,
+)
 
 if TYPE_CHECKING:
     from sandbox0.client import Client
@@ -83,3 +98,27 @@ class ClientVolumesMixin:
             client=self._api,
         )
         return ensure_model(resp, SuccessRestoreResponse)
+
+    def read_volume_file(self: "Client", volume_id: str, path: str) -> bytes:  # type: ignore[misc]
+        return read_volume_file(self, volume_id, path)
+
+    def stat_volume_file(self: "Client", volume_id: str, path: str) -> FileInfo:  # type: ignore[misc]
+        return stat_volume_file(self, volume_id, path)
+
+    def list_volume_files(self: "Client", volume_id: str, path: str) -> list[FileInfo]:  # type: ignore[misc]
+        return list_volume_files(self, volume_id, path)
+
+    def write_volume_file(self: "Client", volume_id: str, path: str, data: bytes) -> SuccessWrittenResponse:  # type: ignore[misc]
+        return write_volume_file(self, volume_id, path, data)
+
+    def mkdir_volume_file(self: "Client", volume_id: str, path: str, recursive: bool = False) -> SuccessCreatedResponse:  # type: ignore[misc]
+        return mkdir_volume_file(self, volume_id, path, recursive)
+
+    def delete_volume_file(self: "Client", volume_id: str, path: str) -> SuccessDeletedResponse:  # type: ignore[misc]
+        return delete_volume_file(self, volume_id, path)
+
+    def move_volume_file(self: "Client", volume_id: str, source: str, destination: str) -> SuccessMovedResponse:  # type: ignore[misc]
+        return move_volume_file(self, volume_id, source, destination)
+
+    def watch_volume_files(self: "Client", volume_id: str, path: str, recursive: bool = False) -> FileWatchStream:  # type: ignore[misc]
+        return watch_volume_files(self, volume_id, path, recursive)

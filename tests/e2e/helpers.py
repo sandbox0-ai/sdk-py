@@ -56,19 +56,22 @@ def require_config(testcase) -> E2EConfig:
 
 def login_with_retry(cfg: E2EConfig, timeout_sec: int = 180) -> str:
     api_client = APIClient(base_url=cfg.base_url)
-    deadline = time.monotonic() + timeout_sec
-    last_error: Optional[Exception] = None
-    while time.monotonic() < deadline:
-        try:
-            token = login_once(api_client, cfg)
-            if token:
-                return token
-        except Exception as exc:
-            last_error = exc
-        time.sleep(5)
-    if last_error is None:
-        raise RuntimeError("login timed out without error")
-    raise last_error
+    try:
+        deadline = time.monotonic() + timeout_sec
+        last_error: Optional[Exception] = None
+        while time.monotonic() < deadline:
+            try:
+                token = login_once(api_client, cfg)
+                if token:
+                    return token
+            except Exception as exc:
+                last_error = exc
+            time.sleep(5)
+        if last_error is None:
+            raise RuntimeError("login timed out without error")
+        raise last_error
+    finally:
+        api_client.get_httpx_client().close()
 
 
 def login_once(api_client: APIClient, cfg: E2EConfig) -> str:
