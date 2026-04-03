@@ -24,6 +24,7 @@ from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapsho
 from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
+from sandbox0.apispec.models.file_info import FileInfo
 from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
 from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
@@ -38,8 +39,10 @@ from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.sandbox_volume import SandboxVolume
 from sandbox0.apispec.models.snapshot import Snapshot
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
+from sandbox0.apispec.models.success_created_response import SuccessCreatedResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
+from sandbox0.apispec.models.success_moved_response import SuccessMovedResponse
 from sandbox0.apispec.models.success_pause_sandbox_response import SuccessPauseSandboxResponse
 from sandbox0.apispec.models.success_refresh_response import SuccessRefreshResponse
 from sandbox0.apispec.models.success_resume_sandbox_response import SuccessResumeSandboxResponse
@@ -51,9 +54,21 @@ from sandbox0.apispec.models.success_sandbox_volume_list_response import Success
 from sandbox0.apispec.models.success_sandbox_volume_response import SuccessSandboxVolumeResponse
 from sandbox0.apispec.models.success_snapshot_list_response import SuccessSnapshotListResponse
 from sandbox0.apispec.models.success_snapshot_response import SuccessSnapshotResponse
+from sandbox0.apispec.models.success_written_response import SuccessWrittenResponse
 from sandbox0.apispec.types import UNSET
 from sandbox0.response import ensure_data, ensure_model
+from sandbox0.sandbox_files import FileWatchStream
 from sandbox0.sessions import SandboxSession, VolumeSession
+from sandbox0.volume_files import (
+    delete_volume_file,
+    list_volume_files,
+    mkdir_volume_file,
+    move_volume_file,
+    read_volume_file,
+    stat_volume_file,
+    watch_volume_files,
+    write_volume_file,
+)
 
 if TYPE_CHECKING:
     from sandbox0.client import Client
@@ -210,3 +225,27 @@ class Volumes:
             client=self._client.api,
         )
         return ensure_model(resp, SuccessRestoreResponse)
+
+    def read_file(self, volume_id: str, path: str) -> bytes:
+        return read_volume_file(self._client, volume_id, path)
+
+    def stat_file(self, volume_id: str, path: str) -> FileInfo:
+        return stat_volume_file(self._client, volume_id, path)
+
+    def list_files(self, volume_id: str, path: str) -> List[FileInfo]:
+        return list_volume_files(self._client, volume_id, path)
+
+    def write_file(self, volume_id: str, path: str, data: bytes) -> SuccessWrittenResponse:
+        return write_volume_file(self._client, volume_id, path, data)
+
+    def mkdir(self, volume_id: str, path: str, recursive: bool = False) -> SuccessCreatedResponse:
+        return mkdir_volume_file(self._client, volume_id, path, recursive)
+
+    def delete_file(self, volume_id: str, path: str) -> SuccessDeletedResponse:
+        return delete_volume_file(self._client, volume_id, path)
+
+    def move_file(self, volume_id: str, source: str, destination: str) -> SuccessMovedResponse:
+        return move_volume_file(self._client, volume_id, source, destination)
+
+    def watch_files(self, volume_id: str, path: str, recursive: bool = False) -> FileWatchStream:
+        return watch_volume_files(self._client, volume_id, path, recursive)

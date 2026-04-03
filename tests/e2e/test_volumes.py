@@ -5,7 +5,7 @@ from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxV
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
 from sandbox0.sessions import VolumeSession
 
-from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config
+from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config, wait_for_watch_event
 
 
 class TestVolumes(unittest.TestCase):
@@ -68,6 +68,57 @@ class TestVolumes(unittest.TestCase):
         volume = session.volume
         self.assertTrue(volume.id)
         session.close()
+
+    def test_direct_volume_file_operations(self) -> None:
+        cfg = require_config(self)
+        client = new_client(cfg)
+        self.addCleanup(close_client, client)
+
+        volume = client.volumes.create(CreateSandboxVolumeRequest())
+        self.assertTrue(volume.id)
+        deleted = False
+
+        def _cleanup() -> None:
+            if deleted:
+                return
+            try:
+                client.volumes.delete(volume.id)
+            except Exception:
+                pass
+
+        self.addCleanup(_cleanup)
+
+        base_dir = f"/sdk-py-volume-{time.time_ns()}"
+        file_path = f"{base_dir}/hello.txt"
+        moved_path = f"{base_dir}/moved.txt"
+
+        client.volumes.mkdir(volume.id, base_dir, recursive=True)
+        client.volumes.write_file(volume.id, file_path, b"hello volume")
+        client.volumes.stat_file(volume.id, file_path)
+        self.assertEqual(client.volumes.read_file(volume.id, file_path), b"hello volume")
+        entries = client.volumes.list_files(volume.id, base_dir)
+        self.assertTrue(any(entry.name == "hello.txt" for entry in entries))
+        client.volumes.move_file(volume.id, file_path, moved_path)
+
+        watch = client.volumes.watch_files(volume.id, base_dir, recursive=True)
+
+        def _cleanup_watch() -> None:
+            try:
+                watch.unsubscribe()
+            except Exception:
+                pass
+
+        self.addCleanup(_cleanup_watch)
+
+        client.volumes.write_file(volume.id, f"{base_dir}/watch.txt", b"watch")
+        event = wait_for_watch_event(watch, timeout_sec=10)
+        self.assertIsNotNone(event, "timed out waiting for volume watch event")
+        self.assertTrue(event.path)
+
+        client.volumes.delete_file(volume.id, moved_path)
+        client.volumes.delete_file(volume.id, base_dir)
+        client.volumes.delete(volume.id)
+        deleted = True
 
     def test_fork_volume_isolation(self) -> None:
         cfg = require_config(self)
