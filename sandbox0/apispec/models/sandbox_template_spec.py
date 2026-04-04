@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from ..models.pool_strategy import PoolStrategy
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
     from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+    from ..models.sidecar_container_spec import SidecarContainerSpec
 
 
 T = TypeVar("T", bound="SandboxTemplateSpec")
@@ -32,7 +33,7 @@ class SandboxTemplateSpec:
         display_name (Union[Unset, str]):
         tags (Union[Unset, list[str]]):
         main_container (Union[Unset, ContainerSpec]):
-        sidecars (Union[Unset, list['ContainerSpec']]):
+        sidecars (Union[Unset, list['SidecarContainerSpec']]):
         pod (Union[Unset, PodSpecOverride]):
         network (Union[Unset, SandboxNetworkPolicy]):
         pool (Union[Unset, PoolStrategy]):
@@ -48,7 +49,7 @@ class SandboxTemplateSpec:
     display_name: Union[Unset, str] = UNSET
     tags: Union[Unset, list[str]] = UNSET
     main_container: Union[Unset, "ContainerSpec"] = UNSET
-    sidecars: Union[Unset, list["ContainerSpec"]] = UNSET
+    sidecars: Union[Unset, list["SidecarContainerSpec"]] = UNSET
     pod: Union[Unset, "PodSpecOverride"] = UNSET
     network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     pool: Union[Unset, "PoolStrategy"] = UNSET
@@ -152,6 +153,7 @@ class SandboxTemplateSpec:
         from ..models.pool_strategy import PoolStrategy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+        from ..models.sidecar_container_spec import SidecarContainerSpec
 
         d = dict(src_dict)
         description = d.pop("description", UNSET)
@@ -170,7 +172,7 @@ class SandboxTemplateSpec:
         sidecars = []
         _sidecars = d.pop("sidecars", UNSET)
         for sidecars_item_data in _sidecars or []:
-            sidecars_item = ContainerSpec.from_dict(sidecars_item_data)
+            sidecars_item = SidecarContainerSpec.from_dict(sidecars_item_data)
 
             sidecars.append(sidecars_item)
 

@@ -60,6 +60,7 @@ from .egress_tls_mode import EgressTLSMode
 from .env_var import EnvVar
 from .error import Error
 from .error_envelope import ErrorEnvelope
+from .exec_action import ExecAction
 from .exec_candidate import ExecCandidate
 from .exposed_port_config import ExposedPortConfig
 from .file_content_response import FileContentResponse
@@ -82,6 +83,9 @@ from .fork_volume_request import ForkVolumeRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
+from .grpc_action import GRPCAction
+from .http_get_action import HTTPGetAction
+from .http_header import HTTPHeader
 from .http_headers_projection import HTTPHeadersProjection
 from .identity import Identity
 from .issue_region_token_request import IssueRegionTokenRequest
@@ -114,6 +118,7 @@ from .pool_strategy import PoolStrategy
 from .port_spec import PortSpec
 from .pre_stop_hook import PreStopHook
 from .preferred_scheduling_term import PreferredSchedulingTerm
+from .probe import Probe
 from .process_type import ProcessType
 from .projected_header import ProjectedHeader
 from .projection_spec import ProjectionSpec
@@ -156,6 +161,7 @@ from .sandbox_update_config import SandboxUpdateConfig
 from .sandbox_update_request import SandboxUpdateRequest
 from .sandbox_volume import SandboxVolume
 from .security_context import SecurityContext
+from .sidecar_container_spec import SidecarContainerSpec
 from .signal_context_request import SignalContextRequest
 from .snapshot import Snapshot
 from .static_headers_source_spec import StaticHeadersSourceSpec
@@ -258,6 +264,7 @@ from .sync_journal_entry_entry_kind import SyncJournalEntryEntryKind
 from .sync_journal_entry_metadata_type_0 import SyncJournalEntryMetadataType0
 from .sync_journal_entry_source import SyncJournalEntrySource
 from .sync_replica import SyncReplica
+from .tcp_socket_action import TCPSocketAction
 from .team import Team
 from .team_member import TeamMember
 from .template import Template
@@ -371,6 +378,7 @@ __all__ = (
     "EnvVar",
     "Error",
     "ErrorEnvelope",
+    "ExecAction",
     "ExecCandidate",
     "ExposedPortConfig",
     "FileContentResponse",
@@ -393,6 +401,9 @@ __all__ = (
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GetApiV1SandboxesStatus",
+    "GRPCAction",
+    "HTTPGetAction",
+    "HTTPHeader",
     "HTTPHeadersProjection",
     "Identity",
     "IssueRegionTokenRequest",
@@ -425,6 +436,7 @@ __all__ = (
     "PortSpec",
     "PreferredSchedulingTerm",
     "PreStopHook",
+    "Probe",
     "ProcessType",
     "ProjectedHeader",
     "ProjectionSpec",
@@ -465,6 +477,7 @@ __all__ = (
     "SandboxUpdateRequest",
     "SandboxVolume",
     "SecurityContext",
+    "SidecarContainerSpec",
     "SignalContextRequest",
     "Snapshot",
     "StaticHeadersSourceSpec",
@@ -561,6 +574,7 @@ __all__ = (
     "SyncJournalEntryMetadataType0",
     "SyncJournalEntrySource",
     "SyncReplica",
+    "TCPSocketAction",
     "Team",
     "TeamMember",
     "Template",
