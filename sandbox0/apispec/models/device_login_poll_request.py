@@ -1,50 +1,46 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="IssueRegionTokenRequest")
+T = TypeVar("T", bound="DeviceLoginPollRequest")
 
 
 @_attrs_define
-class IssueRegionTokenRequest:
+class DeviceLoginPollRequest:
     """
     Attributes:
-        team_id (Union[Unset, str]):
+        device_login_id (str):
     """
 
-    team_id: Union[Unset, str] = UNSET
+    device_login_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        team_id = self.team_id
+        device_login_id = self.device_login_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if team_id is not UNSET:
-            field_dict["team_id"] = team_id
+        field_dict.update(
+            {
+                "device_login_id": device_login_id,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        team_id = d.pop("team_id", UNSET)
+        device_login_id = d.pop("device_login_id")
 
-        issue_region_token_request = cls(
-            team_id=team_id,
+        device_login_poll_request = cls(
+            device_login_id=device_login_id,
         )
 
-        issue_region_token_request.additional_properties = d
-        return issue_region_token_request
+        device_login_poll_request.additional_properties = d
+        return device_login_poll_request
 
     @property
     def additional_keys(self) -> list[str]:

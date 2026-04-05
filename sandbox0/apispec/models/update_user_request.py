@@ -3,7 +3,6 @@ from typing import (
     Any,
     TypeVar,
     Union,
-    cast,
 )
 
 from attrs import define as _attrs_define
@@ -20,24 +19,16 @@ class UpdateUserRequest:
     Attributes:
         name (Union[Unset, str]):
         avatar_url (Union[Unset, str]):
-        default_team_id (Union[None, Unset, str]):
     """
 
     name: Union[Unset, str] = UNSET
     avatar_url: Union[Unset, str] = UNSET
-    default_team_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
 
         avatar_url = self.avatar_url
-
-        default_team_id: Union[None, Unset, str]
-        if isinstance(self.default_team_id, Unset):
-            default_team_id = UNSET
-        else:
-            default_team_id = self.default_team_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -46,8 +37,6 @@ class UpdateUserRequest:
             field_dict["name"] = name
         if avatar_url is not UNSET:
             field_dict["avatar_url"] = avatar_url
-        if default_team_id is not UNSET:
-            field_dict["default_team_id"] = default_team_id
 
         return field_dict
 
@@ -58,19 +47,9 @@ class UpdateUserRequest:
 
         avatar_url = d.pop("avatar_url", UNSET)
 
-        def _parse_default_team_id(data: object) -> Union[None, Unset, str]:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(Union[None, Unset, str], data)
-
-        default_team_id = _parse_default_team_id(d.pop("default_team_id", UNSET))
-
         update_user_request = cls(
             name=name,
             avatar_url=avatar_url,
-            default_team_id=default_team_id,
         )
 
         update_user_request.additional_properties = d

@@ -22,7 +22,7 @@ class RegisterRequest:
         password (str):
         name (str):
         home_region_id (Union[None, Unset, str]): Required in global-gateway mode because registration creates the
-            user's default team.
+            user's initial team.
     """
 
     email: str

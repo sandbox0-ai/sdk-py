@@ -1,6 +1,5 @@
 """Contains all the data models used in inputs/outputs"""
 
-from .active_team import ActiveTeam
 from .add_team_member_request import AddTeamMemberRequest
 from .add_team_member_request_role import AddTeamMemberRequestRole
 from .affinity import Affinity
@@ -52,6 +51,10 @@ from .credential_source_metadata import CredentialSourceMetadata
 from .credential_source_resolver_kind import CredentialSourceResolverKind
 from .credential_source_write_request import CredentialSourceWriteRequest
 from .credential_source_write_spec import CredentialSourceWriteSpec
+from .device_login_poll_request import DeviceLoginPollRequest
+from .device_login_poll_response import DeviceLoginPollResponse
+from .device_login_poll_response_status import DeviceLoginPollResponseStatus
+from .device_login_start_response import DeviceLoginStartResponse
 from .egress_auth_failure_policy import EgressAuthFailurePolicy
 from .egress_auth_protocol import EgressAuthProtocol
 from .egress_auth_rollout_mode import EgressAuthRolloutMode
@@ -88,7 +91,6 @@ from .http_get_action import HTTPGetAction
 from .http_header import HTTPHeader
 from .http_headers_projection import HTTPHeadersProjection
 from .identity import Identity
-from .issue_region_token_request import IssueRegionTokenRequest
 from .label_selector import LabelSelector
 from .label_selector_match_labels import LabelSelectorMatchLabels
 from .label_selector_requirement import LabelSelectorRequirement
@@ -126,7 +128,6 @@ from .pty_size import PTYSize
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
 from .region import Region
-from .regional_session import RegionalSession
 from .register_request import RegisterRequest
 from .registry_credentials import RegistryCredentials
 from .repl_config import REPLConfig
@@ -170,7 +171,6 @@ from .static_tls_client_certificate_source_spec import (
     StaticTLSClientCertificateSourceSpec,
 )
 from .static_username_password_source_spec import StaticUsernamePasswordSourceSpec
-from .success_active_team_response import SuccessActiveTeamResponse
 from .success_api_key_list_response import SuccessAPIKeyListResponse
 from .success_api_key_list_response_data import SuccessAPIKeyListResponseData
 from .success_auth_providers_response import SuccessAuthProvidersResponse
@@ -188,6 +188,8 @@ from .success_credential_source_list_response import SuccessCredentialSourceList
 from .success_credential_source_response import SuccessCredentialSourceResponse
 from .success_deleted_response import SuccessDeletedResponse
 from .success_deleted_response_data import SuccessDeletedResponseData
+from .success_device_login_poll_response import SuccessDeviceLoginPollResponse
+from .success_device_login_start_response import SuccessDeviceLoginStartResponse
 from .success_envelope import SuccessEnvelope
 from .success_exposed_ports_response import SuccessExposedPortsResponse
 from .success_exposed_ports_response_data import SuccessExposedPortsResponseData
@@ -201,7 +203,6 @@ from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
 from .success_identity_list_response import SuccessIdentityListResponse
 from .success_identity_list_response_data import SuccessIdentityListResponseData
-from .success_issue_region_token_response import SuccessIssueRegionTokenResponse
 from .success_login_response import SuccessLoginResponse
 from .success_message_response import SuccessMessageResponse
 from .success_message_response_data import SuccessMessageResponseData
@@ -318,7 +319,6 @@ from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
 __all__ = (
-    "ActiveTeam",
     "AddTeamMemberRequest",
     "AddTeamMemberRequestRole",
     "Affinity",
@@ -370,6 +370,10 @@ __all__ = (
     "CredentialSourceResolverKind",
     "CredentialSourceWriteRequest",
     "CredentialSourceWriteSpec",
+    "DeviceLoginPollRequest",
+    "DeviceLoginPollResponse",
+    "DeviceLoginPollResponseStatus",
+    "DeviceLoginStartResponse",
     "EgressAuthFailurePolicy",
     "EgressAuthProtocol",
     "EgressAuthRolloutMode",
@@ -406,7 +410,6 @@ __all__ = (
     "HTTPHeader",
     "HTTPHeadersProjection",
     "Identity",
-    "IssueRegionTokenRequest",
     "LabelSelector",
     "LabelSelectorMatchLabels",
     "LabelSelectorRequirement",
@@ -444,7 +447,6 @@ __all__ = (
     "RefreshRequest",
     "RefreshResponse",
     "Region",
-    "RegionalSession",
     "RegisterRequest",
     "RegistryCredentials",
     "REPLConfig",
@@ -484,7 +486,6 @@ __all__ = (
     "StaticHeadersSourceSpecValues",
     "StaticTLSClientCertificateSourceSpec",
     "StaticUsernamePasswordSourceSpec",
-    "SuccessActiveTeamResponse",
     "SuccessAPIKeyListResponse",
     "SuccessAPIKeyListResponseData",
     "SuccessAuthProvidersResponse",
@@ -502,6 +503,8 @@ __all__ = (
     "SuccessCredentialSourceResponse",
     "SuccessDeletedResponse",
     "SuccessDeletedResponseData",
+    "SuccessDeviceLoginPollResponse",
+    "SuccessDeviceLoginStartResponse",
     "SuccessEnvelope",
     "SuccessExposedPortsResponse",
     "SuccessExposedPortsResponseData",
@@ -515,7 +518,6 @@ __all__ = (
     "SuccessHealthResponseData",
     "SuccessIdentityListResponse",
     "SuccessIdentityListResponseData",
-    "SuccessIssueRegionTokenResponse",
     "SuccessLoginResponse",
     "SuccessMessageResponse",
     "SuccessMessageResponseData",
