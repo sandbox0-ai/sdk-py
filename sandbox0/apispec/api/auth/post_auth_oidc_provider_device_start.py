@@ -6,59 +6,37 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
-from ...models.issue_region_token_request import IssueRegionTokenRequest
-from ...models.success_issue_region_token_response import (
-    SuccessIssueRegionTokenResponse,
+from ...models.success_device_login_start_response import (
+    SuccessDeviceLoginStartResponse,
 )
 from ...types import Response
 
 
 def _get_kwargs(
-    *,
-    body: IssueRegionTokenRequest,
+    provider: str,
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/auth/region-token",
+        "url": "/auth/oidc/{provider}/device/start".format(
+            provider=provider,
+        ),
     }
 
-    _kwargs["json"] = body.to_dict()
-
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]:
+) -> Optional[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessIssueRegionTokenResponse.from_dict(response.json())
+        response_200 = SuccessDeviceLoginStartResponse.from_dict(response.json())
 
         return response_200
 
-    if response.status_code == 400:
-        response_400 = ErrorEnvelope.from_dict(response.json())
+    if response.status_code == 404:
+        response_404 = ErrorEnvelope.from_dict(response.json())
 
-        return response_400
-
-    if response.status_code == 401:
-        response_401 = ErrorEnvelope.from_dict(response.json())
-
-        return response_401
-
-    if response.status_code == 403:
-        response_403 = ErrorEnvelope.from_dict(response.json())
-
-        return response_403
-
-    if response.status_code == 409:
-        response_409 = ErrorEnvelope.from_dict(response.json())
-
-        return response_409
+        return response_404
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -68,7 +46,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]:
+) -> Response[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -78,25 +56,25 @@ def _build_response(
 
 
 def sync_detailed(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    body: IssueRegionTokenRequest,
-) -> Response[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]:
-    """Exchange a user session and explicit team selection for a region-scoped token
+    client: Union[AuthenticatedClient, Client],
+) -> Response[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]:
+    """Start OIDC device login
 
     Args:
-        body (IssueRegionTokenRequest):
+        provider (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]
+        Response[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]
     """
 
     kwargs = _get_kwargs(
-        body=body,
+        provider=provider,
     )
 
     response = client.get_httpx_client().request(
@@ -107,49 +85,49 @@ def sync_detailed(
 
 
 def sync(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    body: IssueRegionTokenRequest,
-) -> Optional[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]:
-    """Exchange a user session and explicit team selection for a region-scoped token
+    client: Union[AuthenticatedClient, Client],
+) -> Optional[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]:
+    """Start OIDC device login
 
     Args:
-        body (IssueRegionTokenRequest):
+        provider (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]
+        Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]
     """
 
     return sync_detailed(
+        provider=provider,
         client=client,
-        body=body,
     ).parsed
 
 
 async def asyncio_detailed(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    body: IssueRegionTokenRequest,
-) -> Response[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]:
-    """Exchange a user session and explicit team selection for a region-scoped token
+    client: Union[AuthenticatedClient, Client],
+) -> Response[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]:
+    """Start OIDC device login
 
     Args:
-        body (IssueRegionTokenRequest):
+        provider (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]
+        Response[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]
     """
 
     kwargs = _get_kwargs(
-        body=body,
+        provider=provider,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -158,26 +136,26 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    body: IssueRegionTokenRequest,
-) -> Optional[Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]]:
-    """Exchange a user session and explicit team selection for a region-scoped token
+    client: Union[AuthenticatedClient, Client],
+) -> Optional[Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]]:
+    """Start OIDC device login
 
     Args:
-        body (IssueRegionTokenRequest):
+        provider (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessIssueRegionTokenResponse]
+        Union[ErrorEnvelope, SuccessDeviceLoginStartResponse]
     """
 
     return (
         await asyncio_detailed(
+            provider=provider,
             client=client,
-            body=body,
         )
     ).parsed

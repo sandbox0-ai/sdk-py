@@ -12,22 +12,22 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.active_team import ActiveTeam
+    from ..models.device_login_start_response import DeviceLoginStartResponse
 
 
-T = TypeVar("T", bound="SuccessActiveTeamResponse")
+T = TypeVar("T", bound="SuccessDeviceLoginStartResponse")
 
 
 @_attrs_define
-class SuccessActiveTeamResponse:
+class SuccessDeviceLoginStartResponse:
     """
     Attributes:
         success (bool):
-        data (Union[Unset, ActiveTeam]):
+        data (Union[Unset, DeviceLoginStartResponse]):
     """
 
     success: bool
-    data: Union[Unset, "ActiveTeam"] = UNSET
+    data: Union[Unset, "DeviceLoginStartResponse"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,25 +51,25 @@ class SuccessActiveTeamResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.active_team import ActiveTeam
+        from ..models.device_login_start_response import DeviceLoginStartResponse
 
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, ActiveTeam]
+        data: Union[Unset, DeviceLoginStartResponse]
         if isinstance(_data, Unset):
             data = UNSET
         else:
-            data = ActiveTeam.from_dict(_data)
+            data = DeviceLoginStartResponse.from_dict(_data)
 
-        success_active_team_response = cls(
+        success_device_login_start_response = cls(
             success=success,
             data=data,
         )
 
-        success_active_team_response.additional_properties = d
-        return success_active_team_response
+        success_device_login_start_response.additional_properties = d
+        return success_device_login_start_response
 
     @property
     def additional_keys(self) -> list[str]:

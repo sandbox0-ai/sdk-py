@@ -1,6 +1,5 @@
 """Contains all the data models used in inputs/outputs"""
 
-from .active_team import ActiveTeam
 from .add_team_member_request import AddTeamMemberRequest
 from .add_team_member_request_role import AddTeamMemberRequestRole
 from .affinity import Affinity
@@ -52,6 +51,10 @@ from .credential_source_metadata import CredentialSourceMetadata
 from .credential_source_resolver_kind import CredentialSourceResolverKind
 from .credential_source_write_request import CredentialSourceWriteRequest
 from .credential_source_write_spec import CredentialSourceWriteSpec
+from .device_login_poll_request import DeviceLoginPollRequest
+from .device_login_poll_response import DeviceLoginPollResponse
+from .device_login_poll_response_status import DeviceLoginPollResponseStatus
+from .device_login_start_response import DeviceLoginStartResponse
 from .egress_auth_failure_policy import EgressAuthFailurePolicy
 from .egress_auth_protocol import EgressAuthProtocol
 from .egress_auth_rollout_mode import EgressAuthRolloutMode
@@ -170,7 +173,6 @@ from .static_tls_client_certificate_source_spec import (
     StaticTLSClientCertificateSourceSpec,
 )
 from .static_username_password_source_spec import StaticUsernamePasswordSourceSpec
-from .success_active_team_response import SuccessActiveTeamResponse
 from .success_api_key_list_response import SuccessAPIKeyListResponse
 from .success_api_key_list_response_data import SuccessAPIKeyListResponseData
 from .success_auth_providers_response import SuccessAuthProvidersResponse
@@ -188,6 +190,8 @@ from .success_credential_source_list_response import SuccessCredentialSourceList
 from .success_credential_source_response import SuccessCredentialSourceResponse
 from .success_deleted_response import SuccessDeletedResponse
 from .success_deleted_response_data import SuccessDeletedResponseData
+from .success_device_login_poll_response import SuccessDeviceLoginPollResponse
+from .success_device_login_start_response import SuccessDeviceLoginStartResponse
 from .success_envelope import SuccessEnvelope
 from .success_exposed_ports_response import SuccessExposedPortsResponse
 from .success_exposed_ports_response_data import SuccessExposedPortsResponseData
@@ -318,7 +322,6 @@ from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
 __all__ = (
-    "ActiveTeam",
     "AddTeamMemberRequest",
     "AddTeamMemberRequestRole",
     "Affinity",
@@ -370,6 +373,10 @@ __all__ = (
     "CredentialSourceResolverKind",
     "CredentialSourceWriteRequest",
     "CredentialSourceWriteSpec",
+    "DeviceLoginPollRequest",
+    "DeviceLoginPollResponse",
+    "DeviceLoginPollResponseStatus",
+    "DeviceLoginStartResponse",
     "EgressAuthFailurePolicy",
     "EgressAuthProtocol",
     "EgressAuthRolloutMode",
@@ -484,7 +491,6 @@ __all__ = (
     "StaticHeadersSourceSpecValues",
     "StaticTLSClientCertificateSourceSpec",
     "StaticUsernamePasswordSourceSpec",
-    "SuccessActiveTeamResponse",
     "SuccessAPIKeyListResponse",
     "SuccessAPIKeyListResponseData",
     "SuccessAuthProvidersResponse",
@@ -502,6 +508,8 @@ __all__ = (
     "SuccessCredentialSourceResponse",
     "SuccessDeletedResponse",
     "SuccessDeletedResponseData",
+    "SuccessDeviceLoginPollResponse",
+    "SuccessDeviceLoginStartResponse",
     "SuccessEnvelope",
     "SuccessExposedPortsResponse",
     "SuccessExposedPortsResponseData",

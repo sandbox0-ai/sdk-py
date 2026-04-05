@@ -5,35 +5,39 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.device_login_poll_request import DeviceLoginPollRequest
 from ...models.error_envelope import ErrorEnvelope
-from ...models.success_active_team_response import SuccessActiveTeamResponse
-from ...types import UNSET, Response, Unset
+from ...models.success_device_login_poll_response import SuccessDeviceLoginPollResponse
+from ...types import Response
 
 
 def _get_kwargs(
+    provider: str,
     *,
-    team_id: Union[Unset, str] = UNSET,
+    body: DeviceLoginPollRequest,
 ) -> dict[str, Any]:
-    params: dict[str, Any] = {}
-
-    params["team_id"] = team_id
-
-    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+    headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
-        "method": "get",
-        "url": "/tenant/active",
-        "params": params,
+        "method": "post",
+        "url": "/auth/oidc/{provider}/device/poll".format(
+            provider=provider,
+        ),
     }
 
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessActiveTeamResponse]]:
+) -> Optional[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessActiveTeamResponse.from_dict(response.json())
+        response_200 = SuccessDeviceLoginPollResponse.from_dict(response.json())
 
         return response_200
 
@@ -47,15 +51,10 @@ def _parse_response(
 
         return response_401
 
-    if response.status_code == 403:
-        response_403 = ErrorEnvelope.from_dict(response.json())
+    if response.status_code == 404:
+        response_404 = ErrorEnvelope.from_dict(response.json())
 
-        return response_403
-
-    if response.status_code == 409:
-        response_409 = ErrorEnvelope.from_dict(response.json())
-
-        return response_409
+        return response_404
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -65,7 +64,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessActiveTeamResponse]]:
+) -> Response[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,25 +74,28 @@ def _build_response(
 
 
 def sync_detailed(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    team_id: Union[Unset, str] = UNSET,
-) -> Response[Union[ErrorEnvelope, SuccessActiveTeamResponse]]:
-    """Resolve the active team and its routing information
+    client: Union[AuthenticatedClient, Client],
+    body: DeviceLoginPollRequest,
+) -> Response[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]:
+    """Poll OIDC device login
 
     Args:
-        team_id (Union[Unset, str]):
+        provider (str):
+        body (DeviceLoginPollRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessActiveTeamResponse]]
+        Response[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]
     """
 
     kwargs = _get_kwargs(
-        team_id=team_id,
+        provider=provider,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -104,49 +106,55 @@ def sync_detailed(
 
 
 def sync(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    team_id: Union[Unset, str] = UNSET,
-) -> Optional[Union[ErrorEnvelope, SuccessActiveTeamResponse]]:
-    """Resolve the active team and its routing information
+    client: Union[AuthenticatedClient, Client],
+    body: DeviceLoginPollRequest,
+) -> Optional[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]:
+    """Poll OIDC device login
 
     Args:
-        team_id (Union[Unset, str]):
+        provider (str):
+        body (DeviceLoginPollRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessActiveTeamResponse]
+        Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]
     """
 
     return sync_detailed(
+        provider=provider,
         client=client,
-        team_id=team_id,
+        body=body,
     ).parsed
 
 
 async def asyncio_detailed(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    team_id: Union[Unset, str] = UNSET,
-) -> Response[Union[ErrorEnvelope, SuccessActiveTeamResponse]]:
-    """Resolve the active team and its routing information
+    client: Union[AuthenticatedClient, Client],
+    body: DeviceLoginPollRequest,
+) -> Response[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]:
+    """Poll OIDC device login
 
     Args:
-        team_id (Union[Unset, str]):
+        provider (str):
+        body (DeviceLoginPollRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessActiveTeamResponse]]
+        Response[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]
     """
 
     kwargs = _get_kwargs(
-        team_id=team_id,
+        provider=provider,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -155,26 +163,29 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    provider: str,
     *,
-    client: AuthenticatedClient,
-    team_id: Union[Unset, str] = UNSET,
-) -> Optional[Union[ErrorEnvelope, SuccessActiveTeamResponse]]:
-    """Resolve the active team and its routing information
+    client: Union[AuthenticatedClient, Client],
+    body: DeviceLoginPollRequest,
+) -> Optional[Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]]:
+    """Poll OIDC device login
 
     Args:
-        team_id (Union[Unset, str]):
+        provider (str):
+        body (DeviceLoginPollRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessActiveTeamResponse]
+        Union[ErrorEnvelope, SuccessDeviceLoginPollResponse]
     """
 
     return (
         await asyncio_detailed(
+            provider=provider,
             client=client,
-            team_id=team_id,
+            body=body,
         )
     ).parsed

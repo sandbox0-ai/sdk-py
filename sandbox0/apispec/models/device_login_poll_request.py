@@ -1,59 +1,46 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="UpdateUserRequest")
+T = TypeVar("T", bound="DeviceLoginPollRequest")
 
 
 @_attrs_define
-class UpdateUserRequest:
+class DeviceLoginPollRequest:
     """
     Attributes:
-        name (Union[Unset, str]):
-        avatar_url (Union[Unset, str]):
+        device_login_id (str):
     """
 
-    name: Union[Unset, str] = UNSET
-    avatar_url: Union[Unset, str] = UNSET
+    device_login_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        name = self.name
-
-        avatar_url = self.avatar_url
+        device_login_id = self.device_login_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if name is not UNSET:
-            field_dict["name"] = name
-        if avatar_url is not UNSET:
-            field_dict["avatar_url"] = avatar_url
+        field_dict.update(
+            {
+                "device_login_id": device_login_id,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        name = d.pop("name", UNSET)
+        device_login_id = d.pop("device_login_id")
 
-        avatar_url = d.pop("avatar_url", UNSET)
-
-        update_user_request = cls(
-            name=name,
-            avatar_url=avatar_url,
+        device_login_poll_request = cls(
+            device_login_id=device_login_id,
         )
 
-        update_user_request.additional_properties = d
-        return update_user_request
+        device_login_poll_request.additional_properties = d
+        return device_login_poll_request
 
     @property
     def additional_keys(self) -> list[str]:

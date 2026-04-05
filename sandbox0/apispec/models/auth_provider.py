@@ -20,6 +20,8 @@ class AuthProvider:
         id (str):
         name (str):
         type_ (str):
+        browser_login_enabled (bool):
+        device_login_enabled (bool):
         external_auth_portal_url (Union[Unset, str]): When set, browser login for this provider should redirect to this
             external URL instead of initiating the OIDC flow directly. Used for deployments that host their own
             authorization portal.
@@ -28,6 +30,8 @@ class AuthProvider:
     id: str
     name: str
     type_: str
+    browser_login_enabled: bool
+    device_login_enabled: bool
     external_auth_portal_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -38,6 +42,10 @@ class AuthProvider:
 
         type_ = self.type_
 
+        browser_login_enabled = self.browser_login_enabled
+
+        device_login_enabled = self.device_login_enabled
+
         external_auth_portal_url = self.external_auth_portal_url
 
         field_dict: dict[str, Any] = {}
@@ -47,6 +55,8 @@ class AuthProvider:
                 "id": id,
                 "name": name,
                 "type": type_,
+                "browser_login_enabled": browser_login_enabled,
+                "device_login_enabled": device_login_enabled,
             }
         )
         if external_auth_portal_url is not UNSET:
@@ -63,12 +73,18 @@ class AuthProvider:
 
         type_ = d.pop("type")
 
+        browser_login_enabled = d.pop("browser_login_enabled")
+
+        device_login_enabled = d.pop("device_login_enabled")
+
         external_auth_portal_url = d.pop("external_auth_portal_url", UNSET)
 
         auth_provider = cls(
             id=id,
             name=name,
             type_=type_,
+            browser_login_enabled=browser_login_enabled,
+            device_login_enabled=device_login_enabled,
             external_auth_portal_url=external_auth_portal_url,
         )
 
