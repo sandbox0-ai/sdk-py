@@ -91,7 +91,6 @@ from .http_get_action import HTTPGetAction
 from .http_header import HTTPHeader
 from .http_headers_projection import HTTPHeadersProjection
 from .identity import Identity
-from .issue_region_token_request import IssueRegionTokenRequest
 from .label_selector import LabelSelector
 from .label_selector_match_labels import LabelSelectorMatchLabels
 from .label_selector_requirement import LabelSelectorRequirement
@@ -129,7 +128,6 @@ from .pty_size import PTYSize
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
 from .region import Region
-from .regional_session import RegionalSession
 from .register_request import RegisterRequest
 from .registry_credentials import RegistryCredentials
 from .repl_config import REPLConfig
@@ -205,7 +203,6 @@ from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
 from .success_identity_list_response import SuccessIdentityListResponse
 from .success_identity_list_response_data import SuccessIdentityListResponseData
-from .success_issue_region_token_response import SuccessIssueRegionTokenResponse
 from .success_login_response import SuccessLoginResponse
 from .success_message_response import SuccessMessageResponse
 from .success_message_response_data import SuccessMessageResponseData
@@ -413,7 +410,6 @@ __all__ = (
     "HTTPHeader",
     "HTTPHeadersProjection",
     "Identity",
-    "IssueRegionTokenRequest",
     "LabelSelector",
     "LabelSelectorMatchLabels",
     "LabelSelectorRequirement",
@@ -451,7 +447,6 @@ __all__ = (
     "RefreshRequest",
     "RefreshResponse",
     "Region",
-    "RegionalSession",
     "RegisterRequest",
     "RegistryCredentials",
     "REPLConfig",
@@ -523,7 +518,6 @@ __all__ = (
     "SuccessHealthResponseData",
     "SuccessIdentityListResponse",
     "SuccessIdentityListResponseData",
-    "SuccessIssueRegionTokenResponse",
     "SuccessLoginResponse",
     "SuccessMessageResponse",
     "SuccessMessageResponseData",
