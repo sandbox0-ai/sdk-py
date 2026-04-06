@@ -18,6 +18,10 @@ T = TypeVar("T", bound="CreateSandboxVolumeRequest")
 class CreateSandboxVolumeRequest:
     """
     Attributes:
+        default_posix_uid (Union[Unset, int]): Default POSIX UID used by external volume access paths that do not carry
+            caller identity. Defaults to 0 when omitted on create. Default: 0.
+        default_posix_gid (Union[Unset, int]): Default POSIX GID used by external volume access paths that do not carry
+            caller identity. Defaults to 0 when omitted on create. Default: 0.
         cache_size (Union[Unset, str]):
         prefetch (Union[Unset, int]):
         buffer_size (Union[Unset, str]):
@@ -27,6 +31,8 @@ class CreateSandboxVolumeRequest:
             instances; RWX allows read-write mounts across instances.
     """
 
+    default_posix_uid: Union[Unset, int] = 0
+    default_posix_gid: Union[Unset, int] = 0
     cache_size: Union[Unset, str] = UNSET
     prefetch: Union[Unset, int] = UNSET
     buffer_size: Union[Unset, str] = UNSET
@@ -35,6 +41,10 @@ class CreateSandboxVolumeRequest:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        default_posix_uid = self.default_posix_uid
+
+        default_posix_gid = self.default_posix_gid
+
         cache_size = self.cache_size
 
         prefetch = self.prefetch
@@ -50,6 +60,10 @@ class CreateSandboxVolumeRequest:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if default_posix_uid is not UNSET:
+            field_dict["default_posix_uid"] = default_posix_uid
+        if default_posix_gid is not UNSET:
+            field_dict["default_posix_gid"] = default_posix_gid
         if cache_size is not UNSET:
             field_dict["cache_size"] = cache_size
         if prefetch is not UNSET:
@@ -66,6 +80,10 @@ class CreateSandboxVolumeRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
+        default_posix_uid = d.pop("default_posix_uid", UNSET)
+
+        default_posix_gid = d.pop("default_posix_gid", UNSET)
+
         cache_size = d.pop("cache_size", UNSET)
 
         prefetch = d.pop("prefetch", UNSET)
@@ -82,6 +100,8 @@ class CreateSandboxVolumeRequest:
             access_mode = VolumeAccessMode(_access_mode)
 
         create_sandbox_volume_request = cls(
+            default_posix_uid=default_posix_uid,
+            default_posix_gid=default_posix_gid,
             cache_size=cache_size,
             prefetch=prefetch,
             buffer_size=buffer_size,

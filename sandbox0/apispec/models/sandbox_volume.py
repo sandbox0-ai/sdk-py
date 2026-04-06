@@ -29,6 +29,8 @@ class SandboxVolume:
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
         source_volume_id (Union[None, Unset, str]):
+        default_posix_uid (Union[None, Unset, int]):
+        default_posix_gid (Union[None, Unset, int]):
         prefetch (Union[Unset, int]):
         writeback (Union[Unset, bool]):
         access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
@@ -44,6 +46,8 @@ class SandboxVolume:
     created_at: datetime.datetime
     updated_at: datetime.datetime
     source_volume_id: Union[None, Unset, str] = UNSET
+    default_posix_uid: Union[None, Unset, int] = UNSET
+    default_posix_gid: Union[None, Unset, int] = UNSET
     prefetch: Union[Unset, int] = UNSET
     writeback: Union[Unset, bool] = UNSET
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
@@ -70,6 +74,18 @@ class SandboxVolume:
         else:
             source_volume_id = self.source_volume_id
 
+        default_posix_uid: Union[None, Unset, int]
+        if isinstance(self.default_posix_uid, Unset):
+            default_posix_uid = UNSET
+        else:
+            default_posix_uid = self.default_posix_uid
+
+        default_posix_gid: Union[None, Unset, int]
+        if isinstance(self.default_posix_gid, Unset):
+            default_posix_gid = UNSET
+        else:
+            default_posix_gid = self.default_posix_gid
+
         prefetch = self.prefetch
 
         writeback = self.writeback
@@ -93,6 +109,10 @@ class SandboxVolume:
         )
         if source_volume_id is not UNSET:
             field_dict["source_volume_id"] = source_volume_id
+        if default_posix_uid is not UNSET:
+            field_dict["default_posix_uid"] = default_posix_uid
+        if default_posix_gid is not UNSET:
+            field_dict["default_posix_gid"] = default_posix_gid
         if prefetch is not UNSET:
             field_dict["prefetch"] = prefetch
         if writeback is not UNSET:
@@ -128,6 +148,24 @@ class SandboxVolume:
 
         source_volume_id = _parse_source_volume_id(d.pop("source_volume_id", UNSET))
 
+        def _parse_default_posix_uid(data: object) -> Union[None, Unset, int]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, int], data)
+
+        default_posix_uid = _parse_default_posix_uid(d.pop("default_posix_uid", UNSET))
+
+        def _parse_default_posix_gid(data: object) -> Union[None, Unset, int]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, int], data)
+
+        default_posix_gid = _parse_default_posix_gid(d.pop("default_posix_gid", UNSET))
+
         prefetch = d.pop("prefetch", UNSET)
 
         writeback = d.pop("writeback", UNSET)
@@ -148,6 +186,8 @@ class SandboxVolume:
             created_at=created_at,
             updated_at=updated_at,
             source_volume_id=source_volume_id,
+            default_posix_uid=default_posix_uid,
+            default_posix_gid=default_posix_gid,
             prefetch=prefetch,
             writeback=writeback,
             access_mode=access_mode,
