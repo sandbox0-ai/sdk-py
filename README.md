@@ -57,6 +57,30 @@ cd examples/01_hello_world
 SANDBOX0_TOKEN=your-token python main.py
 ```
 
+## Bootstrap Mounts At Claim Time
+
+```python
+from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
+from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
+
+volume = client.volumes.create(CreateSandboxVolumeRequest())
+
+sandbox = client.sandboxes.claim(
+    "default",
+    mounts=[
+        ClaimMountRequest(
+            sandboxvolume_id=volume.id,
+            mount_point="/workspace/data",
+        )
+    ],
+    wait_for_mounts=True,
+    mount_wait_timeout_ms=45000,
+)
+
+for mount in sandbox.bootstrap_mounts:
+    print(mount.sandboxvolume_id, mount.state)
+```
+
 ## Links
 
 - [Documentation](https://sandbox0.ai/docs)

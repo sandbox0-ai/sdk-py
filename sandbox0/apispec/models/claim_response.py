@@ -1,5 +1,6 @@
 from collections.abc import Mapping
 from typing import (
+    TYPE_CHECKING,
     Any,
     TypeVar,
     Union,
@@ -10,6 +11,10 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.mount_status import MountStatus
+
 
 T = TypeVar("T", bound="ClaimResponse")
 
@@ -23,6 +28,7 @@ class ClaimResponse:
         pod_name (str):
         template (str):
         cluster_id (Union[None, Unset, str]):
+        bootstrap_mounts (Union[Unset, list['MountStatus']]):
     """
 
     sandbox_id: str
@@ -30,6 +36,7 @@ class ClaimResponse:
     pod_name: str
     template: str
     cluster_id: Union[None, Unset, str] = UNSET
+    bootstrap_mounts: Union[Unset, list["MountStatus"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,6 +54,13 @@ class ClaimResponse:
         else:
             cluster_id = self.cluster_id
 
+        bootstrap_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.bootstrap_mounts, Unset):
+            bootstrap_mounts = []
+            for bootstrap_mounts_item_data in self.bootstrap_mounts:
+                bootstrap_mounts_item = bootstrap_mounts_item_data.to_dict()
+                bootstrap_mounts.append(bootstrap_mounts_item)
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -59,11 +73,15 @@ class ClaimResponse:
         )
         if cluster_id is not UNSET:
             field_dict["cluster_id"] = cluster_id
+        if bootstrap_mounts is not UNSET:
+            field_dict["bootstrap_mounts"] = bootstrap_mounts
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.mount_status import MountStatus
+
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 
@@ -82,12 +100,20 @@ class ClaimResponse:
 
         cluster_id = _parse_cluster_id(d.pop("cluster_id", UNSET))
 
+        bootstrap_mounts = []
+        _bootstrap_mounts = d.pop("bootstrap_mounts", UNSET)
+        for bootstrap_mounts_item_data in _bootstrap_mounts or []:
+            bootstrap_mounts_item = MountStatus.from_dict(bootstrap_mounts_item_data)
+
+            bootstrap_mounts.append(bootstrap_mounts_item)
+
         claim_response = cls(
             sandbox_id=sandbox_id,
             status=status,
             pod_name=pod_name,
             template=template,
             cluster_id=cluster_id,
+            bootstrap_mounts=bootstrap_mounts,
         )
 
         claim_response.additional_properties = d

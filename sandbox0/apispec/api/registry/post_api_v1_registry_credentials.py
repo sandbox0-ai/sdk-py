@@ -6,18 +6,29 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
+from ...models.registry_credentials_request import RegistryCredentialsRequest
 from ...models.success_registry_credentials_response import (
     SuccessRegistryCredentialsResponse,
 )
 from ...types import Response
 
 
-def _get_kwargs() -> dict[str, Any]:
+def _get_kwargs(
+    *,
+    body: RegistryCredentialsRequest,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/api/v1/registry/credentials",
     }
 
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -28,6 +39,11 @@ def _parse_response(
         response_200 = SuccessRegistryCredentialsResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+        return response_400
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
@@ -64,8 +80,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
+    body: RegistryCredentialsRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRegistryCredentialsResponse]]:
     """Get registry credentials for uploads
+
+    Args:
+        body (RegistryCredentialsRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -75,7 +95,9 @@ def sync_detailed(
         Response[Union[ErrorEnvelope, SuccessRegistryCredentialsResponse]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -87,8 +109,12 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
+    body: RegistryCredentialsRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegistryCredentialsResponse]]:
     """Get registry credentials for uploads
+
+    Args:
+        body (RegistryCredentialsRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,14 +126,19 @@ def sync(
 
     return sync_detailed(
         client=client,
+        body=body,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
+    body: RegistryCredentialsRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessRegistryCredentialsResponse]]:
     """Get registry credentials for uploads
+
+    Args:
+        body (RegistryCredentialsRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,7 +148,9 @@ async def asyncio_detailed(
         Response[Union[ErrorEnvelope, SuccessRegistryCredentialsResponse]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        body=body,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
@@ -127,8 +160,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
+    body: RegistryCredentialsRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessRegistryCredentialsResponse]]:
     """Get registry credentials for uploads
+
+    Args:
+        body (RegistryCredentialsRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -141,5 +178,6 @@ async def asyncio(
     return (
         await asyncio_detailed(
             client=client,
+            body=body,
         )
     ).parsed

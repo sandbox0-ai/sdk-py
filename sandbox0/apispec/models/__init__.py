@@ -13,6 +13,7 @@ from .change_password_request import ChangePasswordRequest
 from .change_request import ChangeRequest
 from .change_request_entry_kind import ChangeRequestEntryKind
 from .change_request_metadata import ChangeRequestMetadata
+from .claim_mount_request import ClaimMountRequest
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
 from .container_spec import ContainerSpec
@@ -102,6 +103,7 @@ from .login_response import LoginResponse
 from .mount_request import MountRequest
 from .mount_response import MountResponse
 from .mount_status import MountStatus
+from .mount_status_state import MountStatusState
 from .move_file_request import MoveFileRequest
 from .network_egress_policy import NetworkEgressPolicy
 from .node_affinity import NodeAffinity
@@ -130,6 +132,7 @@ from .refresh_response import RefreshResponse
 from .region import Region
 from .register_request import RegisterRequest
 from .registry_credentials import RegistryCredentials
+from .registry_credentials_request import RegistryCredentialsRequest
 from .repl_config import REPLConfig
 from .repl_env_var import REPLEnvVar
 from .repl_prompt_config import REPLPromptConfig
@@ -332,6 +335,7 @@ __all__ = (
     "ChangeRequest",
     "ChangeRequestEntryKind",
     "ChangeRequestMetadata",
+    "ClaimMountRequest",
     "ClaimRequest",
     "ClaimResponse",
     "ContainerSpec",
@@ -421,6 +425,7 @@ __all__ = (
     "MountRequest",
     "MountResponse",
     "MountStatus",
+    "MountStatusState",
     "MoveFileRequest",
     "NetworkEgressPolicy",
     "NodeAffinity",
@@ -449,6 +454,7 @@ __all__ = (
     "Region",
     "RegisterRequest",
     "RegistryCredentials",
+    "RegistryCredentialsRequest",
     "REPLConfig",
     "REPLEnvVar",
     "REPLPromptConfig",

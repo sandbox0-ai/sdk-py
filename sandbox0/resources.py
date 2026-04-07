@@ -21,6 +21,7 @@ from sandbox0.apispec.api.snapshots import get_api_v1_sandboxvolumes_id_snapshot
 from sandbox0.apispec.api.snapshots import get_api_v1_sandboxvolumes_id_snapshots_snapshot_id
 from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapshots
 from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapshots_snapshot_id_restore
+from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
@@ -29,6 +30,7 @@ from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
 from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
+from sandbox0.apispec.models.mount_status import MountStatus
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
@@ -79,11 +81,30 @@ class Sandboxes:
     def __init__(self, client: "Client") -> None:
         self._client = client
 
-    def claim(self, template: str, config: Optional[SandboxConfig] = None) -> "Sandbox":
-        request = ClaimRequest(template=template, config=config) if config is not None else ClaimRequest(template=template)
+    def claim(
+        self,
+        template: str,
+        config: Optional[SandboxConfig] = None,
+        mounts: Optional[list[ClaimMountRequest]] = None,
+        wait_for_mounts: Optional[bool] = None,
+        mount_wait_timeout_ms: Optional[int] = None,
+    ) -> "Sandbox":
+        request = ClaimRequest(template=template)
+        if config is not None:
+            request.config = config
+        if mounts is not None:
+            request.mounts = mounts
+        if wait_for_mounts is not None:
+            request.wait_for_mounts = wait_for_mounts
+        if mount_wait_timeout_ms is not None:
+            request.mount_wait_timeout_ms = mount_wait_timeout_ms
         resp = post_api_v1_sandboxes.sync_detailed(client=self._client.api, body=request)
         data = ensure_data(resp, SuccessClaimResponse)
         from sandbox0.sandbox import Sandbox
+
+        bootstrap_mounts: list[MountStatus] = []
+        if data.bootstrap_mounts.__class__.__name__ != "Unset":
+            bootstrap_mounts = list(data.bootstrap_mounts)
 
         return Sandbox(
             id=data.sandbox_id,
@@ -92,10 +113,24 @@ class Sandboxes:
             cluster_id=None if data.cluster_id.__class__.__name__ == "Unset" else data.cluster_id,
             pod_name=data.pod_name,
             status=data.status,
+            bootstrap_mounts=bootstrap_mounts,
         )
 
-    def open(self, template: str, config: Optional[SandboxConfig] = None) -> SandboxSession:
-        sandbox = self.claim(template, config=config)
+    def open(
+        self,
+        template: str,
+        config: Optional[SandboxConfig] = None,
+        mounts: Optional[list[ClaimMountRequest]] = None,
+        wait_for_mounts: Optional[bool] = None,
+        mount_wait_timeout_ms: Optional[int] = None,
+    ) -> SandboxSession:
+        sandbox = self.claim(
+            template,
+            config=config,
+            mounts=mounts,
+            wait_for_mounts=wait_for_mounts,
+            mount_wait_timeout_ms=mount_wait_timeout_ms,
+        )
         return SandboxSession(sandbox, closer=lambda: None if self.delete(sandbox.id) else None)
 
     def get(self, sandbox_id: str) -> APISandbox:
