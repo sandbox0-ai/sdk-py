@@ -8,6 +8,7 @@ from sandbox0.apispec.api.templates.post_api_v1_templates import sync_detailed a
 from sandbox0.apispec.api.templates.put_api_v1_templates_id import sync_detailed as update_template
 from sandbox0.apispec.models.exec_action import ExecAction
 from sandbox0.apispec.models.probe import Probe
+from sandbox0.apispec.models.resource_quota import ResourceQuota
 from sandbox0.apispec.models.sidecar_container_spec import SidecarContainerSpec
 from sandbox0.apispec.models.success_template_list_response import SuccessTemplateListResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
@@ -35,6 +36,7 @@ class TestTemplates(unittest.TestCase):
             SidecarContainerSpec(
                 name="codex",
                 image="busybox:latest",
+                resources=ResourceQuota(cpu="250m", memory="1Gi"),
                 command=["sh", "-lc", "touch /tmp/ready; tail -f /dev/null"],
                 readiness_probe=Probe(
                     exec_=ExecAction(command=["test", "-f", "/tmp/ready"]),

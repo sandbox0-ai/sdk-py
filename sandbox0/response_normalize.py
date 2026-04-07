@@ -44,6 +44,7 @@ _NULL_ARRAY_KEYS = {
     "providers",
     "requiredDuringSchedulingIgnoredDuringExecution",
     "roles",
+    "sharedVolumes",
     "sidecars",
     "tags",
     "teams",

@@ -13,10 +13,10 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.container_mount_spec import ContainerMountSpec
     from ..models.env_var import EnvVar
     from ..models.probe import Probe
     from ..models.resource_quota import ResourceQuota
-    from ..models.security_context import SecurityContext
 
 
 T = TypeVar("T", bound="SidecarContainerSpec")
@@ -28,11 +28,11 @@ class SidecarContainerSpec:
     Attributes:
         name (str):
         image (str):
+        resources (ResourceQuota):
         command (Union[Unset, list[str]]):
         args (Union[Unset, list[str]]):
         env (Union[Unset, list['EnvVar']]):
-        resources (Union[Unset, ResourceQuota]):
-        security_context (Union[Unset, SecurityContext]):
+        mounts (Union[Unset, list['ContainerMountSpec']]):
         readiness_probe (Union[Unset, Probe]):
         liveness_probe (Union[Unset, Probe]):
         startup_probe (Union[Unset, Probe]):
@@ -40,11 +40,11 @@ class SidecarContainerSpec:
 
     name: str
     image: str
+    resources: "ResourceQuota"
     command: Union[Unset, list[str]] = UNSET
     args: Union[Unset, list[str]] = UNSET
     env: Union[Unset, list["EnvVar"]] = UNSET
-    resources: Union[Unset, "ResourceQuota"] = UNSET
-    security_context: Union[Unset, "SecurityContext"] = UNSET
+    mounts: Union[Unset, list["ContainerMountSpec"]] = UNSET
     readiness_probe: Union[Unset, "Probe"] = UNSET
     liveness_probe: Union[Unset, "Probe"] = UNSET
     startup_probe: Union[Unset, "Probe"] = UNSET
@@ -54,6 +54,8 @@ class SidecarContainerSpec:
         name = self.name
 
         image = self.image
+
+        resources = self.resources.to_dict()
 
         command: Union[Unset, list[str]] = UNSET
         if not isinstance(self.command, Unset):
@@ -70,13 +72,12 @@ class SidecarContainerSpec:
                 env_item = env_item_data.to_dict()
                 env.append(env_item)
 
-        resources: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.resources, Unset):
-            resources = self.resources.to_dict()
-
-        security_context: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.security_context, Unset):
-            security_context = self.security_context.to_dict()
+        mounts: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.mounts, Unset):
+            mounts = []
+            for mounts_item_data in self.mounts:
+                mounts_item = mounts_item_data.to_dict()
+                mounts.append(mounts_item)
 
         readiness_probe: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.readiness_probe, Unset):
@@ -96,6 +97,7 @@ class SidecarContainerSpec:
             {
                 "name": name,
                 "image": image,
+                "resources": resources,
             }
         )
         if command is not UNSET:
@@ -104,10 +106,8 @@ class SidecarContainerSpec:
             field_dict["args"] = args
         if env is not UNSET:
             field_dict["env"] = env
-        if resources is not UNSET:
-            field_dict["resources"] = resources
-        if security_context is not UNSET:
-            field_dict["securityContext"] = security_context
+        if mounts is not UNSET:
+            field_dict["mounts"] = mounts
         if readiness_probe is not UNSET:
             field_dict["readinessProbe"] = readiness_probe
         if liveness_probe is not UNSET:
@@ -119,15 +119,17 @@ class SidecarContainerSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.container_mount_spec import ContainerMountSpec
         from ..models.env_var import EnvVar
         from ..models.probe import Probe
         from ..models.resource_quota import ResourceQuota
-        from ..models.security_context import SecurityContext
 
         d = dict(src_dict)
         name = d.pop("name")
 
         image = d.pop("image")
+
+        resources = ResourceQuota.from_dict(d.pop("resources"))
 
         command = cast(list[str], d.pop("command", UNSET))
 
@@ -140,19 +142,12 @@ class SidecarContainerSpec:
 
             env.append(env_item)
 
-        _resources = d.pop("resources", UNSET)
-        resources: Union[Unset, ResourceQuota]
-        if isinstance(_resources, Unset):
-            resources = UNSET
-        else:
-            resources = ResourceQuota.from_dict(_resources)
+        mounts = []
+        _mounts = d.pop("mounts", UNSET)
+        for mounts_item_data in _mounts or []:
+            mounts_item = ContainerMountSpec.from_dict(mounts_item_data)
 
-        _security_context = d.pop("securityContext", UNSET)
-        security_context: Union[Unset, SecurityContext]
-        if isinstance(_security_context, Unset):
-            security_context = UNSET
-        else:
-            security_context = SecurityContext.from_dict(_security_context)
+            mounts.append(mounts_item)
 
         _readiness_probe = d.pop("readinessProbe", UNSET)
         readiness_probe: Union[Unset, Probe]
@@ -178,11 +173,11 @@ class SidecarContainerSpec:
         sidecar_container_spec = cls(
             name=name,
             image=image,
+            resources=resources,
             command=command,
             args=args,
             env=env,
-            resources=resources,
-            security_context=security_context,
+            mounts=mounts,
             readiness_probe=readiness_probe,
             liveness_probe=liveness_probe,
             startup_probe=startup_probe,
