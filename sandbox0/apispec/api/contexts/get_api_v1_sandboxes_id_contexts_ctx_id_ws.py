@@ -61,6 +61,7 @@ def sync_detailed(
     - { \"type\": \"signal\", \"signal\": \"INT\" }
     Server messages (JSON):
     - { \"type\": \"output\", \"source\": \"stdout\", \"data\": \"hello\n\" }
+    - { \"type\": \"done\", \"request_id\": \"req-1\" }
 
     Args:
         id (str):
@@ -101,6 +102,7 @@ async def asyncio_detailed(
     - { \"type\": \"signal\", \"signal\": \"INT\" }
     Server messages (JSON):
     - { \"type\": \"output\", \"source\": \"stdout\", \"data\": \"hello\n\" }
+    - { \"type\": \"done\", \"request_id\": \"req-1\" }
 
     Args:
         id (str):

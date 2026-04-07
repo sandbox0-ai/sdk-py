@@ -58,3 +58,11 @@ class TestSandboxRun(unittest.TestCase):
             ),
         )
         self.assertTrue(cmd_result.context_id)
+
+        stream = sandbox.cmd_stream(
+            "echo helper",
+            CmdOptions(command=["sh", "-c", "echo helper"]),
+        )
+        self.addCleanup(stream.close)
+        output = next(stream.iter_outputs())
+        self.assertTrue(output.data)

@@ -23,7 +23,7 @@ pip install sandbox0
 
 ```python
 import os
-from sandbox0 import Client
+from sandbox0 import Client, CmdOptions
 
 client = Client(token=os.environ["SANDBOX0_TOKEN"])
 
@@ -32,6 +32,18 @@ with client.sandboxes.open("default") as sandbox:
     # Execute Python code (REPL - stateful)
     result = sandbox.run("python", "print('Hello, Sandbox0!')")
     print(result.output_raw, end="")
+```
+
+## CMD Streaming
+
+```python
+stream = sandbox.cmd_stream(
+    "sh -c 'echo hello && echo warn >&2'",
+    CmdOptions(command=["sh", "-c", "echo hello && echo warn >&2"]),
+)
+
+for output in stream.iter_outputs():
+    print(output.data, end="")
 ```
 
 ## Documentation

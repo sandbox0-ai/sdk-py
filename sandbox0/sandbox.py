@@ -105,6 +105,8 @@ class ContextStream:
             if isinstance(raw, bytes):
                 raw = raw.decode("utf-8", errors="replace")
             payload = json.loads(raw)
+            if payload.get("type") not in (None, "output"):
+                continue
             yield StreamOutput(
                 sandbox_id=self._sandbox_id,
                 context_id=self._context_id,
@@ -173,6 +175,28 @@ class Sandbox(
         context_resp = self.create_context(request=request)
         output_raw = "" if context_resp.output_raw.__class__.__name__ == "Unset" else cast(str, context_resp.output_raw)
         return CmdResult(sandbox_id=self.id, context_id=context_resp.id, output_raw=output_raw)
+
+    def cmd_stream(self, cmd: str, options: Optional[CmdOptions] = None) -> ContextStream:
+        if not cmd.strip():
+            raise ValueError("command cannot be empty")
+        opts = options or CmdOptions()
+        if opts.wait is True:
+            raise ValueError("cmd stream requires wait=false")
+        command = opts.command if opts.command is not None else shlex.split(cmd)
+        if not command:
+            raise ValueError("command cannot be empty")
+        request = CreateContextRequest(
+            type_=ProcessType.CMD,
+            cmd=CreateCMDContextRequest(command=command),
+            wait_until_done=False,
+            cwd=opts.cwd if opts.cwd is not None else UNSET,
+            env_vars=self._build_env_vars(opts.env_vars),
+            pty_size=self._build_pty(opts.pty_rows, opts.pty_cols),
+            idle_timeout_sec=opts.idle_timeout_sec if opts.idle_timeout_sec is not None else UNSET,
+            ttl_sec=opts.ttl_sec if opts.ttl_sec is not None else UNSET,
+        )
+        context_resp = self.create_context(request=request)
+        return self.connect_ws_context(context_resp.id)
 
     def connect_ws_context(self, context_id: str) -> ContextStream:
         from websockets.sync.client import connect
