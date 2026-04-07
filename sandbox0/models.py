@@ -37,6 +37,15 @@ class StreamOutput:
 
 
 @dataclass(frozen=True)
+class StreamDone:
+    sandbox_id: str
+    context_id: str
+    request_id: Optional[str] = None
+    exit_code: Optional[int] = None
+    state: Optional[str] = None
+
+
+@dataclass(frozen=True)
 class ExposedPort:
     port: int
     resume: bool

@@ -6,6 +6,7 @@ from sandbox0.models import (
     ExposedPortsResponse,
     FileWatchResponse,
     RunResult,
+    StreamDone,
     StreamInput,
     StreamOutput,
 )
@@ -28,6 +29,7 @@ __all__ = [
     "Sandboxes",
     "Sandbox",
     "SandboxSession",
+    "StreamDone",
     "StreamInput",
     "StreamOutput",
     "Volumes",

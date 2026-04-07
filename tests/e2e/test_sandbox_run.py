@@ -64,5 +64,9 @@ class TestSandboxRun(unittest.TestCase):
             CmdOptions(command=["sh", "-c", "echo helper"]),
         )
         self.addCleanup(stream.close)
-        output = next(stream.iter_outputs())
-        self.assertTrue(output.data)
+        outputs = list(stream.iter_outputs())
+        self.assertTrue(outputs)
+        self.assertTrue(outputs[0].data)
+
+        done = stream.wait()
+        self.assertEqual(done.exit_code or 0, 0)

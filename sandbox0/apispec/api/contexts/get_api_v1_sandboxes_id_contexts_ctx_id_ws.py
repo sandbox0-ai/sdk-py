@@ -62,6 +62,7 @@ def sync_detailed(
     Server messages (JSON):
     - { \"type\": \"output\", \"source\": \"stdout\", \"data\": \"hello\n\" }
     - { \"type\": \"done\", \"request_id\": \"req-1\" }
+    - { \"type\": \"done\", \"exit_code\": 0, \"state\": \"stopped\" }
 
     Args:
         id (str):
@@ -103,6 +104,7 @@ async def asyncio_detailed(
     Server messages (JSON):
     - { \"type\": \"output\", \"source\": \"stdout\", \"data\": \"hello\n\" }
     - { \"type\": \"done\", \"request_id\": \"req-1\" }
+    - { \"type\": \"done\", \"exit_code\": 0, \"state\": \"stopped\" }
 
     Args:
         id (str):
