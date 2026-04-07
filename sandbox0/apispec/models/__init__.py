@@ -16,6 +16,7 @@ from .change_request_metadata import ChangeRequestMetadata
 from .claim_mount_request import ClaimMountRequest
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
+from .container_mount_spec import ContainerMountSpec
 from .container_spec import ContainerSpec
 from .context_exec_response import ContextExecResponse
 from .context_input_request import ContextInputRequest
@@ -165,6 +166,7 @@ from .sandbox_update_config import SandboxUpdateConfig
 from .sandbox_update_request import SandboxUpdateRequest
 from .sandbox_volume import SandboxVolume
 from .security_context import SecurityContext
+from .shared_volume_spec import SharedVolumeSpec
 from .sidecar_container_spec import SidecarContainerSpec
 from .signal_context_request import SignalContextRequest
 from .snapshot import Snapshot
@@ -338,6 +340,7 @@ __all__ = (
     "ClaimMountRequest",
     "ClaimRequest",
     "ClaimResponse",
+    "ContainerMountSpec",
     "ContainerSpec",
     "ContextExecResponse",
     "ContextInputRequest",
@@ -485,6 +488,7 @@ __all__ = (
     "SandboxUpdateRequest",
     "SandboxVolume",
     "SecurityContext",
+    "SharedVolumeSpec",
     "SidecarContainerSpec",
     "SignalContextRequest",
     "Snapshot",
