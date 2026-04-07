@@ -10,6 +10,7 @@ from sandbox0.apispec.models.sandbox_template_spec import SandboxTemplateSpec
 from sandbox0.apispec.models.shared_volume_spec import SharedVolumeSpec
 from sandbox0.apispec.models.sidecar_container_spec import SidecarContainerSpec
 from sandbox0.apispec.models.template_create_request import TemplateCreateRequest
+from sandbox0.apispec.types import UNSET
 from sandbox0.response_normalize import normalize_response_json
 from sandbox0.template_helpers import (
     container as build_container,
@@ -36,7 +37,6 @@ class TestTemplates(TestCase):
                 shared_volumes=[
                     SharedVolumeSpec(
                         name="workspace",
-                        sandbox_volume_id="vol_123",
                         mount_path="/workspace/shared",
                     )
                 ],
@@ -86,7 +86,14 @@ class TestTemplates(TestCase):
         spec = template_spec(
             build_container("ubuntu:24.04", build_resources("1", "4Gi")),
             display_name="Helper Template",
-            shared_volumes=[build_shared_volume("workspace", "vol_123", "/workspace/shared", writeback=True)],
+            shared_volumes=[
+                build_shared_volume(
+                    "workspace",
+                    "/workspace/shared",
+                    sandbox_volume_id="vol_123",
+                    writeback=True,
+                )
+            ],
             sidecars=[
                 build_sidecar(
                     "helper",
@@ -108,3 +115,10 @@ class TestTemplates(TestCase):
         self.assertEqual(len(create_request.spec.sidecars), 1)
         self.assertEqual(create_request.spec.sidecars[0].mounts[0].mount_path, "/shared")
         self.assertIs(update_request.spec, spec)
+
+    def test_template_helpers_allow_claim_bound_shared_volumes(self) -> None:
+        volume = build_shared_volume("workspace", "/workspace/shared")
+
+        self.assertEqual(volume.name, "workspace")
+        self.assertEqual(volume.mount_path, "/workspace/shared")
+        self.assertIs(volume.sandbox_volume_id, UNSET)

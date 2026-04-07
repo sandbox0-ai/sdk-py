@@ -18,8 +18,8 @@ class SharedVolumeSpec:
     """
     Attributes:
         name (str):
-        sandbox_volume_id (str):
         mount_path (str):
+        sandbox_volume_id (Union[Unset, str]):
         cache_size (Union[Unset, str]):
         prefetch (Union[Unset, int]):
         buffer_size (Union[Unset, str]):
@@ -27,8 +27,8 @@ class SharedVolumeSpec:
     """
 
     name: str
-    sandbox_volume_id: str
     mount_path: str
+    sandbox_volume_id: Union[Unset, str] = UNSET
     cache_size: Union[Unset, str] = UNSET
     prefetch: Union[Unset, int] = UNSET
     buffer_size: Union[Unset, str] = UNSET
@@ -38,9 +38,9 @@ class SharedVolumeSpec:
     def to_dict(self) -> dict[str, Any]:
         name = self.name
 
-        sandbox_volume_id = self.sandbox_volume_id
-
         mount_path = self.mount_path
+
+        sandbox_volume_id = self.sandbox_volume_id
 
         cache_size = self.cache_size
 
@@ -55,10 +55,11 @@ class SharedVolumeSpec:
         field_dict.update(
             {
                 "name": name,
-                "sandboxVolumeId": sandbox_volume_id,
                 "mountPath": mount_path,
             }
         )
+        if sandbox_volume_id is not UNSET:
+            field_dict["sandboxVolumeId"] = sandbox_volume_id
         if cache_size is not UNSET:
             field_dict["cacheSize"] = cache_size
         if prefetch is not UNSET:
@@ -75,9 +76,9 @@ class SharedVolumeSpec:
         d = dict(src_dict)
         name = d.pop("name")
 
-        sandbox_volume_id = d.pop("sandboxVolumeId")
-
         mount_path = d.pop("mountPath")
+
+        sandbox_volume_id = d.pop("sandboxVolumeId", UNSET)
 
         cache_size = d.pop("cacheSize", UNSET)
 
@@ -89,8 +90,8 @@ class SharedVolumeSpec:
 
         shared_volume_spec = cls(
             name=name,
-            sandbox_volume_id=sandbox_volume_id,
             mount_path=mount_path,
+            sandbox_volume_id=sandbox_volume_id,
             cache_size=cache_size,
             prefetch=prefetch,
             buffer_size=buffer_size,

@@ -72,9 +72,9 @@ def sidecar(
 
 def shared_volume(
     name: str,
-    sandbox_volume_id: str,
     mount_path: str,
     *,
+    sandbox_volume_id: str | Unset = UNSET,
     cache_size: str | Unset = UNSET,
     prefetch: int | Unset = UNSET,
     buffer_size: str | Unset = UNSET,
