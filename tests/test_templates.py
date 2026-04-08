@@ -5,6 +5,8 @@ import httpx
 
 from sandbox0.apispec.models.container_mount_spec import ContainerMountSpec
 from sandbox0.apispec.models.container_spec import ContainerSpec
+from sandbox0.apispec.models.exec_action import ExecAction
+from sandbox0.apispec.models.probe import Probe
 from sandbox0.apispec.models.resource_quota import ResourceQuota
 from sandbox0.apispec.models.sandbox_template_spec import SandboxTemplateSpec
 from sandbox0.apispec.models.shared_volume_spec import SharedVolumeSpec
@@ -120,3 +122,21 @@ class TestTemplates(TestCase):
         self.assertEqual(volume.name, "workspace")
         self.assertEqual(volume.mount_path, "/workspace/shared")
         self.assertIs(volume.sandbox_volume_id, UNSET)
+
+    def test_template_helpers_build_sidecar_probes(self) -> None:
+        sidecar = build_sidecar(
+            "helper",
+            "busybox:latest",
+            build_resources("250m", "1Gi"),
+            readiness_probe=Probe(
+                exec_=ExecAction(command=["test", "-f", "/tmp/ready"]),
+                period_seconds=1,
+            ),
+            startup_probe=Probe(
+                exec_=ExecAction(command=["test", "-f", "/tmp/booted"]),
+                initial_delay_seconds=1,
+            ),
+        )
+
+        self.assertEqual(sidecar.readiness_probe.exec_.command, ["test", "-f", "/tmp/ready"])
+        self.assertEqual(sidecar.startup_probe.exec_.command, ["test", "-f", "/tmp/booted"])

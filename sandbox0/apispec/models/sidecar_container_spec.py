@@ -33,6 +33,7 @@ class SidecarContainerSpec:
         args (Union[Unset, list[str]]):
         env (Union[Unset, list['EnvVar']]):
         mounts (Union[Unset, list['ContainerMountSpec']]):
+        readiness_probe (Union[Unset, Probe]):
         startup_probe (Union[Unset, Probe]):
     """
 
@@ -43,6 +44,7 @@ class SidecarContainerSpec:
     args: Union[Unset, list[str]] = UNSET
     env: Union[Unset, list["EnvVar"]] = UNSET
     mounts: Union[Unset, list["ContainerMountSpec"]] = UNSET
+    readiness_probe: Union[Unset, "Probe"] = UNSET
     startup_probe: Union[Unset, "Probe"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -75,6 +77,10 @@ class SidecarContainerSpec:
                 mounts_item = mounts_item_data.to_dict()
                 mounts.append(mounts_item)
 
+        readiness_probe: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.readiness_probe, Unset):
+            readiness_probe = self.readiness_probe.to_dict()
+
         startup_probe: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.startup_probe, Unset):
             startup_probe = self.startup_probe.to_dict()
@@ -96,6 +102,8 @@ class SidecarContainerSpec:
             field_dict["env"] = env
         if mounts is not UNSET:
             field_dict["mounts"] = mounts
+        if readiness_probe is not UNSET:
+            field_dict["readinessProbe"] = readiness_probe
         if startup_probe is not UNSET:
             field_dict["startupProbe"] = startup_probe
 
@@ -133,6 +141,13 @@ class SidecarContainerSpec:
 
             mounts.append(mounts_item)
 
+        _readiness_probe = d.pop("readinessProbe", UNSET)
+        readiness_probe: Union[Unset, Probe]
+        if isinstance(_readiness_probe, Unset):
+            readiness_probe = UNSET
+        else:
+            readiness_probe = Probe.from_dict(_readiness_probe)
+
         _startup_probe = d.pop("startupProbe", UNSET)
         startup_probe: Union[Unset, Probe]
         if isinstance(_startup_probe, Unset):
@@ -148,6 +163,7 @@ class SidecarContainerSpec:
             args=args,
             env=env,
             mounts=mounts,
+            readiness_probe=readiness_probe,
             startup_probe=startup_probe,
         )
 

@@ -38,6 +38,11 @@ class TestTemplates(unittest.TestCase):
                 image="busybox:latest",
                 resources=ResourceQuota(cpu="250m", memory="1Gi"),
                 command=["sh", "-lc", "touch /tmp/ready; tail -f /dev/null"],
+                readiness_probe=Probe(
+                    exec_=ExecAction(command=["test", "-f", "/tmp/ready"]),
+                    period_seconds=1,
+                    failure_threshold=1,
+                ),
                 startup_probe=Probe(
                     exec_=ExecAction(command=["test", "-f", "/tmp/ready"]),
                     initial_delay_seconds=1,
@@ -68,6 +73,7 @@ class TestTemplates(unittest.TestCase):
         self.addCleanup(_cleanup)
         self.assertEqual(created.template_id, template_id)
         self.assertEqual(len(created.spec.sidecars), 1)
+        self.assertEqual(created.spec.sidecars[0].readiness_probe.exec_.command, ["test", "-f", "/tmp/ready"])
         self.assertEqual(created.spec.sidecars[0].startup_probe.exec_.command, ["test", "-f", "/tmp/ready"])
 
         fetched = ensure_data(get_template(client=client.api, id=template_id), SuccessTemplateResponse)
