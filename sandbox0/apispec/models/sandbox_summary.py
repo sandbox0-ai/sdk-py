@@ -1,6 +1,7 @@
 import datetime
 from collections.abc import Mapping
 from typing import (
+    TYPE_CHECKING,
     Any,
     TypeVar,
     Union,
@@ -14,6 +15,10 @@ from dateutil.parser import isoparse
 from ..models.sandbox_summary_status import SandboxSummaryStatus
 from ..types import UNSET, Unset
 
+if TYPE_CHECKING:
+    from ..models.sandbox_power_state import SandboxPowerState
+
+
 T = TypeVar("T", bound="SandboxSummary")
 
 
@@ -25,6 +30,7 @@ class SandboxSummary:
         template_id (str):
         status (SandboxSummaryStatus):
         paused (bool):
+        power_state (SandboxPowerState):
         created_at (datetime.datetime):
         expires_at (datetime.datetime):
         hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
@@ -35,6 +41,7 @@ class SandboxSummary:
     template_id: str
     status: SandboxSummaryStatus
     paused: bool
+    power_state: "SandboxPowerState"
     created_at: datetime.datetime
     expires_at: datetime.datetime
     hard_expires_at: datetime.datetime
@@ -49,6 +56,8 @@ class SandboxSummary:
         status = self.status.value
 
         paused = self.paused
+
+        power_state = self.power_state.to_dict()
 
         created_at = self.created_at.isoformat()
 
@@ -70,6 +79,7 @@ class SandboxSummary:
                 "template_id": template_id,
                 "status": status,
                 "paused": paused,
+                "power_state": power_state,
                 "created_at": created_at,
                 "expires_at": expires_at,
                 "hard_expires_at": hard_expires_at,
@@ -82,6 +92,8 @@ class SandboxSummary:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_power_state import SandboxPowerState
+
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -90,6 +102,8 @@ class SandboxSummary:
         status = SandboxSummaryStatus(d.pop("status"))
 
         paused = d.pop("paused")
+
+        power_state = SandboxPowerState.from_dict(d.pop("power_state"))
 
         created_at = isoparse(d.pop("created_at"))
 
@@ -111,6 +125,7 @@ class SandboxSummary:
             template_id=template_id,
             status=status,
             paused=paused,
+            power_state=power_state,
             created_at=created_at,
             expires_at=expires_at,
             hard_expires_at=hard_expires_at,

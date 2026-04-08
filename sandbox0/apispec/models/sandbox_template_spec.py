@@ -43,7 +43,6 @@ class SandboxTemplateSpec:
         env_vars (Union[Unset, SandboxTemplateSpecEnvVars]):
         public (Union[Unset, bool]):
         allowed_teams (Union[Unset, list[str]]):
-        runtime_class_name (Union[Unset, str]):
         cluster_id (Union[Unset, str]):
     """
 
@@ -60,7 +59,6 @@ class SandboxTemplateSpec:
     env_vars: Union[Unset, "SandboxTemplateSpecEnvVars"] = UNSET
     public: Union[Unset, bool] = UNSET
     allowed_teams: Union[Unset, list[str]] = UNSET
-    runtime_class_name: Union[Unset, str] = UNSET
     cluster_id: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -117,8 +115,6 @@ class SandboxTemplateSpec:
         if not isinstance(self.allowed_teams, Unset):
             allowed_teams = self.allowed_teams
 
-        runtime_class_name = self.runtime_class_name
-
         cluster_id = self.cluster_id
 
         field_dict: dict[str, Any] = {}
@@ -150,8 +146,6 @@ class SandboxTemplateSpec:
             field_dict["public"] = public
         if allowed_teams is not UNSET:
             field_dict["allowedTeams"] = allowed_teams
-        if runtime_class_name is not UNSET:
-            field_dict["runtimeClassName"] = runtime_class_name
         if cluster_id is not UNSET:
             field_dict["clusterId"] = cluster_id
 
@@ -235,8 +229,6 @@ class SandboxTemplateSpec:
 
         allowed_teams = cast(list[str], d.pop("allowedTeams", UNSET))
 
-        runtime_class_name = d.pop("runtimeClassName", UNSET)
-
         cluster_id = d.pop("clusterId", UNSET)
 
         sandbox_template_spec = cls(
@@ -253,7 +245,6 @@ class SandboxTemplateSpec:
             env_vars=env_vars,
             public=public,
             allowed_teams=allowed_teams,
-            runtime_class_name=runtime_class_name,
             cluster_id=cluster_id,
         )
 

@@ -152,6 +152,10 @@ from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
+from .sandbox_power_state import SandboxPowerState
+from .sandbox_power_state_desired import SandboxPowerStateDesired
+from .sandbox_power_state_observed import SandboxPowerStateObserved
+from .sandbox_power_state_phase import SandboxPowerStatePhase
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_status import SandboxStatus
@@ -474,6 +478,10 @@ __all__ = (
     "SandboxConfigEnvVars",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
+    "SandboxPowerState",
+    "SandboxPowerStateDesired",
+    "SandboxPowerStateObserved",
+    "SandboxPowerStatePhase",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
     "SandboxStatus",

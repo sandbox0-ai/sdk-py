@@ -33,7 +33,6 @@ class TestTemplates(TestCase):
                     image="nginx:1.27-alpine",
                     resources=ResourceQuota(cpu="500m", memory="2Gi"),
                 ),
-                runtime_class_name="kata-dev",
                 shared_volumes=[
                     SharedVolumeSpec(
                         name="workspace",
@@ -60,7 +59,6 @@ class TestTemplates(TestCase):
         self.assertEqual(len(decoded.spec.sidecars), 1)
         self.assertEqual(len(decoded.spec.sidecars[0].mounts), 1)
         self.assertEqual(decoded.spec.sidecars[0].mounts[0].mount_path, "/shared")
-        self.assertEqual(decoded.spec.runtime_class_name, "kata-dev")
 
     def test_normalize_response_json_handles_shared_volumes(self) -> None:
         response = httpx.Response(

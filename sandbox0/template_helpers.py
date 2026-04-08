@@ -52,8 +52,6 @@ def sidecar(
     args: list[str] | Unset = UNSET,
     env: list[EnvVar] | Unset = UNSET,
     mounts: list[ContainerMountSpec] | Unset = UNSET,
-    readiness_probe: Probe | Unset = UNSET,
-    liveness_probe: Probe | Unset = UNSET,
     startup_probe: Probe | Unset = UNSET,
 ) -> SidecarContainerSpec:
     return SidecarContainerSpec(
@@ -64,8 +62,6 @@ def sidecar(
         args=args,
         env=env,
         mounts=mounts,
-        readiness_probe=readiness_probe,
-        liveness_probe=liveness_probe,
         startup_probe=startup_probe,
     )
 
