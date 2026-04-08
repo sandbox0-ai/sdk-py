@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class ContextWebSocketOutputSource(str, Enum):
-    PROMPT = "prompt"
+    PTY = "pty"
     STDERR = "stderr"
     STDOUT = "stdout"
 

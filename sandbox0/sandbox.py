@@ -16,7 +16,7 @@ from sandbox0.apispec.models.pty_size import PTYSize
 from sandbox0.apispec.models.process_type import ProcessType
 from sandbox0.apispec.types import UNSET
 from sandbox0.errors import APIError
-from sandbox0.models import CmdResult, RunResult, StreamInput, StreamOutput
+from sandbox0.models import CmdResult, RunResult, StreamDone, StreamInput, StreamOutput
 from sandbox0.sandbox_contexts import SandboxContextsMixin
 from sandbox0.sandbox_exposed_ports import SandboxExposedPortsMixin
 from sandbox0.sandbox_files import SandboxFilesMixin
@@ -57,6 +57,7 @@ class ContextStream:
         self._sandbox_id = sandbox_id
         self._context_id = context_id
         self._send_lock = threading.Lock()
+        self._done: Optional[StreamDone] = None
 
     @property
     def context_id(self) -> str:
@@ -99,12 +100,20 @@ class ContextStream:
             try:
                 raw = self._conn.recv()
             except ConnectionClosedOK:
+                if self._done is None:
+                    self._done = self._fallback_done()
                 return
             if raw is None:
+                if self._done is None:
+                    self._done = self._fallback_done()
                 return
             if isinstance(raw, bytes):
                 raw = raw.decode("utf-8", errors="replace")
             payload = json.loads(raw)
+            if self._record_terminal_done(payload):
+                return
+            if payload.get("type") not in (None, "output"):
+                continue
             yield StreamOutput(
                 sandbox_id=self._sandbox_id,
                 context_id=self._context_id,
@@ -112,8 +121,49 @@ class ContextStream:
                 data=str(payload.get("data", "")),
             )
 
+    def wait(self) -> StreamDone:
+        from websockets.exceptions import ConnectionClosedOK
+
+        if self._done is not None:
+            return self._done
+
+        while True:
+            try:
+                raw = self._conn.recv()
+            except ConnectionClosedOK:
+                self._done = self._fallback_done()
+                return self._done
+            if raw is None:
+                self._done = self._fallback_done()
+                return self._done
+            if isinstance(raw, bytes):
+                raw = raw.decode("utf-8", errors="replace")
+            payload = json.loads(raw)
+            if self._record_terminal_done(payload):
+                return self._done or self._fallback_done()
+
     def close(self) -> None:
         self._conn.close()
+
+    def _record_terminal_done(self, payload: dict[str, Any]) -> bool:
+        if payload.get("type") != "done":
+            return False
+        request_id = payload.get("request_id")
+        exit_code = payload.get("exit_code")
+        state = payload.get("state")
+        if request_id and exit_code is None and not state:
+            return False
+        self._done = StreamDone(
+            sandbox_id=self._sandbox_id,
+            context_id=self._context_id,
+            request_id=str(request_id) if request_id is not None else None,
+            exit_code=int(exit_code) if exit_code is not None else None,
+            state=str(state) if state is not None else None,
+        )
+        return True
+
+    def _fallback_done(self) -> StreamDone:
+        return StreamDone(sandbox_id=self._sandbox_id, context_id=self._context_id)
 
 
 class Sandbox(
@@ -173,6 +223,28 @@ class Sandbox(
         context_resp = self.create_context(request=request)
         output_raw = "" if context_resp.output_raw.__class__.__name__ == "Unset" else cast(str, context_resp.output_raw)
         return CmdResult(sandbox_id=self.id, context_id=context_resp.id, output_raw=output_raw)
+
+    def cmd_stream(self, cmd: str, options: Optional[CmdOptions] = None) -> ContextStream:
+        if not cmd.strip():
+            raise ValueError("command cannot be empty")
+        opts = options or CmdOptions()
+        if opts.wait is True:
+            raise ValueError("cmd stream requires wait=false")
+        command = opts.command if opts.command is not None else shlex.split(cmd)
+        if not command:
+            raise ValueError("command cannot be empty")
+        request = CreateContextRequest(
+            type_=ProcessType.CMD,
+            cmd=CreateCMDContextRequest(command=command),
+            wait_until_done=False,
+            cwd=opts.cwd if opts.cwd is not None else UNSET,
+            env_vars=self._build_env_vars(opts.env_vars),
+            pty_size=self._build_pty(opts.pty_rows, opts.pty_cols),
+            idle_timeout_sec=opts.idle_timeout_sec if opts.idle_timeout_sec is not None else UNSET,
+            ttl_sec=opts.ttl_sec if opts.ttl_sec is not None else UNSET,
+        )
+        context_resp = self.create_context(request=request)
+        return self.connect_ws_context(context_resp.id)
 
     def connect_ws_context(self, context_id: str) -> ContextStream:
         from websockets.sync.client import connect
