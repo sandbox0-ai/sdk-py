@@ -1,5 +1,6 @@
 from collections.abc import Mapping
 from typing import (
+    TYPE_CHECKING,
     Any,
     TypeVar,
     Union,
@@ -10,6 +11,10 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+if TYPE_CHECKING:
+    from ..models.sandbox_power_state import SandboxPowerState
+
+
 T = TypeVar("T", bound="ResumeSandboxResponse")
 
 
@@ -19,11 +24,13 @@ class ResumeSandboxResponse:
     Attributes:
         sandbox_id (str):
         resumed (bool):
+        power_state (SandboxPowerState):
         restored_memory (Union[Unset, str]):
     """
 
     sandbox_id: str
     resumed: bool
+    power_state: "SandboxPowerState"
     restored_memory: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -31,6 +38,8 @@ class ResumeSandboxResponse:
         sandbox_id = self.sandbox_id
 
         resumed = self.resumed
+
+        power_state = self.power_state.to_dict()
 
         restored_memory = self.restored_memory
 
@@ -40,6 +49,7 @@ class ResumeSandboxResponse:
             {
                 "sandbox_id": sandbox_id,
                 "resumed": resumed,
+                "power_state": power_state,
             }
         )
         if restored_memory is not UNSET:
@@ -49,16 +59,21 @@ class ResumeSandboxResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_power_state import SandboxPowerState
+
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 
         resumed = d.pop("resumed")
+
+        power_state = SandboxPowerState.from_dict(d.pop("power_state"))
 
         restored_memory = d.pop("restored_memory", UNSET)
 
         resume_sandbox_response = cls(
             sandbox_id=sandbox_id,
             resumed=resumed,
+            power_state=power_state,
             restored_memory=restored_memory,
         )
 

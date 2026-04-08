@@ -15,6 +15,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.exposed_port_config import ExposedPortConfig
+    from ..models.sandbox_power_state import SandboxPowerState
 
 
 T = TypeVar("T", bound="Sandbox")
@@ -29,6 +30,7 @@ class Sandbox:
         team_id (str):
         status (str):
         paused (bool):
+        power_state (SandboxPowerState):
         auto_resume (bool):
         pod_name (str):
         expires_at (datetime.datetime): Soft expiration timestamp. Zero value means not set.
@@ -44,6 +46,7 @@ class Sandbox:
     team_id: str
     status: str
     paused: bool
+    power_state: "SandboxPowerState"
     auto_resume: bool
     pod_name: str
     expires_at: datetime.datetime
@@ -64,6 +67,8 @@ class Sandbox:
         status = self.status
 
         paused = self.paused
+
+        power_state = self.power_state.to_dict()
 
         auto_resume = self.auto_resume
 
@@ -95,6 +100,7 @@ class Sandbox:
                 "team_id": team_id,
                 "status": status,
                 "paused": paused,
+                "power_state": power_state,
                 "auto_resume": auto_resume,
                 "pod_name": pod_name,
                 "expires_at": expires_at,
@@ -113,6 +119,7 @@ class Sandbox:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.exposed_port_config import ExposedPortConfig
+        from ..models.sandbox_power_state import SandboxPowerState
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -124,6 +131,8 @@ class Sandbox:
         status = d.pop("status")
 
         paused = d.pop("paused")
+
+        power_state = SandboxPowerState.from_dict(d.pop("power_state"))
 
         auto_resume = d.pop("auto_resume")
 
@@ -152,6 +161,7 @@ class Sandbox:
             team_id=team_id,
             status=status,
             paused=paused,
+            power_state=power_state,
             auto_resume=auto_resume,
             pod_name=pod_name,
             expires_at=expires_at,

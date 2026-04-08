@@ -34,7 +34,6 @@ class SidecarContainerSpec:
         env (Union[Unset, list['EnvVar']]):
         mounts (Union[Unset, list['ContainerMountSpec']]):
         readiness_probe (Union[Unset, Probe]):
-        liveness_probe (Union[Unset, Probe]):
         startup_probe (Union[Unset, Probe]):
     """
 
@@ -46,7 +45,6 @@ class SidecarContainerSpec:
     env: Union[Unset, list["EnvVar"]] = UNSET
     mounts: Union[Unset, list["ContainerMountSpec"]] = UNSET
     readiness_probe: Union[Unset, "Probe"] = UNSET
-    liveness_probe: Union[Unset, "Probe"] = UNSET
     startup_probe: Union[Unset, "Probe"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -83,10 +81,6 @@ class SidecarContainerSpec:
         if not isinstance(self.readiness_probe, Unset):
             readiness_probe = self.readiness_probe.to_dict()
 
-        liveness_probe: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.liveness_probe, Unset):
-            liveness_probe = self.liveness_probe.to_dict()
-
         startup_probe: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.startup_probe, Unset):
             startup_probe = self.startup_probe.to_dict()
@@ -110,8 +104,6 @@ class SidecarContainerSpec:
             field_dict["mounts"] = mounts
         if readiness_probe is not UNSET:
             field_dict["readinessProbe"] = readiness_probe
-        if liveness_probe is not UNSET:
-            field_dict["livenessProbe"] = liveness_probe
         if startup_probe is not UNSET:
             field_dict["startupProbe"] = startup_probe
 
@@ -156,13 +148,6 @@ class SidecarContainerSpec:
         else:
             readiness_probe = Probe.from_dict(_readiness_probe)
 
-        _liveness_probe = d.pop("livenessProbe", UNSET)
-        liveness_probe: Union[Unset, Probe]
-        if isinstance(_liveness_probe, Unset):
-            liveness_probe = UNSET
-        else:
-            liveness_probe = Probe.from_dict(_liveness_probe)
-
         _startup_probe = d.pop("startupProbe", UNSET)
         startup_probe: Union[Unset, Probe]
         if isinstance(_startup_probe, Unset):
@@ -179,7 +164,6 @@ class SidecarContainerSpec:
             env=env,
             mounts=mounts,
             readiness_probe=readiness_probe,
-            liveness_probe=liveness_probe,
             startup_probe=startup_probe,
         )
 

@@ -12,6 +12,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.sandbox_power_state import SandboxPowerState
     from ..models.sandbox_resource_usage import SandboxResourceUsage
 
 
@@ -24,6 +25,7 @@ class PauseSandboxResponse:
     Attributes:
         sandbox_id (str):
         paused (bool):
+        power_state (SandboxPowerState):
         resource_usage (Union[Unset, SandboxResourceUsage]):
         updated_memory (Union[Unset, str]):
         updated_cpu (Union[Unset, str]):
@@ -31,6 +33,7 @@ class PauseSandboxResponse:
 
     sandbox_id: str
     paused: bool
+    power_state: "SandboxPowerState"
     resource_usage: Union[Unset, "SandboxResourceUsage"] = UNSET
     updated_memory: Union[Unset, str] = UNSET
     updated_cpu: Union[Unset, str] = UNSET
@@ -40,6 +43,8 @@ class PauseSandboxResponse:
         sandbox_id = self.sandbox_id
 
         paused = self.paused
+
+        power_state = self.power_state.to_dict()
 
         resource_usage: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.resource_usage, Unset):
@@ -55,6 +60,7 @@ class PauseSandboxResponse:
             {
                 "sandbox_id": sandbox_id,
                 "paused": paused,
+                "power_state": power_state,
             }
         )
         if resource_usage is not UNSET:
@@ -68,12 +74,15 @@ class PauseSandboxResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_resource_usage import SandboxResourceUsage
 
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 
         paused = d.pop("paused")
+
+        power_state = SandboxPowerState.from_dict(d.pop("power_state"))
 
         _resource_usage = d.pop("resource_usage", UNSET)
         resource_usage: Union[Unset, SandboxResourceUsage]
@@ -89,6 +98,7 @@ class PauseSandboxResponse:
         pause_sandbox_response = cls(
             sandbox_id=sandbox_id,
             paused=paused,
+            power_state=power_state,
             resource_usage=resource_usage,
             updated_memory=updated_memory,
             updated_cpu=updated_cpu,
