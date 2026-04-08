@@ -44,6 +44,9 @@ stream = sandbox.cmd_stream(
 
 for output in stream.iter_outputs():
     print(output.data, end="")
+
+done = stream.wait()
+print(f"exit={done.exit_code} state={done.state}")
 ```
 
 ## Documentation
