@@ -1,5 +1,6 @@
 from collections.abc import Mapping
 from typing import (
+    TYPE_CHECKING,
     Any,
     TypeVar,
     Union,
@@ -10,60 +11,65 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="ContainerMountSpec")
+if TYPE_CHECKING:
+    from ..models.ssh_public_key import SSHPublicKey
+
+
+T = TypeVar("T", bound="SuccessSSHPublicKeyResponse")
 
 
 @_attrs_define
-class ContainerMountSpec:
+class SuccessSSHPublicKeyResponse:
     """
     Attributes:
-        name (str):
-        mount_path (str):
-        read_only (Union[Unset, bool]):
+        success (bool):
+        data (Union[Unset, SSHPublicKey]):
     """
 
-    name: str
-    mount_path: str
-    read_only: Union[Unset, bool] = UNSET
+    success: bool
+    data: Union[Unset, "SSHPublicKey"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        name = self.name
+        success = self.success
 
-        mount_path = self.mount_path
-
-        read_only = self.read_only
+        data: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.data, Unset):
+            data = self.data.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "name": name,
-                "mountPath": mount_path,
+                "success": success,
             }
         )
-        if read_only is not UNSET:
-            field_dict["readOnly"] = read_only
+        if data is not UNSET:
+            field_dict["data"] = data
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.ssh_public_key import SSHPublicKey
+
         d = dict(src_dict)
-        name = d.pop("name")
+        success = d.pop("success")
 
-        mount_path = d.pop("mountPath")
+        _data = d.pop("data", UNSET)
+        data: Union[Unset, SSHPublicKey]
+        if isinstance(_data, Unset):
+            data = UNSET
+        else:
+            data = SSHPublicKey.from_dict(_data)
 
-        read_only = d.pop("readOnly", UNSET)
-
-        container_mount_spec = cls(
-            name=name,
-            mount_path=mount_path,
-            read_only=read_only,
+        success_ssh_public_key_response = cls(
+            success=success,
+            data=data,
         )
 
-        container_mount_spec.additional_properties = d
-        return container_mount_spec
+        success_ssh_public_key_response.additional_properties = d
+        return success_ssh_public_key_response
 
     @property
     def additional_keys(self) -> list[str]:

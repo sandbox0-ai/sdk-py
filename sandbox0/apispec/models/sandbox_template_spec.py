@@ -19,8 +19,7 @@ if TYPE_CHECKING:
     from ..models.pool_strategy import PoolStrategy
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
     from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-    from ..models.shared_volume_spec import SharedVolumeSpec
-    from ..models.sidecar_container_spec import SidecarContainerSpec
+    from ..models.warm_process_spec import WarmProcessSpec
 
 
 T = TypeVar("T", bound="SandboxTemplateSpec")
@@ -34,8 +33,7 @@ class SandboxTemplateSpec:
         display_name (Union[Unset, str]):
         tags (Union[Unset, list[str]]):
         main_container (Union[Unset, ContainerSpec]):
-        sidecars (Union[Unset, list['SidecarContainerSpec']]):
-        shared_volumes (Union[Unset, list['SharedVolumeSpec']]):
+        warm_processes (Union[Unset, list['WarmProcessSpec']]):
         pod (Union[Unset, PodSpecOverride]):
         network (Union[Unset, SandboxNetworkPolicy]):
         pool (Union[Unset, PoolStrategy]):
@@ -50,8 +48,7 @@ class SandboxTemplateSpec:
     display_name: Union[Unset, str] = UNSET
     tags: Union[Unset, list[str]] = UNSET
     main_container: Union[Unset, "ContainerSpec"] = UNSET
-    sidecars: Union[Unset, list["SidecarContainerSpec"]] = UNSET
-    shared_volumes: Union[Unset, list["SharedVolumeSpec"]] = UNSET
+    warm_processes: Union[Unset, list["WarmProcessSpec"]] = UNSET
     pod: Union[Unset, "PodSpecOverride"] = UNSET
     network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     pool: Union[Unset, "PoolStrategy"] = UNSET
@@ -75,19 +72,12 @@ class SandboxTemplateSpec:
         if not isinstance(self.main_container, Unset):
             main_container = self.main_container.to_dict()
 
-        sidecars: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.sidecars, Unset):
-            sidecars = []
-            for sidecars_item_data in self.sidecars:
-                sidecars_item = sidecars_item_data.to_dict()
-                sidecars.append(sidecars_item)
-
-        shared_volumes: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.shared_volumes, Unset):
-            shared_volumes = []
-            for shared_volumes_item_data in self.shared_volumes:
-                shared_volumes_item = shared_volumes_item_data.to_dict()
-                shared_volumes.append(shared_volumes_item)
+        warm_processes: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.warm_processes, Unset):
+            warm_processes = []
+            for warm_processes_item_data in self.warm_processes:
+                warm_processes_item = warm_processes_item_data.to_dict()
+                warm_processes.append(warm_processes_item)
 
         pod: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pod, Unset):
@@ -128,10 +118,8 @@ class SandboxTemplateSpec:
             field_dict["tags"] = tags
         if main_container is not UNSET:
             field_dict["mainContainer"] = main_container
-        if sidecars is not UNSET:
-            field_dict["sidecars"] = sidecars
-        if shared_volumes is not UNSET:
-            field_dict["sharedVolumes"] = shared_volumes
+        if warm_processes is not UNSET:
+            field_dict["warmProcesses"] = warm_processes
         if pod is not UNSET:
             field_dict["pod"] = pod
         if network is not UNSET:
@@ -159,8 +147,7 @@ class SandboxTemplateSpec:
         from ..models.pool_strategy import PoolStrategy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.shared_volume_spec import SharedVolumeSpec
-        from ..models.sidecar_container_spec import SidecarContainerSpec
+        from ..models.warm_process_spec import WarmProcessSpec
 
         d = dict(src_dict)
         description = d.pop("description", UNSET)
@@ -176,19 +163,12 @@ class SandboxTemplateSpec:
         else:
             main_container = ContainerSpec.from_dict(_main_container)
 
-        sidecars = []
-        _sidecars = d.pop("sidecars", UNSET)
-        for sidecars_item_data in _sidecars or []:
-            sidecars_item = SidecarContainerSpec.from_dict(sidecars_item_data)
+        warm_processes = []
+        _warm_processes = d.pop("warmProcesses", UNSET)
+        for warm_processes_item_data in _warm_processes or []:
+            warm_processes_item = WarmProcessSpec.from_dict(warm_processes_item_data)
 
-            sidecars.append(sidecars_item)
-
-        shared_volumes = []
-        _shared_volumes = d.pop("sharedVolumes", UNSET)
-        for shared_volumes_item_data in _shared_volumes or []:
-            shared_volumes_item = SharedVolumeSpec.from_dict(shared_volumes_item_data)
-
-            shared_volumes.append(shared_volumes_item)
+            warm_processes.append(warm_processes_item)
 
         _pod = d.pop("pod", UNSET)
         pod: Union[Unset, PodSpecOverride]
@@ -236,8 +216,7 @@ class SandboxTemplateSpec:
             display_name=display_name,
             tags=tags,
             main_container=main_container,
-            sidecars=sidecars,
-            shared_volumes=shared_volumes,
+            warm_processes=warm_processes,
             pod=pod,
             network=network,
             pool=pool,

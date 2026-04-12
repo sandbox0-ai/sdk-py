@@ -16,6 +16,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.exposed_port_config import ExposedPortConfig
     from ..models.sandbox_power_state import SandboxPowerState
+    from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
 
 T = TypeVar("T", bound="Sandbox")
@@ -39,6 +40,7 @@ class Sandbox:
         created_at (datetime.datetime):
         user_id (Union[Unset, str]):
         exposed_ports (Union[Unset, list['ExposedPortConfig']]):
+        ssh (Union[Unset, SandboxSSHConnection]):
     """
 
     id: str
@@ -55,6 +57,7 @@ class Sandbox:
     created_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
     exposed_ports: Union[Unset, list["ExposedPortConfig"]] = UNSET
+    ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -91,6 +94,10 @@ class Sandbox:
                 exposed_ports_item = exposed_ports_item_data.to_dict()
                 exposed_ports.append(exposed_ports_item)
 
+        ssh: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.ssh, Unset):
+            ssh = self.ssh.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -113,6 +120,8 @@ class Sandbox:
             field_dict["user_id"] = user_id
         if exposed_ports is not UNSET:
             field_dict["exposed_ports"] = exposed_ports
+        if ssh is not UNSET:
+            field_dict["ssh"] = ssh
 
         return field_dict
 
@@ -120,6 +129,7 @@ class Sandbox:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.exposed_port_config import ExposedPortConfig
         from ..models.sandbox_power_state import SandboxPowerState
+        from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -155,6 +165,13 @@ class Sandbox:
 
             exposed_ports.append(exposed_ports_item)
 
+        _ssh = d.pop("ssh", UNSET)
+        ssh: Union[Unset, SandboxSSHConnection]
+        if isinstance(_ssh, Unset):
+            ssh = UNSET
+        else:
+            ssh = SandboxSSHConnection.from_dict(_ssh)
+
         sandbox = cls(
             id=id,
             template_id=template_id,
@@ -170,6 +187,7 @@ class Sandbox:
             created_at=created_at,
             user_id=user_id,
             exposed_ports=exposed_ports,
+            ssh=ssh,
         )
 
         sandbox.additional_properties = d
