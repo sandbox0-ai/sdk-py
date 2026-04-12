@@ -16,7 +16,6 @@ from .change_request_metadata import ChangeRequestMetadata
 from .claim_mount_request import ClaimMountRequest
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
-from .container_mount_spec import ContainerMountSpec
 from .container_spec import ContainerSpec
 from .context_exec_response import ContextExecResponse
 from .context_input_request import ContextInputRequest
@@ -45,6 +44,7 @@ from .create_region_request import CreateRegionRequest
 from .create_repl_context_request import CreateREPLContextRequest
 from .create_sandbox_volume_request import CreateSandboxVolumeRequest
 from .create_snapshot_request import CreateSnapshotRequest
+from .create_ssh_public_key_request import CreateSSHPublicKeyRequest
 from .create_team_request import CreateTeamRequest
 from .create_volume_sync_bootstrap_request import CreateVolumeSyncBootstrapRequest
 from .credential_binding import CredentialBinding
@@ -53,6 +53,7 @@ from .credential_source_metadata import CredentialSourceMetadata
 from .credential_source_resolver_kind import CredentialSourceResolverKind
 from .credential_source_write_request import CredentialSourceWriteRequest
 from .credential_source_write_spec import CredentialSourceWriteSpec
+from .current_api_key_response import CurrentAPIKeyResponse
 from .device_login_poll_request import DeviceLoginPollRequest
 from .device_login_poll_response import DeviceLoginPollResponse
 from .device_login_poll_response_status import DeviceLoginPollResponseStatus
@@ -158,6 +159,7 @@ from .sandbox_power_state_observed import SandboxPowerStateObserved
 from .sandbox_power_state_phase import SandboxPowerStatePhase
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
+from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
 from .sandbox_summary import SandboxSummary
 from .sandbox_summary_status import SandboxSummaryStatus
@@ -170,10 +172,9 @@ from .sandbox_update_config import SandboxUpdateConfig
 from .sandbox_update_request import SandboxUpdateRequest
 from .sandbox_volume import SandboxVolume
 from .security_context import SecurityContext
-from .shared_volume_spec import SharedVolumeSpec
-from .sidecar_container_spec import SidecarContainerSpec
 from .signal_context_request import SignalContextRequest
 from .snapshot import Snapshot
+from .ssh_public_key import SSHPublicKey
 from .static_headers_source_spec import StaticHeadersSourceSpec
 from .static_headers_source_spec_values import StaticHeadersSourceSpecValues
 from .static_tls_client_certificate_source_spec import (
@@ -195,6 +196,8 @@ from .success_created_response import SuccessCreatedResponse
 from .success_created_response_data import SuccessCreatedResponseData
 from .success_credential_source_list_response import SuccessCredentialSourceListResponse
 from .success_credential_source_response import SuccessCredentialSourceResponse
+from .success_current_api_key_response import SuccessCurrentAPIKeyResponse
+from .success_current_api_key_response_data import SuccessCurrentAPIKeyResponseData
 from .success_deleted_response import SuccessDeletedResponse
 from .success_deleted_response_data import SuccessDeletedResponseData
 from .success_device_login_poll_response import SuccessDeviceLoginPollResponse
@@ -242,6 +245,11 @@ from .success_signaled_response import SuccessSignaledResponse
 from .success_signaled_response_data import SuccessSignaledResponseData
 from .success_snapshot_list_response import SuccessSnapshotListResponse
 from .success_snapshot_response import SuccessSnapshotResponse
+from .success_ssh_public_key_list_response import SuccessSSHPublicKeyListResponse
+from .success_ssh_public_key_list_response_data import (
+    SuccessSSHPublicKeyListResponseData,
+)
+from .success_ssh_public_key_response import SuccessSSHPublicKeyResponse
 from .success_team_list_response import SuccessTeamListResponse
 from .success_team_list_response_data import SuccessTeamListResponseData
 from .success_team_member_list_response import SuccessTeamMemberListResponse
@@ -324,6 +332,9 @@ from .volume_sync_reseed_required_error_envelope import (
 from .volume_sync_reseed_required_error_envelope_error import (
     VolumeSyncReseedRequiredErrorEnvelopeError,
 )
+from .warm_process_spec import WarmProcessSpec
+from .warm_process_spec_env_vars import WarmProcessSpecEnvVars
+from .warm_process_spec_type import WarmProcessSpecType
 from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
@@ -344,7 +355,6 @@ __all__ = (
     "ClaimMountRequest",
     "ClaimRequest",
     "ClaimResponse",
-    "ContainerMountSpec",
     "ContainerSpec",
     "ContextExecResponse",
     "ContextInputRequest",
@@ -373,6 +383,7 @@ __all__ = (
     "CreateREPLContextRequest",
     "CreateSandboxVolumeRequest",
     "CreateSnapshotRequest",
+    "CreateSSHPublicKeyRequest",
     "CreateTeamRequest",
     "CreateVolumeSyncBootstrapRequest",
     "CredentialBinding",
@@ -381,6 +392,7 @@ __all__ = (
     "CredentialSourceResolverKind",
     "CredentialSourceWriteRequest",
     "CredentialSourceWriteSpec",
+    "CurrentAPIKeyResponse",
     "DeviceLoginPollRequest",
     "DeviceLoginPollResponse",
     "DeviceLoginPollResponseStatus",
@@ -484,6 +496,7 @@ __all__ = (
     "SandboxPowerStatePhase",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
+    "SandboxSSHConnection",
     "SandboxStatus",
     "SandboxSummary",
     "SandboxSummaryStatus",
@@ -496,10 +509,9 @@ __all__ = (
     "SandboxUpdateRequest",
     "SandboxVolume",
     "SecurityContext",
-    "SharedVolumeSpec",
-    "SidecarContainerSpec",
     "SignalContextRequest",
     "Snapshot",
+    "SSHPublicKey",
     "StaticHeadersSourceSpec",
     "StaticHeadersSourceSpecValues",
     "StaticTLSClientCertificateSourceSpec",
@@ -519,6 +531,8 @@ __all__ = (
     "SuccessCreatedResponseData",
     "SuccessCredentialSourceListResponse",
     "SuccessCredentialSourceResponse",
+    "SuccessCurrentAPIKeyResponse",
+    "SuccessCurrentAPIKeyResponseData",
     "SuccessDeletedResponse",
     "SuccessDeletedResponseData",
     "SuccessDeviceLoginPollResponse",
@@ -566,6 +580,9 @@ __all__ = (
     "SuccessSignaledResponseData",
     "SuccessSnapshotListResponse",
     "SuccessSnapshotResponse",
+    "SuccessSSHPublicKeyListResponse",
+    "SuccessSSHPublicKeyListResponseData",
+    "SuccessSSHPublicKeyResponse",
     "SuccessTeamListResponse",
     "SuccessTeamListResponseData",
     "SuccessTeamMemberListResponse",
@@ -630,6 +647,9 @@ __all__ = (
     "VolumeSyncReseedRequiredDetailsReason",
     "VolumeSyncReseedRequiredErrorEnvelope",
     "VolumeSyncReseedRequiredErrorEnvelopeError",
+    "WarmProcessSpec",
+    "WarmProcessSpecEnvVars",
+    "WarmProcessSpecType",
     "WebhookConfig",
     "WeightedPodAffinityTerm",
 )
