@@ -4,7 +4,6 @@ from typing import (
     Any,
     TypeVar,
     Union,
-    cast,
 )
 
 from attrs import define as _attrs_define
@@ -23,14 +22,14 @@ T = TypeVar("T", bound="HTTPGetAction")
 class HTTPGetAction:
     """
     Attributes:
-        port (Union[int, str]):
+        port (int):
         path (Union[Unset, str]):
         host (Union[Unset, str]):
         scheme (Union[Unset, str]):
         http_headers (Union[Unset, list['HTTPHeader']]):
     """
 
-    port: Union[int, str]
+    port: int
     path: Union[Unset, str] = UNSET
     host: Union[Unset, str] = UNSET
     scheme: Union[Unset, str] = UNSET
@@ -38,7 +37,6 @@ class HTTPGetAction:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        port: Union[int, str]
         port = self.port
 
         path = self.path
@@ -77,11 +75,7 @@ class HTTPGetAction:
         from ..models.http_header import HTTPHeader
 
         d = dict(src_dict)
-
-        def _parse_port(data: object) -> Union[int, str]:
-            return cast(Union[int, str], data)
-
-        port = _parse_port(d.pop("port"))
+        port = d.pop("port")
 
         path = d.pop("path", UNSET)
 

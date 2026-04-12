@@ -20,7 +20,6 @@ class CurrentAPIKeyResponse:
         id (str):
         team_id (str):
         created_by (str):
-        type_ (str):
         roles (list[str]):
         permissions (list[str]):
         is_active (bool):
@@ -30,7 +29,6 @@ class CurrentAPIKeyResponse:
     id: str
     team_id: str
     created_by: str
-    type_: str
     roles: list[str]
     permissions: list[str]
     is_active: bool
@@ -43,8 +41,6 @@ class CurrentAPIKeyResponse:
         team_id = self.team_id
 
         created_by = self.created_by
-
-        type_ = self.type_
 
         roles = self.roles
 
@@ -61,7 +57,6 @@ class CurrentAPIKeyResponse:
                 "id": id,
                 "team_id": team_id,
                 "created_by": created_by,
-                "type": type_,
                 "roles": roles,
                 "permissions": permissions,
                 "is_active": is_active,
@@ -80,8 +75,6 @@ class CurrentAPIKeyResponse:
 
         created_by = d.pop("created_by")
 
-        type_ = d.pop("type")
-
         roles = cast(list[str], d.pop("roles"))
 
         permissions = cast(list[str], d.pop("permissions"))
@@ -94,7 +87,6 @@ class CurrentAPIKeyResponse:
             id=id,
             team_id=team_id,
             created_by=created_by,
-            type_=type_,
             roles=roles,
             permissions=permissions,
             is_active=is_active,

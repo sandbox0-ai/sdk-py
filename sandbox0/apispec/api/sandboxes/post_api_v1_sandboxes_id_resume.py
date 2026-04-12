@@ -26,15 +26,25 @@ def _get_kwargs(
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Optional[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
-    if response.status_code == 202:
-        response_202 = SuccessResumeSandboxResponse.from_dict(response.json())
+    if response.status_code == 200:
+        response_200 = SuccessResumeSandboxResponse.from_dict(response.json())
 
-        return response_202
+        return response_200
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
 
         return response_404
+
+    if response.status_code == 409:
+        response_409 = ErrorEnvelope.from_dict(response.json())
+
+        return response_409
+
+    if response.status_code == 504:
+        response_504 = ErrorEnvelope.from_dict(response.json())
+
+        return response_504
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)

@@ -35,7 +35,6 @@ from .context_web_socket_resize_type import ContextWebSocketResizeType
 from .context_web_socket_signal import ContextWebSocketSignal
 from .context_web_socket_signal_type import ContextWebSocketSignalType
 from .create_api_key_request import CreateAPIKeyRequest
-from .create_api_key_request_type import CreateAPIKeyRequestType
 from .create_api_key_response import CreateAPIKeyResponse
 from .create_cmd_context_request import CreateCMDContextRequest
 from .create_context_request import CreateContextRequest
@@ -125,6 +124,7 @@ from .port_spec import PortSpec
 from .pre_stop_hook import PreStopHook
 from .preferred_scheduling_term import PreferredSchedulingTerm
 from .probe import Probe
+from .process_probe_action import ProcessProbeAction
 from .process_type import ProcessType
 from .projected_header import ProjectedHeader
 from .projection_spec import ProjectionSpec
@@ -157,6 +157,8 @@ from .sandbox_power_state import SandboxPowerState
 from .sandbox_power_state_desired import SandboxPowerStateDesired
 from .sandbox_power_state_observed import SandboxPowerStateObserved
 from .sandbox_power_state_phase import SandboxPowerStatePhase
+from .sandbox_probe_set import SandboxProbeSet
+from .sandbox_probe_spec import SandboxProbeSpec
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_ssh_connection import SandboxSSHConnection
@@ -374,7 +376,6 @@ __all__ = (
     "ContextWebSocketSignal",
     "ContextWebSocketSignalType",
     "CreateAPIKeyRequest",
-    "CreateAPIKeyRequestType",
     "CreateAPIKeyResponse",
     "CreateCMDContextRequest",
     "CreateContextRequest",
@@ -464,6 +465,7 @@ __all__ = (
     "PreferredSchedulingTerm",
     "PreStopHook",
     "Probe",
+    "ProcessProbeAction",
     "ProcessType",
     "ProjectedHeader",
     "ProjectionSpec",
@@ -494,6 +496,8 @@ __all__ = (
     "SandboxPowerStateDesired",
     "SandboxPowerStateObserved",
     "SandboxPowerStatePhase",
+    "SandboxProbeSet",
+    "SandboxProbeSpec",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
     "SandboxSSHConnection",

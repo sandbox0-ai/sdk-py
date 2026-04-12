@@ -3,7 +3,6 @@ from typing import (
     Any,
     TypeVar,
     Union,
-    cast,
 )
 
 from attrs import define as _attrs_define
@@ -18,16 +17,15 @@ T = TypeVar("T", bound="TCPSocketAction")
 class TCPSocketAction:
     """
     Attributes:
-        port (Union[int, str]):
+        port (int):
         host (Union[Unset, str]):
     """
 
-    port: Union[int, str]
+    port: int
     host: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        port: Union[int, str]
         port = self.port
 
         host = self.host
@@ -47,11 +45,7 @@ class TCPSocketAction:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-
-        def _parse_port(data: object) -> Union[int, str]:
-            return cast(Union[int, str], data)
-
-        port = _parse_port(d.pop("port"))
+        port = d.pop("port")
 
         host = d.pop("host", UNSET)
 
