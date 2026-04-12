@@ -22,7 +22,6 @@ class CreateAPIKeyResponse:
     Attributes:
         id (str):
         name (str):
-        type_ (str):
         roles (list[str]):
         team_id (str):
         expires_at (datetime.datetime):
@@ -32,7 +31,6 @@ class CreateAPIKeyResponse:
 
     id: str
     name: str
-    type_: str
     roles: list[str]
     team_id: str
     expires_at: datetime.datetime
@@ -44,8 +42,6 @@ class CreateAPIKeyResponse:
         id = self.id
 
         name = self.name
-
-        type_ = self.type_
 
         roles = self.roles
 
@@ -63,7 +59,6 @@ class CreateAPIKeyResponse:
             {
                 "id": id,
                 "name": name,
-                "type": type_,
                 "roles": roles,
                 "team_id": team_id,
                 "expires_at": expires_at,
@@ -82,8 +77,6 @@ class CreateAPIKeyResponse:
 
         name = d.pop("name")
 
-        type_ = d.pop("type")
-
         roles = cast(list[str], d.pop("roles"))
 
         team_id = d.pop("team_id")
@@ -97,7 +90,6 @@ class CreateAPIKeyResponse:
         create_api_key_response = cls(
             id=id,
             name=name,
-            type_=type_,
             roles=roles,
             team_id=team_id,
             expires_at=expires_at,

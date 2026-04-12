@@ -24,7 +24,6 @@ class APIKey:
         team_id (str):
         created_by (str):
         name (str):
-        type_ (str):
         roles (list[str]):
         is_active (bool):
         expires_at (datetime.datetime):
@@ -40,7 +39,6 @@ class APIKey:
     team_id: str
     created_by: str
     name: str
-    type_: str
     roles: list[str]
     is_active: bool
     expires_at: datetime.datetime
@@ -60,8 +58,6 @@ class APIKey:
         created_by = self.created_by
 
         name = self.name
-
-        type_ = self.type_
 
         roles = self.roles
 
@@ -95,7 +91,6 @@ class APIKey:
                 "team_id": team_id,
                 "created_by": created_by,
                 "name": name,
-                "type": type_,
                 "roles": roles,
                 "is_active": is_active,
                 "expires_at": expires_at,
@@ -124,8 +119,6 @@ class APIKey:
         created_by = d.pop("created_by")
 
         name = d.pop("name")
-
-        type_ = d.pop("type")
 
         roles = cast(list[str], d.pop("roles"))
 
@@ -162,7 +155,6 @@ class APIKey:
             team_id=team_id,
             created_by=created_by,
             name=name,
-            type_=type_,
             roles=roles,
             is_active=is_active,
             expires_at=expires_at,
