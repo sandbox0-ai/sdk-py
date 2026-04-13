@@ -68,6 +68,9 @@ def sync_detailed(
 ) -> Response[SuccessWrittenResponse]:
     """Send input to context
 
+     Writes input to the context stdin exactly as provided. For REPL contexts, include a trailing newline
+    to submit a line for execution.
+
     Args:
         id (str):
         ctx_id (str):
@@ -103,6 +106,9 @@ def sync(
 ) -> Optional[SuccessWrittenResponse]:
     """Send input to context
 
+     Writes input to the context stdin exactly as provided. For REPL contexts, include a trailing newline
+    to submit a line for execution.
+
     Args:
         id (str):
         ctx_id (str):
@@ -132,6 +138,9 @@ async def asyncio_detailed(
     body: ContextInputRequest,
 ) -> Response[SuccessWrittenResponse]:
     """Send input to context
+
+     Writes input to the context stdin exactly as provided. For REPL contexts, include a trailing newline
+    to submit a line for execution.
 
     Args:
         id (str):
@@ -165,6 +174,9 @@ async def asyncio(
     body: ContextInputRequest,
 ) -> Optional[SuccessWrittenResponse]:
     """Send input to context
+
+     Writes input to the context stdin exactly as provided. For REPL contexts, include a trailing newline
+    to submit a line for execution.
 
     Args:
         id (str):

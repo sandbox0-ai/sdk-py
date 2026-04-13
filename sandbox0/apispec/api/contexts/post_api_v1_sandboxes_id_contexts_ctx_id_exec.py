@@ -66,9 +66,10 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: ContextInputRequest,
 ) -> Response[SuccessContextExecResponse]:
-    """Execute context input (sync)
+    r"""Execute context input (sync)
 
-     Sends input and blocks until the context completes or times out.
+     Sends input and blocks until the context completes or times out. For REPL contexts, the server
+    appends a trailing newline when the input does not already end in \n or \r.
 
     Args:
         id (str):
@@ -103,9 +104,10 @@ def sync(
     client: AuthenticatedClient,
     body: ContextInputRequest,
 ) -> Optional[SuccessContextExecResponse]:
-    """Execute context input (sync)
+    r"""Execute context input (sync)
 
-     Sends input and blocks until the context completes or times out.
+     Sends input and blocks until the context completes or times out. For REPL contexts, the server
+    appends a trailing newline when the input does not already end in \n or \r.
 
     Args:
         id (str):
@@ -135,9 +137,10 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: ContextInputRequest,
 ) -> Response[SuccessContextExecResponse]:
-    """Execute context input (sync)
+    r"""Execute context input (sync)
 
-     Sends input and blocks until the context completes or times out.
+     Sends input and blocks until the context completes or times out. For REPL contexts, the server
+    appends a trailing newline when the input does not already end in \n or \r.
 
     Args:
         id (str):
@@ -170,9 +173,10 @@ async def asyncio(
     client: AuthenticatedClient,
     body: ContextInputRequest,
 ) -> Optional[SuccessContextExecResponse]:
-    """Execute context input (sync)
+    r"""Execute context input (sync)
 
-     Sends input and blocks until the context completes or times out.
+     Sends input and blocks until the context completes or times out. For REPL contexts, the server
+    appends a trailing newline when the input does not already end in \n or \r.
 
     Args:
         id (str):
