@@ -1310,12 +1310,24 @@ paths:
       parameters:
         - $ref: "#/components/parameters/SandboxID"
       responses:
-        "202":
-          description: Pause request accepted; sandbox power state will converge asynchronously
+        "200":
+          description: Sandbox paused
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/SuccessPauseSandboxResponse"
+        "409":
+          description: Pause was superseded by a newer power transition
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "504":
+          description: Timed out waiting for the sandbox to pause
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
         "404":
           description: Not found
           content:
@@ -1333,12 +1345,24 @@ paths:
       parameters:
         - $ref: "#/components/parameters/SandboxID"
       responses:
-        "202":
-          description: Resume request accepted; sandbox power state will converge asynchronously
+        "200":
+          description: Sandbox resumed
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/SuccessResumeSandboxResponse"
+        "409":
+          description: Resume was superseded by a newer power transition
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+        "504":
+          description: Timed out waiting for the sandbox to resume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
         "404":
           description: Not found
           content:
@@ -1620,6 +1644,7 @@ paths:
     post:
       tags: [contexts]
       summary: Send input to context
+      description: Writes input to the context stdin exactly as provided. For REPL contexts, include a trailing newline to submit a line for execution.
       security:
         - bearerAuth: []
       x-upstream-service: procd
@@ -1644,7 +1669,7 @@ paths:
     post:
       tags: [contexts]
       summary: Execute context input (sync)
-      description: Sends input and blocks until the context completes or times out.
+      description: Sends input and blocks until the context completes or times out. For REPL contexts, the server appends a trailing newline when the input does not already end in \n or \r.
       security:
         - bearerAuth: []
       x-upstream-service: procd
@@ -1737,6 +1762,7 @@ paths:
       summary: Context WebSocket (I/O)
       description: |
         Upgrades to WebSocket for streaming I/O.
+        WebSocket input data is written to stdin exactly as provided; include "\n" when submitting a REPL line.
         Client messages (JSON):
         - { "type": "input", "data": "ls\n", "request_id": "req-1" }
         - { "type": "resize", "rows": 24, "cols": 80 }
@@ -3668,8 +3694,6 @@ components:
           type: string
         name:
           type: string
-        type:
-          type: string
         roles:
           type: array
           items:
@@ -3696,7 +3720,6 @@ components:
         - team_id
         - created_by
         - name
-        - type
         - roles
         - is_active
         - expires_at
@@ -3707,9 +3730,6 @@ components:
       properties:
         name:
           type: string
-        type:
-          type: string
-          enum: [user, service]
         roles:
           type: array
           items:
@@ -3717,15 +3737,13 @@ components:
         expires_in:
           type: string
           description: "30d, 90d, 180d, 365d, or never"
-      required: [name, type]
+      required: [name]
     CreateAPIKeyResponse:
       type: object
       properties:
         id:
           type: string
         name:
-          type: string
-        type:
           type: string
         roles:
           type: array
@@ -3741,7 +3759,7 @@ components:
         created_at:
           type: string
           format: date-time
-      required: [id, name, type, roles, team_id, expires_at, created_at]
+      required: [id, name, roles, team_id, expires_at, created_at]
     CurrentAPIKeyResponse:
       type: object
       properties:
@@ -3750,8 +3768,6 @@ components:
         team_id:
           type: string
         created_by:
-          type: string
-        type:
           type: string
         roles:
           type: array
@@ -3766,7 +3782,7 @@ components:
         expires_at:
           type: string
           format: date-time
-      required: [id, team_id, created_by, type, roles, permissions, is_active, expires_at]
+      required: [id, team_id, created_by, roles, permissions, is_active, expires_at]
     SuccessCreateAPIKeyResponse:
       allOf:
         - $ref: "#/components/schemas/SuccessEnvelope"
@@ -4481,6 +4497,7 @@ components:
       properties:
         data:
           type: string
+          description: Input bytes encoded as a string. The /input endpoint writes this value exactly as provided. The /exec endpoint appends a trailing newline for REPL contexts when missing.
       required: [data]
     ContextExecResponse:
       type: object
@@ -4695,6 +4712,7 @@ components:
           enum: [input]
         data:
           type: string
+          description: Input bytes encoded as a string. The WebSocket endpoint writes this value exactly as provided and does not append a newline.
         request_id:
           type: string
       required: [type]
@@ -5541,6 +5559,8 @@ components:
     WarmProcessSpec:
       type: object
       properties:
+        name:
+          type: string
         type:
           type: string
           enum: [repl, cmd]
@@ -5556,7 +5576,38 @@ components:
           type: object
           additionalProperties:
             type: string
+        probes:
+          $ref: "#/components/schemas/SandboxProbeSet"
       required: [type]
+    SandboxProbeSet:
+      type: object
+      properties:
+        startup:
+          $ref: "#/components/schemas/SandboxProbeSpec"
+        readiness:
+          $ref: "#/components/schemas/SandboxProbeSpec"
+        liveness:
+          $ref: "#/components/schemas/SandboxProbeSpec"
+    SandboxProbeSpec:
+      type: object
+      properties:
+        process:
+          $ref: "#/components/schemas/ProcessProbeAction"
+        exec:
+          $ref: "#/components/schemas/ExecAction"
+        httpGet:
+          $ref: "#/components/schemas/HTTPGetAction"
+        tcpSocket:
+          $ref: "#/components/schemas/TCPSocketAction"
+        initialDelaySeconds:
+          type: integer
+          format: int32
+        timeoutSeconds:
+          type: integer
+          format: int32
+    ProcessProbeAction:
+      type: object
+      additionalProperties: false
     EnvVar:
       type: object
       properties:
@@ -5668,10 +5719,8 @@ components:
           type: string
       required: [name, value]
     ProbePort:
-      oneOf:
-        - type: integer
-          format: int32
-        - type: string
+      type: integer
+      format: int32
     PodSpecOverride:
       type: object
       properties:

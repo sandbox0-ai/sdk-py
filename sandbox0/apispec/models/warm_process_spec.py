@@ -14,6 +14,7 @@ from ..models.warm_process_spec_type import WarmProcessSpecType
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.sandbox_probe_set import SandboxProbeSet
     from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
 
 
@@ -25,21 +26,27 @@ class WarmProcessSpec:
     """
     Attributes:
         type_ (WarmProcessSpecType):
+        name (Union[Unset, str]):
         alias (Union[Unset, str]):
         command (Union[Unset, list[str]]):
         cwd (Union[Unset, str]):
         env_vars (Union[Unset, WarmProcessSpecEnvVars]):
+        probes (Union[Unset, SandboxProbeSet]):
     """
 
     type_: WarmProcessSpecType
+    name: Union[Unset, str] = UNSET
     alias: Union[Unset, str] = UNSET
     command: Union[Unset, list[str]] = UNSET
     cwd: Union[Unset, str] = UNSET
     env_vars: Union[Unset, "WarmProcessSpecEnvVars"] = UNSET
+    probes: Union[Unset, "SandboxProbeSet"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
+
+        name = self.name
 
         alias = self.alias
 
@@ -53,6 +60,10 @@ class WarmProcessSpec:
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
 
+        probes: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.probes, Unset):
+            probes = self.probes.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -60,6 +71,8 @@ class WarmProcessSpec:
                 "type": type_,
             }
         )
+        if name is not UNSET:
+            field_dict["name"] = name
         if alias is not UNSET:
             field_dict["alias"] = alias
         if command is not UNSET:
@@ -68,15 +81,20 @@ class WarmProcessSpec:
             field_dict["cwd"] = cwd
         if env_vars is not UNSET:
             field_dict["envVars"] = env_vars
+        if probes is not UNSET:
+            field_dict["probes"] = probes
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_probe_set import SandboxProbeSet
         from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
 
         d = dict(src_dict)
         type_ = WarmProcessSpecType(d.pop("type"))
+
+        name = d.pop("name", UNSET)
 
         alias = d.pop("alias", UNSET)
 
@@ -91,12 +109,21 @@ class WarmProcessSpec:
         else:
             env_vars = WarmProcessSpecEnvVars.from_dict(_env_vars)
 
+        _probes = d.pop("probes", UNSET)
+        probes: Union[Unset, SandboxProbeSet]
+        if isinstance(_probes, Unset):
+            probes = UNSET
+        else:
+            probes = SandboxProbeSet.from_dict(_probes)
+
         warm_process_spec = cls(
             type_=type_,
+            name=name,
             alias=alias,
             command=command,
             cwd=cwd,
             env_vars=env_vars,
+            probes=probes,
         )
 
         warm_process_spec.additional_properties = d

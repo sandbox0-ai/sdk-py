@@ -9,7 +9,6 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.create_api_key_request_type import CreateAPIKeyRequestType
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="CreateAPIKeyRequest")
@@ -20,21 +19,17 @@ class CreateAPIKeyRequest:
     """
     Attributes:
         name (str):
-        type_ (CreateAPIKeyRequestType):
         roles (Union[Unset, list[str]]):
         expires_in (Union[Unset, str]): 30d, 90d, 180d, 365d, or never
     """
 
     name: str
-    type_: CreateAPIKeyRequestType
     roles: Union[Unset, list[str]] = UNSET
     expires_in: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
-
-        type_ = self.type_.value
 
         roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.roles, Unset):
@@ -47,7 +42,6 @@ class CreateAPIKeyRequest:
         field_dict.update(
             {
                 "name": name,
-                "type": type_,
             }
         )
         if roles is not UNSET:
@@ -62,15 +56,12 @@ class CreateAPIKeyRequest:
         d = dict(src_dict)
         name = d.pop("name")
 
-        type_ = CreateAPIKeyRequestType(d.pop("type"))
-
         roles = cast(list[str], d.pop("roles", UNSET))
 
         expires_in = d.pop("expires_in", UNSET)
 
         create_api_key_request = cls(
             name=name,
-            type_=type_,
             roles=roles,
             expires_in=expires_in,
         )

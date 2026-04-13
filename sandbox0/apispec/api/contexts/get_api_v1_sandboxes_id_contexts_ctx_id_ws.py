@@ -55,6 +55,8 @@ def sync_detailed(
     r"""Context WebSocket (I/O)
 
      Upgrades to WebSocket for streaming I/O.
+    WebSocket input data is written to stdin exactly as provided; include \"\n\" when submitting a REPL
+    line.
     Client messages (JSON):
     - { \"type\": \"input\", \"data\": \"ls\n\", \"request_id\": \"req-1\" }
     - { \"type\": \"resize\", \"rows\": 24, \"cols\": 80 }
@@ -97,6 +99,8 @@ async def asyncio_detailed(
     r"""Context WebSocket (I/O)
 
      Upgrades to WebSocket for streaming I/O.
+    WebSocket input data is written to stdin exactly as provided; include \"\n\" when submitting a REPL
+    line.
     Client messages (JSON):
     - { \"type\": \"input\", \"data\": \"ls\n\", \"request_id\": \"req-1\" }
     - { \"type\": \"resize\", \"rows\": 24, \"cols\": 80 }

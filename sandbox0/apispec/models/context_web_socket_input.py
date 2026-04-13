@@ -19,7 +19,8 @@ class ContextWebSocketInput:
     """
     Attributes:
         type_ (ContextWebSocketInputType):
-        data (Union[Unset, str]):
+        data (Union[Unset, str]): Input bytes encoded as a string. The WebSocket endpoint writes this value exactly as
+            provided and does not append a newline.
         request_id (Union[Unset, str]):
     """
 
