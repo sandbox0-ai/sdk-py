@@ -6,11 +6,7 @@ from typing import TYPE_CHECKING, Any, Iterator, Optional
 
 import httpx
 
-from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes_id_logs
-from sandbox0.apispec.models.sandbox_logs import SandboxLogs
-from sandbox0.apispec.models.success_sandbox_logs_response import SuccessSandboxLogsResponse
 from sandbox0.errors import APIError
-from sandbox0.response import ensure_data
 from sandbox0.response_normalize import SKIP_RESPONSE_NORMALIZE_EXTENSION
 
 if TYPE_CHECKING:
@@ -27,19 +23,48 @@ class SandboxLogsOptions:
     since_seconds: Optional[int] = None
 
 
+@dataclass(frozen=True)
+class SandboxLogs:
+    sandbox_id: str
+    pod_name: str
+    container: str
+    previous: bool
+    logs: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "sandbox_id": self.sandbox_id,
+            "pod_name": self.pod_name,
+            "container": self.container,
+            "previous": self.previous,
+            "logs": self.logs,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "SandboxLogs":
+        return cls(
+            sandbox_id=str(data.get("sandbox_id", "")),
+            pod_name=str(data.get("pod_name", "")),
+            container=str(data.get("container", "")),
+            previous=bool(data.get("previous", False)),
+            logs=str(data.get("logs", "")),
+        )
+
+
 class SandboxLogStream:
     def __init__(self, response: httpx.Response) -> None:
         self._response = response
         self.sandbox_id = response.headers.get("X-Sandbox-ID", "")
         self.pod_name = response.headers.get("X-Sandbox-Pod-Name", "")
         self.container = response.headers.get("X-Sandbox-Log-Container", "")
+        self.previous = _bool_header(response.headers.get("X-Sandbox-Log-Previous"), False)
 
     @property
     def response(self) -> httpx.Response:
         return self._response
 
     def iter_bytes(self) -> Iterator[bytes]:
-        return self._response.iter_bytes()
+        yield from self._response.iter_bytes()
 
     def iter_text(self) -> Iterator[str]:
         return self._response.iter_text()
@@ -63,18 +88,30 @@ class SandboxLogsMixin:
 
     def get_logs(self: "Sandbox", options: Optional[SandboxLogsOptions] = None) -> SandboxLogs:  # type: ignore[misc]
         opts = options or SandboxLogsOptions()
-        resp = get_api_v1_sandboxes_id_logs.sync_detailed(
-            id=self.id,
-            client=self._client.api,
-            container=opts.container or "procd",
-            tail_lines=200 if opts.tail_lines is None else opts.tail_lines,
-            limit_bytes=1048576 if opts.limit_bytes is None else opts.limit_bytes,
-            follow=False,
-            previous=opts.previous,
-            timestamps=opts.timestamps,
-            since_seconds=opts.since_seconds if opts.since_seconds is not None else _unset(),
+        http_client = self._client.api.get_httpx_client()
+        request = http_client.build_request(
+            "GET",
+            f"/api/v1/sandboxes/{self.id}/logs",
+            params=_logs_params(opts, follow=False),
         )
-        return ensure_data(resp, SuccessSandboxLogsResponse)
+        request.extensions[SKIP_RESPONSE_NORMALIZE_EXTENSION] = True
+        response = http_client.send(request)
+        try:
+            if response.status_code < 200 or response.status_code >= 300:
+                raise _api_error_from_response(response, response.read())
+            content_type = response.headers.get("Content-Type", "")
+            if _has_content_type_prefix(content_type, "application/json"):
+                payload = response.json()
+                return SandboxLogs.from_dict(payload.get("data") or {})
+            if content_type and not _has_content_type_prefix(content_type, "text/plain"):
+                raise APIError(
+                    status_code=response.status_code,
+                    code="unexpected_response",
+                    message=f"unexpected log snapshot content type: {content_type}",
+                )
+            return _sandbox_logs_from_response(response, self.id, opts, response.text)
+        finally:
+            response.close()
 
     def stream_logs(self: "Sandbox", options: Optional[SandboxLogsOptions] = None) -> SandboxLogStream:  # type: ignore[misc]
         opts = options or SandboxLogsOptions()
@@ -82,7 +119,7 @@ class SandboxLogsMixin:
         request = http_client.build_request(
             "GET",
             f"/api/v1/sandboxes/{self.id}/logs",
-            params=_stream_params(opts),
+            params=_logs_params(opts, follow=True),
         )
         request.extensions[SKIP_RESPONSE_NORMALIZE_EXTENSION] = True
         response = http_client.send(request, stream=True)
@@ -91,7 +128,7 @@ class SandboxLogsMixin:
             response.close()
             raise _api_error_from_response(response, content)
         content_type = response.headers.get("Content-Type", "")
-        if content_type and not content_type.lower().startswith("text/plain"):
+        if content_type and not _has_content_type_prefix(content_type, "text/plain"):
             response.close()
             raise APIError(
                 status_code=response.status_code,
@@ -101,8 +138,8 @@ class SandboxLogsMixin:
         return SandboxLogStream(response)
 
 
-def _stream_params(options: SandboxLogsOptions) -> dict[str, str]:
-    params: dict[str, str] = {"follow": "true"}
+def _logs_params(options: SandboxLogsOptions, follow: bool) -> dict[str, str]:
+    params: dict[str, str] = {"follow": "true" if follow else "false"}
     if options.container:
         params["container"] = options.container
     if options.tail_lines is not None:
@@ -116,6 +153,26 @@ def _stream_params(options: SandboxLogsOptions) -> dict[str, str]:
     if options.since_seconds is not None:
         params["since_seconds"] = str(options.since_seconds)
     return params
+
+
+def _sandbox_logs_from_response(response: httpx.Response, sandbox_id: str, options: SandboxLogsOptions, logs: str) -> SandboxLogs:
+    return SandboxLogs(
+        sandbox_id=response.headers.get("X-Sandbox-ID") or sandbox_id,
+        pod_name=response.headers.get("X-Sandbox-Pod-Name", ""),
+        container=response.headers.get("X-Sandbox-Log-Container", ""),
+        previous=_bool_header(response.headers.get("X-Sandbox-Log-Previous"), options.previous),
+        logs=logs,
+    )
+
+
+def _bool_header(value: Optional[str], fallback: bool) -> bool:
+    if value is None:
+        return fallback
+    return value.lower() == "true"
+
+
+def _has_content_type_prefix(content_type: str, expected: str) -> bool:
+    return content_type.lower().startswith(expected)
 
 
 def _api_error_from_response(response: httpx.Response, content: bytes) -> APIError:
@@ -140,9 +197,3 @@ def _api_error_from_response(response: httpx.Response, content: bytes) -> APIErr
         request_id=response.headers.get("X-Request-ID"),
         body=content,
     )
-
-
-def _unset() -> Any:
-    from sandbox0.apispec.types import UNSET
-
-    return UNSET

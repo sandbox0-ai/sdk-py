@@ -1,48 +1,49 @@
-from http import HTTPStatus
 from unittest import TestCase
-from unittest.mock import patch
 
 import httpx
 
 from sandbox0 import Client, SandboxLogsOptions
-from sandbox0.apispec.models.sandbox_logs import SandboxLogs
-from sandbox0.apispec.models.success_sandbox_logs_response import SuccessSandboxLogsResponse
-from sandbox0.apispec.types import Response
 from sandbox0.response_normalize import normalize_response_hook
 
 
 class TestSandboxLogs(TestCase):
-    def test_get_logs_uses_generated_api(self) -> None:
-        client = Client(token="test-token", base_url="https://example.com")
-        self.addCleanup(client.close)
+    def test_get_logs_reads_plain_text_snapshot(self) -> None:
         captured = {}
 
-        def fake_sync_detailed(**kwargs):
-            captured.update(kwargs)
-            return Response(
-                status_code=HTTPStatus.OK,
-                content=b"{}",
-                headers={},
-                parsed=SuccessSandboxLogsResponse(
-                    success=True,
-                    data=SandboxLogs(
-                        sandbox_id="sb_123",
-                        pod_name="pod-a",
-                        container="procd",
-                        previous=False,
-                        logs="ready\n",
-                    ),
-                ),
+        def handler(request: httpx.Request) -> httpx.Response:
+            captured["path"] = request.url.path
+            captured["query"] = dict(request.url.params)
+            return httpx.Response(
+                200,
+                headers={
+                    "Content-Type": "text/plain; charset=utf-8",
+                    "X-Sandbox-ID": "sb_123",
+                    "X-Sandbox-Pod-Name": "pod-a",
+                    "X-Sandbox-Log-Container": "procd",
+                    "X-Sandbox-Log-Previous": "true",
+                },
+                text="ready\n",
             )
 
-        with patch("sandbox0.sandbox_logs.get_api_v1_sandboxes_id_logs.sync_detailed", side_effect=fake_sync_detailed):
-            logs = client.sandbox("sb_123").get_logs(SandboxLogsOptions(tail_lines=20, timestamps=True))
+        client = Client(token="test-token", base_url="https://example.com/base")
+        self.addCleanup(client.close)
+        client.api.set_httpx_client(
+            httpx.Client(
+                base_url="https://example.com/base",
+                headers={"Authorization": "Bearer test-token"},
+                transport=httpx.MockTransport(handler),
+            )
+        )
+
+        logs = client.sandbox("sb_123").get_logs(SandboxLogsOptions(tail_lines=20, timestamps=True))
 
         self.assertEqual(logs.logs, "ready\n")
-        self.assertEqual(captured["id"], "sb_123")
-        self.assertEqual(captured["tail_lines"], 20)
-        self.assertEqual(captured["timestamps"], True)
-        self.assertEqual(captured["follow"], False)
+        self.assertEqual(logs.container, "procd")
+        self.assertEqual(logs.previous, True)
+        self.assertEqual(captured["path"], "/base/api/v1/sandboxes/sb_123/logs")
+        self.assertEqual(captured["query"]["tail_lines"], "20")
+        self.assertEqual(captured["query"]["timestamps"], "true")
+        self.assertEqual(captured["query"]["follow"], "false")
 
     def test_stream_logs_returns_live_response(self) -> None:
         seen = {}
@@ -58,6 +59,7 @@ class TestSandboxLogs(TestCase):
                     "X-Sandbox-ID": "sb_123",
                     "X-Sandbox-Pod-Name": "pod-a",
                     "X-Sandbox-Log-Container": "procd",
+                    "X-Sandbox-Log-Previous": "true",
                 },
                 stream=httpx.ByteStream(b"line one\n"),
             )
@@ -76,6 +78,7 @@ class TestSandboxLogs(TestCase):
             self.assertEqual(stream.sandbox_id, "sb_123")
             self.assertEqual(stream.pod_name, "pod-a")
             self.assertEqual(stream.container, "procd")
+            self.assertEqual(stream.previous, True)
             self.assertEqual(stream.read(), b"line one\n")
 
         self.assertEqual(seen["path"], "/base/api/v1/sandboxes/sb_123/logs")

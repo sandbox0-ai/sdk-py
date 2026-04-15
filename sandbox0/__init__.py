@@ -12,7 +12,7 @@ from sandbox0.models import (
 )
 from sandbox0.resources import Sandboxes, Volumes
 from sandbox0.sandbox import CmdOptions, RunOptions, Sandbox
-from sandbox0.sandbox_logs import SandboxLogStream, SandboxLogsOptions
+from sandbox0.sandbox_logs import SandboxLogStream, SandboxLogs, SandboxLogsOptions
 from sandbox0.sessions import MountSession, SandboxSession, VolumeSession
 from sandbox0.webhook_signature import verify_webhook_signature
 
@@ -30,6 +30,7 @@ __all__ = [
     "Sandboxes",
     "Sandbox",
     "SandboxLogStream",
+    "SandboxLogs",
     "SandboxLogsOptions",
     "SandboxSession",
     "StreamDone",
