@@ -52,6 +52,8 @@ _NULL_ARRAY_KEYS = {
     "warmProcesses",
 }
 
+SKIP_RESPONSE_NORMALIZE_EXTENSION = "sandbox0_skip_response_normalize"
+
 
 def _normalize_null_string_map(value: dict[str, Any]) -> bool:
     changed = False
@@ -117,10 +119,14 @@ def normalize_response_json(response: httpx.Response) -> None:
 
 
 def normalize_response_hook(response: httpx.Response) -> None:
+    if response.request.extensions.get(SKIP_RESPONSE_NORMALIZE_EXTENSION):
+        return
     response.read()
     normalize_response_json(response)
 
 
 async def normalize_response_hook_async(response: httpx.Response) -> None:
+    if response.request.extensions.get(SKIP_RESPONSE_NORMALIZE_EXTENSION):
+        return
     await response.aread()
     normalize_response_json(response)

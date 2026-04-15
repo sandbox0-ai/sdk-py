@@ -11,6 +11,7 @@ from sandbox0.apispec.models.sandbox_logs import SandboxLogs
 from sandbox0.apispec.models.success_sandbox_logs_response import SuccessSandboxLogsResponse
 from sandbox0.errors import APIError
 from sandbox0.response import ensure_data
+from sandbox0.response_normalize import SKIP_RESPONSE_NORMALIZE_EXTENSION
 
 if TYPE_CHECKING:
     from sandbox0.sandbox import Sandbox
@@ -83,6 +84,7 @@ class SandboxLogsMixin:
             f"/api/v1/sandboxes/{self.id}/logs",
             params=_stream_params(opts),
         )
+        request.extensions[SKIP_RESPONSE_NORMALIZE_EXTENSION] = True
         response = http_client.send(request, stream=True)
         if response.status_code < 200 or response.status_code >= 300:
             content = response.read()

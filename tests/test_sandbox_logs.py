@@ -8,6 +8,7 @@ from sandbox0 import Client, SandboxLogsOptions
 from sandbox0.apispec.models.sandbox_logs import SandboxLogs
 from sandbox0.apispec.models.success_sandbox_logs_response import SuccessSandboxLogsResponse
 from sandbox0.apispec.types import Response
+from sandbox0.response_normalize import normalize_response_hook
 
 
 class TestSandboxLogs(TestCase):
@@ -81,3 +82,29 @@ class TestSandboxLogs(TestCase):
         self.assertEqual(seen["query"]["follow"], "true")
         self.assertEqual(seen["query"]["tail_lines"], "5")
         self.assertEqual(seen["authorization"], "Bearer test-token")
+
+    def test_stream_logs_skips_response_normalize_hook(self) -> None:
+        class FailOnReadStream(httpx.SyncByteStream):
+            def __iter__(self):
+                raise AssertionError("stream body was read by response hook")
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            return httpx.Response(
+                200,
+                headers={"Content-Type": "text/plain"},
+                stream=FailOnReadStream(),
+            )
+
+        client = Client(token="test-token", base_url="https://example.com/base")
+        self.addCleanup(client.close)
+        client.api.set_httpx_client(
+            httpx.Client(
+                base_url="https://example.com/base",
+                headers={"Authorization": "Bearer test-token"},
+                transport=httpx.MockTransport(handler),
+                event_hooks={"response": [normalize_response_hook]},
+            )
+        )
+
+        with client.sandbox("sb_123").stream_logs(SandboxLogsOptions(tail_lines=5)):
+            pass
