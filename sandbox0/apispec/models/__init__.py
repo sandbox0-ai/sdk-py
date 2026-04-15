@@ -151,6 +151,7 @@ from .resume_sandbox_response import ResumeSandboxResponse
 from .sandbox import Sandbox
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
+from .sandbox_logs import SandboxLogs
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_power_state import SandboxPowerState
@@ -238,6 +239,7 @@ from .success_restore_response_data import SuccessRestoreResponseData
 from .success_resume_sandbox_response import SuccessResumeSandboxResponse
 from .success_sandbox_list_response import SuccessSandboxListResponse
 from .success_sandbox_list_response_data import SuccessSandboxListResponseData
+from .success_sandbox_logs_response import SuccessSandboxLogsResponse
 from .success_sandbox_network_policy_response import SuccessSandboxNetworkPolicyResponse
 from .success_sandbox_response import SuccessSandboxResponse
 from .success_sandbox_status_response import SuccessSandboxStatusResponse
@@ -490,6 +492,7 @@ __all__ = (
     "Sandbox",
     "SandboxConfig",
     "SandboxConfigEnvVars",
+    "SandboxLogs",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
     "SandboxPowerState",
@@ -575,6 +578,7 @@ __all__ = (
     "SuccessResumeSandboxResponse",
     "SuccessSandboxListResponse",
     "SuccessSandboxListResponseData",
+    "SuccessSandboxLogsResponse",
     "SuccessSandboxNetworkPolicyResponse",
     "SuccessSandboxResponse",
     "SuccessSandboxStatusResponse",

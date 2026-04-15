@@ -20,6 +20,7 @@ from sandbox0.models import CmdResult, RunResult, StreamDone, StreamInput, Strea
 from sandbox0.sandbox_contexts import SandboxContextsMixin
 from sandbox0.sandbox_exposed_ports import SandboxExposedPortsMixin
 from sandbox0.sandbox_files import SandboxFilesMixin
+from sandbox0.sandbox_logs import SandboxLogsMixin
 from sandbox0.sandbox_network import SandboxNetworkMixin
 from sandbox0.sandbox_volumes import SandboxVolumesMixin
 
@@ -169,6 +170,7 @@ class ContextStream:
 class Sandbox(
     SandboxContextsMixin,
     SandboxFilesMixin,
+    SandboxLogsMixin,
     SandboxNetworkMixin,
     SandboxVolumesMixin,
     SandboxExposedPortsMixin,
