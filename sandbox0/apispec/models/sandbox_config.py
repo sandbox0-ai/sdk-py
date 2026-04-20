@@ -29,7 +29,10 @@ class SandboxConfig:
         ttl (Union[Unset, int]):
         hard_ttl (Union[Unset, int]):
         network (Union[Unset, SandboxNetworkPolicy]):
-        webhook (Union[Unset, WebhookConfig]):
+        webhook (Union[Unset, WebhookConfig]): Per-sandbox webhook configuration. Sandbox0 delivers webhook events at
+            least once and consumers should deduplicate by event_id. For sandbox lifecycle events, procd persists signed
+            delivery records to a manager-owned SandboxVolume outside the workspace before dispatch; manager also emits
+            sandbox.deleted during pod deletion cleanup.
         auto_resume (Union[Unset, bool]): Sandbox-level resume gate for paused sandboxes. When false, any inbound
             request
             (API or public exposure) must not auto resume the sandbox.

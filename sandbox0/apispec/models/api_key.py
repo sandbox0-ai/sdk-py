@@ -24,6 +24,8 @@ class APIKey:
         team_id (str):
         created_by (str):
         name (str):
+        scope (str): API key scope. team keys use roles for team-scoped access. platform keys grant system admin access
+            and can only be created or managed by system admin user sessions.
         roles (list[str]):
         is_active (bool):
         expires_at (datetime.datetime):
@@ -39,6 +41,7 @@ class APIKey:
     team_id: str
     created_by: str
     name: str
+    scope: str
     roles: list[str]
     is_active: bool
     expires_at: datetime.datetime
@@ -58,6 +61,8 @@ class APIKey:
         created_by = self.created_by
 
         name = self.name
+
+        scope = self.scope
 
         roles = self.roles
 
@@ -91,6 +96,7 @@ class APIKey:
                 "team_id": team_id,
                 "created_by": created_by,
                 "name": name,
+                "scope": scope,
                 "roles": roles,
                 "is_active": is_active,
                 "expires_at": expires_at,
@@ -119,6 +125,8 @@ class APIKey:
         created_by = d.pop("created_by")
 
         name = d.pop("name")
+
+        scope = d.pop("scope")
 
         roles = cast(list[str], d.pop("roles"))
 
@@ -155,6 +163,7 @@ class APIKey:
             team_id=team_id,
             created_by=created_by,
             name=name,
+            scope=scope,
             roles=roles,
             is_active=is_active,
             expires_at=expires_at,

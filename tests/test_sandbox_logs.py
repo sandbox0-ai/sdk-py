@@ -5,8 +5,6 @@ from unittest.mock import patch
 import httpx
 
 from sandbox0 import Client, SandboxLogsOptions
-from sandbox0.apispec.models.sandbox_logs import SandboxLogs
-from sandbox0.apispec.models.success_sandbox_logs_response import SuccessSandboxLogsResponse
 from sandbox0.apispec.types import Response
 from sandbox0.response_normalize import normalize_response_hook
 
@@ -21,18 +19,13 @@ class TestSandboxLogs(TestCase):
             captured.update(kwargs)
             return Response(
                 status_code=HTTPStatus.OK,
-                content=b"{}",
-                headers={},
-                parsed=SuccessSandboxLogsResponse(
-                    success=True,
-                    data=SandboxLogs(
-                        sandbox_id="sb_123",
-                        pod_name="pod-a",
-                        container="procd",
-                        previous=False,
-                        logs="ready\n",
-                    ),
-                ),
+                content=b"ready\n",
+                headers={
+                    "X-Sandbox-ID": "sb_123",
+                    "X-Sandbox-Pod-Name": "pod-a",
+                    "X-Sandbox-Log-Container": "procd",
+                },
+                parsed="ready\n",
             )
 
         with patch("sandbox0.sandbox_logs.get_api_v1_sandboxes_id_logs.sync_detailed", side_effect=fake_sync_detailed):

@@ -26,19 +26,11 @@ class ClaimRequest:
         template (Union[Unset, str]):
         config (Union[Unset, SandboxConfig]):
         mounts (Union[Unset, list['ClaimMountRequest']]):
-        wait_for_mounts (Union[Unset, bool]): When true, claim waits best-effort for requested bootstrap mounts to
-            reach a terminal state before returning. The wait is bounded by
-            `mount_wait_timeout_ms`.
-             Default: False.
-        mount_wait_timeout_ms (Union[Unset, int]): Optional best-effort wait budget in milliseconds for bootstrap
-            mounts when `wait_for_mounts` is true.
     """
 
     template: Union[Unset, str] = UNSET
     config: Union[Unset, "SandboxConfig"] = UNSET
     mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
-    wait_for_mounts: Union[Unset, bool] = False
-    mount_wait_timeout_ms: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -55,10 +47,6 @@ class ClaimRequest:
                 mounts_item = mounts_item_data.to_dict()
                 mounts.append(mounts_item)
 
-        wait_for_mounts = self.wait_for_mounts
-
-        mount_wait_timeout_ms = self.mount_wait_timeout_ms
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -68,10 +56,6 @@ class ClaimRequest:
             field_dict["config"] = config
         if mounts is not UNSET:
             field_dict["mounts"] = mounts
-        if wait_for_mounts is not UNSET:
-            field_dict["wait_for_mounts"] = wait_for_mounts
-        if mount_wait_timeout_ms is not UNSET:
-            field_dict["mount_wait_timeout_ms"] = mount_wait_timeout_ms
 
         return field_dict
 
@@ -97,16 +81,10 @@ class ClaimRequest:
 
             mounts.append(mounts_item)
 
-        wait_for_mounts = d.pop("wait_for_mounts", UNSET)
-
-        mount_wait_timeout_ms = d.pop("mount_wait_timeout_ms", UNSET)
-
         claim_request = cls(
             template=template,
             config=config,
             mounts=mounts,
-            wait_for_mounts=wait_for_mounts,
-            mount_wait_timeout_ms=mount_wait_timeout_ms,
         )
 
         claim_request.additional_properties = d

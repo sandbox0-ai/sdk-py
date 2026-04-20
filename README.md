@@ -71,8 +71,6 @@ sandbox = client.sandboxes.claim(
             mount_point="/workspace/data",
         )
     ],
-    wait_for_mounts=True,
-    mount_wait_timeout_ms=45000,
 )
 
 for mount in sandbox.bootstrap_mounts:

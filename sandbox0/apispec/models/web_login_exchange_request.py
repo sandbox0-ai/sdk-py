@@ -4,42 +4,32 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="MountResponse")
+T = TypeVar("T", bound="WebLoginExchangeRequest")
 
 
 @_attrs_define
-class MountResponse:
+class WebLoginExchangeRequest:
     """
     Attributes:
-        sandboxvolume_id (str):
-        mount_point (str):
-        mounted_at (str):
-        mount_session_id (str):
+        login_code (str): Short-lived one-time code returned to the web login callback.
+        return_url (str): Exact return URL used when the login code was created.
     """
 
-    sandboxvolume_id: str
-    mount_point: str
-    mounted_at: str
-    mount_session_id: str
+    login_code: str
+    return_url: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        sandboxvolume_id = self.sandboxvolume_id
+        login_code = self.login_code
 
-        mount_point = self.mount_point
-
-        mounted_at = self.mounted_at
-
-        mount_session_id = self.mount_session_id
+        return_url = self.return_url
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "sandboxvolume_id": sandboxvolume_id,
-                "mount_point": mount_point,
-                "mounted_at": mounted_at,
-                "mount_session_id": mount_session_id,
+                "login_code": login_code,
+                "return_url": return_url,
             }
         )
 
@@ -48,23 +38,17 @@ class MountResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        sandboxvolume_id = d.pop("sandboxvolume_id")
+        login_code = d.pop("login_code")
 
-        mount_point = d.pop("mount_point")
+        return_url = d.pop("return_url")
 
-        mounted_at = d.pop("mounted_at")
-
-        mount_session_id = d.pop("mount_session_id")
-
-        mount_response = cls(
-            sandboxvolume_id=sandboxvolume_id,
-            mount_point=mount_point,
-            mounted_at=mounted_at,
-            mount_session_id=mount_session_id,
+        web_login_exchange_request = cls(
+            login_code=login_code,
+            return_url=return_url,
         )
 
-        mount_response.additional_properties = d
-        return mount_response
+        web_login_exchange_request.additional_properties = d
+        return web_login_exchange_request
 
     @property
     def additional_keys(self) -> list[str]:

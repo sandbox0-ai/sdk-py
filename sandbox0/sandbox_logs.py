@@ -7,10 +7,8 @@ from typing import TYPE_CHECKING, Any, Iterator, Optional
 import httpx
 
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes_id_logs
-from sandbox0.apispec.models.sandbox_logs import SandboxLogs
-from sandbox0.apispec.models.success_sandbox_logs_response import SuccessSandboxLogsResponse
 from sandbox0.errors import APIError
-from sandbox0.response import ensure_data
+from sandbox0.models import SandboxLogs
 from sandbox0.response_normalize import SKIP_RESPONSE_NORMALIZE_EXTENSION
 
 if TYPE_CHECKING:
@@ -74,7 +72,15 @@ class SandboxLogsMixin:
             timestamps=opts.timestamps,
             since_seconds=opts.since_seconds if opts.since_seconds is not None else _unset(),
         )
-        return ensure_data(resp, SuccessSandboxLogsResponse)
+        if resp.status_code.value < 200 or resp.status_code.value >= 300:
+            raise _api_error_from_response(httpx.Response(resp.status_code.value, content=resp.content, headers=resp.headers), resp.content)
+        return SandboxLogs(
+            sandbox_id=resp.headers.get("X-Sandbox-ID", self.id),
+            pod_name=resp.headers.get("X-Sandbox-Pod-Name", ""),
+            container=resp.headers.get("X-Sandbox-Log-Container", ""),
+            previous=resp.headers.get("X-Sandbox-Log-Previous", "").lower() == "true",
+            logs=resp.content.decode("utf-8", errors="replace"),
+        )
 
     def stream_logs(self: "Sandbox", options: Optional[SandboxLogsOptions] = None) -> SandboxLogStream:  # type: ignore[misc]
         opts = options or SandboxLogsOptions()

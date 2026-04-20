@@ -6,7 +6,6 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
-from ...models.success_sandbox_logs_response import SuccessSandboxLogsResponse
 from ...types import UNSET, Response, Unset
 
 
@@ -52,10 +51,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]:
+) -> Optional[Union[ErrorEnvelope, str]]:
     if response.status_code == 200:
-        response_200 = SuccessSandboxLogsResponse.from_dict(response.json())
-
+        response_200 = response.text
         return response_200
 
     if response.status_code == 400:
@@ -81,7 +79,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]:
+) -> Response[Union[ErrorEnvelope, str]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -101,11 +99,15 @@ def sync_detailed(
     previous: Union[Unset, bool] = False,
     timestamps: Union[Unset, bool] = False,
     since_seconds: Union[Unset, int] = UNSET,
-) -> Response[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]:
-    """Get sandbox pod logs
+) -> Response[Union[ErrorEnvelope, str]]:
+    """Get sandbox process logs
 
-     Returns a bounded snapshot of Kubernetes container logs for the sandbox pod.
-    Set `follow=true` to stream logs as text/plain until the client disconnects.
+     Returns sandbox process output mirrored through the sandbox main container.
+    Procd service logs are filtered out and remain available through Kubernetes pod logs.
+    When `follow=false`, the response is a bounded text/plain snapshot.
+    When `follow=true`, the response is a text/plain stream until the client disconnects.
+    Kubernetes log selection parameters such as `tail_lines` and `limit_bytes`
+    are applied before procd service log filtering.
 
     Args:
         id (str):
@@ -122,7 +124,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]
+        Response[Union[ErrorEnvelope, str]]
     """
 
     kwargs = _get_kwargs(
@@ -154,11 +156,15 @@ def sync(
     previous: Union[Unset, bool] = False,
     timestamps: Union[Unset, bool] = False,
     since_seconds: Union[Unset, int] = UNSET,
-) -> Optional[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]:
-    """Get sandbox pod logs
+) -> Optional[Union[ErrorEnvelope, str]]:
+    """Get sandbox process logs
 
-     Returns a bounded snapshot of Kubernetes container logs for the sandbox pod.
-    Set `follow=true` to stream logs as text/plain until the client disconnects.
+     Returns sandbox process output mirrored through the sandbox main container.
+    Procd service logs are filtered out and remain available through Kubernetes pod logs.
+    When `follow=false`, the response is a bounded text/plain snapshot.
+    When `follow=true`, the response is a text/plain stream until the client disconnects.
+    Kubernetes log selection parameters such as `tail_lines` and `limit_bytes`
+    are applied before procd service log filtering.
 
     Args:
         id (str):
@@ -175,7 +181,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessSandboxLogsResponse]
+        Union[ErrorEnvelope, str]
     """
 
     return sync_detailed(
@@ -202,11 +208,15 @@ async def asyncio_detailed(
     previous: Union[Unset, bool] = False,
     timestamps: Union[Unset, bool] = False,
     since_seconds: Union[Unset, int] = UNSET,
-) -> Response[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]:
-    """Get sandbox pod logs
+) -> Response[Union[ErrorEnvelope, str]]:
+    """Get sandbox process logs
 
-     Returns a bounded snapshot of Kubernetes container logs for the sandbox pod.
-    Set `follow=true` to stream logs as text/plain until the client disconnects.
+     Returns sandbox process output mirrored through the sandbox main container.
+    Procd service logs are filtered out and remain available through Kubernetes pod logs.
+    When `follow=false`, the response is a bounded text/plain snapshot.
+    When `follow=true`, the response is a text/plain stream until the client disconnects.
+    Kubernetes log selection parameters such as `tail_lines` and `limit_bytes`
+    are applied before procd service log filtering.
 
     Args:
         id (str):
@@ -223,7 +233,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]
+        Response[Union[ErrorEnvelope, str]]
     """
 
     kwargs = _get_kwargs(
@@ -253,11 +263,15 @@ async def asyncio(
     previous: Union[Unset, bool] = False,
     timestamps: Union[Unset, bool] = False,
     since_seconds: Union[Unset, int] = UNSET,
-) -> Optional[Union[ErrorEnvelope, SuccessSandboxLogsResponse]]:
-    """Get sandbox pod logs
+) -> Optional[Union[ErrorEnvelope, str]]:
+    """Get sandbox process logs
 
-     Returns a bounded snapshot of Kubernetes container logs for the sandbox pod.
-    Set `follow=true` to stream logs as text/plain until the client disconnects.
+     Returns sandbox process output mirrored through the sandbox main container.
+    Procd service logs are filtered out and remain available through Kubernetes pod logs.
+    When `follow=false`, the response is a bounded text/plain snapshot.
+    When `follow=true`, the response is a text/plain stream until the client disconnects.
+    Kubernetes log selection parameters such as `tail_lines` and `limit_bytes`
+    are applied before procd service log filtering.
 
     Args:
         id (str):
@@ -274,7 +288,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessSandboxLogsResponse]
+        Union[ErrorEnvelope, str]
     """
 
     return (

@@ -101,8 +101,6 @@ from .list_volume_sync_changes_response import ListVolumeSyncChangesResponse
 from .list_volume_sync_conflicts_response import ListVolumeSyncConflictsResponse
 from .login_request import LoginRequest
 from .login_response import LoginResponse
-from .mount_request import MountRequest
-from .mount_response import MountResponse
 from .mount_status import MountStatus
 from .mount_status_state import MountStatusState
 from .move_file_request import MoveFileRequest
@@ -151,7 +149,6 @@ from .resume_sandbox_response import ResumeSandboxResponse
 from .sandbox import Sandbox
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
-from .sandbox_logs import SandboxLogs
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_power_state import SandboxPowerState
@@ -221,9 +218,6 @@ from .success_identity_list_response_data import SuccessIdentityListResponseData
 from .success_login_response import SuccessLoginResponse
 from .success_message_response import SuccessMessageResponse
 from .success_message_response_data import SuccessMessageResponseData
-from .success_mount_response import SuccessMountResponse
-from .success_mount_status_response import SuccessMountStatusResponse
-from .success_mount_status_response_data import SuccessMountStatusResponseData
 from .success_moved_response import SuccessMovedResponse
 from .success_moved_response_data import SuccessMovedResponseData
 from .success_pause_sandbox_response import SuccessPauseSandboxResponse
@@ -239,7 +233,6 @@ from .success_restore_response_data import SuccessRestoreResponseData
 from .success_resume_sandbox_response import SuccessResumeSandboxResponse
 from .success_sandbox_list_response import SuccessSandboxListResponse
 from .success_sandbox_list_response_data import SuccessSandboxListResponseData
-from .success_sandbox_logs_response import SuccessSandboxLogsResponse
 from .success_sandbox_network_policy_response import SuccessSandboxNetworkPolicyResponse
 from .success_sandbox_response import SuccessSandboxResponse
 from .success_sandbox_status_response import SuccessSandboxStatusResponse
@@ -263,8 +256,6 @@ from .success_team_response import SuccessTeamResponse
 from .success_template_list_response import SuccessTemplateListResponse
 from .success_template_list_response_data import SuccessTemplateListResponseData
 from .success_template_response import SuccessTemplateResponse
-from .success_unmounted_response import SuccessUnmountedResponse
-from .success_unmounted_response_data import SuccessUnmountedResponseData
 from .success_user_response import SuccessUserResponse
 from .success_volume_sync_append_response import SuccessVolumeSyncAppendResponse
 from .success_volume_sync_bootstrap_response import SuccessVolumeSyncBootstrapResponse
@@ -297,7 +288,6 @@ from .toleration import Toleration
 from .traffic_rule import TrafficRule
 from .traffic_rule_action import TrafficRuleAction
 from .traffic_rule_app_protocol import TrafficRuleAppProtocol
-from .unmount_request import UnmountRequest
 from .update_exposed_ports_request import UpdateExposedPortsRequest
 from .update_region_request import UpdateRegionRequest
 from .update_sync_replica_cursor_request import UpdateSyncReplicaCursorRequest
@@ -309,7 +299,7 @@ from .upsert_sync_replica_request import UpsertSyncReplicaRequest
 from .user import User
 from .username_password_projection import UsernamePasswordProjection
 from .volume_access_mode import VolumeAccessMode
-from .volume_config import VolumeConfig
+from .volume_mount_spec import VolumeMountSpec
 from .volume_sync_bootstrap import VolumeSyncBootstrap
 from .volume_sync_bootstrap_compatibility_conflict_details import (
     VolumeSyncBootstrapCompatibilityConflictDetails,
@@ -339,6 +329,7 @@ from .volume_sync_reseed_required_error_envelope_error import (
 from .warm_process_spec import WarmProcessSpec
 from .warm_process_spec_env_vars import WarmProcessSpecEnvVars
 from .warm_process_spec_type import WarmProcessSpecType
+from .web_login_exchange_request import WebLoginExchangeRequest
 from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
@@ -444,8 +435,6 @@ __all__ = (
     "ListVolumeSyncConflictsResponse",
     "LoginRequest",
     "LoginResponse",
-    "MountRequest",
-    "MountResponse",
     "MountStatus",
     "MountStatusState",
     "MoveFileRequest",
@@ -492,7 +481,6 @@ __all__ = (
     "Sandbox",
     "SandboxConfig",
     "SandboxConfigEnvVars",
-    "SandboxLogs",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
     "SandboxPowerState",
@@ -560,9 +548,6 @@ __all__ = (
     "SuccessLoginResponse",
     "SuccessMessageResponse",
     "SuccessMessageResponseData",
-    "SuccessMountResponse",
-    "SuccessMountStatusResponse",
-    "SuccessMountStatusResponseData",
     "SuccessMovedResponse",
     "SuccessMovedResponseData",
     "SuccessPauseSandboxResponse",
@@ -578,7 +563,6 @@ __all__ = (
     "SuccessResumeSandboxResponse",
     "SuccessSandboxListResponse",
     "SuccessSandboxListResponseData",
-    "SuccessSandboxLogsResponse",
     "SuccessSandboxNetworkPolicyResponse",
     "SuccessSandboxResponse",
     "SuccessSandboxStatusResponse",
@@ -600,8 +584,6 @@ __all__ = (
     "SuccessTemplateListResponse",
     "SuccessTemplateListResponseData",
     "SuccessTemplateResponse",
-    "SuccessUnmountedResponse",
-    "SuccessUnmountedResponseData",
     "SuccessUserResponse",
     "SuccessVolumeSyncAppendResponse",
     "SuccessVolumeSyncBootstrapResponse",
@@ -630,7 +612,6 @@ __all__ = (
     "TrafficRule",
     "TrafficRuleAction",
     "TrafficRuleAppProtocol",
-    "UnmountRequest",
     "UpdateExposedPortsRequest",
     "UpdateRegionRequest",
     "UpdateSyncReplicaCursorRequest",
@@ -642,7 +623,7 @@ __all__ = (
     "User",
     "UsernamePasswordProjection",
     "VolumeAccessMode",
-    "VolumeConfig",
+    "VolumeMountSpec",
     "VolumeSyncBootstrap",
     "VolumeSyncBootstrapCompatibilityConflictDetails",
     "VolumeSyncBootstrapCompatibilityConflictDetailsReason",
@@ -659,5 +640,6 @@ __all__ = (
     "WarmProcessSpecEnvVars",
     "WarmProcessSpecType",
     "WebhookConfig",
+    "WebLoginExchangeRequest",
     "WeightedPodAffinityTerm",
 )

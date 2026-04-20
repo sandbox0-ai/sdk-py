@@ -141,8 +141,7 @@ class TestVolumes(unittest.TestCase):
 
         self.addCleanup(_cleanup_source)
 
-        with sandbox.mount(source.id, "/mnt/src-init"):
-            sandbox.write_file("/mnt/src-init/hello.txt", b"source-original\n")
+        client.volumes.write_file(source.id, "/hello.txt", b"source-original\n")
 
         forked = client.volumes.fork(source.id)
         self.assertTrue(forked.id)
@@ -158,11 +157,9 @@ class TestVolumes(unittest.TestCase):
 
         self.addCleanup(_cleanup_fork)
 
-        with sandbox.mount(source.id, "/mnt/src"):
-            with sandbox.mount(forked.id, "/mnt/fork"):
-                sandbox.write_file("/mnt/fork/hello.txt", b"fork-updated\n")
-                source_content = sandbox.read_file("/mnt/src/hello.txt")
-                self.assertEqual(source_content, b"source-original\n")
+        client.volumes.write_file(forked.id, "/hello.txt", b"fork-updated\n")
+        source_content = client.volumes.read_file(source.id, "/hello.txt")
+        self.assertEqual(source_content, b"source-original\n")
 
         client.volumes.delete(forked.id)
         fork_deleted = True

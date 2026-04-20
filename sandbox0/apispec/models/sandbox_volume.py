@@ -24,15 +24,11 @@ class SandboxVolume:
         id (str):
         team_id (str):
         user_id (str):
-        cache_size (str):
-        buffer_size (str):
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
         source_volume_id (Union[None, Unset, str]):
         default_posix_uid (Union[None, Unset, int]):
         default_posix_gid (Union[None, Unset, int]):
-        prefetch (Union[Unset, int]):
-        writeback (Union[Unset, bool]):
         access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
             proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
             instances; RWX allows read-write mounts across instances.
@@ -41,15 +37,11 @@ class SandboxVolume:
     id: str
     team_id: str
     user_id: str
-    cache_size: str
-    buffer_size: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
     source_volume_id: Union[None, Unset, str] = UNSET
     default_posix_uid: Union[None, Unset, int] = UNSET
     default_posix_gid: Union[None, Unset, int] = UNSET
-    prefetch: Union[Unset, int] = UNSET
-    writeback: Union[Unset, bool] = UNSET
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -59,10 +51,6 @@ class SandboxVolume:
         team_id = self.team_id
 
         user_id = self.user_id
-
-        cache_size = self.cache_size
-
-        buffer_size = self.buffer_size
 
         created_at = self.created_at.isoformat()
 
@@ -86,10 +74,6 @@ class SandboxVolume:
         else:
             default_posix_gid = self.default_posix_gid
 
-        prefetch = self.prefetch
-
-        writeback = self.writeback
-
         access_mode: Union[Unset, str] = UNSET
         if not isinstance(self.access_mode, Unset):
             access_mode = self.access_mode.value
@@ -101,8 +85,6 @@ class SandboxVolume:
                 "id": id,
                 "team_id": team_id,
                 "user_id": user_id,
-                "cache_size": cache_size,
-                "buffer_size": buffer_size,
                 "created_at": created_at,
                 "updated_at": updated_at,
             }
@@ -113,10 +95,6 @@ class SandboxVolume:
             field_dict["default_posix_uid"] = default_posix_uid
         if default_posix_gid is not UNSET:
             field_dict["default_posix_gid"] = default_posix_gid
-        if prefetch is not UNSET:
-            field_dict["prefetch"] = prefetch
-        if writeback is not UNSET:
-            field_dict["writeback"] = writeback
         if access_mode is not UNSET:
             field_dict["access_mode"] = access_mode
 
@@ -130,10 +108,6 @@ class SandboxVolume:
         team_id = d.pop("team_id")
 
         user_id = d.pop("user_id")
-
-        cache_size = d.pop("cache_size")
-
-        buffer_size = d.pop("buffer_size")
 
         created_at = isoparse(d.pop("created_at"))
 
@@ -166,10 +140,6 @@ class SandboxVolume:
 
         default_posix_gid = _parse_default_posix_gid(d.pop("default_posix_gid", UNSET))
 
-        prefetch = d.pop("prefetch", UNSET)
-
-        writeback = d.pop("writeback", UNSET)
-
         _access_mode = d.pop("access_mode", UNSET)
         access_mode: Union[Unset, VolumeAccessMode]
         if isinstance(_access_mode, Unset):
@@ -181,15 +151,11 @@ class SandboxVolume:
             id=id,
             team_id=team_id,
             user_id=user_id,
-            cache_size=cache_size,
-            buffer_size=buffer_size,
             created_at=created_at,
             updated_at=updated_at,
             source_volume_id=source_volume_id,
             default_posix_uid=default_posix_uid,
             default_posix_gid=default_posix_gid,
-            prefetch=prefetch,
-            writeback=writeback,
             access_mode=access_mode,
         )
 
