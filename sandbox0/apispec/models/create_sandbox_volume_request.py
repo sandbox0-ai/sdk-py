@@ -22,10 +22,6 @@ class CreateSandboxVolumeRequest:
             caller identity. Defaults to 0 when omitted on create. Default: 0.
         default_posix_gid (Union[Unset, int]): Default POSIX GID used by external volume access paths that do not carry
             caller identity. Defaults to 0 when omitted on create. Default: 0.
-        cache_size (Union[Unset, str]):
-        prefetch (Union[Unset, int]):
-        buffer_size (Union[Unset, str]):
-        writeback (Union[Unset, bool]):
         access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
             proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
             instances; RWX allows read-write mounts across instances.
@@ -33,10 +29,6 @@ class CreateSandboxVolumeRequest:
 
     default_posix_uid: Union[Unset, int] = 0
     default_posix_gid: Union[Unset, int] = 0
-    cache_size: Union[Unset, str] = UNSET
-    prefetch: Union[Unset, int] = UNSET
-    buffer_size: Union[Unset, str] = UNSET
-    writeback: Union[Unset, bool] = UNSET
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -44,14 +36,6 @@ class CreateSandboxVolumeRequest:
         default_posix_uid = self.default_posix_uid
 
         default_posix_gid = self.default_posix_gid
-
-        cache_size = self.cache_size
-
-        prefetch = self.prefetch
-
-        buffer_size = self.buffer_size
-
-        writeback = self.writeback
 
         access_mode: Union[Unset, str] = UNSET
         if not isinstance(self.access_mode, Unset):
@@ -64,14 +48,6 @@ class CreateSandboxVolumeRequest:
             field_dict["default_posix_uid"] = default_posix_uid
         if default_posix_gid is not UNSET:
             field_dict["default_posix_gid"] = default_posix_gid
-        if cache_size is not UNSET:
-            field_dict["cache_size"] = cache_size
-        if prefetch is not UNSET:
-            field_dict["prefetch"] = prefetch
-        if buffer_size is not UNSET:
-            field_dict["buffer_size"] = buffer_size
-        if writeback is not UNSET:
-            field_dict["writeback"] = writeback
         if access_mode is not UNSET:
             field_dict["access_mode"] = access_mode
 
@@ -84,14 +60,6 @@ class CreateSandboxVolumeRequest:
 
         default_posix_gid = d.pop("default_posix_gid", UNSET)
 
-        cache_size = d.pop("cache_size", UNSET)
-
-        prefetch = d.pop("prefetch", UNSET)
-
-        buffer_size = d.pop("buffer_size", UNSET)
-
-        writeback = d.pop("writeback", UNSET)
-
         _access_mode = d.pop("access_mode", UNSET)
         access_mode: Union[Unset, VolumeAccessMode]
         if isinstance(_access_mode, Unset):
@@ -102,10 +70,6 @@ class CreateSandboxVolumeRequest:
         create_sandbox_volume_request = cls(
             default_posix_uid=default_posix_uid,
             default_posix_gid=default_posix_gid,
-            cache_size=cache_size,
-            prefetch=prefetch,
-            buffer_size=buffer_size,
-            writeback=writeback,
             access_mode=access_mode,
         )
 

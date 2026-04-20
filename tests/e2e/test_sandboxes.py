@@ -83,18 +83,11 @@ class TestSandboxes(unittest.TestCase):
         sandbox = client.sandboxes.claim(
             cfg.template,
             mounts=[ClaimMountRequest(sandboxvolume_id=volume.id, mount_point="/workspace/bootstrap-data")],
-            wait_for_mounts=True,
-            mount_wait_timeout_ms=45000,
         )
         self.addCleanup(lambda: self._delete_sandbox(client, sandbox.id))
 
         self.assertTrue(sandbox.bootstrap_mounts)
         self.assertEqual(sandbox.bootstrap_mounts[0].state, MountStatusState.MOUNTED)
-
-        statuses = sandbox.mount_status()
-        self.assertTrue(
-            any(status.sandboxvolume_id == volume.id and status.state == MountStatusState.MOUNTED for status in statuses)
-        )
 
         content = sandbox.read_file("/workspace/bootstrap-data/claim-bootstrap/hello.txt")
         self.assertEqual(content, b"hello bootstrap claim mount")

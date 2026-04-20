@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from ..models.pool_strategy import PoolStrategy
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
     from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+    from ..models.volume_mount_spec import VolumeMountSpec
     from ..models.warm_process_spec import WarmProcessSpec
 
 
@@ -34,6 +35,7 @@ class SandboxTemplateSpec:
         tags (Union[Unset, list[str]]):
         main_container (Union[Unset, ContainerSpec]):
         warm_processes (Union[Unset, list['WarmProcessSpec']]):
+        volume_mounts (Union[Unset, list['VolumeMountSpec']]):
         pod (Union[Unset, PodSpecOverride]):
         network (Union[Unset, SandboxNetworkPolicy]):
         pool (Union[Unset, PoolStrategy]):
@@ -49,6 +51,7 @@ class SandboxTemplateSpec:
     tags: Union[Unset, list[str]] = UNSET
     main_container: Union[Unset, "ContainerSpec"] = UNSET
     warm_processes: Union[Unset, list["WarmProcessSpec"]] = UNSET
+    volume_mounts: Union[Unset, list["VolumeMountSpec"]] = UNSET
     pod: Union[Unset, "PodSpecOverride"] = UNSET
     network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     pool: Union[Unset, "PoolStrategy"] = UNSET
@@ -78,6 +81,13 @@ class SandboxTemplateSpec:
             for warm_processes_item_data in self.warm_processes:
                 warm_processes_item = warm_processes_item_data.to_dict()
                 warm_processes.append(warm_processes_item)
+
+        volume_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.volume_mounts, Unset):
+            volume_mounts = []
+            for volume_mounts_item_data in self.volume_mounts:
+                volume_mounts_item = volume_mounts_item_data.to_dict()
+                volume_mounts.append(volume_mounts_item)
 
         pod: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pod, Unset):
@@ -120,6 +130,8 @@ class SandboxTemplateSpec:
             field_dict["mainContainer"] = main_container
         if warm_processes is not UNSET:
             field_dict["warmProcesses"] = warm_processes
+        if volume_mounts is not UNSET:
+            field_dict["volumeMounts"] = volume_mounts
         if pod is not UNSET:
             field_dict["pod"] = pod
         if network is not UNSET:
@@ -147,6 +159,7 @@ class SandboxTemplateSpec:
         from ..models.pool_strategy import PoolStrategy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+        from ..models.volume_mount_spec import VolumeMountSpec
         from ..models.warm_process_spec import WarmProcessSpec
 
         d = dict(src_dict)
@@ -169,6 +182,13 @@ class SandboxTemplateSpec:
             warm_processes_item = WarmProcessSpec.from_dict(warm_processes_item_data)
 
             warm_processes.append(warm_processes_item)
+
+        volume_mounts = []
+        _volume_mounts = d.pop("volumeMounts", UNSET)
+        for volume_mounts_item_data in _volume_mounts or []:
+            volume_mounts_item = VolumeMountSpec.from_dict(volume_mounts_item_data)
+
+            volume_mounts.append(volume_mounts_item)
 
         _pod = d.pop("pod", UNSET)
         pod: Union[Unset, PodSpecOverride]
@@ -217,6 +237,7 @@ class SandboxTemplateSpec:
             tags=tags,
             main_container=main_container,
             warm_processes=warm_processes,
+            volume_mounts=volume_mounts,
             pod=pod,
             network=network,
             pool=pool,

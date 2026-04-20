@@ -5,23 +5,21 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.mount_request import MountRequest
-from ...models.success_mount_response import SuccessMountResponse
+from ...models.error_envelope import ErrorEnvelope
+from ...models.success_login_response import SuccessLoginResponse
+from ...models.web_login_exchange_request import WebLoginExchangeRequest
 from ...types import Response
 
 
 def _get_kwargs(
-    id: str,
     *,
-    body: MountRequest,
+    body: WebLoginExchangeRequest,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/v1/sandboxes/{id}/sandboxvolumes/mount".format(
-            id=id,
-        ),
+        "url": "/auth/web-login/exchange",
     }
 
     _kwargs["json"] = body.to_dict()
@@ -34,11 +32,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessMountResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessLoginResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessMountResponse.from_dict(response.json())
+        response_200 = SuccessLoginResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+        return response_400
+
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -48,7 +56,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessMountResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessLoginResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,27 +66,26 @@ def _build_response(
 
 
 def sync_detailed(
-    id: str,
     *,
-    client: AuthenticatedClient,
-    body: MountRequest,
-) -> Response[SuccessMountResponse]:
-    """Mount sandbox volume in sandbox
+    client: Union[AuthenticatedClient, Client],
+    body: WebLoginExchangeRequest,
+) -> Response[Union[ErrorEnvelope, SuccessLoginResponse]]:
+    """Exchange web login code
+
+     Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
     Args:
-        id (str):
-        body (MountRequest):
+        body (WebLoginExchangeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessMountResponse]
+        Response[Union[ErrorEnvelope, SuccessLoginResponse]]
     """
 
     kwargs = _get_kwargs(
-        id=id,
         body=body,
     )
 
@@ -90,54 +97,52 @@ def sync_detailed(
 
 
 def sync(
-    id: str,
     *,
-    client: AuthenticatedClient,
-    body: MountRequest,
-) -> Optional[SuccessMountResponse]:
-    """Mount sandbox volume in sandbox
+    client: Union[AuthenticatedClient, Client],
+    body: WebLoginExchangeRequest,
+) -> Optional[Union[ErrorEnvelope, SuccessLoginResponse]]:
+    """Exchange web login code
+
+     Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
     Args:
-        id (str):
-        body (MountRequest):
+        body (WebLoginExchangeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessMountResponse
+        Union[ErrorEnvelope, SuccessLoginResponse]
     """
 
     return sync_detailed(
-        id=id,
         client=client,
         body=body,
     ).parsed
 
 
 async def asyncio_detailed(
-    id: str,
     *,
-    client: AuthenticatedClient,
-    body: MountRequest,
-) -> Response[SuccessMountResponse]:
-    """Mount sandbox volume in sandbox
+    client: Union[AuthenticatedClient, Client],
+    body: WebLoginExchangeRequest,
+) -> Response[Union[ErrorEnvelope, SuccessLoginResponse]]:
+    """Exchange web login code
+
+     Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
     Args:
-        id (str):
-        body (MountRequest):
+        body (WebLoginExchangeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessMountResponse]
+        Response[Union[ErrorEnvelope, SuccessLoginResponse]]
     """
 
     kwargs = _get_kwargs(
-        id=id,
         body=body,
     )
 
@@ -147,28 +152,27 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    id: str,
     *,
-    client: AuthenticatedClient,
-    body: MountRequest,
-) -> Optional[SuccessMountResponse]:
-    """Mount sandbox volume in sandbox
+    client: Union[AuthenticatedClient, Client],
+    body: WebLoginExchangeRequest,
+) -> Optional[Union[ErrorEnvelope, SuccessLoginResponse]]:
+    """Exchange web login code
+
+     Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
     Args:
-        id (str):
-        body (MountRequest):
+        body (WebLoginExchangeRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessMountResponse
+        Union[ErrorEnvelope, SuccessLoginResponse]
     """
 
     return (
         await asyncio_detailed(
-            id=id,
             client=client,
             body=body,
         )

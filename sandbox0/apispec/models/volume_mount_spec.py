@@ -1,54 +1,69 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="UnmountRequest")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="VolumeMountSpec")
 
 
 @_attrs_define
-class UnmountRequest:
+class VolumeMountSpec:
     """
     Attributes:
-        sandboxvolume_id (str):
-        mount_session_id (str):
+        name (str):
+        mount_path (str):
+        read_only (Union[Unset, bool]):
     """
 
-    sandboxvolume_id: str
-    mount_session_id: str
+    name: str
+    mount_path: str
+    read_only: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        sandboxvolume_id = self.sandboxvolume_id
+        name = self.name
 
-        mount_session_id = self.mount_session_id
+        mount_path = self.mount_path
+
+        read_only = self.read_only
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "sandboxvolume_id": sandboxvolume_id,
-                "mount_session_id": mount_session_id,
+                "name": name,
+                "mountPath": mount_path,
             }
         )
+        if read_only is not UNSET:
+            field_dict["readOnly"] = read_only
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        sandboxvolume_id = d.pop("sandboxvolume_id")
+        name = d.pop("name")
 
-        mount_session_id = d.pop("mount_session_id")
+        mount_path = d.pop("mountPath")
 
-        unmount_request = cls(
-            sandboxvolume_id=sandboxvolume_id,
-            mount_session_id=mount_session_id,
+        read_only = d.pop("readOnly", UNSET)
+
+        volume_mount_spec = cls(
+            name=name,
+            mount_path=mount_path,
+            read_only=read_only,
         )
 
-        unmount_request.additional_properties = d
-        return unmount_request
+        volume_mount_spec.additional_properties = d
+        return volume_mount_spec
 
     @property
     def additional_keys(self) -> list[str]:

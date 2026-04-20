@@ -19,17 +19,23 @@ class CreateAPIKeyRequest:
     """
     Attributes:
         name (str):
-        roles (Union[Unset, list[str]]):
+        scope (Union[Unset, str]): API key scope: team or platform. Defaults to team. platform keys grant system admin
+            access, require a system admin user session, and do not support roles.
+        roles (Union[Unset, list[str]]): Requested API key roles. Supported roles: admin, developer, builder, viewer.
+            The roles must not grant permissions outside the authenticated caller's permissions.
         expires_in (Union[Unset, str]): 30d, 90d, 180d, 365d, or never
     """
 
     name: str
+    scope: Union[Unset, str] = UNSET
     roles: Union[Unset, list[str]] = UNSET
     expires_in: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
+
+        scope = self.scope
 
         roles: Union[Unset, list[str]] = UNSET
         if not isinstance(self.roles, Unset):
@@ -44,6 +50,8 @@ class CreateAPIKeyRequest:
                 "name": name,
             }
         )
+        if scope is not UNSET:
+            field_dict["scope"] = scope
         if roles is not UNSET:
             field_dict["roles"] = roles
         if expires_in is not UNSET:
@@ -56,12 +64,15 @@ class CreateAPIKeyRequest:
         d = dict(src_dict)
         name = d.pop("name")
 
+        scope = d.pop("scope", UNSET)
+
         roles = cast(list[str], d.pop("roles", UNSET))
 
         expires_in = d.pop("expires_in", UNSET)
 
         create_api_key_request = cls(
             name=name,
+            scope=scope,
             roles=roles,
             expires_in=expires_in,
         )

@@ -23,7 +23,6 @@ class MountStatus:
         state (MountStatusState):
         mounted_at (Union[Unset, str]):
         mounted_duration_sec (Union[Unset, int]):
-        mount_session_id (Union[Unset, str]):
         error_code (Union[Unset, str]):
         error_message (Union[Unset, str]):
     """
@@ -33,7 +32,6 @@ class MountStatus:
     state: MountStatusState
     mounted_at: Union[Unset, str] = UNSET
     mounted_duration_sec: Union[Unset, int] = UNSET
-    mount_session_id: Union[Unset, str] = UNSET
     error_code: Union[Unset, str] = UNSET
     error_message: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -48,8 +46,6 @@ class MountStatus:
         mounted_at = self.mounted_at
 
         mounted_duration_sec = self.mounted_duration_sec
-
-        mount_session_id = self.mount_session_id
 
         error_code = self.error_code
 
@@ -68,8 +64,6 @@ class MountStatus:
             field_dict["mounted_at"] = mounted_at
         if mounted_duration_sec is not UNSET:
             field_dict["mounted_duration_sec"] = mounted_duration_sec
-        if mount_session_id is not UNSET:
-            field_dict["mount_session_id"] = mount_session_id
         if error_code is not UNSET:
             field_dict["error_code"] = error_code
         if error_message is not UNSET:
@@ -90,8 +84,6 @@ class MountStatus:
 
         mounted_duration_sec = d.pop("mounted_duration_sec", UNSET)
 
-        mount_session_id = d.pop("mount_session_id", UNSET)
-
         error_code = d.pop("error_code", UNSET)
 
         error_message = d.pop("error_message", UNSET)
@@ -102,7 +94,6 @@ class MountStatus:
             state=state,
             mounted_at=mounted_at,
             mounted_duration_sec=mounted_duration_sec,
-            mount_session_id=mount_session_id,
             error_code=error_code,
             error_message=error_message,
         )

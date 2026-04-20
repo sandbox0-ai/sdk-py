@@ -86,18 +86,12 @@ class Sandboxes:
         template: str,
         config: Optional[SandboxConfig] = None,
         mounts: Optional[list[ClaimMountRequest]] = None,
-        wait_for_mounts: Optional[bool] = None,
-        mount_wait_timeout_ms: Optional[int] = None,
     ) -> "Sandbox":
         request = ClaimRequest(template=template)
         if config is not None:
             request.config = config
         if mounts is not None:
             request.mounts = mounts
-        if wait_for_mounts is not None:
-            request.wait_for_mounts = wait_for_mounts
-        if mount_wait_timeout_ms is not None:
-            request.mount_wait_timeout_ms = mount_wait_timeout_ms
         resp = post_api_v1_sandboxes.sync_detailed(client=self._client.api, body=request)
         data = ensure_data(resp, SuccessClaimResponse)
         from sandbox0.sandbox import Sandbox
@@ -121,15 +115,11 @@ class Sandboxes:
         template: str,
         config: Optional[SandboxConfig] = None,
         mounts: Optional[list[ClaimMountRequest]] = None,
-        wait_for_mounts: Optional[bool] = None,
-        mount_wait_timeout_ms: Optional[int] = None,
     ) -> SandboxSession:
         sandbox = self.claim(
             template,
             config=config,
             mounts=mounts,
-            wait_for_mounts=wait_for_mounts,
-            mount_wait_timeout_ms=mount_wait_timeout_ms,
         )
         return SandboxSession(sandbox, closer=lambda: None if self.delete(sandbox.id) else None)
 

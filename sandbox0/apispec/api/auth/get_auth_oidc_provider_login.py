@@ -13,10 +13,13 @@ def _get_kwargs(
     provider: str,
     *,
     return_url: Union[Unset, str] = UNSET,
+    web_login: Union[Unset, bool] = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
     params["return_url"] = return_url
+
+    params["web_login"] = web_login
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -70,12 +73,14 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
+    web_login: Union[Unset, bool] = UNSET,
 ) -> Response[Union[Any, ErrorEnvelope]]:
     """Initiate OIDC login
 
     Args:
         provider (str):
         return_url (Union[Unset, str]):
+        web_login (Union[Unset, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,6 +93,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         provider=provider,
         return_url=return_url,
+        web_login=web_login,
     )
 
     response = client.get_httpx_client().request(
@@ -102,12 +108,14 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
+    web_login: Union[Unset, bool] = UNSET,
 ) -> Optional[Union[Any, ErrorEnvelope]]:
     """Initiate OIDC login
 
     Args:
         provider (str):
         return_url (Union[Unset, str]):
+        web_login (Union[Unset, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -121,6 +129,7 @@ def sync(
         provider=provider,
         client=client,
         return_url=return_url,
+        web_login=web_login,
     ).parsed
 
 
@@ -129,12 +138,14 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
+    web_login: Union[Unset, bool] = UNSET,
 ) -> Response[Union[Any, ErrorEnvelope]]:
     """Initiate OIDC login
 
     Args:
         provider (str):
         return_url (Union[Unset, str]):
+        web_login (Union[Unset, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,6 +158,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         provider=provider,
         return_url=return_url,
+        web_login=web_login,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -159,12 +171,14 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
+    web_login: Union[Unset, bool] = UNSET,
 ) -> Optional[Union[Any, ErrorEnvelope]]:
     """Initiate OIDC login
 
     Args:
         provider (str):
         return_url (Union[Unset, str]):
+        web_login (Union[Unset, bool]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,5 +193,6 @@ async def asyncio(
             provider=provider,
             client=client,
             return_url=return_url,
+            web_login=web_login,
         )
     ).parsed

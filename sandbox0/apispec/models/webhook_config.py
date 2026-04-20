@@ -15,12 +15,15 @@ T = TypeVar("T", bound="WebhookConfig")
 
 @_attrs_define
 class WebhookConfig:
-    """
-    Attributes:
-        url (Union[Unset, str]): Required when webhook is enabled. Target URL that receives event callbacks.
-        secret (Union[Unset, str]): Optional. Shared secret used to sign webhook payloads.
-        watch_dir (Union[Unset, str]): Optional. When set, procd subscribes to file events under this directory (same
-            semantics as the file watch WebSocket API) and emits file.modified events.
+    """Per-sandbox webhook configuration. Sandbox0 delivers webhook events at least once and consumers should deduplicate
+    by event_id. For sandbox lifecycle events, procd persists signed delivery records to a manager-owned SandboxVolume
+    outside the workspace before dispatch; manager also emits sandbox.deleted during pod deletion cleanup.
+
+        Attributes:
+            url (Union[Unset, str]): Required when webhook is enabled. Target URL that receives event callbacks.
+            secret (Union[Unset, str]): Optional. Shared secret used to sign webhook payloads.
+            watch_dir (Union[Unset, str]): Optional. When set, procd subscribes to file events under this directory (same
+                semantics as the file watch WebSocket API) and emits file.modified events.
     """
 
     url: Union[Unset, str] = UNSET
