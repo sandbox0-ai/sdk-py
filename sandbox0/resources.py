@@ -23,8 +23,6 @@ from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapsho
 from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapshots_snapshot_id_restore
 from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.claim_request import ClaimRequest
-from sandbox0.apispec.models.clone_volume_file_result import CloneVolumeFileResult
-from sandbox0.apispec.models.clone_volume_files_request import CloneVolumeFilesRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
 from sandbox0.apispec.models.file_info import FileInfo
@@ -64,7 +62,6 @@ from sandbox0.response import ensure_data, ensure_model
 from sandbox0.sandbox_files import FileWatchStream
 from sandbox0.sessions import SandboxSession, VolumeSession
 from sandbox0.volume_files import (
-    clone_volume_files,
     delete_volume_file,
     list_volume_files,
     mkdir_volume_file,
@@ -274,9 +271,6 @@ class Volumes:
 
     def move_file(self, volume_id: str, source: str, destination: str) -> SuccessMovedResponse:
         return move_volume_file(self._client, volume_id, source, destination)
-
-    def clone_files(self, volume_id: str, request: CloneVolumeFilesRequest) -> List[CloneVolumeFileResult]:
-        return clone_volume_files(self._client, volume_id, request)
 
     def watch_files(self, volume_id: str, path: str, recursive: bool = False) -> FileWatchStream:
         return watch_volume_files(self._client, volume_id, path, recursive)
