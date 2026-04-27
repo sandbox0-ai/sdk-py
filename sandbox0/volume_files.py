@@ -10,7 +10,10 @@ from sandbox0.apispec.api.files import get_api_v1_sandboxvolumes_id_files
 from sandbox0.apispec.api.files import get_api_v1_sandboxvolumes_id_files_list
 from sandbox0.apispec.api.files import get_api_v1_sandboxvolumes_id_files_stat
 from sandbox0.apispec.api.files import post_api_v1_sandboxvolumes_id_files
+from sandbox0.apispec.api.files import post_api_v1_sandboxvolumes_id_files_clone
 from sandbox0.apispec.api.files import post_api_v1_sandboxvolumes_id_files_move
+from sandbox0.apispec.models.clone_volume_file_result import CloneVolumeFileResult
+from sandbox0.apispec.models.clone_volume_files_request import CloneVolumeFilesRequest
 from sandbox0.apispec.models.file_content_response import FileContentResponse
 from sandbox0.apispec.models.file_content_response_encoding import FileContentResponseEncoding
 from sandbox0.apispec.models.file_info import FileInfo
@@ -20,6 +23,7 @@ from sandbox0.apispec.models.success_deleted_response import SuccessDeletedRespo
 from sandbox0.apispec.models.success_file_list_response import SuccessFileListResponse
 from sandbox0.apispec.models.success_file_read_response import SuccessFileReadResponse
 from sandbox0.apispec.models.success_file_stat_response import SuccessFileStatResponse
+from sandbox0.apispec.models.success_clone_volume_files_response import SuccessCloneVolumeFilesResponse
 from sandbox0.apispec.models.success_moved_response import SuccessMovedResponse
 from sandbox0.apispec.models.success_written_response import SuccessWrittenResponse
 from sandbox0.apispec.types import File as APIFile
@@ -101,6 +105,23 @@ def move_volume_file(client: Any, volume_id: str, source: str, destination: str)
         body=MoveFileRequest(source=source, destination=destination),
     )
     return ensure_model(resp, SuccessMovedResponse)
+
+
+def clone_volume_files(
+    client: Any,
+    volume_id: str,
+    request: CloneVolumeFilesRequest,
+) -> list[CloneVolumeFileResult]:
+    resp = post_api_v1_sandboxvolumes_id_files_clone.sync_detailed(
+        id=volume_id,
+        client=client.api,
+        body=request,
+    )
+    data = ensure_data(resp, SuccessCloneVolumeFilesResponse)
+    entries = data.entries
+    if entries.__class__.__name__ == "Unset":
+        return []
+    return entries
 
 
 def watch_volume_files(client: Any, volume_id: str, path: str, recursive: bool = False) -> FileWatchStream:

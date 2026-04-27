@@ -16,6 +16,11 @@ from .change_request_metadata import ChangeRequestMetadata
 from .claim_mount_request import ClaimMountRequest
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
+from .clone_volume_file_entry import CloneVolumeFileEntry
+from .clone_volume_file_result import CloneVolumeFileResult
+from .clone_volume_file_result_mode import CloneVolumeFileResultMode
+from .clone_volume_files_request import CloneVolumeFilesRequest
+from .clone_volume_files_request_mode import CloneVolumeFilesRequestMode
 from .container_spec import ContainerSpec
 from .context_exec_response import ContextExecResponse
 from .context_input_request import ContextInputRequest
@@ -186,6 +191,10 @@ from .success_api_key_list_response_data import SuccessAPIKeyListResponseData
 from .success_auth_providers_response import SuccessAuthProvidersResponse
 from .success_auth_providers_response_data import SuccessAuthProvidersResponseData
 from .success_claim_response import SuccessClaimResponse
+from .success_clone_volume_files_response import SuccessCloneVolumeFilesResponse
+from .success_clone_volume_files_response_data import (
+    SuccessCloneVolumeFilesResponseData,
+)
 from .success_context_exec_response import SuccessContextExecResponse
 from .success_context_list_response import SuccessContextListResponse
 from .success_context_list_response_data import SuccessContextListResponseData
@@ -350,6 +359,11 @@ __all__ = (
     "ClaimMountRequest",
     "ClaimRequest",
     "ClaimResponse",
+    "CloneVolumeFileEntry",
+    "CloneVolumeFileResult",
+    "CloneVolumeFileResultMode",
+    "CloneVolumeFilesRequest",
+    "CloneVolumeFilesRequestMode",
     "ContainerSpec",
     "ContextExecResponse",
     "ContextInputRequest",
@@ -516,6 +530,8 @@ __all__ = (
     "SuccessAuthProvidersResponse",
     "SuccessAuthProvidersResponseData",
     "SuccessClaimResponse",
+    "SuccessCloneVolumeFilesResponse",
+    "SuccessCloneVolumeFilesResponseData",
     "SuccessContextExecResponse",
     "SuccessContextListResponse",
     "SuccessContextListResponseData",

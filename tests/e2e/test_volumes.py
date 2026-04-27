@@ -3,6 +3,8 @@ import unittest
 
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
+from sandbox0.apispec.models.clone_volume_file_entry import CloneVolumeFileEntry
+from sandbox0.apispec.models.clone_volume_files_request import CloneVolumeFilesRequest
 from sandbox0.sessions import VolumeSession
 
 from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config, wait_for_watch_event
@@ -99,6 +101,23 @@ class TestVolumes(unittest.TestCase):
         entries = client.volumes.list_files(volume.id, base_dir)
         self.assertTrue(any(entry.name == "hello.txt" for entry in entries))
         client.volumes.move_file(volume.id, file_path, moved_path)
+        cloned_path = f"{base_dir}/cloned.txt"
+        clone_results = client.volumes.clone_files(
+            volume.id,
+            CloneVolumeFilesRequest(
+                entries=[
+                    CloneVolumeFileEntry(
+                        source_volume_id=volume.id,
+                        source_path=moved_path,
+                        target_path=cloned_path,
+                        create_parents=True,
+                    )
+                ]
+            ),
+        )
+        self.assertEqual(len(clone_results), 1)
+        self.assertEqual(clone_results[0].target_path, cloned_path)
+        self.assertEqual(client.volumes.read_file(volume.id, cloned_path), b"hello volume")
 
         watch = client.volumes.watch_files(volume.id, base_dir, recursive=True)
 
