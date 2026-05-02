@@ -15,6 +15,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.exposed_port_config import ExposedPortConfig
+    from ..models.public_gateway_config import PublicGatewayConfig
     from ..models.sandbox_power_state import SandboxPowerState
     from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
@@ -40,6 +41,7 @@ class Sandbox:
         created_at (datetime.datetime):
         user_id (Union[Unset, str]):
         exposed_ports (Union[Unset, list['ExposedPortConfig']]):
+        public_gateway (Union[Unset, PublicGatewayConfig]):
         ssh (Union[Unset, SandboxSSHConnection]):
     """
 
@@ -57,6 +59,7 @@ class Sandbox:
     created_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
     exposed_ports: Union[Unset, list["ExposedPortConfig"]] = UNSET
+    public_gateway: Union[Unset, "PublicGatewayConfig"] = UNSET
     ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -94,6 +97,10 @@ class Sandbox:
                 exposed_ports_item = exposed_ports_item_data.to_dict()
                 exposed_ports.append(exposed_ports_item)
 
+        public_gateway: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.public_gateway, Unset):
+            public_gateway = self.public_gateway.to_dict()
+
         ssh: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.ssh, Unset):
             ssh = self.ssh.to_dict()
@@ -120,6 +127,8 @@ class Sandbox:
             field_dict["user_id"] = user_id
         if exposed_ports is not UNSET:
             field_dict["exposed_ports"] = exposed_ports
+        if public_gateway is not UNSET:
+            field_dict["public_gateway"] = public_gateway
         if ssh is not UNSET:
             field_dict["ssh"] = ssh
 
@@ -128,6 +137,7 @@ class Sandbox:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.exposed_port_config import ExposedPortConfig
+        from ..models.public_gateway_config import PublicGatewayConfig
         from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
@@ -165,6 +175,13 @@ class Sandbox:
 
             exposed_ports.append(exposed_ports_item)
 
+        _public_gateway = d.pop("public_gateway", UNSET)
+        public_gateway: Union[Unset, PublicGatewayConfig]
+        if isinstance(_public_gateway, Unset):
+            public_gateway = UNSET
+        else:
+            public_gateway = PublicGatewayConfig.from_dict(_public_gateway)
+
         _ssh = d.pop("ssh", UNSET)
         ssh: Union[Unset, SandboxSSHConnection]
         if isinstance(_ssh, Unset):
@@ -187,6 +204,7 @@ class Sandbox:
             created_at=created_at,
             user_id=user_id,
             exposed_ports=exposed_ports,
+            public_gateway=public_gateway,
             ssh=ssh,
         )
 
