@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from sandbox0.apispec.models.public_gateway_config import PublicGatewayConfig
 
 
 @dataclass(frozen=True)
@@ -55,6 +58,13 @@ class ExposedPort:
 @dataclass(frozen=True)
 class ExposedPortsResponse:
     ports: list[ExposedPort]
+    exposure_domain: str = ""
+
+
+@dataclass(frozen=True)
+class PublicGatewayResponse:
+    sandbox_id: str
+    public_gateway: "PublicGatewayConfig"
     exposure_domain: str = ""
 
 

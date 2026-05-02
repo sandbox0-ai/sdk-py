@@ -119,6 +119,12 @@ from .process_type import ProcessType
 from .projected_header import ProjectedHeader
 from .projection_spec import ProjectionSpec
 from .pty_size import PTYSize
+from .public_gateway_auth import PublicGatewayAuth
+from .public_gateway_auth_mode import PublicGatewayAuthMode
+from .public_gateway_config import PublicGatewayConfig
+from .public_gateway_cors import PublicGatewayCORS
+from .public_gateway_rate_limit import PublicGatewayRateLimit
+from .public_gateway_route import PublicGatewayRoute
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
 from .region import Region
@@ -209,6 +215,8 @@ from .success_message_response_data import SuccessMessageResponseData
 from .success_moved_response import SuccessMovedResponse
 from .success_moved_response_data import SuccessMovedResponseData
 from .success_pause_sandbox_response import SuccessPauseSandboxResponse
+from .success_public_gateway_response import SuccessPublicGatewayResponse
+from .success_public_gateway_response_data import SuccessPublicGatewayResponseData
 from .success_refresh_response import SuccessRefreshResponse
 from .success_region_list_response import SuccessRegionListResponse
 from .success_region_list_response_data import SuccessRegionListResponseData
@@ -395,6 +403,12 @@ __all__ = (
     "ProjectedHeader",
     "ProjectionSpec",
     "PTYSize",
+    "PublicGatewayAuth",
+    "PublicGatewayAuthMode",
+    "PublicGatewayConfig",
+    "PublicGatewayCORS",
+    "PublicGatewayRateLimit",
+    "PublicGatewayRoute",
     "RefreshRequest",
     "RefreshResponse",
     "Region",
@@ -483,6 +497,8 @@ __all__ = (
     "SuccessMovedResponse",
     "SuccessMovedResponseData",
     "SuccessPauseSandboxResponse",
+    "SuccessPublicGatewayResponse",
+    "SuccessPublicGatewayResponseData",
     "SuccessRefreshResponse",
     "SuccessRegionListResponse",
     "SuccessRegionListResponseData",

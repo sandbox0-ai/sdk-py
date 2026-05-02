@@ -22,6 +22,7 @@ from sandbox0.sandbox_exposed_ports import SandboxExposedPortsMixin
 from sandbox0.sandbox_files import SandboxFilesMixin
 from sandbox0.sandbox_logs import SandboxLogsMixin
 from sandbox0.sandbox_network import SandboxNetworkMixin
+from sandbox0.sandbox_public_gateway import SandboxPublicGatewayMixin
 
 if TYPE_CHECKING:
     from websockets.sync.client import ClientConnection
@@ -172,6 +173,7 @@ class Sandbox(
     SandboxLogsMixin,
     SandboxNetworkMixin,
     SandboxExposedPortsMixin,
+    SandboxPublicGatewayMixin,
 ):
     def __init__(
         self,
