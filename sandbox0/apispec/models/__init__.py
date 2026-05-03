@@ -61,7 +61,6 @@ from .error import Error
 from .error_envelope import ErrorEnvelope
 from .exec_action import ExecAction
 from .exec_candidate import ExecCandidate
-from .exposed_port_config import ExposedPortConfig
 from .file_content_response import FileContentResponse
 from .file_content_response_encoding import FileContentResponseEncoding
 from .file_info import FileInfo
@@ -197,8 +196,6 @@ from .success_deleted_response_data import SuccessDeletedResponseData
 from .success_device_login_poll_response import SuccessDeviceLoginPollResponse
 from .success_device_login_start_response import SuccessDeviceLoginStartResponse
 from .success_envelope import SuccessEnvelope
-from .success_exposed_ports_response import SuccessExposedPortsResponse
-from .success_exposed_ports_response_data import SuccessExposedPortsResponseData
 from .success_file_list_response import SuccessFileListResponse
 from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
@@ -266,7 +263,6 @@ from .toleration import Toleration
 from .traffic_rule import TrafficRule
 from .traffic_rule_action import TrafficRuleAction
 from .traffic_rule_app_protocol import TrafficRuleAppProtocol
-from .update_exposed_ports_request import UpdateExposedPortsRequest
 from .update_region_request import UpdateRegionRequest
 from .update_team_member_request import UpdateTeamMemberRequest
 from .update_team_member_request_role import UpdateTeamMemberRequestRole
@@ -345,7 +341,6 @@ __all__ = (
     "ErrorEnvelope",
     "ExecAction",
     "ExecCandidate",
-    "ExposedPortConfig",
     "FileContentResponse",
     "FileContentResponseEncoding",
     "FileInfo",
@@ -479,8 +474,6 @@ __all__ = (
     "SuccessDeviceLoginPollResponse",
     "SuccessDeviceLoginStartResponse",
     "SuccessEnvelope",
-    "SuccessExposedPortsResponse",
-    "SuccessExposedPortsResponseData",
     "SuccessFileListResponse",
     "SuccessFileListResponseData",
     "SuccessFileReadResponse",
@@ -546,7 +539,6 @@ __all__ = (
     "TrafficRule",
     "TrafficRuleAction",
     "TrafficRuleAppProtocol",
-    "UpdateExposedPortsRequest",
     "UpdateRegionRequest",
     "UpdateTeamMemberRequest",
     "UpdateTeamMemberRequestRole",

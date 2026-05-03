@@ -12,7 +12,6 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.exposed_port_config import ExposedPortConfig
     from ..models.public_gateway_config import PublicGatewayConfig
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
@@ -33,7 +32,6 @@ class SandboxUpdateConfig:
                 request
                 (API or public exposure) must not auto resume the sandbox.
                  Default: True.
-            exposed_ports (Union[Unset, list['ExposedPortConfig']]):
             public_gateway (Union[Unset, PublicGatewayConfig]):
     """
 
@@ -41,7 +39,6 @@ class SandboxUpdateConfig:
     hard_ttl: Union[Unset, int] = UNSET
     network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     auto_resume: Union[Unset, bool] = True
-    exposed_ports: Union[Unset, list["ExposedPortConfig"]] = UNSET
     public_gateway: Union[Unset, "PublicGatewayConfig"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -55,13 +52,6 @@ class SandboxUpdateConfig:
             network = self.network.to_dict()
 
         auto_resume = self.auto_resume
-
-        exposed_ports: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.exposed_ports, Unset):
-            exposed_ports = []
-            for exposed_ports_item_data in self.exposed_ports:
-                exposed_ports_item = exposed_ports_item_data.to_dict()
-                exposed_ports.append(exposed_ports_item)
 
         public_gateway: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.public_gateway, Unset):
@@ -78,8 +68,6 @@ class SandboxUpdateConfig:
             field_dict["network"] = network
         if auto_resume is not UNSET:
             field_dict["auto_resume"] = auto_resume
-        if exposed_ports is not UNSET:
-            field_dict["exposed_ports"] = exposed_ports
         if public_gateway is not UNSET:
             field_dict["public_gateway"] = public_gateway
 
@@ -87,7 +75,6 @@ class SandboxUpdateConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.exposed_port_config import ExposedPortConfig
         from ..models.public_gateway_config import PublicGatewayConfig
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
@@ -105,13 +92,6 @@ class SandboxUpdateConfig:
 
         auto_resume = d.pop("auto_resume", UNSET)
 
-        exposed_ports = []
-        _exposed_ports = d.pop("exposed_ports", UNSET)
-        for exposed_ports_item_data in _exposed_ports or []:
-            exposed_ports_item = ExposedPortConfig.from_dict(exposed_ports_item_data)
-
-            exposed_ports.append(exposed_ports_item)
-
         _public_gateway = d.pop("public_gateway", UNSET)
         public_gateway: Union[Unset, PublicGatewayConfig]
         if isinstance(_public_gateway, Unset):
@@ -124,7 +104,6 @@ class SandboxUpdateConfig:
             hard_ttl=hard_ttl,
             network=network,
             auto_resume=auto_resume,
-            exposed_ports=exposed_ports,
             public_gateway=public_gateway,
         )
 

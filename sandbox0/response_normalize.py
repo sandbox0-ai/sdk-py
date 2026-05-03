@@ -32,7 +32,6 @@ _NULL_ARRAY_KEYS = {
     "drop",
     "entries",
     "env",
-    "exposed_ports",
     "identities",
     "matchExpressions",
     "matchFields",
