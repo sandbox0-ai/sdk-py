@@ -49,19 +49,6 @@ class StreamDone:
 
 
 @dataclass(frozen=True)
-class ExposedPort:
-    port: int
-    resume: bool
-    public_url: str = ""
-
-
-@dataclass(frozen=True)
-class ExposedPortsResponse:
-    ports: list[ExposedPort]
-    exposure_domain: str = ""
-
-
-@dataclass(frozen=True)
 class PublicGatewayResponse:
     sandbox_id: str
     public_gateway: "PublicGatewayConfig"

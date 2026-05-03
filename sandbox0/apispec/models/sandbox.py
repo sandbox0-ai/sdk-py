@@ -14,7 +14,6 @@ from dateutil.parser import isoparse
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.exposed_port_config import ExposedPortConfig
     from ..models.public_gateway_config import PublicGatewayConfig
     from ..models.sandbox_power_state import SandboxPowerState
     from ..models.sandbox_ssh_connection import SandboxSSHConnection
@@ -40,7 +39,6 @@ class Sandbox:
         claimed_at (datetime.datetime):
         created_at (datetime.datetime):
         user_id (Union[Unset, str]):
-        exposed_ports (Union[Unset, list['ExposedPortConfig']]):
         public_gateway (Union[Unset, PublicGatewayConfig]):
         ssh (Union[Unset, SandboxSSHConnection]):
     """
@@ -58,7 +56,6 @@ class Sandbox:
     claimed_at: datetime.datetime
     created_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
-    exposed_ports: Union[Unset, list["ExposedPortConfig"]] = UNSET
     public_gateway: Union[Unset, "PublicGatewayConfig"] = UNSET
     ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -90,13 +87,6 @@ class Sandbox:
 
         user_id = self.user_id
 
-        exposed_ports: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.exposed_ports, Unset):
-            exposed_ports = []
-            for exposed_ports_item_data in self.exposed_ports:
-                exposed_ports_item = exposed_ports_item_data.to_dict()
-                exposed_ports.append(exposed_ports_item)
-
         public_gateway: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.public_gateway, Unset):
             public_gateway = self.public_gateway.to_dict()
@@ -125,8 +115,6 @@ class Sandbox:
         )
         if user_id is not UNSET:
             field_dict["user_id"] = user_id
-        if exposed_ports is not UNSET:
-            field_dict["exposed_ports"] = exposed_ports
         if public_gateway is not UNSET:
             field_dict["public_gateway"] = public_gateway
         if ssh is not UNSET:
@@ -136,7 +124,6 @@ class Sandbox:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.exposed_port_config import ExposedPortConfig
         from ..models.public_gateway_config import PublicGatewayConfig
         from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
@@ -168,13 +155,6 @@ class Sandbox:
 
         user_id = d.pop("user_id", UNSET)
 
-        exposed_ports = []
-        _exposed_ports = d.pop("exposed_ports", UNSET)
-        for exposed_ports_item_data in _exposed_ports or []:
-            exposed_ports_item = ExposedPortConfig.from_dict(exposed_ports_item_data)
-
-            exposed_ports.append(exposed_ports_item)
-
         _public_gateway = d.pop("public_gateway", UNSET)
         public_gateway: Union[Unset, PublicGatewayConfig]
         if isinstance(_public_gateway, Unset):
@@ -203,7 +183,6 @@ class Sandbox:
             claimed_at=claimed_at,
             created_at=created_at,
             user_id=user_id,
-            exposed_ports=exposed_ports,
             public_gateway=public_gateway,
             ssh=ssh,
         )
