@@ -1,5 +1,7 @@
 from sandbox0.client import Client
 from sandbox0.errors import APIError
+from sandbox0.apispec.models.observability_log_record import ObservabilityLogRecord
+from sandbox0.apispec.models.observability_trace_span import ObservabilityTraceSpan
 from sandbox0.models import (
     CmdResult,
     FileWatchResponse,
@@ -23,6 +25,8 @@ __all__ = [
     "FileWatchResponse",
     "PublicGatewayResponse",
     "MountSession",
+    "ObservabilityLogRecord",
+    "ObservabilityTraceSpan",
     "RunOptions",
     "RunResult",
     "Sandboxes",
