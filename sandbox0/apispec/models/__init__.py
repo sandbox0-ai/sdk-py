@@ -103,16 +103,6 @@ from .node_selector_term import NodeSelectorTerm
 from .object_meta import ObjectMeta
 from .object_meta_annotations import ObjectMetaAnnotations
 from .object_meta_labels import ObjectMetaLabels
-from .observability_log_record import ObservabilityLogRecord
-from .observability_log_record_attributes import ObservabilityLogRecordAttributes
-from .observability_log_record_resource_attributes import (
-    ObservabilityLogRecordResourceAttributes,
-)
-from .observability_trace_span import ObservabilityTraceSpan
-from .observability_trace_span_attributes import ObservabilityTraceSpanAttributes
-from .observability_trace_span_resource_attributes import (
-    ObservabilityTraceSpanResourceAttributes,
-)
 from .pause_sandbox_response import PauseSandboxResponse
 from .pod_affinity import PodAffinity
 from .pod_affinity_term import PodAffinityTerm
@@ -221,18 +211,6 @@ from .success_message_response import SuccessMessageResponse
 from .success_message_response_data import SuccessMessageResponseData
 from .success_moved_response import SuccessMovedResponse
 from .success_moved_response_data import SuccessMovedResponseData
-from .success_observability_log_record_list_response import (
-    SuccessObservabilityLogRecordListResponse,
-)
-from .success_observability_log_record_list_response_data import (
-    SuccessObservabilityLogRecordListResponseData,
-)
-from .success_observability_trace_span_list_response import (
-    SuccessObservabilityTraceSpanListResponse,
-)
-from .success_observability_trace_span_list_response_data import (
-    SuccessObservabilityTraceSpanListResponseData,
-)
 from .success_pause_sandbox_response import SuccessPauseSandboxResponse
 from .success_public_gateway_response import SuccessPublicGatewayResponse
 from .success_public_gateway_response_data import SuccessPublicGatewayResponseData
@@ -405,12 +383,6 @@ __all__ = (
     "ObjectMeta",
     "ObjectMetaAnnotations",
     "ObjectMetaLabels",
-    "ObservabilityLogRecord",
-    "ObservabilityLogRecordAttributes",
-    "ObservabilityLogRecordResourceAttributes",
-    "ObservabilityTraceSpan",
-    "ObservabilityTraceSpanAttributes",
-    "ObservabilityTraceSpanResourceAttributes",
     "PauseSandboxResponse",
     "PodAffinity",
     "PodAffinityTerm",
@@ -517,10 +489,6 @@ __all__ = (
     "SuccessMessageResponseData",
     "SuccessMovedResponse",
     "SuccessMovedResponseData",
-    "SuccessObservabilityLogRecordListResponse",
-    "SuccessObservabilityLogRecordListResponseData",
-    "SuccessObservabilityTraceSpanListResponse",
-    "SuccessObservabilityTraceSpanListResponseData",
     "SuccessPauseSandboxResponse",
     "SuccessPublicGatewayResponse",
     "SuccessPublicGatewayResponseData",

@@ -7,7 +7,6 @@ import httpx
 
 from sandbox0.apispec.client import AuthenticatedClient
 from sandbox0.client_credential_sources import ClientCredentialSourcesMixin
-from sandbox0.client_observability import ClientObservabilityMixin
 from sandbox0.client_sandboxes import ClientSandboxesMixin
 from sandbox0.client_templates import ClientTemplatesMixin
 from sandbox0.client_volumes import ClientVolumesMixin
@@ -23,7 +22,6 @@ class Client(
     ClientTemplatesMixin,
     ClientVolumesMixin,
     ClientCredentialSourcesMixin,
-    ClientObservabilityMixin,
 ):
     def __init__(
         self,
