@@ -85,6 +85,8 @@ from .grpc_action import GRPCAction
 from .http_get_action import HTTPGetAction
 from .http_header import HTTPHeader
 from .http_headers_projection import HTTPHeadersProjection
+from .http_match import HTTPMatch
+from .http_value_match import HTTPValueMatch
 from .identity import Identity
 from .label_selector import LabelSelector
 from .label_selector_match_labels import LabelSelectorMatchLabels
@@ -167,9 +169,11 @@ from .sandbox_volume import SandboxVolume
 from .security_context import SecurityContext
 from .signal_context_request import SignalContextRequest
 from .snapshot import Snapshot
+from .ssh_proxy_projection import SSHProxyProjection
 from .ssh_public_key import SSHPublicKey
 from .static_headers_source_spec import StaticHeadersSourceSpec
 from .static_headers_source_spec_values import StaticHeadersSourceSpecValues
+from .static_ssh_private_key_source_spec import StaticSSHPrivateKeySourceSpec
 from .static_tls_client_certificate_source_spec import (
     StaticTLSClientCertificateSourceSpec,
 )
@@ -365,6 +369,8 @@ __all__ = (
     "HTTPGetAction",
     "HTTPHeader",
     "HTTPHeadersProjection",
+    "HTTPMatch",
+    "HTTPValueMatch",
     "Identity",
     "LabelSelector",
     "LabelSelectorMatchLabels",
@@ -447,9 +453,11 @@ __all__ = (
     "SecurityContext",
     "SignalContextRequest",
     "Snapshot",
+    "SSHProxyProjection",
     "SSHPublicKey",
     "StaticHeadersSourceSpec",
     "StaticHeadersSourceSpecValues",
+    "StaticSSHPrivateKeySourceSpec",
     "StaticTLSClientCertificateSourceSpec",
     "StaticUsernamePasswordSourceSpec",
     "SuccessAPIKeyListResponse",

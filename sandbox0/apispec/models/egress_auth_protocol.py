@@ -8,6 +8,7 @@ class EgressAuthProtocol(str, Enum):
     MQTT = "mqtt"
     REDIS = "redis"
     SOCKS5 = "socks5"
+    SSH = "ssh"
     TLS = "tls"
 
     def __str__(self) -> str:

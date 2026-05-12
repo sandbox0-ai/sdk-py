@@ -13,6 +13,9 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.static_headers_source_spec import StaticHeadersSourceSpec
+    from ..models.static_ssh_private_key_source_spec import (
+        StaticSSHPrivateKeySourceSpec,
+    )
     from ..models.static_tls_client_certificate_source_spec import (
         StaticTLSClientCertificateSourceSpec,
     )
@@ -31,6 +34,7 @@ class CredentialSourceWriteSpec:
         static_headers (Union[Unset, StaticHeadersSourceSpec]):
         static_tls_client_certificate (Union[Unset, StaticTLSClientCertificateSourceSpec]):
         static_username_password (Union[Unset, StaticUsernamePasswordSourceSpec]):
+        static_ssh_private_key (Union[Unset, StaticSSHPrivateKeySourceSpec]):
     """
 
     static_headers: Union[Unset, "StaticHeadersSourceSpec"] = UNSET
@@ -38,6 +42,7 @@ class CredentialSourceWriteSpec:
         Unset, "StaticTLSClientCertificateSourceSpec"
     ] = UNSET
     static_username_password: Union[Unset, "StaticUsernamePasswordSourceSpec"] = UNSET
+    static_ssh_private_key: Union[Unset, "StaticSSHPrivateKeySourceSpec"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -53,6 +58,10 @@ class CredentialSourceWriteSpec:
         if not isinstance(self.static_username_password, Unset):
             static_username_password = self.static_username_password.to_dict()
 
+        static_ssh_private_key: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.static_ssh_private_key, Unset):
+            static_ssh_private_key = self.static_ssh_private_key.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -62,12 +71,17 @@ class CredentialSourceWriteSpec:
             field_dict["staticTLSClientCertificate"] = static_tls_client_certificate
         if static_username_password is not UNSET:
             field_dict["staticUsernamePassword"] = static_username_password
+        if static_ssh_private_key is not UNSET:
+            field_dict["staticSSHPrivateKey"] = static_ssh_private_key
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.static_headers_source_spec import StaticHeadersSourceSpec
+        from ..models.static_ssh_private_key_source_spec import (
+            StaticSSHPrivateKeySourceSpec,
+        )
         from ..models.static_tls_client_certificate_source_spec import (
             StaticTLSClientCertificateSourceSpec,
         )
@@ -105,10 +119,20 @@ class CredentialSourceWriteSpec:
                 _static_username_password
             )
 
+        _static_ssh_private_key = d.pop("staticSSHPrivateKey", UNSET)
+        static_ssh_private_key: Union[Unset, StaticSSHPrivateKeySourceSpec]
+        if isinstance(_static_ssh_private_key, Unset):
+            static_ssh_private_key = UNSET
+        else:
+            static_ssh_private_key = StaticSSHPrivateKeySourceSpec.from_dict(
+                _static_ssh_private_key
+            )
+
         credential_source_write_spec = cls(
             static_headers=static_headers,
             static_tls_client_certificate=static_tls_client_certificate,
             static_username_password=static_username_password,
+            static_ssh_private_key=static_ssh_private_key,
         )
 
         credential_source_write_spec.additional_properties = d
