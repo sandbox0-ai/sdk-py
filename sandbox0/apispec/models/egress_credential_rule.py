@@ -17,6 +17,7 @@ from ..models.egress_tls_mode import EgressTLSMode
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.http_match import HTTPMatch
     from ..models.port_spec import PortSpec
 
 
@@ -36,6 +37,7 @@ class EgressCredentialRule:
         failure_policy (Union[Unset, EgressAuthFailurePolicy]):
         domains (Union[Unset, list[str]]): Domain match list for the rule.
         ports (Union[Unset, list['PortSpec']]): Port/protocol constraints for the rule.
+        http_match (Union[Unset, HTTPMatch]): Request-level matcher for HTTP-family egress credential rules.
     """
 
     credential_ref: str
@@ -46,6 +48,7 @@ class EgressCredentialRule:
     failure_policy: Union[Unset, EgressAuthFailurePolicy] = UNSET
     domains: Union[Unset, list[str]] = UNSET
     ports: Union[Unset, list["PortSpec"]] = UNSET
+    http_match: Union[Unset, "HTTPMatch"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -80,6 +83,10 @@ class EgressCredentialRule:
                 ports_item = ports_item_data.to_dict()
                 ports.append(ports_item)
 
+        http_match: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.http_match, Unset):
+            http_match = self.http_match.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -101,11 +108,14 @@ class EgressCredentialRule:
             field_dict["domains"] = domains
         if ports is not UNSET:
             field_dict["ports"] = ports
+        if http_match is not UNSET:
+            field_dict["httpMatch"] = http_match
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.http_match import HTTPMatch
         from ..models.port_spec import PortSpec
 
         d = dict(src_dict)
@@ -150,6 +160,13 @@ class EgressCredentialRule:
 
             ports.append(ports_item)
 
+        _http_match = d.pop("httpMatch", UNSET)
+        http_match: Union[Unset, HTTPMatch]
+        if isinstance(_http_match, Unset):
+            http_match = UNSET
+        else:
+            http_match = HTTPMatch.from_dict(_http_match)
+
         egress_credential_rule = cls(
             credential_ref=credential_ref,
             name=name,
@@ -159,6 +176,7 @@ class EgressCredentialRule:
             failure_policy=failure_policy,
             domains=domains,
             ports=ports,
+            http_match=http_match,
         )
 
         egress_credential_rule.additional_properties = d
