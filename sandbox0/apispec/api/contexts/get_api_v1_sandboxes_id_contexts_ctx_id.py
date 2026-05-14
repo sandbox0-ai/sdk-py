@@ -1,34 +1,43 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.success_context_response import SuccessContextResponse
-from ...types import Response
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     ctx_id: str,
+
 ) -> dict[str, Any]:
+    
+
+    
+
+    
+
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/v1/sandboxes/{id}/contexts/{ctx_id}".format(
-            id=id,
-            ctx_id=ctx_id,
-        ),
+        "url": "/api/v1/sandboxes/{id}/contexts/{ctx_id}".format(id=id,ctx_id=ctx_id,),
     }
+
 
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessContextResponse]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessContextResponse]:
     if response.status_code == 200:
         response_200 = SuccessContextResponse.from_dict(response.json())
+
+
 
         return response_200
 
@@ -38,9 +47,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessContextResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessContextResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,8 +61,9 @@ def sync_detailed(
     ctx_id: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Response[SuccessContextResponse]:
-    """Get context
+    """ Get context
 
     Args:
         id (str):
@@ -67,11 +75,13 @@ def sync_detailed(
 
     Returns:
         Response[SuccessContextResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        ctx_id=ctx_id,
+ctx_id=ctx_id,
+
     )
 
     response = client.get_httpx_client().request(
@@ -80,14 +90,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     ctx_id: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Optional[SuccessContextResponse]:
-    """Get context
+    """ Get context
 
     Args:
         id (str):
@@ -99,22 +109,24 @@ def sync(
 
     Returns:
         SuccessContextResponse
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        ctx_id=ctx_id,
-        client=client,
-    ).parsed
+ctx_id=ctx_id,
+client=client,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     ctx_id: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Response[SuccessContextResponse]:
-    """Get context
+    """ Get context
 
     Args:
         id (str):
@@ -126,25 +138,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessContextResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        ctx_id=ctx_id,
+ctx_id=ctx_id,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     ctx_id: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Optional[SuccessContextResponse]:
-    """Get context
+    """ Get context
 
     Args:
         id (str):
@@ -156,12 +172,12 @@ async def asyncio(
 
     Returns:
         SuccessContextResponse
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            ctx_id=ctx_id,
-            client=client,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+ctx_id=ctx_id,
+client=client,
+
+    )).parsed

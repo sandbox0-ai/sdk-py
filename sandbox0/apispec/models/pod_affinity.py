@@ -1,129 +1,108 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.pod_affinity_term import PodAffinityTerm
-    from ..models.weighted_pod_affinity_term import WeightedPodAffinityTerm
+  from ..models.weighted_pod_affinity_term import WeightedPodAffinityTerm
+  from ..models.pod_affinity_term import PodAffinityTerm
+
+
+
 
 
 T = TypeVar("T", bound="PodAffinity")
 
 
+
 @_attrs_define
 class PodAffinity:
-    """
-    Attributes:
-        required_during_scheduling_ignored_during_execution (Union[Unset, list['PodAffinityTerm']]):
-        preferred_during_scheduling_ignored_during_execution (Union[Unset, list['WeightedPodAffinityTerm']]):
-    """
+    """ 
+        Attributes:
+            required_during_scheduling_ignored_during_execution (Union[Unset, list['PodAffinityTerm']]):
+            preferred_during_scheduling_ignored_during_execution (Union[Unset, list['WeightedPodAffinityTerm']]):
+     """
 
-    required_during_scheduling_ignored_during_execution: Union[
-        Unset, list["PodAffinityTerm"]
-    ] = UNSET
-    preferred_during_scheduling_ignored_during_execution: Union[
-        Unset, list["WeightedPodAffinityTerm"]
-    ] = UNSET
+    required_during_scheduling_ignored_during_execution: Union[Unset, list['PodAffinityTerm']] = UNSET
+    preferred_during_scheduling_ignored_during_execution: Union[Unset, list['WeightedPodAffinityTerm']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> dict[str, Any]:
-        required_during_scheduling_ignored_during_execution: Union[
-            Unset, list[dict[str, Any]]
-        ] = UNSET
-        if not isinstance(
-            self.required_during_scheduling_ignored_during_execution, Unset
-        ):
-            required_during_scheduling_ignored_during_execution = []
-            for (
-                required_during_scheduling_ignored_during_execution_item_data
-            ) in self.required_during_scheduling_ignored_during_execution:
-                required_during_scheduling_ignored_during_execution_item = required_during_scheduling_ignored_during_execution_item_data.to_dict()
-                required_during_scheduling_ignored_during_execution.append(
-                    required_during_scheduling_ignored_during_execution_item
-                )
 
-        preferred_during_scheduling_ignored_during_execution: Union[
-            Unset, list[dict[str, Any]]
-        ] = UNSET
-        if not isinstance(
-            self.preferred_during_scheduling_ignored_during_execution, Unset
-        ):
+
+
+
+    def to_dict(self) -> dict[str, Any]:
+        from ..models.weighted_pod_affinity_term import WeightedPodAffinityTerm
+        from ..models.pod_affinity_term import PodAffinityTerm
+        required_during_scheduling_ignored_during_execution: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.required_during_scheduling_ignored_during_execution, Unset):
+            required_during_scheduling_ignored_during_execution = []
+            for required_during_scheduling_ignored_during_execution_item_data in self.required_during_scheduling_ignored_during_execution:
+                required_during_scheduling_ignored_during_execution_item = required_during_scheduling_ignored_during_execution_item_data.to_dict()
+                required_during_scheduling_ignored_during_execution.append(required_during_scheduling_ignored_during_execution_item)
+
+
+
+        preferred_during_scheduling_ignored_during_execution: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.preferred_during_scheduling_ignored_during_execution, Unset):
             preferred_during_scheduling_ignored_during_execution = []
-            for (
-                preferred_during_scheduling_ignored_during_execution_item_data
-            ) in self.preferred_during_scheduling_ignored_during_execution:
+            for preferred_during_scheduling_ignored_during_execution_item_data in self.preferred_during_scheduling_ignored_during_execution:
                 preferred_during_scheduling_ignored_during_execution_item = preferred_during_scheduling_ignored_during_execution_item_data.to_dict()
-                preferred_during_scheduling_ignored_during_execution.append(
-                    preferred_during_scheduling_ignored_during_execution_item
-                )
+                preferred_during_scheduling_ignored_during_execution.append(preferred_during_scheduling_ignored_during_execution_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if required_during_scheduling_ignored_during_execution is not UNSET:
-            field_dict["requiredDuringSchedulingIgnoredDuringExecution"] = (
-                required_during_scheduling_ignored_during_execution
-            )
+            field_dict["requiredDuringSchedulingIgnoredDuringExecution"] = required_during_scheduling_ignored_during_execution
         if preferred_during_scheduling_ignored_during_execution is not UNSET:
-            field_dict["preferredDuringSchedulingIgnoredDuringExecution"] = (
-                preferred_during_scheduling_ignored_during_execution
-            )
+            field_dict["preferredDuringSchedulingIgnoredDuringExecution"] = preferred_during_scheduling_ignored_during_execution
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.pod_affinity_term import PodAffinityTerm
         from ..models.weighted_pod_affinity_term import WeightedPodAffinityTerm
-
+        from ..models.pod_affinity_term import PodAffinityTerm
         d = dict(src_dict)
         required_during_scheduling_ignored_during_execution = []
-        _required_during_scheduling_ignored_during_execution = d.pop(
-            "requiredDuringSchedulingIgnoredDuringExecution", UNSET
-        )
-        for required_during_scheduling_ignored_during_execution_item_data in (
-            _required_during_scheduling_ignored_during_execution or []
-        ):
-            required_during_scheduling_ignored_during_execution_item = (
-                PodAffinityTerm.from_dict(
-                    required_during_scheduling_ignored_during_execution_item_data
-                )
-            )
+        _required_during_scheduling_ignored_during_execution = d.pop("requiredDuringSchedulingIgnoredDuringExecution", UNSET)
+        for required_during_scheduling_ignored_during_execution_item_data in (_required_during_scheduling_ignored_during_execution or []):
+            required_during_scheduling_ignored_during_execution_item = PodAffinityTerm.from_dict(required_during_scheduling_ignored_during_execution_item_data)
 
-            required_during_scheduling_ignored_during_execution.append(
-                required_during_scheduling_ignored_during_execution_item
-            )
+
+
+            required_during_scheduling_ignored_during_execution.append(required_during_scheduling_ignored_during_execution_item)
+
 
         preferred_during_scheduling_ignored_during_execution = []
-        _preferred_during_scheduling_ignored_during_execution = d.pop(
-            "preferredDuringSchedulingIgnoredDuringExecution", UNSET
-        )
-        for preferred_during_scheduling_ignored_during_execution_item_data in (
-            _preferred_during_scheduling_ignored_during_execution or []
-        ):
-            preferred_during_scheduling_ignored_during_execution_item = (
-                WeightedPodAffinityTerm.from_dict(
-                    preferred_during_scheduling_ignored_during_execution_item_data
-                )
-            )
+        _preferred_during_scheduling_ignored_during_execution = d.pop("preferredDuringSchedulingIgnoredDuringExecution", UNSET)
+        for preferred_during_scheduling_ignored_during_execution_item_data in (_preferred_during_scheduling_ignored_during_execution or []):
+            preferred_during_scheduling_ignored_during_execution_item = WeightedPodAffinityTerm.from_dict(preferred_during_scheduling_ignored_during_execution_item_data)
 
-            preferred_during_scheduling_ignored_during_execution.append(
-                preferred_during_scheduling_ignored_during_execution_item
-            )
+
+
+            preferred_during_scheduling_ignored_during_execution.append(preferred_during_scheduling_ignored_during_execution_item)
+
 
         pod_affinity = cls(
             required_during_scheduling_ignored_during_execution=required_during_scheduling_ignored_during_execution,
             preferred_during_scheduling_ignored_during_execution=preferred_during_scheduling_ignored_during_execution,
         )
+
 
         pod_affinity.additional_properties = d
         return pod_affinity

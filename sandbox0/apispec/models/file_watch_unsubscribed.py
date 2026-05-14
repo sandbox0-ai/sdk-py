@@ -1,46 +1,62 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.file_watch_unsubscribed_type import FileWatchUnsubscribedType
+
+
+
+
+
 
 T = TypeVar("T", bound="FileWatchUnsubscribed")
 
 
+
 @_attrs_define
 class FileWatchUnsubscribed:
-    """
-    Attributes:
-        type_ (FileWatchUnsubscribedType):
-        watch_id (str):
-    """
+    """ 
+        Attributes:
+            type_ (FileWatchUnsubscribedType):
+            watch_id (str):
+     """
 
     type_: FileWatchUnsubscribedType
     watch_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
 
         watch_id = self.watch_id
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "type": type_,
-                "watch_id": watch_id,
-            }
-        )
+        field_dict.update({
+            "type": type_,
+            "watch_id": watch_id,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = FileWatchUnsubscribedType(d.pop("type"))
+
+
+
 
         watch_id = d.pop("watch_id")
 
@@ -48,6 +64,7 @@ class FileWatchUnsubscribed:
             type_=type_,
             watch_id=watch_id,
         )
+
 
         file_watch_unsubscribed.additional_properties = d
         return file_watch_unsubscribed

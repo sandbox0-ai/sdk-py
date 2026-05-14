@@ -1,53 +1,63 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import cast, Union
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.public_gateway_auth import PublicGatewayAuth
-    from ..models.public_gateway_cors import PublicGatewayCORS
-    from ..models.public_gateway_rate_limit import PublicGatewayRateLimit
+  from ..models.sandbox_app_service_route_cors import SandboxAppServiceRouteCORS
+  from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
+  from ..models.sandbox_app_service_route_auth import SandboxAppServiceRouteAuth
+
+
+
 
 
 T = TypeVar("T", bound="SandboxAppServiceRoute")
 
 
+
 @_attrs_define
 class SandboxAppServiceRoute:
-    """
-    Attributes:
-        id (str):
-        resume (bool):
-        path_prefix (Union[Unset, str]):
-        methods (Union[Unset, list[str]]):
-        rewrite_prefix (Union[None, Unset, str]):
-        auth (Union[Unset, PublicGatewayAuth]):
-        cors (Union[Unset, PublicGatewayCORS]):
-        rate_limit (Union[Unset, PublicGatewayRateLimit]):
-        timeout_seconds (Union[Unset, int]):
-    """
+    """ 
+        Attributes:
+            id (str):
+            resume (bool):
+            path_prefix (Union[Unset, str]):
+            methods (Union[Unset, list[str]]):
+            rewrite_prefix (Union[None, Unset, str]):
+            auth (Union[Unset, SandboxAppServiceRouteAuth]):
+            cors (Union[Unset, SandboxAppServiceRouteCORS]):
+            rate_limit (Union[Unset, SandboxAppServiceRouteRateLimit]):
+            timeout_seconds (Union[Unset, int]):
+     """
 
     id: str
     resume: bool
     path_prefix: Union[Unset, str] = UNSET
     methods: Union[Unset, list[str]] = UNSET
     rewrite_prefix: Union[None, Unset, str] = UNSET
-    auth: Union[Unset, "PublicGatewayAuth"] = UNSET
-    cors: Union[Unset, "PublicGatewayCORS"] = UNSET
-    rate_limit: Union[Unset, "PublicGatewayRateLimit"] = UNSET
+    auth: Union[Unset, 'SandboxAppServiceRouteAuth'] = UNSET
+    cors: Union[Unset, 'SandboxAppServiceRouteCORS'] = UNSET
+    rate_limit: Union[Unset, 'SandboxAppServiceRouteRateLimit'] = UNSET
     timeout_seconds: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_app_service_route_cors import SandboxAppServiceRouteCORS
+        from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
+        from ..models.sandbox_app_service_route_auth import SandboxAppServiceRouteAuth
         id = self.id
 
         resume = self.resume
@@ -57,6 +67,8 @@ class SandboxAppServiceRoute:
         methods: Union[Unset, list[str]] = UNSET
         if not isinstance(self.methods, Unset):
             methods = self.methods
+
+
 
         rewrite_prefix: Union[None, Unset, str]
         if isinstance(self.rewrite_prefix, Unset):
@@ -78,14 +90,13 @@ class SandboxAppServiceRoute:
 
         timeout_seconds = self.timeout_seconds
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "resume": resume,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "resume": resume,
+        })
         if path_prefix is not UNSET:
             field_dict["path_prefix"] = path_prefix
         if methods is not UNSET:
@@ -103,12 +114,13 @@ class SandboxAppServiceRoute:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.public_gateway_auth import PublicGatewayAuth
-        from ..models.public_gateway_cors import PublicGatewayCORS
-        from ..models.public_gateway_rate_limit import PublicGatewayRateLimit
-
+        from ..models.sandbox_app_service_route_cors import SandboxAppServiceRouteCORS
+        from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
+        from ..models.sandbox_app_service_route_auth import SandboxAppServiceRouteAuth
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -117,6 +129,7 @@ class SandboxAppServiceRoute:
         path_prefix = d.pop("path_prefix", UNSET)
 
         methods = cast(list[str], d.pop("methods", UNSET))
+
 
         def _parse_rewrite_prefix(data: object) -> Union[None, Unset, str]:
             if data is None:
@@ -127,26 +140,36 @@ class SandboxAppServiceRoute:
 
         rewrite_prefix = _parse_rewrite_prefix(d.pop("rewrite_prefix", UNSET))
 
+
         _auth = d.pop("auth", UNSET)
-        auth: Union[Unset, PublicGatewayAuth]
-        if isinstance(_auth, Unset):
+        auth: Union[Unset, SandboxAppServiceRouteAuth]
+        if isinstance(_auth,  Unset):
             auth = UNSET
         else:
-            auth = PublicGatewayAuth.from_dict(_auth)
+            auth = SandboxAppServiceRouteAuth.from_dict(_auth)
+
+
+
 
         _cors = d.pop("cors", UNSET)
-        cors: Union[Unset, PublicGatewayCORS]
-        if isinstance(_cors, Unset):
+        cors: Union[Unset, SandboxAppServiceRouteCORS]
+        if isinstance(_cors,  Unset):
             cors = UNSET
         else:
-            cors = PublicGatewayCORS.from_dict(_cors)
+            cors = SandboxAppServiceRouteCORS.from_dict(_cors)
+
+
+
 
         _rate_limit = d.pop("rate_limit", UNSET)
-        rate_limit: Union[Unset, PublicGatewayRateLimit]
-        if isinstance(_rate_limit, Unset):
+        rate_limit: Union[Unset, SandboxAppServiceRouteRateLimit]
+        if isinstance(_rate_limit,  Unset):
             rate_limit = UNSET
         else:
-            rate_limit = PublicGatewayRateLimit.from_dict(_rate_limit)
+            rate_limit = SandboxAppServiceRouteRateLimit.from_dict(_rate_limit)
+
+
+
 
         timeout_seconds = d.pop("timeout_seconds", UNSET)
 
@@ -161,6 +184,7 @@ class SandboxAppServiceRoute:
             rate_limit=rate_limit,
             timeout_seconds=timeout_seconds,
         )
+
 
         sandbox_app_service_route.additional_properties = d
         return sandbox_app_service_route

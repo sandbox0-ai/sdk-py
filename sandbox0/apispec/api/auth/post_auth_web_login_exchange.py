@@ -1,21 +1,30 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_login_response import SuccessLoginResponse
 from ...models.web_login_exchange_request import WebLoginExchangeRequest
-from ...types import Response
+from typing import cast
+
 
 
 def _get_kwargs(
     *,
     body: WebLoginExchangeRequest,
+
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+
+
+    
+
+    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -24,27 +33,33 @@ def _get_kwargs(
 
     _kwargs["json"] = body.to_dict()
 
+
     headers["Content-Type"] = "application/json"
 
     _kwargs["headers"] = headers
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessLoginResponse]]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessLoginResponse]]:
     if response.status_code == 200:
         response_200 = SuccessLoginResponse.from_dict(response.json())
+
+
 
         return response_200
 
     if response.status_code == 400:
         response_400 = ErrorEnvelope.from_dict(response.json())
 
+
+
         return response_400
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
+
+
 
         return response_401
 
@@ -54,9 +69,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessLoginResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessLoginResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -69,8 +82,9 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: WebLoginExchangeRequest,
+
 ) -> Response[Union[ErrorEnvelope, SuccessLoginResponse]]:
-    """Exchange web login code
+    """ Exchange web login code
 
      Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
@@ -83,10 +97,12 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessLoginResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -95,13 +111,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     *,
     client: Union[AuthenticatedClient, Client],
     body: WebLoginExchangeRequest,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessLoginResponse]]:
-    """Exchange web login code
+    """ Exchange web login code
 
      Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
@@ -114,20 +130,22 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessLoginResponse]
-    """
+     """
+
 
     return sync_detailed(
         client=client,
-        body=body,
-    ).parsed
+body=body,
 
+    ).parsed
 
 async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
     body: WebLoginExchangeRequest,
+
 ) -> Response[Union[ErrorEnvelope, SuccessLoginResponse]]:
-    """Exchange web login code
+    """ Exchange web login code
 
      Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
@@ -140,23 +158,27 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessLoginResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         body=body,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
     body: WebLoginExchangeRequest,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessLoginResponse]]:
-    """Exchange web login code
+    """ Exchange web login code
 
      Exchanges a short-lived, one-time browser login handoff code for Sandbox0 tokens.
 
@@ -169,11 +191,11 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessLoginResponse]
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            client=client,
-            body=body,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        client=client,
+body=body,
+
+    )).parsed

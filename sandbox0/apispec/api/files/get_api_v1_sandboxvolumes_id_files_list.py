@@ -1,41 +1,51 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.success_file_list_response import SuccessFileListResponse
-from ...types import UNSET, Response
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     *,
     path: str,
+
 ) -> dict[str, Any]:
+    
+
+    
+
     params: dict[str, Any] = {}
 
     params["path"] = path
 
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/v1/sandboxvolumes/{id}/files/list".format(
-            id=id,
-        ),
+        "url": "/api/v1/sandboxvolumes/{id}/files/list".format(id=id,),
         "params": params,
     }
+
 
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessFileListResponse]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessFileListResponse]:
     if response.status_code == 200:
         response_200 = SuccessFileListResponse.from_dict(response.json())
+
+
 
         return response_200
 
@@ -45,9 +55,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessFileListResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessFileListResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -61,8 +69,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Response[SuccessFileListResponse]:
-    """List volume directory entries
+    """ List volume directory entries
 
      Use query params:
     - path=/tmp: target directory path relative to the volume root
@@ -77,11 +86,13 @@ def sync_detailed(
 
     Returns:
         Response[SuccessFileListResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        path=path,
+path=path,
+
     )
 
     response = client.get_httpx_client().request(
@@ -90,14 +101,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Optional[SuccessFileListResponse]:
-    """List volume directory entries
+    """ List volume directory entries
 
      Use query params:
     - path=/tmp: target directory path relative to the volume root
@@ -112,22 +123,24 @@ def sync(
 
     Returns:
         SuccessFileListResponse
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        client=client,
-        path=path,
-    ).parsed
+client=client,
+path=path,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Response[SuccessFileListResponse]:
-    """List volume directory entries
+    """ List volume directory entries
 
      Use query params:
     - path=/tmp: target directory path relative to the volume root
@@ -142,25 +155,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessFileListResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        path=path,
+path=path,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Optional[SuccessFileListResponse]:
-    """List volume directory entries
+    """ List volume directory entries
 
      Use query params:
     - path=/tmp: target directory path relative to the volume root
@@ -175,12 +192,12 @@ async def asyncio(
 
     Returns:
         SuccessFileListResponse
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            client=client,
-            path=path,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+path=path,
+
+    )).parsed

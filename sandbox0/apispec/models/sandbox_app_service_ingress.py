@@ -1,36 +1,44 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.sandbox_app_service_route import SandboxAppServiceRoute
+  from ..models.sandbox_app_service_route import SandboxAppServiceRoute
+
+
+
 
 
 T = TypeVar("T", bound="SandboxAppServiceIngress")
 
 
+
 @_attrs_define
 class SandboxAppServiceIngress:
-    """
-    Attributes:
-        public (bool):
-        routes (Union[Unset, list['SandboxAppServiceRoute']]):
-    """
+    """ 
+        Attributes:
+            public (bool):
+            routes (Union[Unset, list['SandboxAppServiceRoute']]):
+     """
 
     public: bool
-    routes: Union[Unset, list["SandboxAppServiceRoute"]] = UNSET
+    routes: Union[Unset, list['SandboxAppServiceRoute']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_app_service_route import SandboxAppServiceRoute
         public = self.public
 
         routes: Union[Unset, list[dict[str, Any]]] = UNSET
@@ -40,36 +48,42 @@ class SandboxAppServiceIngress:
                 routes_item = routes_item_data.to_dict()
                 routes.append(routes_item)
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "public": public,
-            }
-        )
+        field_dict.update({
+            "public": public,
+        })
         if routes is not UNSET:
             field_dict["routes"] = routes
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_app_service_route import SandboxAppServiceRoute
-
         d = dict(src_dict)
         public = d.pop("public")
 
         routes = []
         _routes = d.pop("routes", UNSET)
-        for routes_item_data in _routes or []:
+        for routes_item_data in (_routes or []):
             routes_item = SandboxAppServiceRoute.from_dict(routes_item_data)
 
+
+
             routes.append(routes_item)
+
 
         sandbox_app_service_ingress = cls(
             public=public,
             routes=routes,
         )
+
 
         sandbox_app_service_ingress.additional_properties = d
         return sandbox_app_service_ingress

@@ -1,41 +1,54 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="PreStopHook")
+
 
 
 @_attrs_define
 class PreStopHook:
-    """
-    Attributes:
-        command (Union[Unset, list[str]]):
-        timeout_seconds (Union[Unset, int]):
-    """
+    """ 
+        Attributes:
+            command (Union[Unset, list[str]]):
+            timeout_seconds (Union[Unset, int]):
+     """
 
     command: Union[Unset, list[str]] = UNSET
     timeout_seconds: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         command: Union[Unset, list[str]] = UNSET
         if not isinstance(self.command, Unset):
             command = self.command
 
+
+
         timeout_seconds = self.timeout_seconds
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if command is not UNSET:
             field_dict["command"] = command
         if timeout_seconds is not UNSET:
@@ -43,10 +56,13 @@ class PreStopHook:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         command = cast(list[str], d.pop("command", UNSET))
+
 
         timeout_seconds = d.pop("timeoutSeconds", UNSET)
 
@@ -54,6 +70,7 @@ class PreStopHook:
             command=command,
             timeout_seconds=timeout_seconds,
         )
+
 
         pre_stop_hook.additional_properties = d
         return pre_stop_hook

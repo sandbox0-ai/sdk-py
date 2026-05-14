@@ -1,40 +1,48 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.sandbox_power_state import SandboxPowerState
+  from ..models.sandbox_power_state import SandboxPowerState
+
+
+
 
 
 T = TypeVar("T", bound="ResumeSandboxResponse")
 
 
+
 @_attrs_define
 class ResumeSandboxResponse:
-    """
-    Attributes:
-        sandbox_id (str):
-        resumed (bool):
-        power_state (SandboxPowerState):
-        restored_memory (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            sandbox_id (str):
+            resumed (bool):
+            power_state (SandboxPowerState):
+            restored_memory (Union[Unset, str]):
+     """
 
     sandbox_id: str
     resumed: bool
-    power_state: "SandboxPowerState"
+    power_state: 'SandboxPowerState'
     restored_memory: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_power_state import SandboxPowerState
         sandbox_id = self.sandbox_id
 
         resumed = self.resumed
@@ -43,30 +51,33 @@ class ResumeSandboxResponse:
 
         restored_memory = self.restored_memory
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "sandbox_id": sandbox_id,
-                "resumed": resumed,
-                "power_state": power_state,
-            }
-        )
+        field_dict.update({
+            "sandbox_id": sandbox_id,
+            "resumed": resumed,
+            "power_state": power_state,
+        })
         if restored_memory is not UNSET:
             field_dict["restored_memory"] = restored_memory
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_power_state import SandboxPowerState
-
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 
         resumed = d.pop("resumed")
 
         power_state = SandboxPowerState.from_dict(d.pop("power_state"))
+
+
+
 
         restored_memory = d.pop("restored_memory", UNSET)
 
@@ -76,6 +87,7 @@ class ResumeSandboxResponse:
             power_state=power_state,
             restored_memory=restored_memory,
         )
+
 
         resume_sandbox_response.additional_properties = d
         return resume_sandbox_response

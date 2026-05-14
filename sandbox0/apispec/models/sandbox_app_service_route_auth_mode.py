@@ -1,7 +1,6 @@
 from enum import Enum
 
-
-class PublicGatewayAuthMode(str, Enum):
+class SandboxAppServiceRouteAuthMode(str, Enum):
     BEARER = "bearer"
     HEADER = "header"
     NONE = "none"

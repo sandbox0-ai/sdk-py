@@ -1,27 +1,39 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.context_web_socket_resize_type import ContextWebSocketResizeType
+
+
+
+
+
 
 T = TypeVar("T", bound="ContextWebSocketResize")
 
 
+
 @_attrs_define
 class ContextWebSocketResize:
-    """
-    Attributes:
-        type_ (ContextWebSocketResizeType):
-        rows (int):
-        cols (int):
-    """
+    """ 
+        Attributes:
+            type_ (ContextWebSocketResizeType):
+            rows (int):
+            cols (int):
+     """
 
     type_: ContextWebSocketResizeType
     rows: int
     cols: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
@@ -30,22 +42,26 @@ class ContextWebSocketResize:
 
         cols = self.cols
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "type": type_,
-                "rows": rows,
-                "cols": cols,
-            }
-        )
+        field_dict.update({
+            "type": type_,
+            "rows": rows,
+            "cols": cols,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = ContextWebSocketResizeType(d.pop("type"))
+
+
+
 
         rows = d.pop("rows")
 
@@ -56,6 +72,7 @@ class ContextWebSocketResize:
             rows=rows,
             cols=cols,
         )
+
 
         context_web_socket_resize.additional_properties = d
         return context_web_socket_resize

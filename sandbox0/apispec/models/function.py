@@ -1,34 +1,40 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
+
+from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import Union
+import datetime
+
+
+
+
+
 
 T = TypeVar("T", bound="Function")
 
 
+
 @_attrs_define
 class Function:
-    """
-    Attributes:
-        id (str):
-        team_id (str):
-        name (str):
-        slug (str):
-        domain_label (str):
-        created_at (datetime.datetime):
-        updated_at (datetime.datetime):
-        active_revision_id (Union[Unset, str]):
-        created_by (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            id (str):
+            team_id (str):
+            name (str):
+            slug (str):
+            domain_label (str):
+            created_at (datetime.datetime):
+            updated_at (datetime.datetime):
+            active_revision_id (Union[Unset, str]):
+            created_by (Union[Unset, str]):
+     """
 
     id: str
     team_id: str
@@ -40,6 +46,10 @@ class Function:
     active_revision_id: Union[Unset, str] = UNSET
     created_by: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -60,25 +70,26 @@ class Function:
 
         created_by = self.created_by
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "team_id": team_id,
-                "name": name,
-                "slug": slug,
-                "domain_label": domain_label,
-                "created_at": created_at,
-                "updated_at": updated_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "team_id": team_id,
+            "name": name,
+            "slug": slug,
+            "domain_label": domain_label,
+            "created_at": created_at,
+            "updated_at": updated_at,
+        })
         if active_revision_id is not UNSET:
             field_dict["active_revision_id"] = active_revision_id
         if created_by is not UNSET:
             field_dict["created_by"] = created_by
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -95,7 +106,13 @@ class Function:
 
         created_at = isoparse(d.pop("created_at"))
 
+
+
+
         updated_at = isoparse(d.pop("updated_at"))
+
+
+
 
         active_revision_id = d.pop("active_revision_id", UNSET)
 
@@ -112,6 +129,7 @@ class Function:
             active_revision_id=active_revision_id,
             created_by=created_by,
         )
+
 
         function.additional_properties = d
         return function

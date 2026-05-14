@@ -1,31 +1,36 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.mount_status_state import MountStatusState
 from ..types import UNSET, Unset
+from typing import Union
+
+
+
+
+
 
 T = TypeVar("T", bound="MountStatus")
 
 
+
 @_attrs_define
 class MountStatus:
-    """
-    Attributes:
-        sandboxvolume_id (str):
-        mount_point (str):
-        state (MountStatusState):
-        mounted_at (Union[Unset, str]):
-        mounted_duration_sec (Union[Unset, int]):
-        error_code (Union[Unset, str]):
-        error_message (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            sandboxvolume_id (str):
+            mount_point (str):
+            state (MountStatusState):
+            mounted_at (Union[Unset, str]):
+            mounted_duration_sec (Union[Unset, int]):
+            error_code (Union[Unset, str]):
+            error_message (Union[Unset, str]):
+     """
 
     sandboxvolume_id: str
     mount_point: str
@@ -35,6 +40,10 @@ class MountStatus:
     error_code: Union[Unset, str] = UNSET
     error_message: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         sandboxvolume_id = self.sandboxvolume_id
@@ -51,15 +60,14 @@ class MountStatus:
 
         error_message = self.error_message
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "sandboxvolume_id": sandboxvolume_id,
-                "mount_point": mount_point,
-                "state": state,
-            }
-        )
+        field_dict.update({
+            "sandboxvolume_id": sandboxvolume_id,
+            "mount_point": mount_point,
+            "state": state,
+        })
         if mounted_at is not UNSET:
             field_dict["mounted_at"] = mounted_at
         if mounted_duration_sec is not UNSET:
@@ -71,6 +79,8 @@ class MountStatus:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
@@ -79,6 +89,9 @@ class MountStatus:
         mount_point = d.pop("mount_point")
 
         state = MountStatusState(d.pop("state"))
+
+
+
 
         mounted_at = d.pop("mounted_at", UNSET)
 
@@ -97,6 +110,7 @@ class MountStatus:
             error_code=error_code,
             error_message=error_message,
         )
+
 
         mount_status.additional_properties = d
         return mount_status

@@ -21,7 +21,6 @@ from sandbox0.sandbox_contexts import SandboxContextsMixin
 from sandbox0.sandbox_files import SandboxFilesMixin
 from sandbox0.sandbox_logs import SandboxLogsMixin
 from sandbox0.sandbox_network import SandboxNetworkMixin
-from sandbox0.sandbox_public_gateway import SandboxPublicGatewayMixin
 from sandbox0.sandbox_services import SandboxServicesMixin
 
 if TYPE_CHECKING:
@@ -173,7 +172,6 @@ class Sandbox(
     SandboxLogsMixin,
     SandboxNetworkMixin,
     SandboxServicesMixin,
-    SandboxPublicGatewayMixin,
 ):
     def __init__(
         self,

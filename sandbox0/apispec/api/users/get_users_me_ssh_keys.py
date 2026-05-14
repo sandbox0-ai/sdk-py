@@ -1,36 +1,49 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.error_envelope import ErrorEnvelope
-from ...models.success_ssh_public_key_list_response import (
-    SuccessSSHPublicKeyListResponse,
-)
-from ...types import Response
+from ...models.success_ssh_public_key_list_response import SuccessSSHPublicKeyListResponse
+from typing import cast
 
 
-def _get_kwargs() -> dict[str, Any]:
+
+def _get_kwargs(
+    
+) -> dict[str, Any]:
+    
+
+    
+
+    
+
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/users/me/ssh-keys",
     }
 
+
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
     if response.status_code == 200:
         response_200 = SuccessSSHPublicKeyListResponse.from_dict(response.json())
+
+
 
         return response_200
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
+
+
 
         return response_401
 
@@ -40,9 +53,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,8 +65,9 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
+
 ) -> Response[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
-    """List current user SSH public keys
+    """ List current user SSH public keys
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -63,9 +75,12 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]
-    """
+     """
 
-    kwargs = _get_kwargs()
+
+    kwargs = _get_kwargs(
+        
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -73,12 +88,12 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     *,
     client: AuthenticatedClient,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
-    """List current user SSH public keys
+    """ List current user SSH public keys
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -86,18 +101,20 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]
-    """
+     """
+
 
     return sync_detailed(
         client=client,
-    ).parsed
 
+    ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
+
 ) -> Response[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
-    """List current user SSH public keys
+    """ List current user SSH public keys
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -105,20 +122,25 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]
-    """
+     """
 
-    kwargs = _get_kwargs()
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    kwargs = _get_kwargs(
+        
+    )
+
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     *,
     client: AuthenticatedClient,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]]:
-    """List current user SSH public keys
+    """ List current user SSH public keys
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -126,10 +148,10 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessSSHPublicKeyListResponse]
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            client=client,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        client=client,
+
+    )).parsed

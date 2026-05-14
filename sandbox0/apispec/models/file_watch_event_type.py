@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class FileWatchEventType(str, Enum):
     EVENT = "event"
 

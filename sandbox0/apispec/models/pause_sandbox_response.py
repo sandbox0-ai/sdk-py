@@ -1,45 +1,54 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.sandbox_power_state import SandboxPowerState
-    from ..models.sandbox_resource_usage import SandboxResourceUsage
+  from ..models.sandbox_power_state import SandboxPowerState
+  from ..models.sandbox_resource_usage import SandboxResourceUsage
+
+
+
 
 
 T = TypeVar("T", bound="PauseSandboxResponse")
 
 
+
 @_attrs_define
 class PauseSandboxResponse:
-    """
-    Attributes:
-        sandbox_id (str):
-        paused (bool):
-        power_state (SandboxPowerState):
-        resource_usage (Union[Unset, SandboxResourceUsage]):
-        updated_memory (Union[Unset, str]):
-        updated_cpu (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            sandbox_id (str):
+            paused (bool):
+            power_state (SandboxPowerState):
+            resource_usage (Union[Unset, SandboxResourceUsage]):
+            updated_memory (Union[Unset, str]):
+            updated_cpu (Union[Unset, str]):
+     """
 
     sandbox_id: str
     paused: bool
-    power_state: "SandboxPowerState"
-    resource_usage: Union[Unset, "SandboxResourceUsage"] = UNSET
+    power_state: 'SandboxPowerState'
+    resource_usage: Union[Unset, 'SandboxResourceUsage'] = UNSET
     updated_memory: Union[Unset, str] = UNSET
     updated_cpu: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_power_state import SandboxPowerState
+        from ..models.sandbox_resource_usage import SandboxResourceUsage
         sandbox_id = self.sandbox_id
 
         paused = self.paused
@@ -54,15 +63,14 @@ class PauseSandboxResponse:
 
         updated_cpu = self.updated_cpu
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "sandbox_id": sandbox_id,
-                "paused": paused,
-                "power_state": power_state,
-            }
-        )
+        field_dict.update({
+            "sandbox_id": sandbox_id,
+            "paused": paused,
+            "power_state": power_state,
+        })
         if resource_usage is not UNSET:
             field_dict["resource_usage"] = resource_usage
         if updated_memory is not UNSET:
@@ -72,11 +80,12 @@ class PauseSandboxResponse:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_resource_usage import SandboxResourceUsage
-
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 
@@ -84,12 +93,18 @@ class PauseSandboxResponse:
 
         power_state = SandboxPowerState.from_dict(d.pop("power_state"))
 
+
+
+
         _resource_usage = d.pop("resource_usage", UNSET)
         resource_usage: Union[Unset, SandboxResourceUsage]
-        if isinstance(_resource_usage, Unset):
+        if isinstance(_resource_usage,  Unset):
             resource_usage = UNSET
         else:
             resource_usage = SandboxResourceUsage.from_dict(_resource_usage)
+
+
+
 
         updated_memory = d.pop("updated_memory", UNSET)
 
@@ -103,6 +118,7 @@ class PauseSandboxResponse:
             updated_memory=updated_memory,
             updated_cpu=updated_cpu,
         )
+
 
         pause_sandbox_response.additional_properties = d
         return pause_sandbox_response

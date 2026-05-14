@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class FileWatchSubscribeRequestAction(str, Enum):
     SUBSCRIBE = "subscribe"
 

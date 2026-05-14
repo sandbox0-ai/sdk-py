@@ -1,49 +1,57 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.warm_process_spec_type import WarmProcessSpecType
 from ..types import UNSET, Unset
 
+from ..models.warm_process_spec_type import WarmProcessSpecType
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.sandbox_probe_set import SandboxProbeSet
-    from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
+  from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
+  from ..models.sandbox_probe_set import SandboxProbeSet
+
+
+
 
 
 T = TypeVar("T", bound="WarmProcessSpec")
 
 
+
 @_attrs_define
 class WarmProcessSpec:
-    """
-    Attributes:
-        type_ (WarmProcessSpecType):
-        name (Union[Unset, str]):
-        alias (Union[Unset, str]):
-        command (Union[Unset, list[str]]):
-        cwd (Union[Unset, str]):
-        env_vars (Union[Unset, WarmProcessSpecEnvVars]):
-        probes (Union[Unset, SandboxProbeSet]):
-    """
+    """ 
+        Attributes:
+            type_ (WarmProcessSpecType):
+            name (Union[Unset, str]):
+            alias (Union[Unset, str]):
+            command (Union[Unset, list[str]]):
+            cwd (Union[Unset, str]):
+            env_vars (Union[Unset, WarmProcessSpecEnvVars]):
+            probes (Union[Unset, SandboxProbeSet]):
+     """
 
     type_: WarmProcessSpecType
     name: Union[Unset, str] = UNSET
     alias: Union[Unset, str] = UNSET
     command: Union[Unset, list[str]] = UNSET
     cwd: Union[Unset, str] = UNSET
-    env_vars: Union[Unset, "WarmProcessSpecEnvVars"] = UNSET
-    probes: Union[Unset, "SandboxProbeSet"] = UNSET
+    env_vars: Union[Unset, 'WarmProcessSpecEnvVars'] = UNSET
+    probes: Union[Unset, 'SandboxProbeSet'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
+        from ..models.sandbox_probe_set import SandboxProbeSet
         type_ = self.type_.value
 
         name = self.name
@@ -53,6 +61,8 @@ class WarmProcessSpec:
         command: Union[Unset, list[str]] = UNSET
         if not isinstance(self.command, Unset):
             command = self.command
+
+
 
         cwd = self.cwd
 
@@ -64,13 +74,12 @@ class WarmProcessSpec:
         if not isinstance(self.probes, Unset):
             probes = self.probes.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "type": type_,
-            }
-        )
+        field_dict.update({
+            "type": type_,
+        })
         if name is not UNSET:
             field_dict["name"] = name
         if alias is not UNSET:
@@ -86,13 +95,17 @@ class WarmProcessSpec:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_probe_set import SandboxProbeSet
         from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
-
+        from ..models.sandbox_probe_set import SandboxProbeSet
         d = dict(src_dict)
         type_ = WarmProcessSpecType(d.pop("type"))
+
+
+
 
         name = d.pop("name", UNSET)
 
@@ -100,21 +113,28 @@ class WarmProcessSpec:
 
         command = cast(list[str], d.pop("command", UNSET))
 
+
         cwd = d.pop("cwd", UNSET)
 
         _env_vars = d.pop("envVars", UNSET)
         env_vars: Union[Unset, WarmProcessSpecEnvVars]
-        if isinstance(_env_vars, Unset):
+        if isinstance(_env_vars,  Unset):
             env_vars = UNSET
         else:
             env_vars = WarmProcessSpecEnvVars.from_dict(_env_vars)
 
+
+
+
         _probes = d.pop("probes", UNSET)
         probes: Union[Unset, SandboxProbeSet]
-        if isinstance(_probes, Unset):
+        if isinstance(_probes,  Unset):
             probes = UNSET
         else:
             probes = SandboxProbeSet.from_dict(_probes)
+
+
+
 
         warm_process_spec = cls(
             type_=type_,
@@ -125,6 +145,7 @@ class WarmProcessSpec:
             env_vars=env_vars,
             probes=probes,
         )
+
 
         warm_process_spec.additional_properties = d
         return warm_process_spec

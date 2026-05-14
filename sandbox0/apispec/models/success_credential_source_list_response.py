@@ -1,36 +1,44 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.credential_source_metadata import CredentialSourceMetadata
+  from ..models.credential_source_metadata import CredentialSourceMetadata
+
+
+
 
 
 T = TypeVar("T", bound="SuccessCredentialSourceListResponse")
 
 
+
 @_attrs_define
 class SuccessCredentialSourceListResponse:
-    """
-    Attributes:
-        success (bool):
-        data (Union[Unset, list['CredentialSourceMetadata']]):
-    """
+    """ 
+        Attributes:
+            success (bool):
+            data (Union[Unset, list['CredentialSourceMetadata']]):
+     """
 
     success: bool
-    data: Union[Unset, list["CredentialSourceMetadata"]] = UNSET
+    data: Union[Unset, list['CredentialSourceMetadata']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.credential_source_metadata import CredentialSourceMetadata
         success = self.success
 
         data: Union[Unset, list[dict[str, Any]]] = UNSET
@@ -40,36 +48,42 @@ class SuccessCredentialSourceListResponse:
                 data_item = data_item_data.to_dict()
                 data.append(data_item)
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "success": success,
-            }
-        )
+        field_dict.update({
+            "success": success,
+        })
         if data is not UNSET:
             field_dict["data"] = data
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.credential_source_metadata import CredentialSourceMetadata
-
         d = dict(src_dict)
         success = d.pop("success")
 
         data = []
         _data = d.pop("data", UNSET)
-        for data_item_data in _data or []:
+        for data_item_data in (_data or []):
             data_item = CredentialSourceMetadata.from_dict(data_item_data)
 
+
+
             data.append(data_item)
+
 
         success_credential_source_list_response = cls(
             success=success,
             data=data,
         )
+
 
         success_credential_source_list_response.additional_properties = d
         return success_credential_source_list_response

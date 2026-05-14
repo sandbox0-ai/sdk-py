@@ -1,57 +1,70 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.exec_candidate import ExecCandidate
-    from ..models.repl_env_var import REPLEnvVar
-    from ..models.repl_prompt_config import REPLPromptConfig
-    from ..models.repl_ready_config import REPLReadyConfig
+  from ..models.repl_ready_config import REPLReadyConfig
+  from ..models.exec_candidate import ExecCandidate
+  from ..models.repl_env_var import REPLEnvVar
+  from ..models.repl_prompt_config import REPLPromptConfig
+
+
+
 
 
 T = TypeVar("T", bound="REPLConfig")
 
 
+
 @_attrs_define
 class REPLConfig:
-    """
-    Attributes:
-        name (str):
-        candidates (list['ExecCandidate']):
-        display_name (Union[Unset, str]):
-        description (Union[Unset, str]):
-        env (Union[Unset, list['REPLEnvVar']]):
-        default_term (Union[Unset, str]):
-        prompt (Union[Unset, REPLPromptConfig]):
-        ready (Union[Unset, REPLReadyConfig]):
-    """
+    """ 
+        Attributes:
+            name (str):
+            candidates (list['ExecCandidate']):
+            display_name (Union[Unset, str]):
+            description (Union[Unset, str]):
+            env (Union[Unset, list['REPLEnvVar']]):
+            default_term (Union[Unset, str]):
+            prompt (Union[Unset, REPLPromptConfig]):
+            ready (Union[Unset, REPLReadyConfig]):
+     """
 
     name: str
-    candidates: list["ExecCandidate"]
+    candidates: list['ExecCandidate']
     display_name: Union[Unset, str] = UNSET
     description: Union[Unset, str] = UNSET
-    env: Union[Unset, list["REPLEnvVar"]] = UNSET
+    env: Union[Unset, list['REPLEnvVar']] = UNSET
     default_term: Union[Unset, str] = UNSET
-    prompt: Union[Unset, "REPLPromptConfig"] = UNSET
-    ready: Union[Unset, "REPLReadyConfig"] = UNSET
+    prompt: Union[Unset, 'REPLPromptConfig'] = UNSET
+    ready: Union[Unset, 'REPLReadyConfig'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.repl_ready_config import REPLReadyConfig
+        from ..models.exec_candidate import ExecCandidate
+        from ..models.repl_env_var import REPLEnvVar
+        from ..models.repl_prompt_config import REPLPromptConfig
         name = self.name
 
         candidates = []
         for candidates_item_data in self.candidates:
             candidates_item = candidates_item_data.to_dict()
             candidates.append(candidates_item)
+
+
 
         display_name = self.display_name
 
@@ -64,6 +77,8 @@ class REPLConfig:
                 env_item = env_item_data.to_dict()
                 env.append(env_item)
 
+
+
         default_term = self.default_term
 
         prompt: Union[Unset, dict[str, Any]] = UNSET
@@ -74,14 +89,13 @@ class REPLConfig:
         if not isinstance(self.ready, Unset):
             ready = self.ready.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "name": name,
-                "candidates": candidates,
-            }
-        )
+        field_dict.update({
+            "name": name,
+            "candidates": candidates,
+        })
         if display_name is not UNSET:
             field_dict["display_name"] = display_name
         if description is not UNSET:
@@ -97,22 +111,26 @@ class REPLConfig:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.repl_ready_config import REPLReadyConfig
         from ..models.exec_candidate import ExecCandidate
         from ..models.repl_env_var import REPLEnvVar
         from ..models.repl_prompt_config import REPLPromptConfig
-        from ..models.repl_ready_config import REPLReadyConfig
-
         d = dict(src_dict)
         name = d.pop("name")
 
         candidates = []
         _candidates = d.pop("candidates")
-        for candidates_item_data in _candidates:
+        for candidates_item_data in (_candidates):
             candidates_item = ExecCandidate.from_dict(candidates_item_data)
 
+
+
             candidates.append(candidates_item)
+
 
         display_name = d.pop("display_name", UNSET)
 
@@ -120,26 +138,35 @@ class REPLConfig:
 
         env = []
         _env = d.pop("env", UNSET)
-        for env_item_data in _env or []:
+        for env_item_data in (_env or []):
             env_item = REPLEnvVar.from_dict(env_item_data)
 
+
+
             env.append(env_item)
+
 
         default_term = d.pop("default_term", UNSET)
 
         _prompt = d.pop("prompt", UNSET)
         prompt: Union[Unset, REPLPromptConfig]
-        if isinstance(_prompt, Unset):
+        if isinstance(_prompt,  Unset):
             prompt = UNSET
         else:
             prompt = REPLPromptConfig.from_dict(_prompt)
 
+
+
+
         _ready = d.pop("ready", UNSET)
         ready: Union[Unset, REPLReadyConfig]
-        if isinstance(_ready, Unset):
+        if isinstance(_ready,  Unset):
             ready = UNSET
         else:
             ready = REPLReadyConfig.from_dict(_ready)
+
+
+
 
         repl_config = cls(
             name=name,
@@ -151,6 +178,7 @@ class REPLConfig:
             prompt=prompt,
             ready=ready,
         )
+
 
         repl_config.additional_properties = d
         return repl_config

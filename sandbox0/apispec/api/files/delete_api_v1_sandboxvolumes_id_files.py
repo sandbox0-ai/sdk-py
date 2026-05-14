@@ -1,41 +1,51 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.success_deleted_response import SuccessDeletedResponse
-from ...types import UNSET, Response
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     *,
     path: str,
+
 ) -> dict[str, Any]:
+    
+
+    
+
     params: dict[str, Any] = {}
 
     params["path"] = path
 
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "delete",
-        "url": "/api/v1/sandboxvolumes/{id}/files".format(
-            id=id,
-        ),
+        "url": "/api/v1/sandboxvolumes/{id}/files".format(id=id,),
         "params": params,
     }
+
 
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessDeletedResponse]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessDeletedResponse]:
     if response.status_code == 200:
         response_200 = SuccessDeletedResponse.from_dict(response.json())
+
+
 
         return response_200
 
@@ -45,9 +55,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessDeletedResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessDeletedResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -61,8 +69,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Response[SuccessDeletedResponse]:
-    """Delete volume file or directory
+    """ Delete volume file or directory
 
     Args:
         id (str):
@@ -74,11 +83,13 @@ def sync_detailed(
 
     Returns:
         Response[SuccessDeletedResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        path=path,
+path=path,
+
     )
 
     response = client.get_httpx_client().request(
@@ -87,14 +98,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Optional[SuccessDeletedResponse]:
-    """Delete volume file or directory
+    """ Delete volume file or directory
 
     Args:
         id (str):
@@ -106,22 +117,24 @@ def sync(
 
     Returns:
         SuccessDeletedResponse
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        client=client,
-        path=path,
-    ).parsed
+client=client,
+path=path,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Response[SuccessDeletedResponse]:
-    """Delete volume file or directory
+    """ Delete volume file or directory
 
     Args:
         id (str):
@@ -133,25 +146,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessDeletedResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        path=path,
+path=path,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     path: str,
+
 ) -> Optional[SuccessDeletedResponse]:
-    """Delete volume file or directory
+    """ Delete volume file or directory
 
     Args:
         id (str):
@@ -163,12 +180,12 @@ async def asyncio(
 
     Returns:
         SuccessDeletedResponse
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            client=client,
-            path=path,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+path=path,
+
+    )).parsed

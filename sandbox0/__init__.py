@@ -4,7 +4,6 @@ from sandbox0.errors import APIError
 from sandbox0.models import (
     CmdResult,
     FileWatchResponse,
-    PublicGatewayResponse,
     RunResult,
     SandboxServicesResponse,
     StreamDone,
@@ -26,7 +25,6 @@ __all__ = [
     "FunctionCreateResult",
     "FunctionRevisionCreateResult",
     "Functions",
-    "PublicGatewayResponse",
     "MountSession",
     "RunOptions",
     "RunResult",

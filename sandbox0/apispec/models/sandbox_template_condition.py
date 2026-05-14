@@ -1,30 +1,36 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
+
+from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import Union
+import datetime
+
+
+
+
+
 
 T = TypeVar("T", bound="SandboxTemplateCondition")
 
 
+
 @_attrs_define
 class SandboxTemplateCondition:
-    """
-    Attributes:
-        type_ (Union[Unset, str]):
-        status (Union[Unset, str]):
-        last_transition_time (Union[Unset, datetime.datetime]):
-        reason (Union[Unset, str]):
-        message (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            type_ (Union[Unset, str]):
+            status (Union[Unset, str]):
+            last_transition_time (Union[Unset, datetime.datetime]):
+            reason (Union[Unset, str]):
+            message (Union[Unset, str]):
+     """
 
     type_: Union[Unset, str] = UNSET
     status: Union[Unset, str] = UNSET
@@ -32,6 +38,10 @@ class SandboxTemplateCondition:
     reason: Union[Unset, str] = UNSET
     message: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_
@@ -46,9 +56,11 @@ class SandboxTemplateCondition:
 
         message = self.message
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if type_ is not UNSET:
             field_dict["type"] = type_
         if status is not UNSET:
@@ -62,6 +74,8 @@ class SandboxTemplateCondition:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
@@ -71,10 +85,13 @@ class SandboxTemplateCondition:
 
         _last_transition_time = d.pop("lastTransitionTime", UNSET)
         last_transition_time: Union[Unset, datetime.datetime]
-        if isinstance(_last_transition_time, Unset):
+        if isinstance(_last_transition_time,  Unset):
             last_transition_time = UNSET
         else:
             last_transition_time = isoparse(_last_transition_time)
+
+
+
 
         reason = d.pop("reason", UNSET)
 
@@ -87,6 +104,7 @@ class SandboxTemplateCondition:
             reason=reason,
             message=message,
         )
+
 
         sandbox_template_condition.additional_properties = d
         return sandbox_template_condition

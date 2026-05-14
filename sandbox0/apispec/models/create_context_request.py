@@ -1,57 +1,69 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.process_type import ProcessType
 from ..types import UNSET, Unset
 
+from ..models.process_type import ProcessType
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.create_cmd_context_request import CreateCMDContextRequest
-    from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
-    from ..models.create_repl_context_request import CreateREPLContextRequest
-    from ..models.pty_size import PTYSize
+  from ..models.pty_size import PTYSize
+  from ..models.create_cmd_context_request import CreateCMDContextRequest
+  from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+  from ..models.create_repl_context_request import CreateREPLContextRequest
+
+
+
 
 
 T = TypeVar("T", bound="CreateContextRequest")
 
 
+
 @_attrs_define
 class CreateContextRequest:
-    """
-    Attributes:
-        type_ (Union[Unset, ProcessType]):
-        repl (Union[Unset, CreateREPLContextRequest]):
-        cmd (Union[Unset, CreateCMDContextRequest]):
-        wait_until_done (Union[Unset, bool]):
-        cwd (Union[Unset, str]):
-        env_vars (Union[Unset, CreateContextRequestEnvVars]):
-        pty_size (Union[Unset, PTYSize]):
-        idle_timeout_sec (Union[Unset, int]):
-        ttl_sec (Union[Unset, int]):
-    """
+    """ 
+        Attributes:
+            type_ (Union[Unset, ProcessType]):
+            repl (Union[Unset, CreateREPLContextRequest]):
+            cmd (Union[Unset, CreateCMDContextRequest]):
+            wait_until_done (Union[Unset, bool]):
+            cwd (Union[Unset, str]):
+            env_vars (Union[Unset, CreateContextRequestEnvVars]):
+            pty_size (Union[Unset, PTYSize]):
+            idle_timeout_sec (Union[Unset, int]):
+            ttl_sec (Union[Unset, int]):
+     """
 
     type_: Union[Unset, ProcessType] = UNSET
-    repl: Union[Unset, "CreateREPLContextRequest"] = UNSET
-    cmd: Union[Unset, "CreateCMDContextRequest"] = UNSET
+    repl: Union[Unset, 'CreateREPLContextRequest'] = UNSET
+    cmd: Union[Unset, 'CreateCMDContextRequest'] = UNSET
     wait_until_done: Union[Unset, bool] = UNSET
     cwd: Union[Unset, str] = UNSET
-    env_vars: Union[Unset, "CreateContextRequestEnvVars"] = UNSET
-    pty_size: Union[Unset, "PTYSize"] = UNSET
+    env_vars: Union[Unset, 'CreateContextRequestEnvVars'] = UNSET
+    pty_size: Union[Unset, 'PTYSize'] = UNSET
     idle_timeout_sec: Union[Unset, int] = UNSET
     ttl_sec: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.pty_size import PTYSize
+        from ..models.create_cmd_context_request import CreateCMDContextRequest
+        from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+        from ..models.create_repl_context_request import CreateREPLContextRequest
         type_: Union[Unset, str] = UNSET
         if not isinstance(self.type_, Unset):
             type_ = self.type_.value
+
 
         repl: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.repl, Unset):
@@ -77,9 +89,11 @@ class CreateContextRequest:
 
         ttl_sec = self.ttl_sec
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if type_ is not UNSET:
             field_dict["type"] = type_
         if repl is not UNSET:
@@ -101,34 +115,44 @@ class CreateContextRequest:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.pty_size import PTYSize
         from ..models.create_cmd_context_request import CreateCMDContextRequest
         from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
         from ..models.create_repl_context_request import CreateREPLContextRequest
-        from ..models.pty_size import PTYSize
-
         d = dict(src_dict)
         _type_ = d.pop("type", UNSET)
         type_: Union[Unset, ProcessType]
-        if isinstance(_type_, Unset):
+        if isinstance(_type_,  Unset):
             type_ = UNSET
         else:
             type_ = ProcessType(_type_)
 
+
+
+
         _repl = d.pop("repl", UNSET)
         repl: Union[Unset, CreateREPLContextRequest]
-        if isinstance(_repl, Unset):
+        if isinstance(_repl,  Unset):
             repl = UNSET
         else:
             repl = CreateREPLContextRequest.from_dict(_repl)
 
+
+
+
         _cmd = d.pop("cmd", UNSET)
         cmd: Union[Unset, CreateCMDContextRequest]
-        if isinstance(_cmd, Unset):
+        if isinstance(_cmd,  Unset):
             cmd = UNSET
         else:
             cmd = CreateCMDContextRequest.from_dict(_cmd)
+
+
+
 
         wait_until_done = d.pop("wait_until_done", UNSET)
 
@@ -136,17 +160,23 @@ class CreateContextRequest:
 
         _env_vars = d.pop("env_vars", UNSET)
         env_vars: Union[Unset, CreateContextRequestEnvVars]
-        if isinstance(_env_vars, Unset):
+        if isinstance(_env_vars,  Unset):
             env_vars = UNSET
         else:
             env_vars = CreateContextRequestEnvVars.from_dict(_env_vars)
 
+
+
+
         _pty_size = d.pop("pty_size", UNSET)
         pty_size: Union[Unset, PTYSize]
-        if isinstance(_pty_size, Unset):
+        if isinstance(_pty_size,  Unset):
             pty_size = UNSET
         else:
             pty_size = PTYSize.from_dict(_pty_size)
+
+
+
 
         idle_timeout_sec = d.pop("idle_timeout_sec", UNSET)
 
@@ -163,6 +193,7 @@ class CreateContextRequest:
             idle_timeout_sec=idle_timeout_sec,
             ttl_sec=ttl_sec,
         )
+
 
         create_context_request.additional_properties = d
         return create_context_request

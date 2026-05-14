@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class EgressAuthRolloutMode(str, Enum):
     DISABLED = "disabled"
     ENABLED = "enabled"

@@ -3,11 +3,14 @@ from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_login_response import SuccessLoginResponse
-from ...types import UNSET, Response
+from typing import cast
+
 
 
 def _get_kwargs(
@@ -15,31 +18,38 @@ def _get_kwargs(
     *,
     code: str,
     state: str,
+
 ) -> dict[str, Any]:
+    
+
+    
+
     params: dict[str, Any] = {}
 
     params["code"] = code
 
     params["state"] = state
 
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/auth/oidc/{provider}/callback".format(
-            provider=provider,
-        ),
+        "url": "/auth/oidc/{provider}/callback".format(provider=provider,),
         "params": params,
     }
+
 
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
     if response.status_code == 200:
         response_200 = SuccessLoginResponse.from_dict(response.json())
+
+
 
         return response_200
 
@@ -50,10 +60,14 @@ def _parse_response(
     if response.status_code == 400:
         response_400 = ErrorEnvelope.from_dict(response.json())
 
+
+
         return response_400
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
+
+
 
         return response_401
 
@@ -63,9 +77,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -80,8 +92,9 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     code: str,
     state: str,
+
 ) -> Response[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
-    """OIDC callback
+    """ OIDC callback
 
     Args:
         provider (str):
@@ -94,12 +107,14 @@ def sync_detailed(
 
     Returns:
         Response[Union[Any, ErrorEnvelope, SuccessLoginResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         provider=provider,
-        code=code,
-        state=state,
+code=code,
+state=state,
+
     )
 
     response = client.get_httpx_client().request(
@@ -108,15 +123,15 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     provider: str,
     *,
     client: Union[AuthenticatedClient, Client],
     code: str,
     state: str,
+
 ) -> Optional[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
-    """OIDC callback
+    """ OIDC callback
 
     Args:
         provider (str):
@@ -129,15 +144,16 @@ def sync(
 
     Returns:
         Union[Any, ErrorEnvelope, SuccessLoginResponse]
-    """
+     """
+
 
     return sync_detailed(
         provider=provider,
-        client=client,
-        code=code,
-        state=state,
-    ).parsed
+client=client,
+code=code,
+state=state,
 
+    ).parsed
 
 async def asyncio_detailed(
     provider: str,
@@ -145,8 +161,9 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     code: str,
     state: str,
+
 ) -> Response[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
-    """OIDC callback
+    """ OIDC callback
 
     Args:
         provider (str):
@@ -159,18 +176,21 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[Any, ErrorEnvelope, SuccessLoginResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         provider=provider,
-        code=code,
-        state=state,
+code=code,
+state=state,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     provider: str,
@@ -178,8 +198,9 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     code: str,
     state: str,
+
 ) -> Optional[Union[Any, ErrorEnvelope, SuccessLoginResponse]]:
-    """OIDC callback
+    """ OIDC callback
 
     Args:
         provider (str):
@@ -192,13 +213,13 @@ async def asyncio(
 
     Returns:
         Union[Any, ErrorEnvelope, SuccessLoginResponse]
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            provider=provider,
-            client=client,
-            code=code,
-            state=state,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        provider=provider,
+client=client,
+code=code,
+state=state,
+
+    )).parsed

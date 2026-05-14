@@ -1,32 +1,38 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.function_revision_create_request import FunctionRevisionCreateRequest
-from ...models.success_function_revision_create_response import (
-    SuccessFunctionRevisionCreateResponse,
-)
-from ...types import Response
+from ...models.success_function_revision_create_response import SuccessFunctionRevisionCreateResponse
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     *,
     body: FunctionRevisionCreateRequest,
+
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
+
+    
+
+    
+
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/v1/functions/{id}/revisions".format(
-            id=id,
-        ),
+        "url": "/api/v1/functions/{id}/revisions".format(id=id,),
     }
 
     _kwargs["json"] = body.to_dict()
+
 
     headers["Content-Type"] = "application/json"
 
@@ -34,11 +40,12 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessFunctionRevisionCreateResponse]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessFunctionRevisionCreateResponse]:
     if response.status_code == 201:
         response_201 = SuccessFunctionRevisionCreateResponse.from_dict(response.json())
+
+
 
         return response_201
 
@@ -48,9 +55,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessFunctionRevisionCreateResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessFunctionRevisionCreateResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -64,8 +69,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: FunctionRevisionCreateRequest,
+
 ) -> Response[SuccessFunctionRevisionCreateResponse]:
-    """Create function revision from a sandbox service
+    """ Create function revision from a sandbox service
 
     Args:
         id (str):
@@ -77,11 +83,13 @@ def sync_detailed(
 
     Returns:
         Response[SuccessFunctionRevisionCreateResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -90,14 +98,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     body: FunctionRevisionCreateRequest,
+
 ) -> Optional[SuccessFunctionRevisionCreateResponse]:
-    """Create function revision from a sandbox service
+    """ Create function revision from a sandbox service
 
     Args:
         id (str):
@@ -109,22 +117,24 @@ def sync(
 
     Returns:
         SuccessFunctionRevisionCreateResponse
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        client=client,
-        body=body,
-    ).parsed
+client=client,
+body=body,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     body: FunctionRevisionCreateRequest,
+
 ) -> Response[SuccessFunctionRevisionCreateResponse]:
-    """Create function revision from a sandbox service
+    """ Create function revision from a sandbox service
 
     Args:
         id (str):
@@ -136,25 +146,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessFunctionRevisionCreateResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     body: FunctionRevisionCreateRequest,
+
 ) -> Optional[SuccessFunctionRevisionCreateResponse]:
-    """Create function revision from a sandbox service
+    """ Create function revision from a sandbox service
 
     Args:
         id (str):
@@ -166,12 +180,12 @@ async def asyncio(
 
     Returns:
         SuccessFunctionRevisionCreateResponse
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            client=client,
-            body=body,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+body=body,
+
+    )).parsed

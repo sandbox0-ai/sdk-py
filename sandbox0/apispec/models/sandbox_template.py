@@ -1,44 +1,54 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.object_meta import ObjectMeta
-    from ..models.sandbox_template_spec import SandboxTemplateSpec
-    from ..models.sandbox_template_status import SandboxTemplateStatus
+  from ..models.object_meta import ObjectMeta
+  from ..models.sandbox_template_spec import SandboxTemplateSpec
+  from ..models.sandbox_template_status import SandboxTemplateStatus
+
+
+
 
 
 T = TypeVar("T", bound="SandboxTemplate")
 
 
+
 @_attrs_define
 class SandboxTemplate:
-    """
-    Attributes:
-        api_version (Union[Unset, str]):
-        kind (Union[Unset, str]):
-        metadata (Union[Unset, ObjectMeta]):
-        spec (Union[Unset, SandboxTemplateSpec]):
-        status (Union[Unset, SandboxTemplateStatus]):
-    """
+    """ 
+        Attributes:
+            api_version (Union[Unset, str]):
+            kind (Union[Unset, str]):
+            metadata (Union[Unset, ObjectMeta]):
+            spec (Union[Unset, SandboxTemplateSpec]):
+            status (Union[Unset, SandboxTemplateStatus]):
+     """
 
     api_version: Union[Unset, str] = UNSET
     kind: Union[Unset, str] = UNSET
-    metadata: Union[Unset, "ObjectMeta"] = UNSET
-    spec: Union[Unset, "SandboxTemplateSpec"] = UNSET
-    status: Union[Unset, "SandboxTemplateStatus"] = UNSET
+    metadata: Union[Unset, 'ObjectMeta'] = UNSET
+    spec: Union[Unset, 'SandboxTemplateSpec'] = UNSET
+    status: Union[Unset, 'SandboxTemplateStatus'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.object_meta import ObjectMeta
+        from ..models.sandbox_template_spec import SandboxTemplateSpec
+        from ..models.sandbox_template_status import SandboxTemplateStatus
         api_version = self.api_version
 
         kind = self.kind
@@ -55,9 +65,11 @@ class SandboxTemplate:
         if not isinstance(self.status, Unset):
             status = self.status.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if api_version is not UNSET:
             field_dict["apiVersion"] = api_version
         if kind is not UNSET:
@@ -71,12 +83,13 @@ class SandboxTemplate:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.object_meta import ObjectMeta
         from ..models.sandbox_template_spec import SandboxTemplateSpec
         from ..models.sandbox_template_status import SandboxTemplateStatus
-
         d = dict(src_dict)
         api_version = d.pop("apiVersion", UNSET)
 
@@ -84,24 +97,33 @@ class SandboxTemplate:
 
         _metadata = d.pop("metadata", UNSET)
         metadata: Union[Unset, ObjectMeta]
-        if isinstance(_metadata, Unset):
+        if isinstance(_metadata,  Unset):
             metadata = UNSET
         else:
             metadata = ObjectMeta.from_dict(_metadata)
 
+
+
+
         _spec = d.pop("spec", UNSET)
         spec: Union[Unset, SandboxTemplateSpec]
-        if isinstance(_spec, Unset):
+        if isinstance(_spec,  Unset):
             spec = UNSET
         else:
             spec = SandboxTemplateSpec.from_dict(_spec)
 
+
+
+
         _status = d.pop("status", UNSET)
         status: Union[Unset, SandboxTemplateStatus]
-        if isinstance(_status, Unset):
+        if isinstance(_status,  Unset):
             status = UNSET
         else:
             status = SandboxTemplateStatus.from_dict(_status)
+
+
+
 
         sandbox_template = cls(
             api_version=api_version,
@@ -110,6 +132,7 @@ class SandboxTemplate:
             spec=spec,
             status=status,
         )
+
 
         sandbox_template.additional_properties = d
         return sandbox_template

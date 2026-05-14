@@ -1,28 +1,40 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.context_web_socket_output_source import ContextWebSocketOutputSource
 from ..models.context_web_socket_output_type import ContextWebSocketOutputType
+
+
+
+
+
 
 T = TypeVar("T", bound="ContextWebSocketOutput")
 
 
+
 @_attrs_define
 class ContextWebSocketOutput:
-    """
-    Attributes:
-        type_ (ContextWebSocketOutputType):
-        source (ContextWebSocketOutputSource):
-        data (str):
-    """
+    """ 
+        Attributes:
+            type_ (ContextWebSocketOutputType):
+            source (ContextWebSocketOutputSource):
+            data (str):
+     """
 
     type_: ContextWebSocketOutputType
     source: ContextWebSocketOutputSource
     data: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
@@ -31,24 +43,31 @@ class ContextWebSocketOutput:
 
         data = self.data
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "type": type_,
-                "source": source,
-                "data": data,
-            }
-        )
+        field_dict.update({
+            "type": type_,
+            "source": source,
+            "data": data,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = ContextWebSocketOutputType(d.pop("type"))
 
+
+
+
         source = ContextWebSocketOutputSource(d.pop("source"))
+
+
+
 
         data = d.pop("data")
 
@@ -57,6 +76,7 @@ class ContextWebSocketOutput:
             source=source,
             data=data,
         )
+
 
         context_web_socket_output.additional_properties = d
         return context_web_socket_output
