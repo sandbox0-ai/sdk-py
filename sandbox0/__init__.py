@@ -1,4 +1,5 @@
 from sandbox0.client import Client
+from sandbox0.client_functions import FunctionCreateResult, FunctionRevisionCreateResult, Functions, function_source
 from sandbox0.errors import APIError
 from sandbox0.models import (
     CmdResult,
@@ -21,6 +22,9 @@ __all__ = [
     "CmdOptions",
     "CmdResult",
     "FileWatchResponse",
+    "FunctionCreateResult",
+    "FunctionRevisionCreateResult",
+    "Functions",
     "PublicGatewayResponse",
     "MountSession",
     "RunOptions",
@@ -35,5 +39,6 @@ __all__ = [
     "StreamOutput",
     "Volumes",
     "VolumeSession",
+    "function_source",
     "verify_webhook_signature",
 ]

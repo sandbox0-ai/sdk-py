@@ -7,6 +7,7 @@ import httpx
 
 from sandbox0.apispec.client import AuthenticatedClient
 from sandbox0.client_credential_sources import ClientCredentialSourcesMixin
+from sandbox0.client_functions import ClientFunctionsMixin, Functions
 from sandbox0.client_sandboxes import ClientSandboxesMixin
 from sandbox0.client_templates import ClientTemplatesMixin
 from sandbox0.client_volumes import ClientVolumesMixin
@@ -22,6 +23,7 @@ class Client(
     ClientTemplatesMixin,
     ClientVolumesMixin,
     ClientCredentialSourcesMixin,
+    ClientFunctionsMixin,
 ):
     def __init__(
         self,
@@ -77,6 +79,7 @@ class Client(
         self.base_url = base_url
         self.sandboxes = Sandboxes(self)
         self.volumes = Volumes(self)
+        self.functions = Functions(self)
 
     @property
     def api(self) -> AuthenticatedClient:

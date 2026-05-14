@@ -13,6 +13,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.public_gateway_config import PublicGatewayConfig
+    from ..models.sandbox_app_service import SandboxAppService
     from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
     from ..models.webhook_config import WebhookConfig
@@ -37,6 +38,7 @@ class SandboxConfig:
             request
             (API or public exposure) must not auto resume the sandbox.
              Default: True.
+        services (Union[Unset, list['SandboxAppService']]):
         public_gateway (Union[Unset, PublicGatewayConfig]):
     """
 
@@ -46,6 +48,7 @@ class SandboxConfig:
     network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     webhook: Union[Unset, "WebhookConfig"] = UNSET
     auto_resume: Union[Unset, bool] = True
+    services: Union[Unset, list["SandboxAppService"]] = UNSET
     public_gateway: Union[Unset, "PublicGatewayConfig"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -68,6 +71,13 @@ class SandboxConfig:
 
         auto_resume = self.auto_resume
 
+        services: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.services, Unset):
+            services = []
+            for services_item_data in self.services:
+                services_item = services_item_data.to_dict()
+                services.append(services_item)
+
         public_gateway: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.public_gateway, Unset):
             public_gateway = self.public_gateway.to_dict()
@@ -87,6 +97,8 @@ class SandboxConfig:
             field_dict["webhook"] = webhook
         if auto_resume is not UNSET:
             field_dict["auto_resume"] = auto_resume
+        if services is not UNSET:
+            field_dict["services"] = services
         if public_gateway is not UNSET:
             field_dict["public_gateway"] = public_gateway
 
@@ -95,6 +107,7 @@ class SandboxConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.public_gateway_config import PublicGatewayConfig
+        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.webhook_config import WebhookConfig
@@ -127,6 +140,13 @@ class SandboxConfig:
 
         auto_resume = d.pop("auto_resume", UNSET)
 
+        services = []
+        _services = d.pop("services", UNSET)
+        for services_item_data in _services or []:
+            services_item = SandboxAppService.from_dict(services_item_data)
+
+            services.append(services_item)
+
         _public_gateway = d.pop("public_gateway", UNSET)
         public_gateway: Union[Unset, PublicGatewayConfig]
         if isinstance(_public_gateway, Unset):
@@ -141,6 +161,7 @@ class SandboxConfig:
             network=network,
             webhook=webhook,
             auto_resume=auto_resume,
+            services=services,
             public_gateway=public_gateway,
         )
 

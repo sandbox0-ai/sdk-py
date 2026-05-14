@@ -78,6 +78,15 @@ from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAc
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_volume_request import ForkVolumeRequest
+from .function import Function
+from .function_alias import FunctionAlias
+from .function_alias_update_request import FunctionAliasUpdateRequest
+from .function_create_request import FunctionCreateRequest
+from .function_record import FunctionRecord
+from .function_restore_mount import FunctionRestoreMount
+from .function_revision import FunctionRevision
+from .function_revision_create_request import FunctionRevisionCreateRequest
+from .function_source_request import FunctionSourceRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
@@ -142,6 +151,14 @@ from .resource_quota import ResourceQuota
 from .resource_usage import ResourceUsage
 from .resume_sandbox_response import ResumeSandboxResponse
 from .sandbox import Sandbox
+from .sandbox_app_service import SandboxAppService
+from .sandbox_app_service_health import SandboxAppServiceHealth
+from .sandbox_app_service_ingress import SandboxAppServiceIngress
+from .sandbox_app_service_route import SandboxAppServiceRoute
+from .sandbox_app_service_runtime import SandboxAppServiceRuntime
+from .sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
+from .sandbox_app_service_runtime_type import SandboxAppServiceRuntimeType
+from .sandbox_app_service_view import SandboxAppServiceView
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
 from .sandbox_network_policy import SandboxNetworkPolicy
@@ -154,6 +171,7 @@ from .sandbox_probe_set import SandboxProbeSet
 from .sandbox_probe_spec import SandboxProbeSpec
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
+from .sandbox_services_update_request import SandboxServicesUpdateRequest
 from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
 from .sandbox_summary import SandboxSummary
@@ -205,6 +223,24 @@ from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
 from .success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
 from .success_file_stat_response import SuccessFileStatResponse
+from .success_function_alias_response import SuccessFunctionAliasResponse
+from .success_function_alias_response_data import SuccessFunctionAliasResponseData
+from .success_function_create_response import SuccessFunctionCreateResponse
+from .success_function_create_response_data import SuccessFunctionCreateResponseData
+from .success_function_list_response import SuccessFunctionListResponse
+from .success_function_list_response_data import SuccessFunctionListResponseData
+from .success_function_response import SuccessFunctionResponse
+from .success_function_response_data import SuccessFunctionResponseData
+from .success_function_revision_create_response import (
+    SuccessFunctionRevisionCreateResponse,
+)
+from .success_function_revision_create_response_data import (
+    SuccessFunctionRevisionCreateResponseData,
+)
+from .success_function_revision_list_response import SuccessFunctionRevisionListResponse
+from .success_function_revision_list_response_data import (
+    SuccessFunctionRevisionListResponseData,
+)
 from .success_gateway_metadata_response import SuccessGatewayMetadataResponse
 from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
@@ -232,6 +268,8 @@ from .success_sandbox_list_response import SuccessSandboxListResponse
 from .success_sandbox_list_response_data import SuccessSandboxListResponseData
 from .success_sandbox_network_policy_response import SuccessSandboxNetworkPolicyResponse
 from .success_sandbox_response import SuccessSandboxResponse
+from .success_sandbox_services_response import SuccessSandboxServicesResponse
+from .success_sandbox_services_response_data import SuccessSandboxServicesResponseData
 from .success_sandbox_status_response import SuccessSandboxStatusResponse
 from .success_sandbox_volume_list_response import SuccessSandboxVolumeListResponse
 from .success_sandbox_volume_response import SuccessSandboxVolumeResponse
@@ -362,6 +400,15 @@ __all__ = (
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
     "ForkVolumeRequest",
+    "Function",
+    "FunctionAlias",
+    "FunctionAliasUpdateRequest",
+    "FunctionCreateRequest",
+    "FunctionRecord",
+    "FunctionRestoreMount",
+    "FunctionRevision",
+    "FunctionRevisionCreateRequest",
+    "FunctionSourceRequest",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GetApiV1SandboxesStatus",
@@ -426,6 +473,14 @@ __all__ = (
     "ResourceUsage",
     "ResumeSandboxResponse",
     "Sandbox",
+    "SandboxAppService",
+    "SandboxAppServiceHealth",
+    "SandboxAppServiceIngress",
+    "SandboxAppServiceRoute",
+    "SandboxAppServiceRuntime",
+    "SandboxAppServiceRuntimeEnvVars",
+    "SandboxAppServiceRuntimeType",
+    "SandboxAppServiceView",
     "SandboxConfig",
     "SandboxConfigEnvVars",
     "SandboxNetworkPolicy",
@@ -438,6 +493,7 @@ __all__ = (
     "SandboxProbeSpec",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
+    "SandboxServicesUpdateRequest",
     "SandboxSSHConnection",
     "SandboxStatus",
     "SandboxSummary",
@@ -487,6 +543,18 @@ __all__ = (
     "SuccessFileReadResponse",
     "SuccessFileReadResponseDataType1",
     "SuccessFileStatResponse",
+    "SuccessFunctionAliasResponse",
+    "SuccessFunctionAliasResponseData",
+    "SuccessFunctionCreateResponse",
+    "SuccessFunctionCreateResponseData",
+    "SuccessFunctionListResponse",
+    "SuccessFunctionListResponseData",
+    "SuccessFunctionResponse",
+    "SuccessFunctionResponseData",
+    "SuccessFunctionRevisionCreateResponse",
+    "SuccessFunctionRevisionCreateResponseData",
+    "SuccessFunctionRevisionListResponse",
+    "SuccessFunctionRevisionListResponseData",
     "SuccessGatewayMetadataResponse",
     "SuccessHealthResponse",
     "SuccessHealthResponseData",
@@ -514,6 +582,8 @@ __all__ = (
     "SuccessSandboxListResponseData",
     "SuccessSandboxNetworkPolicyResponse",
     "SuccessSandboxResponse",
+    "SuccessSandboxServicesResponse",
+    "SuccessSandboxServicesResponseData",
     "SuccessSandboxStatusResponse",
     "SuccessSandboxVolumeListResponse",
     "SuccessSandboxVolumeResponse",

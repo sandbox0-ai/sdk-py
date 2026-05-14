@@ -14,7 +14,9 @@ from dateutil.parser import isoparse
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.claim_mount_request import ClaimMountRequest
     from ..models.public_gateway_config import PublicGatewayConfig
+    from ..models.sandbox_app_service import SandboxAppService
     from ..models.sandbox_power_state import SandboxPowerState
     from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
@@ -39,7 +41,9 @@ class Sandbox:
         claimed_at (datetime.datetime):
         created_at (datetime.datetime):
         user_id (Union[Unset, str]):
+        services (Union[Unset, list['SandboxAppService']]):
         public_gateway (Union[Unset, PublicGatewayConfig]):
+        mounts (Union[Unset, list['ClaimMountRequest']]):
         ssh (Union[Unset, SandboxSSHConnection]):
     """
 
@@ -56,7 +60,9 @@ class Sandbox:
     claimed_at: datetime.datetime
     created_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
+    services: Union[Unset, list["SandboxAppService"]] = UNSET
     public_gateway: Union[Unset, "PublicGatewayConfig"] = UNSET
+    mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
     ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -87,9 +93,23 @@ class Sandbox:
 
         user_id = self.user_id
 
+        services: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.services, Unset):
+            services = []
+            for services_item_data in self.services:
+                services_item = services_item_data.to_dict()
+                services.append(services_item)
+
         public_gateway: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.public_gateway, Unset):
             public_gateway = self.public_gateway.to_dict()
+
+        mounts: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.mounts, Unset):
+            mounts = []
+            for mounts_item_data in self.mounts:
+                mounts_item = mounts_item_data.to_dict()
+                mounts.append(mounts_item)
 
         ssh: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.ssh, Unset):
@@ -115,8 +135,12 @@ class Sandbox:
         )
         if user_id is not UNSET:
             field_dict["user_id"] = user_id
+        if services is not UNSET:
+            field_dict["services"] = services
         if public_gateway is not UNSET:
             field_dict["public_gateway"] = public_gateway
+        if mounts is not UNSET:
+            field_dict["mounts"] = mounts
         if ssh is not UNSET:
             field_dict["ssh"] = ssh
 
@@ -124,7 +148,9 @@ class Sandbox:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.public_gateway_config import PublicGatewayConfig
+        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
@@ -155,12 +181,26 @@ class Sandbox:
 
         user_id = d.pop("user_id", UNSET)
 
+        services = []
+        _services = d.pop("services", UNSET)
+        for services_item_data in _services or []:
+            services_item = SandboxAppService.from_dict(services_item_data)
+
+            services.append(services_item)
+
         _public_gateway = d.pop("public_gateway", UNSET)
         public_gateway: Union[Unset, PublicGatewayConfig]
         if isinstance(_public_gateway, Unset):
             public_gateway = UNSET
         else:
             public_gateway = PublicGatewayConfig.from_dict(_public_gateway)
+
+        mounts = []
+        _mounts = d.pop("mounts", UNSET)
+        for mounts_item_data in _mounts or []:
+            mounts_item = ClaimMountRequest.from_dict(mounts_item_data)
+
+            mounts.append(mounts_item)
 
         _ssh = d.pop("ssh", UNSET)
         ssh: Union[Unset, SandboxSSHConnection]
@@ -183,7 +223,9 @@ class Sandbox:
             claimed_at=claimed_at,
             created_at=created_at,
             user_id=user_id,
+            services=services,
             public_gateway=public_gateway,
+            mounts=mounts,
             ssh=ssh,
         )
 
