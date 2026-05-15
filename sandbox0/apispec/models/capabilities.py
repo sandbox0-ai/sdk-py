@@ -1,50 +1,67 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="Capabilities")
+
 
 
 @_attrs_define
 class Capabilities:
-    """
-    Attributes:
-        drop (Union[Unset, list[str]]):
-    """
+    """ 
+        Attributes:
+            drop (Union[Unset, list[str]]):
+     """
 
     drop: Union[Unset, list[str]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         drop: Union[Unset, list[str]] = UNSET
         if not isinstance(self.drop, Unset):
             drop = self.drop
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if drop is not UNSET:
             field_dict["drop"] = drop
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         drop = cast(list[str], d.pop("drop", UNSET))
 
+
         capabilities = cls(
             drop=drop,
         )
+
 
         capabilities.additional_properties = d
         return capabilities

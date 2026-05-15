@@ -1,31 +1,40 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="StaticTLSClientCertificateSourceSpec")
+
 
 
 @_attrs_define
 class StaticTLSClientCertificateSourceSpec:
-    """
-    Attributes:
-        certificate_pem (str):
-        private_key_pem (str):
-        ca_pem (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            certificate_pem (str):
+            private_key_pem (str):
+            ca_pem (Union[Unset, str]):
+     """
 
     certificate_pem: str
     private_key_pem: str
     ca_pem: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         certificate_pem = self.certificate_pem
@@ -34,18 +43,19 @@ class StaticTLSClientCertificateSourceSpec:
 
         ca_pem = self.ca_pem
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "certificatePem": certificate_pem,
-                "privateKeyPem": private_key_pem,
-            }
-        )
+        field_dict.update({
+            "certificatePem": certificate_pem,
+            "privateKeyPem": private_key_pem,
+        })
         if ca_pem is not UNSET:
             field_dict["caPem"] = ca_pem
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -61,6 +71,7 @@ class StaticTLSClientCertificateSourceSpec:
             private_key_pem=private_key_pem,
             ca_pem=ca_pem,
         )
+
 
         static_tls_client_certificate_source_spec.additional_properties = d
         return static_tls_client_certificate_source_spec

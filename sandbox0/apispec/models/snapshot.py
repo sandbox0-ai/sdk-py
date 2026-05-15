@@ -1,31 +1,36 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast, Union
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="Snapshot")
+
 
 
 @_attrs_define
 class Snapshot:
-    """
-    Attributes:
-        id (str):
-        volume_id (str):
-        name (str):
-        size_bytes (int):
-        created_at (str):
-        description (Union[Unset, str]):
-        expires_at (Union[None, Unset, str]):
-    """
+    """ 
+        Attributes:
+            id (str):
+            volume_id (str):
+            name (str):
+            size_bytes (int):
+            created_at (str):
+            description (Union[Unset, str]):
+            expires_at (Union[None, Unset, str]):
+     """
 
     id: str
     volume_id: str
@@ -35,6 +40,10 @@ class Snapshot:
     description: Union[Unset, str] = UNSET
     expires_at: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -55,23 +64,24 @@ class Snapshot:
         else:
             expires_at = self.expires_at
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "volume_id": volume_id,
-                "name": name,
-                "size_bytes": size_bytes,
-                "created_at": created_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "volume_id": volume_id,
+            "name": name,
+            "size_bytes": size_bytes,
+            "created_at": created_at,
+        })
         if description is not UNSET:
             field_dict["description"] = description
         if expires_at is not UNSET:
             field_dict["expires_at"] = expires_at
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -97,6 +107,7 @@ class Snapshot:
 
         expires_at = _parse_expires_at(d.pop("expires_at", UNSET))
 
+
         snapshot = cls(
             id=id,
             volume_id=volume_id,
@@ -106,6 +117,7 @@ class Snapshot:
             description=description,
             expires_at=expires_at,
         )
+
 
         snapshot.additional_properties = d
         return snapshot

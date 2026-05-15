@@ -1,44 +1,54 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.env_var import EnvVar
-    from ..models.resource_quota import ResourceQuota
-    from ..models.security_context import SecurityContext
+  from ..models.security_context import SecurityContext
+  from ..models.env_var import EnvVar
+  from ..models.resource_quota import ResourceQuota
+
+
+
 
 
 T = TypeVar("T", bound="ContainerSpec")
 
 
+
 @_attrs_define
 class ContainerSpec:
-    """
-    Attributes:
-        image (str):
-        resources (ResourceQuota):
-        image_pull_policy (Union[Unset, str]):
-        env (Union[Unset, list['EnvVar']]):
-        security_context (Union[Unset, SecurityContext]):
-    """
+    """ 
+        Attributes:
+            image (str):
+            resources (ResourceQuota):
+            image_pull_policy (Union[Unset, str]):
+            env (Union[Unset, list['EnvVar']]):
+            security_context (Union[Unset, SecurityContext]):
+     """
 
     image: str
-    resources: "ResourceQuota"
+    resources: 'ResourceQuota'
     image_pull_policy: Union[Unset, str] = UNSET
-    env: Union[Unset, list["EnvVar"]] = UNSET
-    security_context: Union[Unset, "SecurityContext"] = UNSET
+    env: Union[Unset, list['EnvVar']] = UNSET
+    security_context: Union[Unset, 'SecurityContext'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.security_context import SecurityContext
+        from ..models.env_var import EnvVar
+        from ..models.resource_quota import ResourceQuota
         image = self.image
 
         resources = self.resources.to_dict()
@@ -52,18 +62,19 @@ class ContainerSpec:
                 env_item = env_item_data.to_dict()
                 env.append(env_item)
 
+
+
         security_context: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.security_context, Unset):
             security_context = self.security_context.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "image": image,
-                "resources": resources,
-            }
-        )
+        field_dict.update({
+            "image": image,
+            "resources": resources,
+        })
         if image_pull_policy is not UNSET:
             field_dict["imagePullPolicy"] = image_pull_policy
         if env is not UNSET:
@@ -73,32 +84,42 @@ class ContainerSpec:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.security_context import SecurityContext
         from ..models.env_var import EnvVar
         from ..models.resource_quota import ResourceQuota
-        from ..models.security_context import SecurityContext
-
         d = dict(src_dict)
         image = d.pop("image")
 
         resources = ResourceQuota.from_dict(d.pop("resources"))
 
+
+
+
         image_pull_policy = d.pop("imagePullPolicy", UNSET)
 
         env = []
         _env = d.pop("env", UNSET)
-        for env_item_data in _env or []:
+        for env_item_data in (_env or []):
             env_item = EnvVar.from_dict(env_item_data)
+
+
 
             env.append(env_item)
 
+
         _security_context = d.pop("securityContext", UNSET)
         security_context: Union[Unset, SecurityContext]
-        if isinstance(_security_context, Unset):
+        if isinstance(_security_context,  Unset):
             security_context = UNSET
         else:
             security_context = SecurityContext.from_dict(_security_context)
+
+
+
 
         container_spec = cls(
             image=image,
@@ -107,6 +128,7 @@ class ContainerSpec:
             env=env,
             security_context=security_context,
         )
+
 
         container_spec.additional_properties = d
         return container_spec

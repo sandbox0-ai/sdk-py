@@ -1,37 +1,46 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.label_selector_match_labels import LabelSelectorMatchLabels
-    from ..models.label_selector_requirement import LabelSelectorRequirement
+  from ..models.label_selector_requirement import LabelSelectorRequirement
+  from ..models.label_selector_match_labels import LabelSelectorMatchLabels
+
+
+
 
 
 T = TypeVar("T", bound="LabelSelector")
 
 
+
 @_attrs_define
 class LabelSelector:
-    """
-    Attributes:
-        match_labels (Union[Unset, LabelSelectorMatchLabels]):
-        match_expressions (Union[Unset, list['LabelSelectorRequirement']]):
-    """
+    """ 
+        Attributes:
+            match_labels (Union[Unset, LabelSelectorMatchLabels]):
+            match_expressions (Union[Unset, list['LabelSelectorRequirement']]):
+     """
 
-    match_labels: Union[Unset, "LabelSelectorMatchLabels"] = UNSET
-    match_expressions: Union[Unset, list["LabelSelectorRequirement"]] = UNSET
+    match_labels: Union[Unset, 'LabelSelectorMatchLabels'] = UNSET
+    match_expressions: Union[Unset, list['LabelSelectorRequirement']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.label_selector_requirement import LabelSelectorRequirement
+        from ..models.label_selector_match_labels import LabelSelectorMatchLabels
         match_labels: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.match_labels, Unset):
             match_labels = self.match_labels.to_dict()
@@ -43,9 +52,13 @@ class LabelSelector:
                 match_expressions_item = match_expressions_item_data.to_dict()
                 match_expressions.append(match_expressions_item)
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if match_labels is not UNSET:
             field_dict["matchLabels"] = match_labels
         if match_expressions is not UNSET:
@@ -53,32 +66,38 @@ class LabelSelector:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.label_selector_match_labels import LabelSelectorMatchLabels
         from ..models.label_selector_requirement import LabelSelectorRequirement
-
+        from ..models.label_selector_match_labels import LabelSelectorMatchLabels
         d = dict(src_dict)
         _match_labels = d.pop("matchLabels", UNSET)
         match_labels: Union[Unset, LabelSelectorMatchLabels]
-        if isinstance(_match_labels, Unset):
+        if isinstance(_match_labels,  Unset):
             match_labels = UNSET
         else:
             match_labels = LabelSelectorMatchLabels.from_dict(_match_labels)
 
+
+
+
         match_expressions = []
         _match_expressions = d.pop("matchExpressions", UNSET)
-        for match_expressions_item_data in _match_expressions or []:
-            match_expressions_item = LabelSelectorRequirement.from_dict(
-                match_expressions_item_data
-            )
+        for match_expressions_item_data in (_match_expressions or []):
+            match_expressions_item = LabelSelectorRequirement.from_dict(match_expressions_item_data)
+
+
 
             match_expressions.append(match_expressions_item)
+
 
         label_selector = cls(
             match_labels=match_labels,
             match_expressions=match_expressions,
         )
+
 
         label_selector.additional_properties = d
         return label_selector

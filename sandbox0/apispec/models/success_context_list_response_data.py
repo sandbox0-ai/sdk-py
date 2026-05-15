@@ -1,34 +1,42 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.context_response import ContextResponse
+  from ..models.context_response import ContextResponse
+
+
+
 
 
 T = TypeVar("T", bound="SuccessContextListResponseData")
 
 
+
 @_attrs_define
 class SuccessContextListResponseData:
-    """
-    Attributes:
-        contexts (Union[Unset, list['ContextResponse']]):
-    """
+    """ 
+        Attributes:
+            contexts (Union[Unset, list['ContextResponse']]):
+     """
 
-    contexts: Union[Unset, list["ContextResponse"]] = UNSET
+    contexts: Union[Unset, list['ContextResponse']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.context_response import ContextResponse
         contexts: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.contexts, Unset):
             contexts = []
@@ -36,29 +44,38 @@ class SuccessContextListResponseData:
                 contexts_item = contexts_item_data.to_dict()
                 contexts.append(contexts_item)
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if contexts is not UNSET:
             field_dict["contexts"] = contexts
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.context_response import ContextResponse
-
         d = dict(src_dict)
         contexts = []
         _contexts = d.pop("contexts", UNSET)
-        for contexts_item_data in _contexts or []:
+        for contexts_item_data in (_contexts or []):
             contexts_item = ContextResponse.from_dict(contexts_item_data)
 
+
+
             contexts.append(contexts_item)
+
 
         success_context_list_response_data = cls(
             contexts=contexts,
         )
+
 
         success_context_list_response_data.additional_properties = d
         return success_context_list_response_data

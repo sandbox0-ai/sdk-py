@@ -1,30 +1,41 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
+
 from dateutil.parser import isoparse
+from typing import cast
+import datetime
+
+
+
+
+
 
 T = TypeVar("T", bound="RefreshResponse")
 
 
+
 @_attrs_define
 class RefreshResponse:
-    """
-    Attributes:
-        sandbox_id (str):
-        expires_at (datetime.datetime):
-        hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
-    """
+    """ 
+        Attributes:
+            sandbox_id (str):
+            expires_at (datetime.datetime):
+            hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
+     """
 
     sandbox_id: str
     expires_at: datetime.datetime
     hard_expires_at: datetime.datetime
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         sandbox_id = self.sandbox_id
@@ -33,17 +44,18 @@ class RefreshResponse:
 
         hard_expires_at = self.hard_expires_at.isoformat()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "sandbox_id": sandbox_id,
-                "expires_at": expires_at,
-                "hard_expires_at": hard_expires_at,
-            }
-        )
+        field_dict.update({
+            "sandbox_id": sandbox_id,
+            "expires_at": expires_at,
+            "hard_expires_at": hard_expires_at,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -52,13 +64,20 @@ class RefreshResponse:
 
         expires_at = isoparse(d.pop("expires_at"))
 
+
+
+
         hard_expires_at = isoparse(d.pop("hard_expires_at"))
+
+
+
 
         refresh_response = cls(
             sandbox_id=sandbox_id,
             expires_at=expires_at,
             hard_expires_at=hard_expires_at,
         )
+
 
         refresh_response.additional_properties = d
         return refresh_response

@@ -1,41 +1,47 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
+
+from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import cast, Union
+from typing import Union
+import datetime
+
+
+
+
+
 
 T = TypeVar("T", bound="APIKey")
 
 
+
 @_attrs_define
 class APIKey:
-    """
-    Attributes:
-        id (str):
-        team_id (str):
-        created_by (str):
-        name (str):
-        scope (str): API key scope. team keys use roles for team-scoped access. platform keys grant system admin access
-            and can only be created or managed by system admin user sessions.
-        roles (list[str]):
-        is_active (bool):
-        expires_at (datetime.datetime):
-        created_at (datetime.datetime):
-        updated_at (datetime.datetime):
-        key_value (Union[Unset, str]):
-        user_id (Union[None, Unset, str]):
-        last_used_at (Union[Unset, datetime.datetime]):
-        usage_count (Union[Unset, int]):
-    """
+    """ 
+        Attributes:
+            id (str):
+            team_id (str):
+            created_by (str):
+            name (str):
+            scope (str): API key scope. team keys use roles for team-scoped access. platform keys grant system admin access
+                and can only be created or managed by system admin user sessions.
+            roles (list[str]):
+            is_active (bool):
+            expires_at (datetime.datetime):
+            created_at (datetime.datetime):
+            updated_at (datetime.datetime):
+            key_value (Union[Unset, str]):
+            user_id (Union[None, Unset, str]):
+            last_used_at (Union[Unset, datetime.datetime]):
+            usage_count (Union[Unset, int]):
+     """
 
     id: str
     team_id: str
@@ -53,6 +59,10 @@ class APIKey:
     usage_count: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
@@ -65,6 +75,8 @@ class APIKey:
         scope = self.scope
 
         roles = self.roles
+
+
 
         is_active = self.is_active
 
@@ -88,22 +100,21 @@ class APIKey:
 
         usage_count = self.usage_count
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "team_id": team_id,
-                "created_by": created_by,
-                "name": name,
-                "scope": scope,
-                "roles": roles,
-                "is_active": is_active,
-                "expires_at": expires_at,
-                "created_at": created_at,
-                "updated_at": updated_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "team_id": team_id,
+            "created_by": created_by,
+            "name": name,
+            "scope": scope,
+            "roles": roles,
+            "is_active": is_active,
+            "expires_at": expires_at,
+            "created_at": created_at,
+            "updated_at": updated_at,
+        })
         if key_value is not UNSET:
             field_dict["key_value"] = key_value
         if user_id is not UNSET:
@@ -114,6 +125,8 @@ class APIKey:
             field_dict["usage_count"] = usage_count
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -130,13 +143,23 @@ class APIKey:
 
         roles = cast(list[str], d.pop("roles"))
 
+
         is_active = d.pop("is_active")
 
         expires_at = isoparse(d.pop("expires_at"))
 
+
+
+
         created_at = isoparse(d.pop("created_at"))
 
+
+
+
         updated_at = isoparse(d.pop("updated_at"))
+
+
+
 
         key_value = d.pop("key_value", UNSET)
 
@@ -149,12 +172,16 @@ class APIKey:
 
         user_id = _parse_user_id(d.pop("user_id", UNSET))
 
+
         _last_used_at = d.pop("last_used_at", UNSET)
         last_used_at: Union[Unset, datetime.datetime]
-        if isinstance(_last_used_at, Unset):
+        if isinstance(_last_used_at,  Unset):
             last_used_at = UNSET
         else:
             last_used_at = isoparse(_last_used_at)
+
+
+
 
         usage_count = d.pop("usage_count", UNSET)
 
@@ -174,6 +201,7 @@ class APIKey:
             last_used_at=last_used_at,
             usage_count=usage_count,
         )
+
 
         api_key.additional_properties = d
         return api_key

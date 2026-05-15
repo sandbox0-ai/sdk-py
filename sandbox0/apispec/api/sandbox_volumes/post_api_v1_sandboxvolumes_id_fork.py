@@ -1,31 +1,39 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.error_envelope import ErrorEnvelope
 from ...models.fork_volume_request import ForkVolumeRequest
 from ...models.success_sandbox_volume_response import SuccessSandboxVolumeResponse
-from ...types import Response
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     *,
     body: ForkVolumeRequest,
+
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
+
+    
+
+    
+
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/v1/sandboxvolumes/{id}/fork".format(
-            id=id,
-        ),
+        "url": "/api/v1/sandboxvolumes/{id}/fork".format(id=id,),
     }
 
     _kwargs["json"] = body.to_dict()
+
 
     headers["Content-Type"] = "application/json"
 
@@ -33,16 +41,19 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     if response.status_code == 201:
         response_201 = SuccessSandboxVolumeResponse.from_dict(response.json())
+
+
 
         return response_201
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
+
+
 
         return response_404
 
@@ -52,9 +63,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -68,8 +77,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: ForkVolumeRequest,
+
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
-    """Fork sandbox volume
+    """ Fork sandbox volume
 
     Args:
         id (str):
@@ -81,11 +91,13 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -94,14 +106,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     body: ForkVolumeRequest,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
-    """Fork sandbox volume
+    """ Fork sandbox volume
 
     Args:
         id (str):
@@ -113,22 +125,24 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessSandboxVolumeResponse]
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        client=client,
-        body=body,
-    ).parsed
+client=client,
+body=body,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     body: ForkVolumeRequest,
+
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
-    """Fork sandbox volume
+    """ Fork sandbox volume
 
     Args:
         id (str):
@@ -140,25 +154,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     body: ForkVolumeRequest,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
-    """Fork sandbox volume
+    """ Fork sandbox volume
 
     Args:
         id (str):
@@ -170,12 +188,12 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessSandboxVolumeResponse]
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            client=client,
-            body=body,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+body=body,
+
+    )).parsed

@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from sandbox0.apispec.models.public_gateway_config import PublicGatewayConfig
     from sandbox0.apispec.models.sandbox_app_service_view import SandboxAppServiceView
 
 
@@ -47,13 +46,6 @@ class StreamDone:
     request_id: Optional[str] = None
     exit_code: Optional[int] = None
     state: Optional[str] = None
-
-
-@dataclass(frozen=True)
-class PublicGatewayResponse:
-    sandbox_id: str
-    public_gateway: "PublicGatewayConfig"
-    exposure_domain: str = ""
 
 
 @dataclass(frozen=True)

@@ -1,38 +1,46 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.capabilities import Capabilities
+  from ..models.capabilities import Capabilities
+
+
+
 
 
 T = TypeVar("T", bound="SecurityContext")
 
 
+
 @_attrs_define
 class SecurityContext:
-    """
-    Attributes:
-        capabilities (Union[Unset, Capabilities]):
-        run_as_user (Union[Unset, int]):
-        run_as_group (Union[Unset, int]):
-    """
+    """ 
+        Attributes:
+            capabilities (Union[Unset, Capabilities]):
+            run_as_user (Union[Unset, int]):
+            run_as_group (Union[Unset, int]):
+     """
 
-    capabilities: Union[Unset, "Capabilities"] = UNSET
+    capabilities: Union[Unset, 'Capabilities'] = UNSET
     run_as_user: Union[Unset, int] = UNSET
     run_as_group: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.capabilities import Capabilities
         capabilities: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.capabilities, Unset):
             capabilities = self.capabilities.to_dict()
@@ -41,9 +49,11 @@ class SecurityContext:
 
         run_as_group = self.run_as_group
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if capabilities is not UNSET:
             field_dict["capabilities"] = capabilities
         if run_as_user is not UNSET:
@@ -53,17 +63,21 @@ class SecurityContext:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.capabilities import Capabilities
-
         d = dict(src_dict)
         _capabilities = d.pop("capabilities", UNSET)
         capabilities: Union[Unset, Capabilities]
-        if isinstance(_capabilities, Unset):
+        if isinstance(_capabilities,  Unset):
             capabilities = UNSET
         else:
             capabilities = Capabilities.from_dict(_capabilities)
+
+
+
 
         run_as_user = d.pop("runAsUser", UNSET)
 
@@ -74,6 +88,7 @@ class SecurityContext:
             run_as_user=run_as_user,
             run_as_group=run_as_group,
         )
+
 
         security_context.additional_properties = d
         return security_context

@@ -1,38 +1,44 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
+
+from ..types import UNSET, Unset
 
 from ..models.volume_access_mode import VolumeAccessMode
 from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import cast, Union
+from typing import Union
+import datetime
+
+
+
+
+
 
 T = TypeVar("T", bound="SandboxVolume")
 
 
+
 @_attrs_define
 class SandboxVolume:
-    """
-    Attributes:
-        id (str):
-        team_id (str):
-        user_id (str):
-        created_at (datetime.datetime):
-        updated_at (datetime.datetime):
-        source_volume_id (Union[None, Unset, str]):
-        default_posix_uid (Union[None, Unset, int]):
-        default_posix_gid (Union[None, Unset, int]):
-        access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
-            proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
-            instances; RWX allows read-write mounts across instances.
-    """
+    """ 
+        Attributes:
+            id (str):
+            team_id (str):
+            user_id (str):
+            created_at (datetime.datetime):
+            updated_at (datetime.datetime):
+            source_volume_id (Union[None, Unset, str]):
+            default_posix_uid (Union[None, Unset, int]):
+            default_posix_gid (Union[None, Unset, int]):
+            access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
+                proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
+                instances; RWX allows read-write mounts across instances.
+     """
 
     id: str
     team_id: str
@@ -44,6 +50,10 @@ class SandboxVolume:
     default_posix_gid: Union[None, Unset, int] = UNSET
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -78,17 +88,17 @@ class SandboxVolume:
         if not isinstance(self.access_mode, Unset):
             access_mode = self.access_mode.value
 
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "team_id": team_id,
-                "user_id": user_id,
-                "created_at": created_at,
-                "updated_at": updated_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "team_id": team_id,
+            "user_id": user_id,
+            "created_at": created_at,
+            "updated_at": updated_at,
+        })
         if source_volume_id is not UNSET:
             field_dict["source_volume_id"] = source_volume_id
         if default_posix_uid is not UNSET:
@@ -99,6 +109,8 @@ class SandboxVolume:
             field_dict["access_mode"] = access_mode
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -111,7 +123,13 @@ class SandboxVolume:
 
         created_at = isoparse(d.pop("created_at"))
 
+
+
+
         updated_at = isoparse(d.pop("updated_at"))
+
+
+
 
         def _parse_source_volume_id(data: object) -> Union[None, Unset, str]:
             if data is None:
@@ -122,6 +140,7 @@ class SandboxVolume:
 
         source_volume_id = _parse_source_volume_id(d.pop("source_volume_id", UNSET))
 
+
         def _parse_default_posix_uid(data: object) -> Union[None, Unset, int]:
             if data is None:
                 return data
@@ -130,6 +149,7 @@ class SandboxVolume:
             return cast(Union[None, Unset, int], data)
 
         default_posix_uid = _parse_default_posix_uid(d.pop("default_posix_uid", UNSET))
+
 
         def _parse_default_posix_gid(data: object) -> Union[None, Unset, int]:
             if data is None:
@@ -140,12 +160,16 @@ class SandboxVolume:
 
         default_posix_gid = _parse_default_posix_gid(d.pop("default_posix_gid", UNSET))
 
+
         _access_mode = d.pop("access_mode", UNSET)
         access_mode: Union[Unset, VolumeAccessMode]
-        if isinstance(_access_mode, Unset):
+        if isinstance(_access_mode,  Unset):
             access_mode = UNSET
         else:
             access_mode = VolumeAccessMode(_access_mode)
+
+
+
 
         sandbox_volume = cls(
             id=id,
@@ -158,6 +182,7 @@ class SandboxVolume:
             default_posix_gid=default_posix_gid,
             access_mode=access_mode,
         )
+
 
         sandbox_volume.additional_properties = d
         return sandbox_volume

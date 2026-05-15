@@ -1,29 +1,31 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.egress_credential_rule import EgressCredentialRule
-    from ..models.port_spec import PortSpec
-    from ..models.traffic_rule import TrafficRule
+  from ..models.traffic_rule import TrafficRule
+  from ..models.egress_credential_rule import EgressCredentialRule
+  from ..models.port_spec import PortSpec
+
+
+
 
 
 T = TypeVar("T", bound="NetworkEgressPolicy")
 
 
+
 @_attrs_define
 class NetworkEgressPolicy:
-    """Egress rule set interpreted by the selected network mode.
+    """ Egress rule set interpreted by the selected network mode.
     In `allow-all`, only `denied*` fields are enforced.
     In `block-all`, only `allowed*` fields are enforced.
     `trafficRules` is a rule-based alternative and must not be combined
@@ -49,26 +51,37 @@ class NetworkEgressPolicy:
                 by the manager runtime egress auth path.
                 These rules are orthogonal to allow/deny matching and are intended for
                 destination-scoped outbound auth behavior.
-    """
+     """
 
     allowed_cidrs: Union[Unset, list[str]] = UNSET
     allowed_domains: Union[Unset, list[str]] = UNSET
-    allowed_ports: Union[Unset, list["PortSpec"]] = UNSET
+    allowed_ports: Union[Unset, list['PortSpec']] = UNSET
     denied_domains: Union[Unset, list[str]] = UNSET
     denied_cidrs: Union[Unset, list[str]] = UNSET
-    denied_ports: Union[Unset, list["PortSpec"]] = UNSET
-    traffic_rules: Union[Unset, list["TrafficRule"]] = UNSET
-    credential_rules: Union[Unset, list["EgressCredentialRule"]] = UNSET
+    denied_ports: Union[Unset, list['PortSpec']] = UNSET
+    traffic_rules: Union[Unset, list['TrafficRule']] = UNSET
+    credential_rules: Union[Unset, list['EgressCredentialRule']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.traffic_rule import TrafficRule
+        from ..models.egress_credential_rule import EgressCredentialRule
+        from ..models.port_spec import PortSpec
         allowed_cidrs: Union[Unset, list[str]] = UNSET
         if not isinstance(self.allowed_cidrs, Unset):
             allowed_cidrs = self.allowed_cidrs
 
+
+
         allowed_domains: Union[Unset, list[str]] = UNSET
         if not isinstance(self.allowed_domains, Unset):
             allowed_domains = self.allowed_domains
+
+
 
         allowed_ports: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.allowed_ports, Unset):
@@ -77,13 +90,19 @@ class NetworkEgressPolicy:
                 allowed_ports_item = allowed_ports_item_data.to_dict()
                 allowed_ports.append(allowed_ports_item)
 
+
+
         denied_domains: Union[Unset, list[str]] = UNSET
         if not isinstance(self.denied_domains, Unset):
             denied_domains = self.denied_domains
 
+
+
         denied_cidrs: Union[Unset, list[str]] = UNSET
         if not isinstance(self.denied_cidrs, Unset):
             denied_cidrs = self.denied_cidrs
+
+
 
         denied_ports: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.denied_ports, Unset):
@@ -92,12 +111,16 @@ class NetworkEgressPolicy:
                 denied_ports_item = denied_ports_item_data.to_dict()
                 denied_ports.append(denied_ports_item)
 
+
+
         traffic_rules: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.traffic_rules, Unset):
             traffic_rules = []
             for traffic_rules_item_data in self.traffic_rules:
                 traffic_rules_item = traffic_rules_item_data.to_dict()
                 traffic_rules.append(traffic_rules_item)
+
+
 
         credential_rules: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.credential_rules, Unset):
@@ -106,9 +129,13 @@ class NetworkEgressPolicy:
                 credential_rules_item = credential_rules_item_data.to_dict()
                 credential_rules.append(credential_rules_item)
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if allowed_cidrs is not UNSET:
             field_dict["allowedCidrs"] = allowed_cidrs
         if allowed_domains is not UNSET:
@@ -128,50 +155,65 @@ class NetworkEgressPolicy:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.traffic_rule import TrafficRule
         from ..models.egress_credential_rule import EgressCredentialRule
         from ..models.port_spec import PortSpec
-        from ..models.traffic_rule import TrafficRule
-
         d = dict(src_dict)
         allowed_cidrs = cast(list[str], d.pop("allowedCidrs", UNSET))
 
+
         allowed_domains = cast(list[str], d.pop("allowedDomains", UNSET))
+
 
         allowed_ports = []
         _allowed_ports = d.pop("allowedPorts", UNSET)
-        for allowed_ports_item_data in _allowed_ports or []:
+        for allowed_ports_item_data in (_allowed_ports or []):
             allowed_ports_item = PortSpec.from_dict(allowed_ports_item_data)
+
+
 
             allowed_ports.append(allowed_ports_item)
 
+
         denied_domains = cast(list[str], d.pop("deniedDomains", UNSET))
+
 
         denied_cidrs = cast(list[str], d.pop("deniedCidrs", UNSET))
 
+
         denied_ports = []
         _denied_ports = d.pop("deniedPorts", UNSET)
-        for denied_ports_item_data in _denied_ports or []:
+        for denied_ports_item_data in (_denied_ports or []):
             denied_ports_item = PortSpec.from_dict(denied_ports_item_data)
+
+
 
             denied_ports.append(denied_ports_item)
 
+
         traffic_rules = []
         _traffic_rules = d.pop("trafficRules", UNSET)
-        for traffic_rules_item_data in _traffic_rules or []:
+        for traffic_rules_item_data in (_traffic_rules or []):
             traffic_rules_item = TrafficRule.from_dict(traffic_rules_item_data)
+
+
 
             traffic_rules.append(traffic_rules_item)
 
+
         credential_rules = []
         _credential_rules = d.pop("credentialRules", UNSET)
-        for credential_rules_item_data in _credential_rules or []:
-            credential_rules_item = EgressCredentialRule.from_dict(
-                credential_rules_item_data
-            )
+        for credential_rules_item_data in (_credential_rules or []):
+            credential_rules_item = EgressCredentialRule.from_dict(credential_rules_item_data)
+
+
 
             credential_rules.append(credential_rules_item)
+
 
         network_egress_policy = cls(
             allowed_cidrs=allowed_cidrs,
@@ -183,6 +225,7 @@ class NetworkEgressPolicy:
             traffic_rules=traffic_rules,
             credential_rules=credential_rules,
         )
+
 
         network_egress_policy.additional_properties = d
         return network_egress_policy

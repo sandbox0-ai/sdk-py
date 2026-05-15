@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class SandboxPowerStatePhase(str, Enum):
     PAUSING = "pausing"
     RESUMING = "resuming"

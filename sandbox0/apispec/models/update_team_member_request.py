@@ -1,45 +1,62 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.update_team_member_request_role import UpdateTeamMemberRequestRole
+
+
+
+
+
 
 T = TypeVar("T", bound="UpdateTeamMemberRequest")
 
 
+
 @_attrs_define
 class UpdateTeamMemberRequest:
-    """
-    Attributes:
-        role (UpdateTeamMemberRequestRole):
-    """
+    """ 
+        Attributes:
+            role (UpdateTeamMemberRequestRole):
+     """
 
     role: UpdateTeamMemberRequestRole
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
         role = self.role.value
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "role": role,
-            }
-        )
+        field_dict.update({
+            "role": role,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         role = UpdateTeamMemberRequestRole(d.pop("role"))
 
+
+
+
         update_team_member_request = cls(
             role=role,
         )
+
 
         update_team_member_request.additional_properties = d
         return update_team_member_request

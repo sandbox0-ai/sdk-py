@@ -1,37 +1,46 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
+from typing import cast
+
 if TYPE_CHECKING:
-    from ..models.user import User
+  from ..models.user import User
+
+
+
 
 
 T = TypeVar("T", bound="LoginResponse")
 
 
+
 @_attrs_define
 class LoginResponse:
-    """
-    Attributes:
-        access_token (str):
-        refresh_token (str):
-        expires_at (int):
-        user (User):
-    """
+    """ 
+        Attributes:
+            access_token (str):
+            refresh_token (str):
+            expires_at (int):
+            user (User):
+     """
 
     access_token: str
     refresh_token: str
     expires_at: int
-    user: "User"
+    user: 'User'
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.user import User
         access_token = self.access_token
 
         refresh_token = self.refresh_token
@@ -40,23 +49,23 @@ class LoginResponse:
 
         user = self.user.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "access_token": access_token,
-                "refresh_token": refresh_token,
-                "expires_at": expires_at,
-                "user": user,
-            }
-        )
+        field_dict.update({
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "expires_at": expires_at,
+            "user": user,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.user import User
-
         d = dict(src_dict)
         access_token = d.pop("access_token")
 
@@ -66,12 +75,16 @@ class LoginResponse:
 
         user = User.from_dict(d.pop("user"))
 
+
+
+
         login_response = cls(
             access_token=access_token,
             refresh_token=refresh_token,
             expires_at=expires_at,
             user=user,
         )
+
 
         login_response.additional_properties = d
         return login_response

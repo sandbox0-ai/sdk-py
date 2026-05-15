@@ -1,30 +1,38 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.create_context_request import CreateContextRequest
 from ...models.success_context_response import SuccessContextResponse
-from ...types import Response
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     *,
     body: CreateContextRequest,
+
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
+
+    
+
+    
+
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/v1/sandboxes/{id}/contexts".format(
-            id=id,
-        ),
+        "url": "/api/v1/sandboxes/{id}/contexts".format(id=id,),
     }
 
     _kwargs["json"] = body.to_dict()
+
 
     headers["Content-Type"] = "application/json"
 
@@ -32,11 +40,12 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessContextResponse]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessContextResponse]:
     if response.status_code == 201:
         response_201 = SuccessContextResponse.from_dict(response.json())
+
+
 
         return response_201
 
@@ -46,9 +55,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessContextResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessContextResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -62,8 +69,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateContextRequest,
+
 ) -> Response[SuccessContextResponse]:
-    """Create a context
+    """ Create a context
 
     Args:
         id (str):
@@ -75,11 +83,13 @@ def sync_detailed(
 
     Returns:
         Response[SuccessContextResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -88,14 +98,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     body: CreateContextRequest,
+
 ) -> Optional[SuccessContextResponse]:
-    """Create a context
+    """ Create a context
 
     Args:
         id (str):
@@ -107,22 +117,24 @@ def sync(
 
     Returns:
         SuccessContextResponse
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        client=client,
-        body=body,
-    ).parsed
+client=client,
+body=body,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     body: CreateContextRequest,
+
 ) -> Response[SuccessContextResponse]:
-    """Create a context
+    """ Create a context
 
     Args:
         id (str):
@@ -134,25 +146,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessContextResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     body: CreateContextRequest,
+
 ) -> Optional[SuccessContextResponse]:
-    """Create a context
+    """ Create a context
 
     Args:
         id (str):
@@ -164,12 +180,12 @@ async def asyncio(
 
     Returns:
         SuccessContextResponse
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            client=client,
-            body=body,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+body=body,
+
+    )).parsed
