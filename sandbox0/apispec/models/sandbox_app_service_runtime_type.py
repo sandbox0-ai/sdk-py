@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SandboxAppServiceRuntimeType(str, Enum):
     CMD = "cmd"
     MANUAL = "manual"

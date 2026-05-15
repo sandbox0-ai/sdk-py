@@ -1,82 +1,68 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.pool_strategy import PoolStrategy
-  from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-  from ..models.lifecycle_policy import LifecyclePolicy
-  from ..models.volume_mount_spec import VolumeMountSpec
-  from ..models.pod_spec_override import PodSpecOverride
-  from ..models.container_spec import ContainerSpec
-  from ..models.warm_process_spec import WarmProcessSpec
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
-
-
-
+    from ..models.container_spec import ContainerSpec
+    from ..models.lifecycle_policy import LifecyclePolicy
+    from ..models.pod_spec_override import PodSpecOverride
+    from ..models.pool_strategy import PoolStrategy
+    from ..models.sandbox_network_policy import SandboxNetworkPolicy
+    from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+    from ..models.volume_mount_spec import VolumeMountSpec
+    from ..models.warm_process_spec import WarmProcessSpec
 
 
 T = TypeVar("T", bound="SandboxTemplateSpec")
 
 
-
 @_attrs_define
 class SandboxTemplateSpec:
-    """ 
-        Attributes:
-            description (Union[Unset, str]):
-            display_name (Union[Unset, str]):
-            tags (Union[Unset, list[str]]):
-            main_container (Union[Unset, ContainerSpec]):
-            warm_processes (Union[Unset, list['WarmProcessSpec']]):
-            volume_mounts (Union[Unset, list['VolumeMountSpec']]):
-            pod (Union[Unset, PodSpecOverride]):
-            network (Union[Unset, SandboxNetworkPolicy]):
-            pool (Union[Unset, PoolStrategy]):
-            lifecycle (Union[Unset, LifecyclePolicy]):
-            env_vars (Union[Unset, SandboxTemplateSpecEnvVars]):
-            public (Union[Unset, bool]):
-            allowed_teams (Union[Unset, list[str]]):
-            cluster_id (Union[Unset, str]):
-     """
+    """
+    Attributes:
+        description (Union[Unset, str]):
+        display_name (Union[Unset, str]):
+        tags (Union[Unset, list[str]]):
+        main_container (Union[Unset, ContainerSpec]):
+        warm_processes (Union[Unset, list['WarmProcessSpec']]):
+        volume_mounts (Union[Unset, list['VolumeMountSpec']]):
+        pod (Union[Unset, PodSpecOverride]):
+        network (Union[Unset, SandboxNetworkPolicy]):
+        pool (Union[Unset, PoolStrategy]):
+        lifecycle (Union[Unset, LifecyclePolicy]):
+        env_vars (Union[Unset, SandboxTemplateSpecEnvVars]):
+        public (Union[Unset, bool]):
+        allowed_teams (Union[Unset, list[str]]):
+        cluster_id (Union[Unset, str]):
+    """
 
     description: Union[Unset, str] = UNSET
     display_name: Union[Unset, str] = UNSET
     tags: Union[Unset, list[str]] = UNSET
-    main_container: Union[Unset, 'ContainerSpec'] = UNSET
-    warm_processes: Union[Unset, list['WarmProcessSpec']] = UNSET
-    volume_mounts: Union[Unset, list['VolumeMountSpec']] = UNSET
-    pod: Union[Unset, 'PodSpecOverride'] = UNSET
-    network: Union[Unset, 'SandboxNetworkPolicy'] = UNSET
-    pool: Union[Unset, 'PoolStrategy'] = UNSET
-    lifecycle: Union[Unset, 'LifecyclePolicy'] = UNSET
-    env_vars: Union[Unset, 'SandboxTemplateSpecEnvVars'] = UNSET
+    main_container: Union[Unset, "ContainerSpec"] = UNSET
+    warm_processes: Union[Unset, list["WarmProcessSpec"]] = UNSET
+    volume_mounts: Union[Unset, list["VolumeMountSpec"]] = UNSET
+    pod: Union[Unset, "PodSpecOverride"] = UNSET
+    network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
+    pool: Union[Unset, "PoolStrategy"] = UNSET
+    lifecycle: Union[Unset, "LifecyclePolicy"] = UNSET
+    env_vars: Union[Unset, "SandboxTemplateSpecEnvVars"] = UNSET
     public: Union[Unset, bool] = UNSET
     allowed_teams: Union[Unset, list[str]] = UNSET
     cluster_id: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.pool_strategy import PoolStrategy
-        from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.lifecycle_policy import LifecyclePolicy
-        from ..models.volume_mount_spec import VolumeMountSpec
-        from ..models.pod_spec_override import PodSpecOverride
-        from ..models.container_spec import ContainerSpec
-        from ..models.warm_process_spec import WarmProcessSpec
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         description = self.description
 
         display_name = self.display_name
@@ -84,8 +70,6 @@ class SandboxTemplateSpec:
         tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
-
-
 
         main_container: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.main_container, Unset):
@@ -98,16 +82,12 @@ class SandboxTemplateSpec:
                 warm_processes_item = warm_processes_item_data.to_dict()
                 warm_processes.append(warm_processes_item)
 
-
-
         volume_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.volume_mounts, Unset):
             volume_mounts = []
             for volume_mounts_item_data in self.volume_mounts:
                 volume_mounts_item = volume_mounts_item_data.to_dict()
                 volume_mounts.append(volume_mounts_item)
-
-
 
         pod: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pod, Unset):
@@ -135,15 +115,11 @@ class SandboxTemplateSpec:
         if not isinstance(self.allowed_teams, Unset):
             allowed_teams = self.allowed_teams
 
-
-
         cluster_id = self.cluster_id
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if description is not UNSET:
             field_dict["description"] = description
         if display_name is not UNSET:
@@ -175,18 +151,17 @@ class SandboxTemplateSpec:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.pool_strategy import PoolStrategy
-        from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.lifecycle_policy import LifecyclePolicy
-        from ..models.volume_mount_spec import VolumeMountSpec
-        from ..models.pod_spec_override import PodSpecOverride
         from ..models.container_spec import ContainerSpec
-        from ..models.warm_process_spec import WarmProcessSpec
+        from ..models.lifecycle_policy import LifecyclePolicy
+        from ..models.pod_spec_override import PodSpecOverride
+        from ..models.pool_strategy import PoolStrategy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+        from ..models.volume_mount_spec import VolumeMountSpec
+        from ..models.warm_process_spec import WarmProcessSpec
+
         d = dict(src_dict)
         description = d.pop("description", UNSET)
 
@@ -194,91 +169,65 @@ class SandboxTemplateSpec:
 
         tags = cast(list[str], d.pop("tags", UNSET))
 
-
         _main_container = d.pop("mainContainer", UNSET)
         main_container: Union[Unset, ContainerSpec]
-        if isinstance(_main_container,  Unset):
+        if isinstance(_main_container, Unset):
             main_container = UNSET
         else:
             main_container = ContainerSpec.from_dict(_main_container)
 
-
-
-
         warm_processes = []
         _warm_processes = d.pop("warmProcesses", UNSET)
-        for warm_processes_item_data in (_warm_processes or []):
+        for warm_processes_item_data in _warm_processes or []:
             warm_processes_item = WarmProcessSpec.from_dict(warm_processes_item_data)
-
-
 
             warm_processes.append(warm_processes_item)
 
-
         volume_mounts = []
         _volume_mounts = d.pop("volumeMounts", UNSET)
-        for volume_mounts_item_data in (_volume_mounts or []):
+        for volume_mounts_item_data in _volume_mounts or []:
             volume_mounts_item = VolumeMountSpec.from_dict(volume_mounts_item_data)
-
-
 
             volume_mounts.append(volume_mounts_item)
 
-
         _pod = d.pop("pod", UNSET)
         pod: Union[Unset, PodSpecOverride]
-        if isinstance(_pod,  Unset):
+        if isinstance(_pod, Unset):
             pod = UNSET
         else:
             pod = PodSpecOverride.from_dict(_pod)
 
-
-
-
         _network = d.pop("network", UNSET)
         network: Union[Unset, SandboxNetworkPolicy]
-        if isinstance(_network,  Unset):
+        if isinstance(_network, Unset):
             network = UNSET
         else:
             network = SandboxNetworkPolicy.from_dict(_network)
 
-
-
-
         _pool = d.pop("pool", UNSET)
         pool: Union[Unset, PoolStrategy]
-        if isinstance(_pool,  Unset):
+        if isinstance(_pool, Unset):
             pool = UNSET
         else:
             pool = PoolStrategy.from_dict(_pool)
 
-
-
-
         _lifecycle = d.pop("lifecycle", UNSET)
         lifecycle: Union[Unset, LifecyclePolicy]
-        if isinstance(_lifecycle,  Unset):
+        if isinstance(_lifecycle, Unset):
             lifecycle = UNSET
         else:
             lifecycle = LifecyclePolicy.from_dict(_lifecycle)
 
-
-
-
         _env_vars = d.pop("envVars", UNSET)
         env_vars: Union[Unset, SandboxTemplateSpecEnvVars]
-        if isinstance(_env_vars,  Unset):
+        if isinstance(_env_vars, Unset):
             env_vars = UNSET
         else:
             env_vars = SandboxTemplateSpecEnvVars.from_dict(_env_vars)
 
-
-
-
         public = d.pop("public", UNSET)
 
         allowed_teams = cast(list[str], d.pop("allowedTeams", UNSET))
-
 
         cluster_id = d.pop("clusterId", UNSET)
 
@@ -298,7 +247,6 @@ class SandboxTemplateSpec:
             allowed_teams=allowed_teams,
             cluster_id=cluster_id,
         )
-
 
         sandbox_template_spec.additional_properties = d
         return sandbox_template_spec

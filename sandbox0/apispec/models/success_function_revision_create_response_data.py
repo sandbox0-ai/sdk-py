@@ -1,66 +1,54 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-from typing import cast
-
 if TYPE_CHECKING:
-  from ..models.function_revision import FunctionRevision
-
-
-
+    from ..models.function_revision import FunctionRevision
 
 
 T = TypeVar("T", bound="SuccessFunctionRevisionCreateResponseData")
 
 
-
 @_attrs_define
 class SuccessFunctionRevisionCreateResponseData:
-    """ 
-        Attributes:
-            revision (FunctionRevision):
-            promoted (bool):
-     """
+    """
+    Attributes:
+        revision (FunctionRevision):
+        promoted (bool):
+    """
 
-    revision: 'FunctionRevision'
+    revision: "FunctionRevision"
     promoted: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_revision import FunctionRevision
         revision = self.revision.to_dict()
 
         promoted = self.promoted
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "revision": revision,
-            "promoted": promoted,
-        })
+        field_dict.update(
+            {
+                "revision": revision,
+                "promoted": promoted,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.function_revision import FunctionRevision
+
         d = dict(src_dict)
         revision = FunctionRevision.from_dict(d.pop("revision"))
-
-
-
 
         promoted = d.pop("promoted")
 
@@ -68,7 +56,6 @@ class SuccessFunctionRevisionCreateResponseData:
             revision=revision,
             promoted=promoted,
         )
-
 
         success_function_revision_create_response_data.additional_properties = d
         return success_function_revision_create_response_data

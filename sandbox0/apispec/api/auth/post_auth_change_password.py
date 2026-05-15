@@ -1,30 +1,21 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.change_password_request import ChangePasswordRequest
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_message_response import SuccessMessageResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     *,
     body: ChangePasswordRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
-
-
-    
-
-    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -33,33 +24,27 @@ def _get_kwargs(
 
     _kwargs["json"] = body.to_dict()
 
-
     headers["Content-Type"] = "application/json"
 
     _kwargs["headers"] = headers
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse]]:
     if response.status_code == 200:
         response_200 = SuccessMessageResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 400:
         response_400 = ErrorEnvelope.from_dict(response.json())
 
-
-
         return response_400
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
-
-
 
         return response_401
 
@@ -69,7 +54,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessMessageResponse]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[ErrorEnvelope, SuccessMessageResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,9 +69,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: ChangePasswordRequest,
-
 ) -> Response[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """ Change password
+    """Change password
 
     Args:
         body (ChangePasswordRequest):
@@ -95,12 +81,10 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessMessageResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
     response = client.get_httpx_client().request(
@@ -109,13 +93,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     *,
     client: AuthenticatedClient,
     body: ChangePasswordRequest,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """ Change password
+    """Change password
 
     Args:
         body (ChangePasswordRequest):
@@ -126,22 +110,20 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessMessageResponse]
-     """
-
+    """
 
     return sync_detailed(
         client=client,
-body=body,
-
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: ChangePasswordRequest,
-
 ) -> Response[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """ Change password
+    """Change password
 
     Args:
         body (ChangePasswordRequest):
@@ -152,27 +134,23 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessMessageResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     *,
     client: AuthenticatedClient,
     body: ChangePasswordRequest,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    """ Change password
+    """Change password
 
     Args:
         body (ChangePasswordRequest):
@@ -183,11 +161,11 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessMessageResponse]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+        )
+    ).parsed

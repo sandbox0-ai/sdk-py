@@ -1,49 +1,47 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import cast, Union
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
-  from ..models.file_info import FileInfo
-  from ..models.file_content_response import FileContentResponse
-
-
-
+    from ..models.file_content_response import FileContentResponse
+    from ..models.file_info import FileInfo
+    from ..models.success_file_read_response_data_type_1 import (
+        SuccessFileReadResponseDataType1,
+    )
 
 
 T = TypeVar("T", bound="SuccessFileReadResponse")
 
 
-
 @_attrs_define
 class SuccessFileReadResponse:
-    """ 
-        Attributes:
-            success (bool):
-            data (Union['FileContentResponse', 'FileInfo', 'SuccessFileReadResponseDataType1', Unset]):
-     """
+    """
+    Attributes:
+        success (bool):
+        data (Union['FileContentResponse', 'FileInfo', 'SuccessFileReadResponseDataType1', Unset]):
+    """
 
     success: bool
-    data: Union['FileContentResponse', 'FileInfo', 'SuccessFileReadResponseDataType1', Unset] = UNSET
+    data: Union[
+        "FileContentResponse", "FileInfo", "SuccessFileReadResponseDataType1", Unset
+    ] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
         from ..models.file_info import FileInfo
-        from ..models.file_content_response import FileContentResponse
+        from ..models.success_file_read_response_data_type_1 import (
+            SuccessFileReadResponseDataType1,
+        )
+
         success = self.success
 
         data: Union[Unset, dict[str, Any]]
@@ -56,29 +54,34 @@ class SuccessFileReadResponse:
         else:
             data = self.data.to_dict()
 
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "success": success,
-        })
+        field_dict.update(
+            {
+                "success": success,
+            }
+        )
         if data is not UNSET:
             field_dict["data"] = data
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
-        from ..models.file_info import FileInfo
         from ..models.file_content_response import FileContentResponse
+        from ..models.file_info import FileInfo
+        from ..models.success_file_read_response_data_type_1 import (
+            SuccessFileReadResponseDataType1,
+        )
+
         d = dict(src_dict)
         success = d.pop("success")
 
-        def _parse_data(data: object) -> Union['FileContentResponse', 'FileInfo', 'SuccessFileReadResponseDataType1', Unset]:
+        def _parse_data(
+            data: object,
+        ) -> Union[
+            "FileContentResponse", "FileInfo", "SuccessFileReadResponseDataType1", Unset
+        ]:
             if isinstance(data, Unset):
                 return data
             try:
@@ -86,37 +89,29 @@ class SuccessFileReadResponse:
                     raise TypeError()
                 data_type_0 = FileInfo.from_dict(data)
 
-
-
                 return data_type_0
-            except: # noqa: E722
+            except:  # noqa: E722
                 pass
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
                 data_type_1 = SuccessFileReadResponseDataType1.from_dict(data)
 
-
-
                 return data_type_1
-            except: # noqa: E722
+            except:  # noqa: E722
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
             data_type_2 = FileContentResponse.from_dict(data)
 
-
-
             return data_type_2
 
         data = _parse_data(d.pop("data", UNSET))
-
 
         success_file_read_response = cls(
             success=success,
             data=data,
         )
-
 
         success_file_read_response.additional_properties = d
         return success_file_read_response

@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class CredentialSourceResolverKind(str, Enum):
     STATIC_HEADERS = "static_headers"
     STATIC_SSH_PRIVATE_KEY = "static_ssh_private_key"

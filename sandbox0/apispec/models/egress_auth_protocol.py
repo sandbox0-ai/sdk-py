@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class EgressAuthProtocol(str, Enum):
     GRPC = "grpc"
     HTTP = "http"

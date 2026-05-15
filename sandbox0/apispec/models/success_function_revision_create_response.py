@@ -1,84 +1,76 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.success_function_revision_create_response_data import SuccessFunctionRevisionCreateResponseData
-
-
-
+    from ..models.success_function_revision_create_response_data import (
+        SuccessFunctionRevisionCreateResponseData,
+    )
 
 
 T = TypeVar("T", bound="SuccessFunctionRevisionCreateResponse")
 
 
-
 @_attrs_define
 class SuccessFunctionRevisionCreateResponse:
-    """ 
-        Attributes:
-            success (bool):
-            data (Union[Unset, SuccessFunctionRevisionCreateResponseData]):
-     """
+    """
+    Attributes:
+        success (bool):
+        data (Union[Unset, SuccessFunctionRevisionCreateResponseData]):
+    """
 
     success: bool
-    data: Union[Unset, 'SuccessFunctionRevisionCreateResponseData'] = UNSET
+    data: Union[Unset, "SuccessFunctionRevisionCreateResponseData"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.success_function_revision_create_response_data import SuccessFunctionRevisionCreateResponseData
         success = self.success
 
         data: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.data, Unset):
             data = self.data.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "success": success,
-        })
+        field_dict.update(
+            {
+                "success": success,
+            }
+        )
         if data is not UNSET:
             field_dict["data"] = data
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.success_function_revision_create_response_data import SuccessFunctionRevisionCreateResponseData
+        from ..models.success_function_revision_create_response_data import (
+            SuccessFunctionRevisionCreateResponseData,
+        )
+
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
         data: Union[Unset, SuccessFunctionRevisionCreateResponseData]
-        if isinstance(_data,  Unset):
+        if isinstance(_data, Unset):
             data = UNSET
         else:
             data = SuccessFunctionRevisionCreateResponseData.from_dict(_data)
-
-
-
 
         success_function_revision_create_response = cls(
             success=success,
             data=data,
         )
-
 
         success_function_revision_create_response.additional_properties = d
         return success_function_revision_create_response

@@ -1,52 +1,44 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.resource_usage import ResourceUsage
-
-
-
+    from ..models.resource_usage import ResourceUsage
 
 
 T = TypeVar("T", bound="ContextResourceUsage")
 
 
-
 @_attrs_define
 class ContextResourceUsage:
-    """ 
-        Attributes:
-            context_id (Union[Unset, str]):
-            type_ (Union[Unset, str]):
-            alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
-            running (Union[Unset, bool]):
-            paused (Union[Unset, bool]):
-            usage (Union[Unset, ResourceUsage]):
-     """
+    """
+    Attributes:
+        context_id (Union[Unset, str]):
+        type_ (Union[Unset, str]):
+        alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
+        running (Union[Unset, bool]):
+        paused (Union[Unset, bool]):
+        usage (Union[Unset, ResourceUsage]):
+    """
 
     context_id: Union[Unset, str] = UNSET
     type_: Union[Unset, str] = UNSET
     alias: Union[Unset, str] = UNSET
     running: Union[Unset, bool] = UNSET
     paused: Union[Unset, bool] = UNSET
-    usage: Union[Unset, 'ResourceUsage'] = UNSET
+    usage: Union[Unset, "ResourceUsage"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.resource_usage import ResourceUsage
         context_id = self.context_id
 
         type_ = self.type_
@@ -61,11 +53,9 @@ class ContextResourceUsage:
         if not isinstance(self.usage, Unset):
             usage = self.usage.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if context_id is not UNSET:
             field_dict["context_id"] = context_id
         if type_ is not UNSET:
@@ -81,11 +71,10 @@ class ContextResourceUsage:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.resource_usage import ResourceUsage
+
         d = dict(src_dict)
         context_id = d.pop("context_id", UNSET)
 
@@ -99,13 +88,10 @@ class ContextResourceUsage:
 
         _usage = d.pop("usage", UNSET)
         usage: Union[Unset, ResourceUsage]
-        if isinstance(_usage,  Unset):
+        if isinstance(_usage, Unset):
             usage = UNSET
         else:
             usage = ResourceUsage.from_dict(_usage)
-
-
-
 
         context_resource_usage = cls(
             context_id=context_id,
@@ -115,7 +101,6 @@ class ContextResourceUsage:
             paused=paused,
             usage=usage,
         )
-
 
         context_resource_usage.additional_properties = d
         return context_resource_usage

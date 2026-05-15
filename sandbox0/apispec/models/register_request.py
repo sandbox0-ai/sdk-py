@@ -1,44 +1,35 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast, Union
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="RegisterRequest")
-
 
 
 @_attrs_define
 class RegisterRequest:
-    """ 
-        Attributes:
-            email (str):
-            password (str):
-            name (str):
-            home_region_id (Union[None, Unset, str]): Required in global-gateway mode because registration creates the
-                user's initial team.
-     """
+    """
+    Attributes:
+        email (str):
+        password (str):
+        name (str):
+        home_region_id (Union[None, Unset, str]): Required in global-gateway mode because registration creates the
+            user's initial team.
+    """
 
     email: str
     password: str
     name: str
     home_region_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         email = self.email
@@ -53,20 +44,19 @@ class RegisterRequest:
         else:
             home_region_id = self.home_region_id
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "email": email,
-            "password": password,
-            "name": name,
-        })
+        field_dict.update(
+            {
+                "email": email,
+                "password": password,
+                "name": name,
+            }
+        )
         if home_region_id is not UNSET:
             field_dict["home_region_id"] = home_region_id
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -86,14 +76,12 @@ class RegisterRequest:
 
         home_region_id = _parse_home_region_id(d.pop("home_region_id", UNSET))
 
-
         register_request = cls(
             email=email,
             password=password,
             name=name,
             home_region_id=home_region_id,
         )
-
 
         register_request.additional_properties = d
         return register_request

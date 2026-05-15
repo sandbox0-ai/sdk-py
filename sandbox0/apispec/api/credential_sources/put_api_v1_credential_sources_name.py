@@ -1,38 +1,30 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.credential_source_write_request import CredentialSourceWriteRequest
 from ...models.success_credential_source_response import SuccessCredentialSourceResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     name: str,
     *,
     body: CredentialSourceWriteRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
-
-    
-
-    
-
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/v1/credential-sources/{name}".format(name=name,),
+        "url": "/api/v1/credential-sources/{name}".format(
+            name=name,
+        ),
     }
 
     _kwargs["json"] = body.to_dict()
-
 
     headers["Content-Type"] = "application/json"
 
@@ -40,12 +32,11 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessCredentialSourceResponse]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[SuccessCredentialSourceResponse]:
     if response.status_code == 200:
         response_200 = SuccessCredentialSourceResponse.from_dict(response.json())
-
-
 
         return response_200
 
@@ -55,7 +46,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessCredentialSourceResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[SuccessCredentialSourceResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -69,9 +62,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Response[SuccessCredentialSourceResponse]:
-    """ Update credential source
+    """Update credential source
 
     Args:
         name (str):
@@ -83,13 +75,11 @@ def sync_detailed(
 
     Returns:
         Response[SuccessCredentialSourceResponse]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         name=name,
-body=body,
-
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -98,14 +88,14 @@ body=body,
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     name: str,
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Optional[SuccessCredentialSourceResponse]:
-    """ Update credential source
+    """Update credential source
 
     Args:
         name (str):
@@ -117,24 +107,22 @@ def sync(
 
     Returns:
         SuccessCredentialSourceResponse
-     """
-
+    """
 
     return sync_detailed(
         name=name,
-client=client,
-body=body,
-
+        client=client,
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     name: str,
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Response[SuccessCredentialSourceResponse]:
-    """ Update credential source
+    """Update credential source
 
     Args:
         name (str):
@@ -146,29 +134,25 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessCredentialSourceResponse]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         name=name,
-body=body,
-
+        body=body,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     name: str,
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Optional[SuccessCredentialSourceResponse]:
-    """ Update credential source
+    """Update credential source
 
     Args:
         name (str):
@@ -180,12 +164,12 @@ async def asyncio(
 
     Returns:
         SuccessCredentialSourceResponse
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        name=name,
-client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            name=name,
+            client=client,
+            body=body,
+        )
+    ).parsed

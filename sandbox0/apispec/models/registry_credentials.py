@@ -1,37 +1,31 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
-
-from ..types import UNSET, Unset
 from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
 
-
-
-
-
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="RegistryCredentials")
 
 
-
 @_attrs_define
 class RegistryCredentials:
-    """ 
-        Attributes:
-            provider (str):
-            push_registry (str):
-            pull_registry (str):
-            username (str):
-            password (str):
-            expires_at (Union[Unset, datetime.datetime]):
-     """
+    """
+    Attributes:
+        provider (str):
+        push_registry (str):
+        pull_registry (str):
+        username (str):
+        password (str):
+        expires_at (Union[Unset, datetime.datetime]):
+    """
 
     provider: str
     push_registry: str
@@ -40,10 +34,6 @@ class RegistryCredentials:
     password: str
     expires_at: Union[Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         provider = self.provider
@@ -60,22 +50,21 @@ class RegistryCredentials:
         if not isinstance(self.expires_at, Unset):
             expires_at = self.expires_at.isoformat()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "provider": provider,
-            "pushRegistry": push_registry,
-            "pullRegistry": pull_registry,
-            "username": username,
-            "password": password,
-        })
+        field_dict.update(
+            {
+                "provider": provider,
+                "pushRegistry": push_registry,
+                "pullRegistry": pull_registry,
+                "username": username,
+                "password": password,
+            }
+        )
         if expires_at is not UNSET:
             field_dict["expiresAt"] = expires_at
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -92,13 +81,10 @@ class RegistryCredentials:
 
         _expires_at = d.pop("expiresAt", UNSET)
         expires_at: Union[Unset, datetime.datetime]
-        if isinstance(_expires_at,  Unset):
+        if isinstance(_expires_at, Unset):
             expires_at = UNSET
         else:
             expires_at = isoparse(_expires_at)
-
-
-
 
         registry_credentials = cls(
             provider=provider,
@@ -108,7 +94,6 @@ class RegistryCredentials:
             password=password,
             expires_at=expires_at,
         )
-
 
         registry_credentials.additional_properties = d
         return registry_credentials

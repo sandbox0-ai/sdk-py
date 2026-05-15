@@ -1,30 +1,27 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service import SandboxAppService
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
-
-
-
+    from ..models.sandbox_app_service import SandboxAppService
+    from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
 
 T = TypeVar("T", bound="SandboxUpdateConfig")
 
 
-
 @_attrs_define
 class SandboxUpdateConfig:
-    """ Subset of SandboxConfig fields that can be updated at runtime without restarting the sandbox.
+    """Subset of SandboxConfig fields that can be updated at runtime without restarting the sandbox.
     Note: env_vars and webhook are not included as they only affect new processes or require restart.
 
         Attributes:
@@ -36,22 +33,16 @@ class SandboxUpdateConfig:
                 (API or public exposure) must not auto resume the sandbox.
                  Default: True.
             services (Union[Unset, list['SandboxAppService']]):
-     """
+    """
 
     ttl: Union[Unset, int] = UNSET
     hard_ttl: Union[Unset, int] = UNSET
-    network: Union[Unset, 'SandboxNetworkPolicy'] = UNSET
+    network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     auto_resume: Union[Unset, bool] = True
-    services: Union[Unset, list['SandboxAppService']] = UNSET
+    services: Union[Unset, list["SandboxAppService"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service import SandboxAppService
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         ttl = self.ttl
 
         hard_ttl = self.hard_ttl
@@ -69,13 +60,9 @@ class SandboxUpdateConfig:
                 services_item = services_item_data.to_dict()
                 services.append(services_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if ttl is not UNSET:
             field_dict["ttl"] = ttl
         if hard_ttl is not UNSET:
@@ -89,12 +76,11 @@ class SandboxUpdateConfig:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+
         d = dict(src_dict)
         ttl = d.pop("ttl", UNSET)
 
@@ -102,25 +88,19 @@ class SandboxUpdateConfig:
 
         _network = d.pop("network", UNSET)
         network: Union[Unset, SandboxNetworkPolicy]
-        if isinstance(_network,  Unset):
+        if isinstance(_network, Unset):
             network = UNSET
         else:
             network = SandboxNetworkPolicy.from_dict(_network)
-
-
-
 
         auto_resume = d.pop("auto_resume", UNSET)
 
         services = []
         _services = d.pop("services", UNSET)
-        for services_item_data in (_services or []):
+        for services_item_data in _services or []:
             services_item = SandboxAppService.from_dict(services_item_data)
 
-
-
             services.append(services_item)
-
 
         sandbox_update_config = cls(
             ttl=ttl,
@@ -129,7 +109,6 @@ class SandboxUpdateConfig:
             auto_resume=auto_resume,
             services=services,
         )
-
 
         sandbox_update_config.additional_properties = d
         return sandbox_update_config

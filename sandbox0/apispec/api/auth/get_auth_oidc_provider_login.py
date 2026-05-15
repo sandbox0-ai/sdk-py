@@ -3,15 +3,10 @@ from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
-from ...types import UNSET, Unset
-from typing import cast
-from typing import Union
-
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
@@ -19,34 +14,29 @@ def _get_kwargs(
     *,
     return_url: Union[Unset, str] = UNSET,
     web_login: Union[Unset, bool] = UNSET,
-
 ) -> dict[str, Any]:
-    
-
-    
-
     params: dict[str, Any] = {}
 
     params["return_url"] = return_url
 
     params["web_login"] = web_login
 
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/auth/oidc/{provider}/login".format(provider=provider,),
+        "url": "/auth/oidc/{provider}/login".format(
+            provider=provider,
+        ),
         "params": params,
     }
-
 
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[Any, ErrorEnvelope]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[Any, ErrorEnvelope]]:
     if response.status_code == 302:
         response_302 = cast(Any, None)
         return response_302
@@ -54,14 +44,10 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
     if response.status_code == 400:
         response_400 = ErrorEnvelope.from_dict(response.json())
 
-
-
         return response_400
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
-
-
 
         return response_404
 
@@ -71,7 +57,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[Any, ErrorEnvelope]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[Any, ErrorEnvelope]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -86,9 +74,8 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
     web_login: Union[Unset, bool] = UNSET,
-
 ) -> Response[Union[Any, ErrorEnvelope]]:
-    """ Initiate OIDC login
+    """Initiate OIDC login
 
     Args:
         provider (str):
@@ -101,14 +88,12 @@ def sync_detailed(
 
     Returns:
         Response[Union[Any, ErrorEnvelope]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         provider=provider,
-return_url=return_url,
-web_login=web_login,
-
+        return_url=return_url,
+        web_login=web_login,
     )
 
     response = client.get_httpx_client().request(
@@ -117,15 +102,15 @@ web_login=web_login,
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     provider: str,
     *,
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
     web_login: Union[Unset, bool] = UNSET,
-
 ) -> Optional[Union[Any, ErrorEnvelope]]:
-    """ Initiate OIDC login
+    """Initiate OIDC login
 
     Args:
         provider (str):
@@ -138,16 +123,15 @@ def sync(
 
     Returns:
         Union[Any, ErrorEnvelope]
-     """
-
+    """
 
     return sync_detailed(
         provider=provider,
-client=client,
-return_url=return_url,
-web_login=web_login,
-
+        client=client,
+        return_url=return_url,
+        web_login=web_login,
     ).parsed
+
 
 async def asyncio_detailed(
     provider: str,
@@ -155,9 +139,8 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
     web_login: Union[Unset, bool] = UNSET,
-
 ) -> Response[Union[Any, ErrorEnvelope]]:
-    """ Initiate OIDC login
+    """Initiate OIDC login
 
     Args:
         provider (str):
@@ -170,21 +153,18 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[Any, ErrorEnvelope]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         provider=provider,
-return_url=return_url,
-web_login=web_login,
-
+        return_url=return_url,
+        web_login=web_login,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     provider: str,
@@ -192,9 +172,8 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     return_url: Union[Unset, str] = UNSET,
     web_login: Union[Unset, bool] = UNSET,
-
 ) -> Optional[Union[Any, ErrorEnvelope]]:
-    """ Initiate OIDC login
+    """Initiate OIDC login
 
     Args:
         provider (str):
@@ -207,13 +186,13 @@ async def asyncio(
 
     Returns:
         Union[Any, ErrorEnvelope]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        provider=provider,
-client=client,
-return_url=return_url,
-web_login=web_login,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            provider=provider,
+            client=client,
+            return_url=return_url,
+            web_login=web_login,
+        )
+    ).parsed

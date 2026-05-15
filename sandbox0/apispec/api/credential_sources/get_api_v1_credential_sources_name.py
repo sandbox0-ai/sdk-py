@@ -1,50 +1,38 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_credential_source_response import SuccessCredentialSourceResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     name: str,
-
 ) -> dict[str, Any]:
-    
-
-    
-
-    
-
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/v1/credential-sources/{name}".format(name=name,),
+        "url": "/api/v1/credential-sources/{name}".format(
+            name=name,
+        ),
     }
-
 
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     if response.status_code == 200:
         response_200 = SuccessCredentialSourceResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
-
-
 
         return response_404
 
@@ -54,7 +42,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -67,9 +57,8 @@ def sync_detailed(
     name: str,
     *,
     client: AuthenticatedClient,
-
 ) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Get credential source
+    """Get credential source
 
     Args:
         name (str):
@@ -80,12 +69,10 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         name=name,
-
     )
 
     response = client.get_httpx_client().request(
@@ -94,13 +81,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     name: str,
     *,
     client: AuthenticatedClient,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Get credential source
+    """Get credential source
 
     Args:
         name (str):
@@ -111,22 +98,20 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessCredentialSourceResponse]
-     """
-
+    """
 
     return sync_detailed(
         name=name,
-client=client,
-
+        client=client,
     ).parsed
+
 
 async def asyncio_detailed(
     name: str,
     *,
     client: AuthenticatedClient,
-
 ) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Get credential source
+    """Get credential source
 
     Args:
         name (str):
@@ -137,27 +122,23 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         name=name,
-
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     name: str,
     *,
     client: AuthenticatedClient,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Get credential source
+    """Get credential source
 
     Args:
         name (str):
@@ -168,11 +149,11 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessCredentialSourceResponse]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        name=name,
-client=client,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            name=name,
+            client=client,
+        )
+    ).parsed

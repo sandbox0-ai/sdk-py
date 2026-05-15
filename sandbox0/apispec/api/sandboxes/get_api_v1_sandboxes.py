@@ -1,19 +1,14 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from ...models.success_sandbox_list_response import SuccessSandboxListResponse
-from ...types import UNSET, Unset
-from typing import cast
-from typing import Union
-
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
@@ -23,12 +18,7 @@ def _get_kwargs(
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
     offset: Union[Unset, int] = 0,
-
 ) -> dict[str, Any]:
-    
-
-    
-
     params: dict[str, Any] = {}
 
     json_status: Union[Unset, str] = UNSET
@@ -45,9 +35,7 @@ def _get_kwargs(
 
     params["offset"] = offset
 
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
 
     _kwargs: dict[str, Any] = {
         "method": "get",
@@ -55,23 +43,19 @@ def _get_kwargs(
         "params": params,
     }
 
-
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
     if response.status_code == 200:
         response_200 = SuccessSandboxListResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 400:
         response_400 = ErrorEnvelope.from_dict(response.json())
-
-
 
         return response_400
 
@@ -81,7 +65,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -98,9 +84,8 @@ def sync_detailed(
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
     offset: Union[Unset, int] = 0,
-
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
-    """ List sandboxes
+    """List sandboxes
 
      List all sandboxes for the authenticated team. In multi-cluster mode, this endpoint aggregates
     results from all enabled clusters.
@@ -118,16 +103,14 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessSandboxListResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         status=status,
-template_id=template_id,
-paused=paused,
-limit=limit,
-offset=offset,
-
+        template_id=template_id,
+        paused=paused,
+        limit=limit,
+        offset=offset,
     )
 
     response = client.get_httpx_client().request(
@@ -135,6 +118,7 @@ offset=offset,
     )
 
     return _build_response(client=client, response=response)
+
 
 def sync(
     *,
@@ -144,9 +128,8 @@ def sync(
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
     offset: Union[Unset, int] = 0,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
-    """ List sandboxes
+    """List sandboxes
 
      List all sandboxes for the authenticated team. In multi-cluster mode, this endpoint aggregates
     results from all enabled clusters.
@@ -164,18 +147,17 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessSandboxListResponse]
-     """
-
+    """
 
     return sync_detailed(
         client=client,
-status=status,
-template_id=template_id,
-paused=paused,
-limit=limit,
-offset=offset,
-
+        status=status,
+        template_id=template_id,
+        paused=paused,
+        limit=limit,
+        offset=offset,
     ).parsed
+
 
 async def asyncio_detailed(
     *,
@@ -185,9 +167,8 @@ async def asyncio_detailed(
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
     offset: Union[Unset, int] = 0,
-
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
-    """ List sandboxes
+    """List sandboxes
 
      List all sandboxes for the authenticated team. In multi-cluster mode, this endpoint aggregates
     results from all enabled clusters.
@@ -205,23 +186,20 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessSandboxListResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         status=status,
-template_id=template_id,
-paused=paused,
-limit=limit,
-offset=offset,
-
+        template_id=template_id,
+        paused=paused,
+        limit=limit,
+        offset=offset,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     *,
@@ -231,9 +209,8 @@ async def asyncio(
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
     offset: Union[Unset, int] = 0,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxListResponse]]:
-    """ List sandboxes
+    """List sandboxes
 
      List all sandboxes for the authenticated team. In multi-cluster mode, this endpoint aggregates
     results from all enabled clusters.
@@ -251,15 +228,15 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessSandboxListResponse]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        client=client,
-status=status,
-template_id=template_id,
-paused=paused,
-limit=limit,
-offset=offset,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+            status=status,
+            template_id=template_id,
+            paused=paused,
+            limit=limit,
+            offset=offset,
+        )
+    ).parsed

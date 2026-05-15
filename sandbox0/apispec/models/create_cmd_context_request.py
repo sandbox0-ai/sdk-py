@@ -1,62 +1,47 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-from typing import cast
-
-
-
-
-
-
 T = TypeVar("T", bound="CreateCMDContextRequest")
-
 
 
 @_attrs_define
 class CreateCMDContextRequest:
-    """ 
-        Attributes:
-            command (list[str]):
-     """
+    """
+    Attributes:
+        command (list[str]):
+    """
 
     command: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
         command = self.command
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "command": command,
-        })
+        field_dict.update(
+            {
+                "command": command,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         command = cast(list[str], d.pop("command"))
 
-
         create_cmd_context_request = cls(
             command=command,
         )
-
 
         create_cmd_context_request.additional_properties = d
         return create_cmd_context_request
