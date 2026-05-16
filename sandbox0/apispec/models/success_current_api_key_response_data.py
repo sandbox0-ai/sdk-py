@@ -1,76 +1,61 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.current_api_key_response import CurrentAPIKeyResponse
-
-
-
+    from ..models.current_api_key_response import CurrentAPIKeyResponse
 
 
 T = TypeVar("T", bound="SuccessCurrentAPIKeyResponseData")
 
 
-
 @_attrs_define
 class SuccessCurrentAPIKeyResponseData:
-    """ 
-        Attributes:
-            api_key (Union[Unset, CurrentAPIKeyResponse]):
-     """
+    """
+    Attributes:
+        api_key (Union[Unset, CurrentAPIKeyResponse]):
+    """
 
-    api_key: Union[Unset, 'CurrentAPIKeyResponse'] = UNSET
+    api_key: Union[Unset, "CurrentAPIKeyResponse"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.current_api_key_response import CurrentAPIKeyResponse
         api_key: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.api_key, Unset):
             api_key = self.api_key.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if api_key is not UNSET:
             field_dict["api_key"] = api_key
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.current_api_key_response import CurrentAPIKeyResponse
+
         d = dict(src_dict)
         _api_key = d.pop("api_key", UNSET)
         api_key: Union[Unset, CurrentAPIKeyResponse]
-        if isinstance(_api_key,  Unset):
+        if isinstance(_api_key, Unset):
             api_key = UNSET
         else:
             api_key = CurrentAPIKeyResponse.from_dict(_api_key)
 
-
-
-
         success_current_api_key_response_data = cls(
             api_key=api_key,
         )
-
 
         success_current_api_key_response_data.additional_properties = d
         return success_current_api_key_response_data

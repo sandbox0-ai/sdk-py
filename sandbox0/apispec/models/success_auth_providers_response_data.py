@@ -1,42 +1,34 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.auth_provider import AuthProvider
-
-
-
+    from ..models.auth_provider import AuthProvider
 
 
 T = TypeVar("T", bound="SuccessAuthProvidersResponseData")
 
 
-
 @_attrs_define
 class SuccessAuthProvidersResponseData:
-    """ 
-        Attributes:
-            providers (Union[Unset, list['AuthProvider']]):
-     """
+    """
+    Attributes:
+        providers (Union[Unset, list['AuthProvider']]):
+    """
 
-    providers: Union[Unset, list['AuthProvider']] = UNSET
+    providers: Union[Unset, list["AuthProvider"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.auth_provider import AuthProvider
         providers: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.providers, Unset):
             providers = []
@@ -44,38 +36,29 @@ class SuccessAuthProvidersResponseData:
                 providers_item = providers_item_data.to_dict()
                 providers.append(providers_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if providers is not UNSET:
             field_dict["providers"] = providers
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.auth_provider import AuthProvider
+
         d = dict(src_dict)
         providers = []
         _providers = d.pop("providers", UNSET)
-        for providers_item_data in (_providers or []):
+        for providers_item_data in _providers or []:
             providers_item = AuthProvider.from_dict(providers_item_data)
 
-
-
             providers.append(providers_item)
-
 
         success_auth_providers_response_data = cls(
             providers=providers,
         )
-
 
         success_auth_providers_response_data.additional_properties = d
         return success_auth_providers_response_data

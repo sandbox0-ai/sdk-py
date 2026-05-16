@@ -1,20 +1,13 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.success_created_response import SuccessCreatedResponse
 from ...models.success_written_response import SuccessWrittenResponse
-from ...types import File, FileTypes
-from ...types import UNSET, Unset
-from io import BytesIO
-from typing import cast
-from typing import Union
-
+from ...types import UNSET, File, Response, Unset
 
 
 def _get_kwargs(
@@ -24,12 +17,8 @@ def _get_kwargs(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
-
-
-    
 
     params: dict[str, Any] = {}
 
@@ -39,13 +28,13 @@ def _get_kwargs(
 
     params["recursive"] = recursive
 
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/v1/sandboxvolumes/{id}/files".format(id=id,),
+        "url": "/api/v1/sandboxvolumes/{id}/files".format(
+            id=id,
+        ),
         "params": params,
     }
 
@@ -57,19 +46,16 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
     if response.status_code == 200:
         response_200 = SuccessWrittenResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 201:
         response_201 = SuccessCreatedResponse.from_dict(response.json())
-
-
 
         return response_201
 
@@ -79,7 +65,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -96,9 +84,8 @@ def sync_detailed(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-
 ) -> Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
-    """ Write volume file or create directory
+    """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
 
@@ -115,16 +102,14 @@ def sync_detailed(
 
     Returns:
         Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-body=body,
-path=path,
-mkdir=mkdir,
-recursive=recursive,
-
+        body=body,
+        path=path,
+        mkdir=mkdir,
+        recursive=recursive,
     )
 
     response = client.get_httpx_client().request(
@@ -132,6 +117,7 @@ recursive=recursive,
     )
 
     return _build_response(client=client, response=response)
+
 
 def sync(
     id: str,
@@ -141,9 +127,8 @@ def sync(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-
 ) -> Optional[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
-    """ Write volume file or create directory
+    """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
 
@@ -160,18 +145,17 @@ def sync(
 
     Returns:
         Union[SuccessCreatedResponse, SuccessWrittenResponse]
-     """
-
+    """
 
     return sync_detailed(
         id=id,
-client=client,
-body=body,
-path=path,
-mkdir=mkdir,
-recursive=recursive,
-
+        client=client,
+        body=body,
+        path=path,
+        mkdir=mkdir,
+        recursive=recursive,
     ).parsed
+
 
 async def asyncio_detailed(
     id: str,
@@ -181,9 +165,8 @@ async def asyncio_detailed(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-
 ) -> Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
-    """ Write volume file or create directory
+    """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
 
@@ -200,23 +183,20 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-body=body,
-path=path,
-mkdir=mkdir,
-recursive=recursive,
-
+        body=body,
+        path=path,
+        mkdir=mkdir,
+        recursive=recursive,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     id: str,
@@ -226,9 +206,8 @@ async def asyncio(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-
 ) -> Optional[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
-    """ Write volume file or create directory
+    """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
 
@@ -245,15 +224,15 @@ async def asyncio(
 
     Returns:
         Union[SuccessCreatedResponse, SuccessWrittenResponse]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        id=id,
-client=client,
-body=body,
-path=path,
-mkdir=mkdir,
-recursive=recursive,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            id=id,
+            client=client,
+            body=body,
+            path=path,
+            mkdir=mkdir,
+            recursive=recursive,
+        )
+    ).parsed

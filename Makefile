@@ -21,7 +21,7 @@ endif
 apispec:
 	@printf "Generating Python API spec code...\n"
 	@python3 -m openapi_python_client --version >/dev/null 2>&1 || \
-		python3 -m pip install --user openapi-python-client
+		python3 -m pip install --user openapi-python-client==0.26.2
 	@python3 -m openapi_python_client generate \
 		--path openapi.yaml \
 		--meta none \

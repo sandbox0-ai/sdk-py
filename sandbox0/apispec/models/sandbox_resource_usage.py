@@ -1,44 +1,41 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.context_resource_usage import ContextResourceUsage
-
-
-
+    from ..models.context_resource_usage import ContextResourceUsage
 
 
 T = TypeVar("T", bound="SandboxResourceUsage")
 
 
-
 @_attrs_define
 class SandboxResourceUsage:
-    """ 
-        Attributes:
-            container_memory_usage (Union[Unset, int]):
-            container_memory_limit (Union[Unset, int]):
-            container_memory_working_set (Union[Unset, int]):
-            total_memory_rss (Union[Unset, int]):
-            total_memory_vms (Union[Unset, int]):
-            total_open_files (Union[Unset, int]):
-            total_thread_count (Union[Unset, int]):
-            total_io_read_bytes (Union[Unset, int]):
-            total_io_write_bytes (Union[Unset, int]):
-            context_count (Union[Unset, int]):
-            running_context_count (Union[Unset, int]):
-            paused_context_count (Union[Unset, int]):
-            contexts (Union[Unset, list['ContextResourceUsage']]):
-     """
+    """
+    Attributes:
+        container_memory_usage (Union[Unset, int]):
+        container_memory_limit (Union[Unset, int]):
+        container_memory_working_set (Union[Unset, int]):
+        total_memory_rss (Union[Unset, int]):
+        total_memory_vms (Union[Unset, int]):
+        total_open_files (Union[Unset, int]):
+        total_thread_count (Union[Unset, int]):
+        total_io_read_bytes (Union[Unset, int]):
+        total_io_write_bytes (Union[Unset, int]):
+        context_count (Union[Unset, int]):
+        running_context_count (Union[Unset, int]):
+        paused_context_count (Union[Unset, int]):
+        contexts (Union[Unset, list['ContextResourceUsage']]):
+    """
 
     container_memory_usage: Union[Unset, int] = UNSET
     container_memory_limit: Union[Unset, int] = UNSET
@@ -52,15 +49,10 @@ class SandboxResourceUsage:
     context_count: Union[Unset, int] = UNSET
     running_context_count: Union[Unset, int] = UNSET
     paused_context_count: Union[Unset, int] = UNSET
-    contexts: Union[Unset, list['ContextResourceUsage']] = UNSET
+    contexts: Union[Unset, list["ContextResourceUsage"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.context_resource_usage import ContextResourceUsage
         container_memory_usage = self.container_memory_usage
 
         container_memory_limit = self.container_memory_limit
@@ -92,13 +84,9 @@ class SandboxResourceUsage:
                 contexts_item = contexts_item_data.to_dict()
                 contexts.append(contexts_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if container_memory_usage is not UNSET:
             field_dict["container_memory_usage"] = container_memory_usage
         if container_memory_limit is not UNSET:
@@ -128,11 +116,10 @@ class SandboxResourceUsage:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.context_resource_usage import ContextResourceUsage
+
         d = dict(src_dict)
         container_memory_usage = d.pop("container_memory_usage", UNSET)
 
@@ -160,13 +147,10 @@ class SandboxResourceUsage:
 
         contexts = []
         _contexts = d.pop("contexts", UNSET)
-        for contexts_item_data in (_contexts or []):
+        for contexts_item_data in _contexts or []:
             contexts_item = ContextResourceUsage.from_dict(contexts_item_data)
 
-
-
             contexts.append(contexts_item)
-
 
         sandbox_resource_usage = cls(
             container_memory_usage=container_memory_usage,
@@ -183,7 +167,6 @@ class SandboxResourceUsage:
             paused_context_count=paused_context_count,
             contexts=contexts,
         )
-
 
         sandbox_resource_usage.additional_properties = d
         return sandbox_resource_usage

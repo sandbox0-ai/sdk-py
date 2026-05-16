@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ContextWebSocketSignalType(str, Enum):
     SIGNAL = "signal"
 

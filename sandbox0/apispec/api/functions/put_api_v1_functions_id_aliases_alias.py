@@ -1,16 +1,13 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.function_alias_update_request import FunctionAliasUpdateRequest
 from ...models.success_function_alias_response import SuccessFunctionAliasResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
@@ -18,22 +15,18 @@ def _get_kwargs(
     alias: str,
     *,
     body: FunctionAliasUpdateRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
-
-    
-
-    
-
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/v1/functions/{id}/aliases/{alias}".format(id=id,alias=alias,),
+        "url": "/api/v1/functions/{id}/aliases/{alias}".format(
+            id=id,
+            alias=alias,
+        ),
     }
 
     _kwargs["json"] = body.to_dict()
-
 
     headers["Content-Type"] = "application/json"
 
@@ -41,12 +34,11 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessFunctionAliasResponse]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[SuccessFunctionAliasResponse]:
     if response.status_code == 200:
         response_200 = SuccessFunctionAliasResponse.from_dict(response.json())
-
-
 
         return response_200
 
@@ -56,7 +48,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessFunctionAliasResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[SuccessFunctionAliasResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,9 +65,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: FunctionAliasUpdateRequest,
-
 ) -> Response[SuccessFunctionAliasResponse]:
-    """ Point a function alias at a revision
+    """Point a function alias at a revision
 
     Args:
         id (str):
@@ -86,14 +79,12 @@ def sync_detailed(
 
     Returns:
         Response[SuccessFunctionAliasResponse]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-alias=alias,
-body=body,
-
+        alias=alias,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -102,15 +93,15 @@ body=body,
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     id: str,
     alias: str,
     *,
     client: AuthenticatedClient,
     body: FunctionAliasUpdateRequest,
-
 ) -> Optional[SuccessFunctionAliasResponse]:
-    """ Point a function alias at a revision
+    """Point a function alias at a revision
 
     Args:
         id (str):
@@ -123,16 +114,15 @@ def sync(
 
     Returns:
         SuccessFunctionAliasResponse
-     """
-
+    """
 
     return sync_detailed(
         id=id,
-alias=alias,
-client=client,
-body=body,
-
+        alias=alias,
+        client=client,
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     id: str,
@@ -140,9 +130,8 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: FunctionAliasUpdateRequest,
-
 ) -> Response[SuccessFunctionAliasResponse]:
-    """ Point a function alias at a revision
+    """Point a function alias at a revision
 
     Args:
         id (str):
@@ -155,21 +144,18 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessFunctionAliasResponse]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-alias=alias,
-body=body,
-
+        alias=alias,
+        body=body,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     id: str,
@@ -177,9 +163,8 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: FunctionAliasUpdateRequest,
-
 ) -> Optional[SuccessFunctionAliasResponse]:
-    """ Point a function alias at a revision
+    """Point a function alias at a revision
 
     Args:
         id (str):
@@ -192,13 +177,13 @@ async def asyncio(
 
     Returns:
         SuccessFunctionAliasResponse
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        id=id,
-alias=alias,
-client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            id=id,
+            alias=alias,
+            client=client,
+            body=body,
+        )
+    ).parsed

@@ -1,57 +1,44 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="SuccessHealthResponseData")
-
 
 
 @_attrs_define
 class SuccessHealthResponseData:
-    """ 
-        Attributes:
-            status (Union[Unset, str]):
-            timestamp (Union[Unset, int]):
-     """
+    """
+    Attributes:
+        status (Union[Unset, str]):
+        timestamp (Union[Unset, int]):
+    """
 
     status: Union[Unset, str] = UNSET
     timestamp: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         status = self.status
 
         timestamp = self.timestamp
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if status is not UNSET:
             field_dict["status"] = status
         if timestamp is not UNSET:
             field_dict["timestamp"] = timestamp
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -64,7 +51,6 @@ class SuccessHealthResponseData:
             status=status,
             timestamp=timestamp,
         )
-
 
         success_health_response_data.additional_properties = d
         return success_health_response_data

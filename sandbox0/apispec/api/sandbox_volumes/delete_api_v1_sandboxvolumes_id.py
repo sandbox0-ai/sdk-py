@@ -1,61 +1,47 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_deleted_response import SuccessDeletedResponse
-from ...types import UNSET, Unset
-from typing import cast
-from typing import Union
-
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
     *,
     force: Union[Unset, bool] = False,
-
 ) -> dict[str, Any]:
-    
-
-    
-
     params: dict[str, Any] = {}
 
     params["force"] = force
 
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
 
     _kwargs: dict[str, Any] = {
         "method": "delete",
-        "url": "/api/v1/sandboxvolumes/{id}".format(id=id,),
+        "url": "/api/v1/sandboxvolumes/{id}".format(
+            id=id,
+        ),
         "params": params,
     }
-
 
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     if response.status_code == 200:
         response_200 = SuccessDeletedResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 409:
         response_409 = ErrorEnvelope.from_dict(response.json())
-
-
 
         return response_409
 
@@ -65,7 +51,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,9 +67,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     force: Union[Unset, bool] = False,
-
 ) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete sandbox volume
+    """Delete sandbox volume
 
     Args:
         id (str):
@@ -93,13 +80,11 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-force=force,
-
+        force=force,
     )
 
     response = client.get_httpx_client().request(
@@ -108,14 +93,14 @@ force=force,
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     force: Union[Unset, bool] = False,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete sandbox volume
+    """Delete sandbox volume
 
     Args:
         id (str):
@@ -127,24 +112,22 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessDeletedResponse]
-     """
-
+    """
 
     return sync_detailed(
         id=id,
-client=client,
-force=force,
-
+        client=client,
+        force=force,
     ).parsed
+
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     force: Union[Unset, bool] = False,
-
 ) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete sandbox volume
+    """Delete sandbox volume
 
     Args:
         id (str):
@@ -156,29 +139,25 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-force=force,
-
+        force=force,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     force: Union[Unset, bool] = False,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete sandbox volume
+    """Delete sandbox volume
 
     Args:
         id (str):
@@ -190,12 +169,12 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessDeletedResponse]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        id=id,
-client=client,
-force=force,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            id=id,
+            client=client,
+            force=force,
+        )
+    ).parsed

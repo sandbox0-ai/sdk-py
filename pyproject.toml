@@ -39,7 +39,7 @@ Repository = "https://github.com/sandbox0-ai/sdk-py"
 dev = [
   "build>=1.2.0",
   "twine>=5.0.0",
-  "openapi-python-client>=0.26.2",
+  "openapi-python-client==0.26.2",
   "mypy>=1.8.0",
 ]
 

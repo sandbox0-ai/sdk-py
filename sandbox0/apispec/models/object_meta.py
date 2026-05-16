@@ -1,50 +1,41 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.object_meta_labels import ObjectMetaLabels
-  from ..models.object_meta_annotations import ObjectMetaAnnotations
-
-
-
+    from ..models.object_meta_annotations import ObjectMetaAnnotations
+    from ..models.object_meta_labels import ObjectMetaLabels
 
 
 T = TypeVar("T", bound="ObjectMeta")
 
 
-
 @_attrs_define
 class ObjectMeta:
-    """ 
-        Attributes:
-            name (Union[Unset, str]):
-            namespace (Union[Unset, str]):
-            labels (Union[Unset, ObjectMetaLabels]):
-            annotations (Union[Unset, ObjectMetaAnnotations]):
-     """
+    """
+    Attributes:
+        name (Union[Unset, str]):
+        namespace (Union[Unset, str]):
+        labels (Union[Unset, ObjectMetaLabels]):
+        annotations (Union[Unset, ObjectMetaAnnotations]):
+    """
 
     name: Union[Unset, str] = UNSET
     namespace: Union[Unset, str] = UNSET
-    labels: Union[Unset, 'ObjectMetaLabels'] = UNSET
-    annotations: Union[Unset, 'ObjectMetaAnnotations'] = UNSET
+    labels: Union[Unset, "ObjectMetaLabels"] = UNSET
+    annotations: Union[Unset, "ObjectMetaAnnotations"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.object_meta_labels import ObjectMetaLabels
-        from ..models.object_meta_annotations import ObjectMetaAnnotations
         name = self.name
 
         namespace = self.namespace
@@ -57,11 +48,9 @@ class ObjectMeta:
         if not isinstance(self.annotations, Unset):
             annotations = self.annotations.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if name is not UNSET:
             field_dict["name"] = name
         if namespace is not UNSET:
@@ -73,12 +62,11 @@ class ObjectMeta:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.object_meta_labels import ObjectMetaLabels
         from ..models.object_meta_annotations import ObjectMetaAnnotations
+        from ..models.object_meta_labels import ObjectMetaLabels
+
         d = dict(src_dict)
         name = d.pop("name", UNSET)
 
@@ -86,23 +74,17 @@ class ObjectMeta:
 
         _labels = d.pop("labels", UNSET)
         labels: Union[Unset, ObjectMetaLabels]
-        if isinstance(_labels,  Unset):
+        if isinstance(_labels, Unset):
             labels = UNSET
         else:
             labels = ObjectMetaLabels.from_dict(_labels)
 
-
-
-
         _annotations = d.pop("annotations", UNSET)
         annotations: Union[Unset, ObjectMetaAnnotations]
-        if isinstance(_annotations,  Unset):
+        if isinstance(_annotations, Unset):
             annotations = UNSET
         else:
             annotations = ObjectMetaAnnotations.from_dict(_annotations)
-
-
-
 
         object_meta = cls(
             name=name,
@@ -110,7 +92,6 @@ class ObjectMeta:
             labels=labels,
             annotations=annotations,
         )
-
 
         object_meta.additional_properties = d
         return object_meta

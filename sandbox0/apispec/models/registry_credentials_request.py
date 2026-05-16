@@ -1,51 +1,38 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="RegistryCredentialsRequest")
-
 
 
 @_attrs_define
 class RegistryCredentialsRequest:
-    """ 
-        Attributes:
-            target_image (Union[Unset, str]): Target image name and tag requested for push, without credentials.
-     """
+    """
+    Attributes:
+        target_image (Union[Unset, str]): Target image name and tag requested for push, without credentials.
+    """
 
     target_image: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
         target_image = self.target_image
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if target_image is not UNSET:
             field_dict["targetImage"] = target_image
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -55,7 +42,6 @@ class RegistryCredentialsRequest:
         registry_credentials_request = cls(
             target_image=target_image,
         )
-
 
         registry_credentials_request.additional_properties = d
         return registry_credentials_request

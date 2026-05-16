@@ -1,39 +1,34 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
-
-from ..types import UNSET, Unset
 from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
 
-
-
-
-
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="CreateAPIKeyResponse")
 
 
-
 @_attrs_define
 class CreateAPIKeyResponse:
-    """ 
-        Attributes:
-            id (str):
-            name (str):
-            scope (str):
-            roles (list[str]):
-            team_id (str):
-            expires_at (datetime.datetime):
-            created_at (datetime.datetime):
-            key (Union[Unset, str]):
-     """
+    """
+    Attributes:
+        id (str):
+        name (str):
+        scope (str):
+        roles (list[str]):
+        team_id (str):
+        expires_at (datetime.datetime):
+        created_at (datetime.datetime):
+        key (Union[Unset, str]):
+    """
 
     id: str
     name: str
@@ -45,10 +40,6 @@ class CreateAPIKeyResponse:
     key: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
@@ -58,8 +49,6 @@ class CreateAPIKeyResponse:
 
         roles = self.roles
 
-
-
         team_id = self.team_id
 
         expires_at = self.expires_at.isoformat()
@@ -68,24 +57,23 @@ class CreateAPIKeyResponse:
 
         key = self.key
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "name": name,
-            "scope": scope,
-            "roles": roles,
-            "team_id": team_id,
-            "expires_at": expires_at,
-            "created_at": created_at,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "scope": scope,
+                "roles": roles,
+                "team_id": team_id,
+                "expires_at": expires_at,
+                "created_at": created_at,
+            }
+        )
         if key is not UNSET:
             field_dict["key"] = key
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -98,18 +86,11 @@ class CreateAPIKeyResponse:
 
         roles = cast(list[str], d.pop("roles"))
 
-
         team_id = d.pop("team_id")
 
         expires_at = isoparse(d.pop("expires_at"))
 
-
-
-
         created_at = isoparse(d.pop("created_at"))
-
-
-
 
         key = d.pop("key", UNSET)
 
@@ -123,7 +104,6 @@ class CreateAPIKeyResponse:
             created_at=created_at,
             key=key,
         )
-
 
         create_api_key_response.additional_properties = d
         return create_api_key_response

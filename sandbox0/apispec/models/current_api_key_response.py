@@ -1,37 +1,31 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
-
 from dateutil.parser import isoparse
-from typing import cast
-import datetime
-
-
-
-
-
 
 T = TypeVar("T", bound="CurrentAPIKeyResponse")
 
 
-
 @_attrs_define
 class CurrentAPIKeyResponse:
-    """ 
-        Attributes:
-            id (str):
-            team_id (str):
-            created_by (str):
-            scope (str):
-            roles (list[str]):
-            permissions (list[str]):
-            is_active (bool):
-            expires_at (datetime.datetime):
-     """
+    """
+    Attributes:
+        id (str):
+        team_id (str):
+        created_by (str):
+        scope (str):
+        roles (list[str]):
+        permissions (list[str]):
+        is_active (bool):
+        expires_at (datetime.datetime):
+    """
 
     id: str
     team_id: str
@@ -42,10 +36,6 @@ class CurrentAPIKeyResponse:
     is_active: bool
     expires_at: datetime.datetime
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -58,33 +48,28 @@ class CurrentAPIKeyResponse:
 
         roles = self.roles
 
-
-
         permissions = self.permissions
-
-
 
         is_active = self.is_active
 
         expires_at = self.expires_at.isoformat()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "team_id": team_id,
-            "created_by": created_by,
-            "scope": scope,
-            "roles": roles,
-            "permissions": permissions,
-            "is_active": is_active,
-            "expires_at": expires_at,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "team_id": team_id,
+                "created_by": created_by,
+                "scope": scope,
+                "roles": roles,
+                "permissions": permissions,
+                "is_active": is_active,
+                "expires_at": expires_at,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -99,16 +84,11 @@ class CurrentAPIKeyResponse:
 
         roles = cast(list[str], d.pop("roles"))
 
-
         permissions = cast(list[str], d.pop("permissions"))
-
 
         is_active = d.pop("is_active")
 
         expires_at = isoparse(d.pop("expires_at"))
-
-
-
 
         current_api_key_response = cls(
             id=id,
@@ -120,7 +100,6 @@ class CurrentAPIKeyResponse:
             is_active=is_active,
             expires_at=expires_at,
         )
-
 
         current_api_key_response.additional_properties = d
         return current_api_key_response

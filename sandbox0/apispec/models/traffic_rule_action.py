@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class TrafficRuleAction(str, Enum):
     ALLOW = "allow"
     DENY = "deny"

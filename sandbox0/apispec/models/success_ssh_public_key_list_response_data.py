@@ -1,42 +1,34 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.ssh_public_key import SSHPublicKey
-
-
-
+    from ..models.ssh_public_key import SSHPublicKey
 
 
 T = TypeVar("T", bound="SuccessSSHPublicKeyListResponseData")
 
 
-
 @_attrs_define
 class SuccessSSHPublicKeyListResponseData:
-    """ 
-        Attributes:
-            ssh_keys (Union[Unset, list['SSHPublicKey']]):
-     """
+    """
+    Attributes:
+        ssh_keys (Union[Unset, list['SSHPublicKey']]):
+    """
 
-    ssh_keys: Union[Unset, list['SSHPublicKey']] = UNSET
+    ssh_keys: Union[Unset, list["SSHPublicKey"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.ssh_public_key import SSHPublicKey
         ssh_keys: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.ssh_keys, Unset):
             ssh_keys = []
@@ -44,38 +36,29 @@ class SuccessSSHPublicKeyListResponseData:
                 ssh_keys_item = ssh_keys_item_data.to_dict()
                 ssh_keys.append(ssh_keys_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if ssh_keys is not UNSET:
             field_dict["ssh_keys"] = ssh_keys
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.ssh_public_key import SSHPublicKey
+
         d = dict(src_dict)
         ssh_keys = []
         _ssh_keys = d.pop("ssh_keys", UNSET)
-        for ssh_keys_item_data in (_ssh_keys or []):
+        for ssh_keys_item_data in _ssh_keys or []:
             ssh_keys_item = SSHPublicKey.from_dict(ssh_keys_item_data)
 
-
-
             ssh_keys.append(ssh_keys_item)
-
 
         success_ssh_public_key_list_response_data = cls(
             ssh_keys=ssh_keys,
         )
-
 
         success_ssh_public_key_list_response_data.additional_properties = d
         return success_ssh_public_key_list_response_data

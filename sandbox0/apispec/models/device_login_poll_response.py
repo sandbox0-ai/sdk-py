@@ -1,49 +1,41 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.device_login_poll_response_status import DeviceLoginPollResponseStatus
 from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.login_response import LoginResponse
-
-
-
+    from ..models.login_response import LoginResponse
 
 
 T = TypeVar("T", bound="DeviceLoginPollResponse")
 
 
-
 @_attrs_define
 class DeviceLoginPollResponse:
-    """ 
-        Attributes:
-            status (DeviceLoginPollResponseStatus):
-            interval_seconds (Union[Unset, int]):
-            expires_at (Union[Unset, int]):
-            login (Union[Unset, LoginResponse]):
-     """
+    """
+    Attributes:
+        status (DeviceLoginPollResponseStatus):
+        interval_seconds (Union[Unset, int]):
+        expires_at (Union[Unset, int]):
+        login (Union[Unset, LoginResponse]):
+    """
 
     status: DeviceLoginPollResponseStatus
     interval_seconds: Union[Unset, int] = UNSET
     expires_at: Union[Unset, int] = UNSET
-    login: Union[Unset, 'LoginResponse'] = UNSET
+    login: Union[Unset, "LoginResponse"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.login_response import LoginResponse
         status = self.status.value
 
         interval_seconds = self.interval_seconds
@@ -54,12 +46,13 @@ class DeviceLoginPollResponse:
         if not isinstance(self.login, Unset):
             login = self.login.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "status": status,
-        })
+        field_dict.update(
+            {
+                "status": status,
+            }
+        )
         if interval_seconds is not UNSET:
             field_dict["interval_seconds"] = interval_seconds
         if expires_at is not UNSET:
@@ -69,16 +62,12 @@ class DeviceLoginPollResponse:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.login_response import LoginResponse
+
         d = dict(src_dict)
         status = DeviceLoginPollResponseStatus(d.pop("status"))
-
-
-
 
         interval_seconds = d.pop("interval_seconds", UNSET)
 
@@ -86,13 +75,10 @@ class DeviceLoginPollResponse:
 
         _login = d.pop("login", UNSET)
         login: Union[Unset, LoginResponse]
-        if isinstance(_login,  Unset):
+        if isinstance(_login, Unset):
             login = UNSET
         else:
             login = LoginResponse.from_dict(_login)
-
-
-
 
         device_login_poll_response = cls(
             status=status,
@@ -100,7 +86,6 @@ class DeviceLoginPollResponse:
             expires_at=expires_at,
             login=login,
         )
-
 
         device_login_poll_response.additional_properties = d
         return device_login_poll_response

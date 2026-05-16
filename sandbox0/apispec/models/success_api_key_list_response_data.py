@@ -1,42 +1,34 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.api_key import APIKey
-
-
-
+    from ..models.api_key import APIKey
 
 
 T = TypeVar("T", bound="SuccessAPIKeyListResponseData")
 
 
-
 @_attrs_define
 class SuccessAPIKeyListResponseData:
-    """ 
-        Attributes:
-            api_keys (Union[Unset, list['APIKey']]):
-     """
+    """
+    Attributes:
+        api_keys (Union[Unset, list['APIKey']]):
+    """
 
-    api_keys: Union[Unset, list['APIKey']] = UNSET
+    api_keys: Union[Unset, list["APIKey"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.api_key import APIKey
         api_keys: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.api_keys, Unset):
             api_keys = []
@@ -44,38 +36,29 @@ class SuccessAPIKeyListResponseData:
                 api_keys_item = api_keys_item_data.to_dict()
                 api_keys.append(api_keys_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if api_keys is not UNSET:
             field_dict["api_keys"] = api_keys
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.api_key import APIKey
+
         d = dict(src_dict)
         api_keys = []
         _api_keys = d.pop("api_keys", UNSET)
-        for api_keys_item_data in (_api_keys or []):
+        for api_keys_item_data in _api_keys or []:
             api_keys_item = APIKey.from_dict(api_keys_item_data)
 
-
-
             api_keys.append(api_keys_item)
-
 
         success_api_key_list_response_data = cls(
             api_keys=api_keys,
         )
-
 
         success_api_key_list_response_data.additional_properties = d
         return success_api_key_list_response_data

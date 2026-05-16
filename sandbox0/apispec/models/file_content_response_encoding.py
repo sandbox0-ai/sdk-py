@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class FileContentResponseEncoding(str, Enum):
     BASE64 = "base64"
 
