@@ -14,6 +14,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.egress_credential_rule import EgressCredentialRule
+    from ..models.egress_proxy_policy import EgressProxyPolicy
     from ..models.port_spec import PortSpec
     from ..models.traffic_rule import TrafficRule
 
@@ -49,6 +50,7 @@ class NetworkEgressPolicy:
                 by the manager runtime egress auth path.
                 These rules are orthogonal to allow/deny matching and are intended for
                 destination-scoped outbound auth behavior.
+            proxy (Union[Unset, EgressProxyPolicy]): Customer-managed transparent egress proxy for allowed TCP traffic.
     """
 
     allowed_cidrs: Union[Unset, list[str]] = UNSET
@@ -59,6 +61,7 @@ class NetworkEgressPolicy:
     denied_ports: Union[Unset, list["PortSpec"]] = UNSET
     traffic_rules: Union[Unset, list["TrafficRule"]] = UNSET
     credential_rules: Union[Unset, list["EgressCredentialRule"]] = UNSET
+    proxy: Union[Unset, "EgressProxyPolicy"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -106,6 +109,10 @@ class NetworkEgressPolicy:
                 credential_rules_item = credential_rules_item_data.to_dict()
                 credential_rules.append(credential_rules_item)
 
+        proxy: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.proxy, Unset):
+            proxy = self.proxy.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -125,12 +132,15 @@ class NetworkEgressPolicy:
             field_dict["trafficRules"] = traffic_rules
         if credential_rules is not UNSET:
             field_dict["credentialRules"] = credential_rules
+        if proxy is not UNSET:
+            field_dict["proxy"] = proxy
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.egress_credential_rule import EgressCredentialRule
+        from ..models.egress_proxy_policy import EgressProxyPolicy
         from ..models.port_spec import PortSpec
         from ..models.traffic_rule import TrafficRule
 
@@ -173,6 +183,13 @@ class NetworkEgressPolicy:
 
             credential_rules.append(credential_rules_item)
 
+        _proxy = d.pop("proxy", UNSET)
+        proxy: Union[Unset, EgressProxyPolicy]
+        if isinstance(_proxy, Unset):
+            proxy = UNSET
+        else:
+            proxy = EgressProxyPolicy.from_dict(_proxy)
+
         network_egress_policy = cls(
             allowed_cidrs=allowed_cidrs,
             allowed_domains=allowed_domains,
@@ -182,6 +199,7 @@ class NetworkEgressPolicy:
             denied_ports=denied_ports,
             traffic_rules=traffic_rules,
             credential_rules=credential_rules,
+            proxy=proxy,
         )
 
         network_egress_policy.additional_properties = d
