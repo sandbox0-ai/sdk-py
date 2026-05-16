@@ -55,6 +55,8 @@ from .egress_auth_failure_policy import EgressAuthFailurePolicy
 from .egress_auth_protocol import EgressAuthProtocol
 from .egress_auth_rollout_mode import EgressAuthRolloutMode
 from .egress_credential_rule import EgressCredentialRule
+from .egress_proxy_policy import EgressProxyPolicy
+from .egress_proxy_type import EgressProxyType
 from .egress_tls_mode import EgressTLSMode
 from .env_var import EnvVar
 from .error import Error
@@ -384,6 +386,8 @@ __all__ = (
     "EgressAuthProtocol",
     "EgressAuthRolloutMode",
     "EgressCredentialRule",
+    "EgressProxyPolicy",
+    "EgressProxyType",
     "EgressTLSMode",
     "EnvVar",
     "Error",
