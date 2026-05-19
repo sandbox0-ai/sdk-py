@@ -1,41 +1,54 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.add_team_member_request_role import AddTeamMemberRequestRole
+
+
+
+
+
 
 T = TypeVar("T", bound="AddTeamMemberRequest")
 
 
+
 @_attrs_define
 class AddTeamMemberRequest:
-    """
-    Attributes:
-        email (str):
-        role (AddTeamMemberRequestRole):
-    """
+    """ 
+        Attributes:
+            email (str):
+            role (AddTeamMemberRequestRole):
+     """
 
     email: str
     role: AddTeamMemberRequestRole
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         email = self.email
 
         role = self.role.value
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "email": email,
-                "role": role,
-            }
-        )
+        field_dict.update({
+            "email": email,
+            "role": role,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -44,10 +57,14 @@ class AddTeamMemberRequest:
 
         role = AddTeamMemberRequestRole(d.pop("role"))
 
+
+
+
         add_team_member_request = cls(
             email=email,
             role=role,
         )
+
 
         add_team_member_request.additional_properties = d
         return add_team_member_request

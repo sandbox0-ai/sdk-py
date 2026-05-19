@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, TYPE_CHECKING
+from typing import Any, List, TYPE_CHECKING
 
 from sandbox0.apispec.api.functions import delete_api_v1_functions_id
 from sandbox0.apispec.api.functions import get_api_v1_functions
@@ -19,6 +19,7 @@ from sandbox0.apispec.api.functions import put_api_v1_functions_id
 from sandbox0.apispec.api.functions import put_api_v1_functions_id_aliases_alias
 from sandbox0.apispec.models.function_alias import FunctionAlias
 from sandbox0.apispec.models.function_alias_update_request import FunctionAliasUpdateRequest
+from sandbox0.apispec.models.function_autoscaling import FunctionAutoscaling
 from sandbox0.apispec.models.function_create_request import FunctionCreateRequest
 from sandbox0.apispec.models.function_record import FunctionRecord
 from sandbox0.apispec.models.function_runtime_status import FunctionRuntimeStatus
@@ -80,14 +81,15 @@ class ClientFunctionsMixin:
     def delete_function(self: "Client", function_id: str) -> FunctionRecord:  # type: ignore[misc]
         return _delete_function(self._api, function_id)
 
-    def create_function_from_sandbox(
+    def create_function_from_sandbox(  # type: ignore[misc]
         self: "Client",
         sandbox_id: str,
         service_id: str,
         *,
         name: str | None = None,
-    ) -> FunctionCreateResult:  # type: ignore[misc]
-        return _create_function_from_sandbox(self._api, sandbox_id, service_id, name=name)
+        autoscaling: FunctionAutoscaling | None = None,
+    ) -> FunctionCreateResult:
+        return _create_function_from_sandbox(self._api, sandbox_id, service_id, name=name, autoscaling=autoscaling)
 
     def list_function_revisions(self: "Client", function_id: str) -> list[FunctionRevision]:  # type: ignore[misc]
         return _list_function_revisions(self._api, function_id)
@@ -95,21 +97,21 @@ class ClientFunctionsMixin:
     def get_function_revision(self: "Client", function_id: str, revision_number: int) -> FunctionRevision:  # type: ignore[misc]
         return _get_function_revision(self._api, function_id, revision_number)
 
-    def create_function_revision(
+    def create_function_revision(  # type: ignore[misc]
         self: "Client",
         function_id: str,
         request: FunctionRevisionCreateRequest,
-    ) -> FunctionRevisionCreateResult:  # type: ignore[misc]
+    ) -> FunctionRevisionCreateResult:
         return _create_function_revision(self._api, function_id, request)
 
-    def create_function_revision_from_sandbox(
+    def create_function_revision_from_sandbox(  # type: ignore[misc]
         self: "Client",
         function_id: str,
         sandbox_id: str,
         service_id: str,
         *,
         promote: bool | None = None,
-    ) -> FunctionRevisionCreateResult:  # type: ignore[misc]
+    ) -> FunctionRevisionCreateResult:
         return _create_function_revision_from_sandbox(
             self._api,
             function_id,
@@ -162,10 +164,11 @@ class Functions:
         service_id: str,
         *,
         name: str | None = None,
+        autoscaling: FunctionAutoscaling | None = None,
     ) -> FunctionCreateResult:
-        return _create_function_from_sandbox(self._client.api, sandbox_id, service_id, name=name)
+        return _create_function_from_sandbox(self._client.api, sandbox_id, service_id, name=name, autoscaling=autoscaling)
 
-    def list_revisions(self, function_id: str) -> list[FunctionRevision]:
+    def list_revisions(self, function_id: str) -> List[FunctionRevision]:
         return _list_function_revisions(self._client.api, function_id)
 
     def get_revision(self, function_id: str, revision_number: int) -> FunctionRevision:
@@ -193,7 +196,7 @@ class Functions:
     def set_alias(self, function_id: str, alias: str, revision_number: int) -> FunctionAlias:
         return _set_function_alias(self._client.api, function_id, alias, revision_number)
 
-    def list_aliases(self, function_id: str) -> list[FunctionAlias]:
+    def list_aliases(self, function_id: str) -> List[FunctionAlias]:
         return _list_function_aliases(self._client.api, function_id)
 
     def get_alias(self, function_id: str, alias: str) -> FunctionAlias:
@@ -245,10 +248,13 @@ def _create_function_from_sandbox(
     service_id: str,
     *,
     name: str | None = None,
+    autoscaling: FunctionAutoscaling | None = None,
 ) -> FunctionCreateResult:
     request = FunctionCreateRequest(source=function_source(sandbox_id, service_id))
     if name is not None:
         request.name = name
+    if autoscaling is not None:
+        request.autoscaling = autoscaling
     return _create_function(api, request)
 
 

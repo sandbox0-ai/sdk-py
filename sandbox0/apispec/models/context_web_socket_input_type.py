@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class ContextWebSocketInputType(str, Enum):
     INPUT = "input"
 

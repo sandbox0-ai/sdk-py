@@ -1,33 +1,38 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="SandboxStatus")
+
 
 
 @_attrs_define
 class SandboxStatus:
-    """
-    Attributes:
-        sandbox_id (Union[Unset, str]):
-        template_id (Union[Unset, str]):
-        team_id (Union[Unset, str]):
-        user_id (Union[Unset, str]):
-        pod_name (Union[Unset, str]):
-        status (Union[Unset, str]):
-        claimed_at (Union[Unset, str]):
-        expires_at (Union[Unset, str]):
-        hard_expires_at (Union[Unset, str]):
-        created_at (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            sandbox_id (Union[Unset, str]):
+            template_id (Union[Unset, str]):
+            team_id (Union[Unset, str]):
+            user_id (Union[Unset, str]):
+            pod_name (Union[Unset, str]):
+            status (Union[Unset, str]):
+            claimed_at (Union[Unset, str]):
+            expires_at (Union[Unset, str]):
+            hard_expires_at (Union[Unset, str]):
+            created_at (Union[Unset, str]):
+     """
 
     sandbox_id: Union[Unset, str] = UNSET
     template_id: Union[Unset, str] = UNSET
@@ -40,6 +45,10 @@ class SandboxStatus:
     hard_expires_at: Union[Unset, str] = UNSET
     created_at: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         sandbox_id = self.sandbox_id
@@ -62,9 +71,11 @@ class SandboxStatus:
 
         created_at = self.created_at
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if sandbox_id is not UNSET:
             field_dict["sandbox_id"] = sandbox_id
         if template_id is not UNSET:
@@ -87,6 +98,8 @@ class SandboxStatus:
             field_dict["created_at"] = created_at
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -123,6 +136,7 @@ class SandboxStatus:
             hard_expires_at=hard_expires_at,
             created_at=created_at,
         )
+
 
         sandbox_status.additional_properties = d
         return sandbox_status

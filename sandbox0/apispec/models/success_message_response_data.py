@@ -1,38 +1,51 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="SuccessMessageResponseData")
+
 
 
 @_attrs_define
 class SuccessMessageResponseData:
-    """
-    Attributes:
-        message (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            message (Union[Unset, str]):
+     """
 
     message: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
         message = self.message
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if message is not UNSET:
             field_dict["message"] = message
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -42,6 +55,7 @@ class SuccessMessageResponseData:
         success_message_response_data = cls(
             message=message,
         )
+
 
         success_message_response_data.additional_properties = d
         return success_message_response_data

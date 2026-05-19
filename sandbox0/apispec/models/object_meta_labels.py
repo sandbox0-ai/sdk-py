@@ -1,28 +1,47 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
+
+
+
+
+
+
 T = TypeVar("T", bound="ObjectMetaLabels")
+
 
 
 @_attrs_define
 class ObjectMetaLabels:
-    """ """
+    """ 
+     """
 
     additional_properties: dict[str, str] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        object_meta_labels = cls()
+        object_meta_labels = cls(
+        )
+
 
         object_meta_labels.additional_properties = d
         return object_meta_labels

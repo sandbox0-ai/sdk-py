@@ -1,46 +1,62 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.context_web_socket_signal_type import ContextWebSocketSignalType
+
+
+
+
+
 
 T = TypeVar("T", bound="ContextWebSocketSignal")
 
 
+
 @_attrs_define
 class ContextWebSocketSignal:
-    """
-    Attributes:
-        type_ (ContextWebSocketSignalType):
-        signal (str):
-    """
+    """ 
+        Attributes:
+            type_ (ContextWebSocketSignalType):
+            signal (str):
+     """
 
     type_: ContextWebSocketSignalType
     signal: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
 
         signal = self.signal
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "type": type_,
-                "signal": signal,
-            }
-        )
+        field_dict.update({
+            "type": type_,
+            "signal": signal,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = ContextWebSocketSignalType(d.pop("type"))
+
+
+
 
         signal = d.pop("signal")
 
@@ -48,6 +64,7 @@ class ContextWebSocketSignal:
             type_=type_,
             signal=signal,
         )
+
 
         context_web_socket_signal.additional_properties = d
         return context_web_socket_signal

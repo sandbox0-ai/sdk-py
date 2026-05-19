@@ -1,39 +1,53 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
+
+
+
+
+
+
 T = TypeVar("T", bound="WebLoginExchangeRequest")
+
 
 
 @_attrs_define
 class WebLoginExchangeRequest:
-    """
-    Attributes:
-        login_code (str): Short-lived one-time code returned to the web login callback.
-        return_url (str): Exact return URL used when the login code was created.
-    """
+    """ 
+        Attributes:
+            login_code (str): Short-lived one-time code returned to the web login callback.
+            return_url (str): Exact return URL used when the login code was created.
+     """
 
     login_code: str
     return_url: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         login_code = self.login_code
 
         return_url = self.return_url
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "login_code": login_code,
-                "return_url": return_url,
-            }
-        )
+        field_dict.update({
+            "login_code": login_code,
+            "return_url": return_url,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -46,6 +60,7 @@ class WebLoginExchangeRequest:
             login_code=login_code,
             return_url=return_url,
         )
+
 
         web_login_exchange_request.additional_properties = d
         return web_login_exchange_request

@@ -1,46 +1,62 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
+
+
+
+
+
 
 T = TypeVar("T", bound="GatewayMetadata")
 
 
+
 @_attrs_define
 class GatewayMetadata:
-    """
-    Attributes:
-        gateway_mode (GatewayMetadataGatewayMode):
-        service (str):
-    """
+    """ 
+        Attributes:
+            gateway_mode (GatewayMetadataGatewayMode):
+            service (str):
+     """
 
     gateway_mode: GatewayMetadataGatewayMode
     service: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         gateway_mode = self.gateway_mode.value
 
         service = self.service
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "gateway_mode": gateway_mode,
-                "service": service,
-            }
-        )
+        field_dict.update({
+            "gateway_mode": gateway_mode,
+            "service": service,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         gateway_mode = GatewayMetadataGatewayMode(d.pop("gateway_mode"))
+
+
+
 
         service = d.pop("service")
 
@@ -48,6 +64,7 @@ class GatewayMetadata:
             gateway_mode=gateway_mode,
             service=service,
         )
+
 
         gateway_metadata.additional_properties = d
         return gateway_metadata

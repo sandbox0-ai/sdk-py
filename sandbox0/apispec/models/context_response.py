@@ -1,39 +1,42 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.process_type import ProcessType
 from ..types import UNSET, Unset
 
+from ..models.process_type import ProcessType
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.context_response_env_vars import ContextResponseEnvVars
+  from ..models.context_response_env_vars import ContextResponseEnvVars
+
+
+
 
 
 T = TypeVar("T", bound="ContextResponse")
 
 
+
 @_attrs_define
 class ContextResponse:
-    """
-    Attributes:
-        id (str):
-        type_ (ProcessType):
-        running (bool):
-        paused (bool):
-        created_at (str):
-        alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
-        cwd (Union[Unset, str]):
-        env_vars (Union[Unset, ContextResponseEnvVars]):
-        output_raw (Union[Unset, str]): Raw PTY output for CMD contexts with wait=true, may contain terminal control
-            characters
-    """
+    """ 
+        Attributes:
+            id (str):
+            type_ (ProcessType):
+            running (bool):
+            paused (bool):
+            created_at (str):
+            alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
+            cwd (Union[Unset, str]):
+            env_vars (Union[Unset, ContextResponseEnvVars]):
+            output_raw (Union[Unset, str]): Raw PTY output for CMD contexts with wait=true, may contain terminal control
+                characters
+     """
 
     id: str
     type_: ProcessType
@@ -42,11 +45,16 @@ class ContextResponse:
     created_at: str
     alias: Union[Unset, str] = UNSET
     cwd: Union[Unset, str] = UNSET
-    env_vars: Union[Unset, "ContextResponseEnvVars"] = UNSET
+    env_vars: Union[Unset, 'ContextResponseEnvVars'] = UNSET
     output_raw: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.context_response_env_vars import ContextResponseEnvVars
         id = self.id
 
         type_ = self.type_.value
@@ -67,17 +75,16 @@ class ContextResponse:
 
         output_raw = self.output_raw
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "type": type_,
-                "running": running,
-                "paused": paused,
-                "created_at": created_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "type": type_,
+            "running": running,
+            "paused": paused,
+            "created_at": created_at,
+        })
         if alias is not UNSET:
             field_dict["alias"] = alias
         if cwd is not UNSET:
@@ -89,14 +96,18 @@ class ContextResponse:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.context_response_env_vars import ContextResponseEnvVars
-
         d = dict(src_dict)
         id = d.pop("id")
 
         type_ = ProcessType(d.pop("type"))
+
+
+
 
         running = d.pop("running")
 
@@ -110,10 +121,13 @@ class ContextResponse:
 
         _env_vars = d.pop("env_vars", UNSET)
         env_vars: Union[Unset, ContextResponseEnvVars]
-        if isinstance(_env_vars, Unset):
+        if isinstance(_env_vars,  Unset):
             env_vars = UNSET
         else:
             env_vars = ContextResponseEnvVars.from_dict(_env_vars)
+
+
+
 
         output_raw = d.pop("output_raw", UNSET)
 
@@ -128,6 +142,7 @@ class ContextResponse:
             env_vars=env_vars,
             output_raw=output_raw,
         )
+
 
         context_response.additional_properties = d
         return context_response

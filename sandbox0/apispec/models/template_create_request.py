@@ -1,61 +1,74 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
+from typing import cast
+
 if TYPE_CHECKING:
-    from ..models.sandbox_template_spec import SandboxTemplateSpec
+  from ..models.sandbox_template_spec import SandboxTemplateSpec
+
+
+
 
 
 T = TypeVar("T", bound="TemplateCreateRequest")
 
 
+
 @_attrs_define
 class TemplateCreateRequest:
-    """
-    Attributes:
-        template_id (str):
-        spec (SandboxTemplateSpec):
-    """
+    """ 
+        Attributes:
+            template_id (str):
+            spec (SandboxTemplateSpec):
+     """
 
     template_id: str
-    spec: "SandboxTemplateSpec"
+    spec: 'SandboxTemplateSpec'
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_template_spec import SandboxTemplateSpec
         template_id = self.template_id
 
         spec = self.spec.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "template_id": template_id,
-                "spec": spec,
-            }
-        )
+        field_dict.update({
+            "template_id": template_id,
+            "spec": spec,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_template_spec import SandboxTemplateSpec
-
         d = dict(src_dict)
         template_id = d.pop("template_id")
 
         spec = SandboxTemplateSpec.from_dict(d.pop("spec"))
 
+
+
+
         template_create_request = cls(
             template_id=template_id,
             spec=spec,
         )
+
 
         template_create_request.additional_properties = d
         return template_create_request

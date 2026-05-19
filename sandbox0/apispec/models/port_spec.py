@@ -1,31 +1,40 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="PortSpec")
+
 
 
 @_attrs_define
 class PortSpec:
-    """
-    Attributes:
-        port (int):
-        protocol (Union[Unset, str]):
-        end_port (Union[Unset, int]):
-    """
+    """ 
+        Attributes:
+            port (int):
+            protocol (Union[Unset, str]):
+            end_port (Union[Unset, int]):
+     """
 
     port: int
     protocol: Union[Unset, str] = UNSET
     end_port: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         port = self.port
@@ -34,19 +43,20 @@ class PortSpec:
 
         end_port = self.end_port
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "port": port,
-            }
-        )
+        field_dict.update({
+            "port": port,
+        })
         if protocol is not UNSET:
             field_dict["protocol"] = protocol
         if end_port is not UNSET:
             field_dict["endPort"] = end_port
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -62,6 +72,7 @@ class PortSpec:
             protocol=protocol,
             end_port=end_port,
         )
+
 
         port_spec.additional_properties = d
         return port_spec

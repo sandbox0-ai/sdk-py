@@ -1,33 +1,39 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
+
+from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import Union
+import datetime
+
+
+
+
+
 
 T = TypeVar("T", bound="SSHPublicKey")
 
 
+
 @_attrs_define
 class SSHPublicKey:
-    """
-    Attributes:
-        id (str):
-        name (str):
-        public_key (str):
-        key_type (str):
-        fingerprint_sha256 (str):
-        created_at (datetime.datetime):
-        updated_at (datetime.datetime):
-        comment (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            id (str):
+            name (str):
+            public_key (str):
+            key_type (str):
+            fingerprint_sha256 (str):
+            created_at (datetime.datetime):
+            updated_at (datetime.datetime):
+            comment (Union[Unset, str]):
+     """
 
     id: str
     name: str
@@ -38,6 +44,10 @@ class SSHPublicKey:
     updated_at: datetime.datetime
     comment: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -56,23 +66,24 @@ class SSHPublicKey:
 
         comment = self.comment
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "name": name,
-                "public_key": public_key,
-                "key_type": key_type,
-                "fingerprint_sha256": fingerprint_sha256,
-                "created_at": created_at,
-                "updated_at": updated_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "name": name,
+            "public_key": public_key,
+            "key_type": key_type,
+            "fingerprint_sha256": fingerprint_sha256,
+            "created_at": created_at,
+            "updated_at": updated_at,
+        })
         if comment is not UNSET:
             field_dict["comment"] = comment
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -89,7 +100,13 @@ class SSHPublicKey:
 
         created_at = isoparse(d.pop("created_at"))
 
+
+
+
         updated_at = isoparse(d.pop("updated_at"))
+
+
+
 
         comment = d.pop("comment", UNSET)
 
@@ -103,6 +120,7 @@ class SSHPublicKey:
             updated_at=updated_at,
             comment=comment,
         )
+
 
         ssh_public_key.additional_properties = d
         return ssh_public_key

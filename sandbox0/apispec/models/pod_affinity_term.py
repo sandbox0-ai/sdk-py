@@ -1,39 +1,46 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.label_selector import LabelSelector
+  from ..models.label_selector import LabelSelector
+
+
+
 
 
 T = TypeVar("T", bound="PodAffinityTerm")
 
 
+
 @_attrs_define
 class PodAffinityTerm:
-    """
-    Attributes:
-        topology_key (str):
-        label_selector (Union[Unset, LabelSelector]):
-        namespaces (Union[Unset, list[str]]):
-    """
+    """ 
+        Attributes:
+            topology_key (str):
+            label_selector (Union[Unset, LabelSelector]):
+            namespaces (Union[Unset, list[str]]):
+     """
 
     topology_key: str
-    label_selector: Union[Unset, "LabelSelector"] = UNSET
+    label_selector: Union[Unset, 'LabelSelector'] = UNSET
     namespaces: Union[Unset, list[str]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.label_selector import LabelSelector
         topology_key = self.topology_key
 
         label_selector: Union[Unset, dict[str, Any]] = UNSET
@@ -44,13 +51,14 @@ class PodAffinityTerm:
         if not isinstance(self.namespaces, Unset):
             namespaces = self.namespaces
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "topologyKey": topology_key,
-            }
-        )
+        field_dict.update({
+            "topologyKey": topology_key,
+        })
         if label_selector is not UNSET:
             field_dict["labelSelector"] = label_selector
         if namespaces is not UNSET:
@@ -58,27 +66,33 @@ class PodAffinityTerm:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.label_selector import LabelSelector
-
         d = dict(src_dict)
         topology_key = d.pop("topologyKey")
 
         _label_selector = d.pop("labelSelector", UNSET)
         label_selector: Union[Unset, LabelSelector]
-        if isinstance(_label_selector, Unset):
+        if isinstance(_label_selector,  Unset):
             label_selector = UNSET
         else:
             label_selector = LabelSelector.from_dict(_label_selector)
 
+
+
+
         namespaces = cast(list[str], d.pop("namespaces", UNSET))
+
 
         pod_affinity_term = cls(
             topology_key=topology_key,
             label_selector=label_selector,
             namespaces=namespaces,
         )
+
 
         pod_affinity_term.additional_properties = d
         return pod_affinity_term

@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class AddTeamMemberRequestRole(str, Enum):
     ADMIN = "admin"
     BUILDER = "builder"
