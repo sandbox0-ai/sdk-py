@@ -1,31 +1,37 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
+
+from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import Union
+import datetime
+
+
+
+
+
 
 T = TypeVar("T", bound="FunctionAlias")
 
 
+
 @_attrs_define
 class FunctionAlias:
-    """
-    Attributes:
-        function_id (str):
-        alias (str):
-        revision_id (str):
-        revision_number (int):
-        updated_at (datetime.datetime):
-        updated_by (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            function_id (str):
+            alias (str):
+            revision_id (str):
+            revision_number (int):
+            updated_at (datetime.datetime):
+            updated_by (Union[Unset, str]):
+     """
 
     function_id: str
     alias: str
@@ -34,6 +40,10 @@ class FunctionAlias:
     updated_at: datetime.datetime
     updated_by: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         function_id = self.function_id
@@ -48,21 +58,22 @@ class FunctionAlias:
 
         updated_by = self.updated_by
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "function_id": function_id,
-                "alias": alias,
-                "revision_id": revision_id,
-                "revision_number": revision_number,
-                "updated_at": updated_at,
-            }
-        )
+        field_dict.update({
+            "function_id": function_id,
+            "alias": alias,
+            "revision_id": revision_id,
+            "revision_number": revision_number,
+            "updated_at": updated_at,
+        })
         if updated_by is not UNSET:
             field_dict["updated_by"] = updated_by
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -77,6 +88,9 @@ class FunctionAlias:
 
         updated_at = isoparse(d.pop("updated_at"))
 
+
+
+
         updated_by = d.pop("updated_by", UNSET)
 
         function_alias = cls(
@@ -87,6 +101,7 @@ class FunctionAlias:
             updated_at=updated_at,
             updated_by=updated_by,
         )
+
 
         function_alias.additional_properties = d
         return function_alias

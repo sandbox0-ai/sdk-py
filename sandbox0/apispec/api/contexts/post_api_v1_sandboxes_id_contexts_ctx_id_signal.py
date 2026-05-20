@@ -1,13 +1,16 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.signal_context_request import SignalContextRequest
 from ...models.success_signaled_response import SuccessSignaledResponse
-from ...types import Response
+from typing import cast
+
 
 
 def _get_kwargs(
@@ -15,18 +18,22 @@ def _get_kwargs(
     ctx_id: str,
     *,
     body: SignalContextRequest,
+
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
+
+    
+
+    
+
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/api/v1/sandboxes/{id}/contexts/{ctx_id}/signal".format(
-            id=id,
-            ctx_id=ctx_id,
-        ),
+        "url": "/api/v1/sandboxes/{id}/contexts/{ctx_id}/signal".format(id=id,ctx_id=ctx_id,),
     }
 
     _kwargs["json"] = body.to_dict()
+
 
     headers["Content-Type"] = "application/json"
 
@@ -34,11 +41,12 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessSignaledResponse]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessSignaledResponse]:
     if response.status_code == 200:
         response_200 = SuccessSignaledResponse.from_dict(response.json())
+
+
 
         return response_200
 
@@ -48,9 +56,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessSignaledResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessSignaledResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,8 +71,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: SignalContextRequest,
+
 ) -> Response[SuccessSignaledResponse]:
-    """Send signal to context
+    """ Send signal to context
 
     Args:
         id (str):
@@ -79,12 +86,14 @@ def sync_detailed(
 
     Returns:
         Response[SuccessSignaledResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        ctx_id=ctx_id,
-        body=body,
+ctx_id=ctx_id,
+body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -93,15 +102,15 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     ctx_id: str,
     *,
     client: AuthenticatedClient,
     body: SignalContextRequest,
+
 ) -> Optional[SuccessSignaledResponse]:
-    """Send signal to context
+    """ Send signal to context
 
     Args:
         id (str):
@@ -114,15 +123,16 @@ def sync(
 
     Returns:
         SuccessSignaledResponse
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        ctx_id=ctx_id,
-        client=client,
-        body=body,
-    ).parsed
+ctx_id=ctx_id,
+client=client,
+body=body,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
@@ -130,8 +140,9 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: SignalContextRequest,
+
 ) -> Response[SuccessSignaledResponse]:
-    """Send signal to context
+    """ Send signal to context
 
     Args:
         id (str):
@@ -144,18 +155,21 @@ async def asyncio_detailed(
 
     Returns:
         Response[SuccessSignaledResponse]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        ctx_id=ctx_id,
-        body=body,
+ctx_id=ctx_id,
+body=body,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
@@ -163,8 +177,9 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: SignalContextRequest,
+
 ) -> Optional[SuccessSignaledResponse]:
-    """Send signal to context
+    """ Send signal to context
 
     Args:
         id (str):
@@ -177,13 +192,13 @@ async def asyncio(
 
     Returns:
         SuccessSignaledResponse
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            ctx_id=ctx_id,
-            client=client,
-            body=body,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+ctx_id=ctx_id,
+client=client,
+body=body,
+
+    )).parsed

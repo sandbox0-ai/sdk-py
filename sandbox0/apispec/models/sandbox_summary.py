@@ -1,54 +1,62 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
+
+from ..types import UNSET, Unset
 
 from ..models.sandbox_summary_status import SandboxSummaryStatus
 from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import cast, Union
+from typing import Union
+import datetime
 
 if TYPE_CHECKING:
-    from ..models.sandbox_power_state import SandboxPowerState
+  from ..models.sandbox_power_state import SandboxPowerState
+
+
+
 
 
 T = TypeVar("T", bound="SandboxSummary")
 
 
+
 @_attrs_define
 class SandboxSummary:
-    """
-    Attributes:
-        id (str):
-        template_id (str):
-        status (SandboxSummaryStatus):
-        paused (bool):
-        power_state (SandboxPowerState):
-        created_at (datetime.datetime):
-        expires_at (datetime.datetime):
-        hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
-        cluster_id (Union[None, Unset, str]): Cluster where sandbox runs (multi-cluster only)
-    """
+    """ 
+        Attributes:
+            id (str):
+            template_id (str):
+            status (SandboxSummaryStatus):
+            paused (bool):
+            power_state (SandboxPowerState):
+            created_at (datetime.datetime):
+            expires_at (datetime.datetime):
+            hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
+            cluster_id (Union[None, Unset, str]): Cluster where sandbox runs (multi-cluster only)
+     """
 
     id: str
     template_id: str
     status: SandboxSummaryStatus
     paused: bool
-    power_state: "SandboxPowerState"
+    power_state: 'SandboxPowerState'
     created_at: datetime.datetime
     expires_at: datetime.datetime
     hard_expires_at: datetime.datetime
     cluster_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_power_state import SandboxPowerState
         id = self.id
 
         template_id = self.template_id
@@ -71,29 +79,29 @@ class SandboxSummary:
         else:
             cluster_id = self.cluster_id
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "template_id": template_id,
-                "status": status,
-                "paused": paused,
-                "power_state": power_state,
-                "created_at": created_at,
-                "expires_at": expires_at,
-                "hard_expires_at": hard_expires_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "template_id": template_id,
+            "status": status,
+            "paused": paused,
+            "power_state": power_state,
+            "created_at": created_at,
+            "expires_at": expires_at,
+            "hard_expires_at": hard_expires_at,
+        })
         if cluster_id is not UNSET:
             field_dict["cluster_id"] = cluster_id
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_power_state import SandboxPowerState
-
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -101,15 +109,30 @@ class SandboxSummary:
 
         status = SandboxSummaryStatus(d.pop("status"))
 
+
+
+
         paused = d.pop("paused")
 
         power_state = SandboxPowerState.from_dict(d.pop("power_state"))
 
+
+
+
         created_at = isoparse(d.pop("created_at"))
+
+
+
 
         expires_at = isoparse(d.pop("expires_at"))
 
+
+
+
         hard_expires_at = isoparse(d.pop("hard_expires_at"))
+
+
+
 
         def _parse_cluster_id(data: object) -> Union[None, Unset, str]:
             if data is None:
@@ -119,6 +142,7 @@ class SandboxSummary:
             return cast(Union[None, Unset, str], data)
 
         cluster_id = _parse_cluster_id(d.pop("cluster_id", UNSET))
+
 
         sandbox_summary = cls(
             id=id,
@@ -131,6 +155,7 @@ class SandboxSummary:
             hard_expires_at=hard_expires_at,
             cluster_id=cluster_id,
         )
+
 
         sandbox_summary.additional_properties = d
         return sandbox_summary

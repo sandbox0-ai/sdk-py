@@ -1,31 +1,39 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.add_team_member_request import AddTeamMemberRequest
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_team_member_response import SuccessTeamMemberResponse
-from ...types import Response
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     *,
     body: AddTeamMemberRequest,
+
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
+
+    
+
+    
+
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/teams/{id}/members".format(
-            id=id,
-        ),
+        "url": "/teams/{id}/members".format(id=id,),
     }
 
     _kwargs["json"] = body.to_dict()
+
 
     headers["Content-Type"] = "application/json"
 
@@ -33,26 +41,33 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
     if response.status_code == 201:
         response_201 = SuccessTeamMemberResponse.from_dict(response.json())
+
+
 
         return response_201
 
     if response.status_code == 403:
         response_403 = ErrorEnvelope.from_dict(response.json())
 
+
+
         return response_403
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
 
+
+
         return response_404
 
     if response.status_code == 409:
         response_409 = ErrorEnvelope.from_dict(response.json())
+
+
 
         return response_409
 
@@ -62,9 +77,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -78,8 +91,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: AddTeamMemberRequest,
+
 ) -> Response[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
-    """Add team member
+    """ Add team member
 
     Args:
         id (str):
@@ -91,11 +105,13 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessTeamMemberResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -104,14 +120,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     body: AddTeamMemberRequest,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
-    """Add team member
+    """ Add team member
 
     Args:
         id (str):
@@ -123,22 +139,24 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessTeamMemberResponse]
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        client=client,
-        body=body,
-    ).parsed
+client=client,
+body=body,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     body: AddTeamMemberRequest,
+
 ) -> Response[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
-    """Add team member
+    """ Add team member
 
     Args:
         id (str):
@@ -150,25 +168,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessTeamMemberResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        body=body,
+body=body,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     body: AddTeamMemberRequest,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberResponse]]:
-    """Add team member
+    """ Add team member
 
     Args:
         id (str):
@@ -180,12 +202,12 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessTeamMemberResponse]
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            client=client,
-            body=body,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+body=body,
+
+    )).parsed

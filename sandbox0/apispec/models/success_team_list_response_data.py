@@ -1,34 +1,42 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.team import Team
+  from ..models.team import Team
+
+
+
 
 
 T = TypeVar("T", bound="SuccessTeamListResponseData")
 
 
+
 @_attrs_define
 class SuccessTeamListResponseData:
-    """
-    Attributes:
-        teams (Union[Unset, list['Team']]):
-    """
+    """ 
+        Attributes:
+            teams (Union[Unset, list['Team']]):
+     """
 
-    teams: Union[Unset, list["Team"]] = UNSET
+    teams: Union[Unset, list['Team']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.team import Team
         teams: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.teams, Unset):
             teams = []
@@ -36,29 +44,38 @@ class SuccessTeamListResponseData:
                 teams_item = teams_item_data.to_dict()
                 teams.append(teams_item)
 
+
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if teams is not UNSET:
             field_dict["teams"] = teams
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.team import Team
-
         d = dict(src_dict)
         teams = []
         _teams = d.pop("teams", UNSET)
-        for teams_item_data in _teams or []:
+        for teams_item_data in (_teams or []):
             teams_item = Team.from_dict(teams_item_data)
 
+
+
             teams.append(teams_item)
+
 
         success_team_list_response_data = cls(
             teams=teams,
         )
+
 
         success_team_list_response_data.additional_properties = d
         return success_team_list_response_data

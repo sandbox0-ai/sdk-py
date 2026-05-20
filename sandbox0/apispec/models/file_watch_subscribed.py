@@ -1,27 +1,39 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 from ..models.file_watch_subscribed_type import FileWatchSubscribedType
+
+
+
+
+
 
 T = TypeVar("T", bound="FileWatchSubscribed")
 
 
+
 @_attrs_define
 class FileWatchSubscribed:
-    """
-    Attributes:
-        type_ (FileWatchSubscribedType):
-        watch_id (str):
-        path (str):
-    """
+    """ 
+        Attributes:
+            type_ (FileWatchSubscribedType):
+            watch_id (str):
+            path (str):
+     """
 
     type_: FileWatchSubscribedType
     watch_id: str
     path: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
@@ -30,22 +42,26 @@ class FileWatchSubscribed:
 
         path = self.path
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "type": type_,
-                "watch_id": watch_id,
-                "path": path,
-            }
-        )
+        field_dict.update({
+            "type": type_,
+            "watch_id": watch_id,
+            "path": path,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = FileWatchSubscribedType(d.pop("type"))
+
+
+
 
         watch_id = d.pop("watch_id")
 
@@ -56,6 +72,7 @@ class FileWatchSubscribed:
             watch_id=watch_id,
             path=path,
         )
+
 
         file_watch_subscribed.additional_properties = d
         return file_watch_subscribed

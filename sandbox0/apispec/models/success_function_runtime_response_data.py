@@ -1,53 +1,66 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
+from typing import cast
+
 if TYPE_CHECKING:
-    from ..models.function_runtime_status import FunctionRuntimeStatus
+  from ..models.function_runtime_status import FunctionRuntimeStatus
+
+
+
 
 
 T = TypeVar("T", bound="SuccessFunctionRuntimeResponseData")
 
 
+
 @_attrs_define
 class SuccessFunctionRuntimeResponseData:
-    """
-    Attributes:
-        runtime (FunctionRuntimeStatus):
-    """
+    """ 
+        Attributes:
+            runtime (FunctionRuntimeStatus):
+     """
 
-    runtime: "FunctionRuntimeStatus"
+    runtime: 'FunctionRuntimeStatus'
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.function_runtime_status import FunctionRuntimeStatus
         runtime = self.runtime.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "runtime": runtime,
-            }
-        )
+        field_dict.update({
+            "runtime": runtime,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.function_runtime_status import FunctionRuntimeStatus
-
         d = dict(src_dict)
         runtime = FunctionRuntimeStatus.from_dict(d.pop("runtime"))
+
+
+
 
         success_function_runtime_response_data = cls(
             runtime=runtime,
         )
+
 
         success_function_runtime_response_data.additional_properties = d
         return success_function_runtime_response_data

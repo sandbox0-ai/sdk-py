@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class SandboxNetworkPolicyMode(str, Enum):
     ALLOW_ALL = "allow-all"
     BLOCK_ALL = "block-all"

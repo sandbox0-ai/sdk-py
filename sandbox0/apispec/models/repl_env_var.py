@@ -1,31 +1,40 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="REPLEnvVar")
+
 
 
 @_attrs_define
 class REPLEnvVar:
-    """
-    Attributes:
-        name (str):
-        value (Union[Unset, str]):
-        value_from (Union[Unset, str]):
-    """
+    """ 
+        Attributes:
+            name (str):
+            value (Union[Unset, str]):
+            value_from (Union[Unset, str]):
+     """
 
     name: str
     value: Union[Unset, str] = UNSET
     value_from: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
@@ -34,19 +43,20 @@ class REPLEnvVar:
 
         value_from = self.value_from
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "name": name,
-            }
-        )
+        field_dict.update({
+            "name": name,
+        })
         if value is not UNSET:
             field_dict["value"] = value
         if value_from is not UNSET:
             field_dict["value_from"] = value_from
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -62,6 +72,7 @@ class REPLEnvVar:
             value=value,
             value_from=value_from,
         )
+
 
         repl_env_var.additional_properties = d
         return repl_env_var

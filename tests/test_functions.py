@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 from sandbox0 import Client
 from sandbox0.apispec.models.function_alias import FunctionAlias
+from sandbox0.apispec.models.function_autoscaling import FunctionAutoscaling
 from sandbox0.apispec.models.function_record import FunctionRecord
 from sandbox0.apispec.models.function_runtime_state import FunctionRuntimeState
 from sandbox0.apispec.models.function_runtime_status import FunctionRuntimeStatus
@@ -58,10 +59,19 @@ class TestFunctions(TestCase):
             )
 
         with patch("sandbox0.client_functions.post_api_v1_functions.sync_detailed", side_effect=fake_sync_detailed):
-            result = client.functions.create_from_sandbox("sbx-1", "web", name="web-fn")
+            result = client.functions.create_from_sandbox(
+                "sbx-1",
+                "web",
+                name="web-fn",
+                autoscaling=_function_autoscaling(min_warm=1, max_active=3, target_concurrency=7, scale_down_after_seconds=60),
+            )
 
         request = captured["body"]
         self.assertEqual(request.name, "web-fn")
+        self.assertEqual(request.autoscaling.min_warm, 1)
+        self.assertEqual(request.autoscaling.max_active, 3)
+        self.assertEqual(request.autoscaling.target_concurrency, 7)
+        self.assertEqual(request.autoscaling.scale_down_after_seconds, 60)
         self.assertEqual(request.source.sandbox_id, "sbx-1")
         self.assertEqual(request.source.service_id, "web")
         self.assertEqual(result.function.id, "fn-1")
@@ -236,7 +246,14 @@ class TestFunctions(TestCase):
             "sandbox0.client_functions.post_api_v1_functions_id_runtime_recycle.sync_detailed",
             side_effect=fake_runtime_idle,
         ):
-            updated = client.functions.update("fn-1", FunctionUpdateRequest(name="new-name", enabled=False))
+            updated = client.functions.update(
+                "fn-1",
+                FunctionUpdateRequest(
+                    name="new-name",
+                    enabled=False,
+                    autoscaling=_function_autoscaling(max_active=5, target_concurrency=10, scale_down_after_seconds=120),
+                ),
+            )
             deleted = client.delete_function("fn-1")
             revision = client.functions.get_revision("fn-1", 2)
             aliases = client.list_function_aliases("fn-1")
@@ -248,6 +265,9 @@ class TestFunctions(TestCase):
         self.assertEqual(captured["update_id"], "fn-1")
         self.assertEqual(captured["update_body"].name, "new-name")
         self.assertFalse(captured["update_body"].enabled)
+        self.assertEqual(captured["update_body"].autoscaling.max_active, 5)
+        self.assertEqual(captured["update_body"].autoscaling.target_concurrency, 10)
+        self.assertEqual(captured["update_body"].autoscaling.scale_down_after_seconds, 120)
         self.assertFalse(updated.enabled)
         self.assertEqual(captured["delete_id"], "fn-1")
         self.assertEqual(deleted.deleted_at.isoformat(), "2026-05-14T01:00:00+00:00")
@@ -270,6 +290,7 @@ def _function_record(*, enabled: bool = True, deleted_at=UNSET) -> FunctionRecor
         slug="web",
         domain_label="web",
         enabled=enabled,
+        autoscaling=_function_autoscaling(),
         created_at="2026-05-14T00:00:00Z",
         updated_at="2026-05-14T00:00:00Z",
         host="web.sandbox0.site",
@@ -314,7 +335,24 @@ def _function_runtime(state: FunctionRuntimeState) -> FunctionRuntimeStatus:
         revision_id="rev-1",
         revision_number=1,
         state=state,
+        autoscaling=_function_autoscaling(),
         runtime_sandbox_id=runtime_sandbox_id,
         runtime_context_id=runtime_context_id,
         runtime_updated_at=datetime.datetime(2026, 5, 14, tzinfo=datetime.timezone.utc),
+        instances=[],
+    )
+
+
+def _function_autoscaling(
+    *,
+    min_warm: int = 0,
+    max_active: int = 20,
+    target_concurrency: int = 80,
+    scale_down_after_seconds: int = 300,
+) -> FunctionAutoscaling:
+    return FunctionAutoscaling(
+        min_warm=min_warm,
+        max_active=max_active,
+        target_concurrency=target_concurrency,
+        scale_down_after_seconds=scale_down_after_seconds,
     )

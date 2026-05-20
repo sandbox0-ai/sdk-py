@@ -1,61 +1,74 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
+from typing import cast
+
 if TYPE_CHECKING:
-    from ..models.node_selector_term import NodeSelectorTerm
+  from ..models.node_selector_term import NodeSelectorTerm
+
+
+
 
 
 T = TypeVar("T", bound="PreferredSchedulingTerm")
 
 
+
 @_attrs_define
 class PreferredSchedulingTerm:
-    """
-    Attributes:
-        weight (int):
-        preference (NodeSelectorTerm):
-    """
+    """ 
+        Attributes:
+            weight (int):
+            preference (NodeSelectorTerm):
+     """
 
     weight: int
-    preference: "NodeSelectorTerm"
+    preference: 'NodeSelectorTerm'
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.node_selector_term import NodeSelectorTerm
         weight = self.weight
 
         preference = self.preference.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "weight": weight,
-                "preference": preference,
-            }
-        )
+        field_dict.update({
+            "weight": weight,
+            "preference": preference,
+        })
 
         return field_dict
+
+
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.node_selector_term import NodeSelectorTerm
-
         d = dict(src_dict)
         weight = d.pop("weight")
 
         preference = NodeSelectorTerm.from_dict(d.pop("preference"))
 
+
+
+
         preferred_scheduling_term = cls(
             weight=weight,
             preference=preference,
         )
+
 
         preferred_scheduling_term.additional_properties = d
         return preferred_scheduling_term
