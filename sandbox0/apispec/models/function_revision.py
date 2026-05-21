@@ -13,8 +13,8 @@ from typing import Union
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.function_restore_mount import FunctionRestoreMount
   from ..models.sandbox_app_service import SandboxAppService
+  from ..models.function_restore_mount import FunctionRestoreMount
 
 
 
@@ -67,8 +67,8 @@ class FunctionRevision:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_restore_mount import FunctionRestoreMount
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.function_restore_mount import FunctionRestoreMount
         id = self.id
 
         function_id = self.function_id
@@ -137,8 +137,8 @@ class FunctionRevision:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_restore_mount import FunctionRestoreMount
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.function_restore_mount import FunctionRestoreMount
         d = dict(src_dict)
         id = d.pop("id")
 

@@ -13,8 +13,8 @@ from typing import Union
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.sandbox_template_status import SandboxTemplateStatus
   from ..models.sandbox_template_spec import SandboxTemplateSpec
+  from ..models.sandbox_template_status import SandboxTemplateStatus
 
 
 
@@ -53,8 +53,8 @@ class Template:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_template_status import SandboxTemplateStatus
         from ..models.sandbox_template_spec import SandboxTemplateSpec
+        from ..models.sandbox_template_status import SandboxTemplateStatus
         template_id = self.template_id
 
         scope = self.scope
@@ -96,8 +96,8 @@ class Template:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_template_status import SandboxTemplateStatus
         from ..models.sandbox_template_spec import SandboxTemplateSpec
+        from ..models.sandbox_template_status import SandboxTemplateStatus
         d = dict(src_dict)
         template_id = d.pop("template_id")
 

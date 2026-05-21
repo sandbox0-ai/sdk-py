@@ -12,8 +12,8 @@ from typing import cast, Union
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
   from ..models.sandbox_app_service_route_auth import SandboxAppServiceRouteAuth
+  from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
   from ..models.sandbox_app_service_route_cors import SandboxAppServiceRouteCORS
 
 
@@ -55,8 +55,8 @@ class SandboxAppServiceRoute:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
         from ..models.sandbox_app_service_route_auth import SandboxAppServiceRouteAuth
+        from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
         from ..models.sandbox_app_service_route_cors import SandboxAppServiceRouteCORS
         id = self.id
 
@@ -118,8 +118,8 @@ class SandboxAppServiceRoute:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
         from ..models.sandbox_app_service_route_auth import SandboxAppServiceRouteAuth
+        from ..models.sandbox_app_service_route_rate_limit import SandboxAppServiceRouteRateLimit
         from ..models.sandbox_app_service_route_cors import SandboxAppServiceRouteCORS
         d = dict(src_dict)
         id = d.pop("id")

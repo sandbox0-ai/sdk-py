@@ -7,6 +7,8 @@ from sandbox0 import Client
 from sandbox0.apispec.models.function_alias import FunctionAlias
 from sandbox0.apispec.models.function_autoscaling import FunctionAutoscaling
 from sandbox0.apispec.models.function_record import FunctionRecord
+from sandbox0.apispec.models.function_runtime_phase import FunctionRuntimePhase
+from sandbox0.apispec.models.function_runtime_readiness_state import FunctionRuntimeReadinessState
 from sandbox0.apispec.models.function_runtime_state import FunctionRuntimeState
 from sandbox0.apispec.models.function_runtime_status import FunctionRuntimeStatus
 from sandbox0.apispec.models.function_revision import FunctionRevision
@@ -335,7 +337,11 @@ def _function_runtime(state: FunctionRuntimeState) -> FunctionRuntimeStatus:
         revision_id="rev-1",
         revision_number=1,
         state=state,
+        phase=FunctionRuntimePhase.READY if state == FunctionRuntimeState.ACTIVE else FunctionRuntimePhase.IDLE,
         autoscaling=_function_autoscaling(),
+        readiness_state=FunctionRuntimeReadinessState.READY
+        if state == FunctionRuntimeState.ACTIVE
+        else FunctionRuntimeReadinessState.UNKNOWN,
         runtime_sandbox_id=runtime_sandbox_id,
         runtime_context_id=runtime_context_id,
         runtime_updated_at=datetime.datetime(2026, 5, 14, tzinfo=datetime.timezone.utc),
