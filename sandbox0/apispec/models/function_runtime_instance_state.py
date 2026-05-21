@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class FunctionRuntimeInstanceState(str, Enum):
     DRAINING = "draining"
     FAILED = "failed"

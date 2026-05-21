@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class TrafficRuleAppProtocol(str, Enum):
     AMQP = "amqp"
     DNS = "dns"

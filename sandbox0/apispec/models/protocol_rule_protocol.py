@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ProtocolRuleProtocol(str, Enum):
     MCP = "mcp"
 

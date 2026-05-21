@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SandboxPowerStateObserved(str, Enum):
     ACTIVE = "active"
     PAUSED = "paused"

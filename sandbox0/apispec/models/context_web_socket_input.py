@@ -1,42 +1,33 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.context_web_socket_input_type import ContextWebSocketInputType
 from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
 
 T = TypeVar("T", bound="ContextWebSocketInput")
 
 
-
 @_attrs_define
 class ContextWebSocketInput:
-    """ 
-        Attributes:
-            type_ (ContextWebSocketInputType):
-            data (Union[Unset, str]): Input bytes encoded as a string. The WebSocket endpoint writes this value exactly as
-                provided and does not append a newline.
-            request_id (Union[Unset, str]):
-     """
+    """
+    Attributes:
+        type_ (ContextWebSocketInputType):
+        data (Union[Unset, str]): Input bytes encoded as a string. The WebSocket endpoint writes this value exactly as
+            provided and does not append a newline.
+        request_id (Union[Unset, str]):
+    """
 
     type_: ContextWebSocketInputType
     data: Union[Unset, str] = UNSET
     request_id: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
@@ -45,12 +36,13 @@ class ContextWebSocketInput:
 
         request_id = self.request_id
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "type": type_,
-        })
+        field_dict.update(
+            {
+                "type": type_,
+            }
+        )
         if data is not UNSET:
             field_dict["data"] = data
         if request_id is not UNSET:
@@ -58,15 +50,10 @@ class ContextWebSocketInput:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = ContextWebSocketInputType(d.pop("type"))
-
-
-
 
         data = d.pop("data", UNSET)
 
@@ -77,7 +64,6 @@ class ContextWebSocketInput:
             data=data,
             request_id=request_id,
         )
-
 
         context_web_socket_input.additional_properties = d
         return context_web_socket_input

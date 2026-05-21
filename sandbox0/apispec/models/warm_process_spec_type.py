@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class WarmProcessSpecType(str, Enum):
     CMD = "cmd"
     REPL = "repl"

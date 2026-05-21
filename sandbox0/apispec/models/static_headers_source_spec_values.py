@@ -1,47 +1,28 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
-
 T = TypeVar("T", bound="StaticHeadersSourceSpecValues")
-
 
 
 @_attrs_define
 class StaticHeadersSourceSpecValues:
-    """ 
-     """
+    """ """
 
     additional_properties: dict[str, str] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        static_headers_source_spec_values = cls(
-        )
-
+        static_headers_source_spec_values = cls()
 
         static_headers_source_spec_values.additional_properties = d
         return static_headers_source_spec_values

@@ -1,51 +1,38 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="SuccessCreatedResponseData")
-
 
 
 @_attrs_define
 class SuccessCreatedResponseData:
-    """ 
-        Attributes:
-            created (Union[Unset, bool]):
-     """
+    """
+    Attributes:
+        created (Union[Unset, bool]):
+    """
 
     created: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
         created = self.created
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if created is not UNSET:
             field_dict["created"] = created
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -55,7 +42,6 @@ class SuccessCreatedResponseData:
         success_created_response_data = cls(
             created=created,
         )
-
 
         success_created_response_data.additional_properties = d
         return success_created_response_data

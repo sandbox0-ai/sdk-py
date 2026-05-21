@@ -1,39 +1,34 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="ResourceUsage")
-
 
 
 @_attrs_define
 class ResourceUsage:
-    """ 
-        Attributes:
-            cpu_percent (Union[Unset, float]):
-            memory_rss (Union[Unset, int]):
-            memory_vms (Union[Unset, int]):
-            open_files (Union[Unset, int]):
-            thread_count (Union[Unset, int]):
-            container_memory_usage (Union[Unset, int]):
-            container_memory_limit (Union[Unset, int]):
-            container_memory_working_set (Union[Unset, int]):
-            io_read_bytes (Union[Unset, int]):
-            io_write_bytes (Union[Unset, int]):
-            memory_bytes (Union[Unset, int]):
-     """
+    """
+    Attributes:
+        cpu_percent (Union[Unset, float]):
+        memory_rss (Union[Unset, int]):
+        memory_vms (Union[Unset, int]):
+        open_files (Union[Unset, int]):
+        thread_count (Union[Unset, int]):
+        container_memory_usage (Union[Unset, int]):
+        container_memory_limit (Union[Unset, int]):
+        container_memory_working_set (Union[Unset, int]):
+        io_read_bytes (Union[Unset, int]):
+        io_write_bytes (Union[Unset, int]):
+        memory_bytes (Union[Unset, int]):
+    """
 
     cpu_percent: Union[Unset, float] = UNSET
     memory_rss: Union[Unset, int] = UNSET
@@ -47,10 +42,6 @@ class ResourceUsage:
     io_write_bytes: Union[Unset, int] = UNSET
     memory_bytes: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         cpu_percent = self.cpu_percent
@@ -75,11 +66,9 @@ class ResourceUsage:
 
         memory_bytes = self.memory_bytes
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if cpu_percent is not UNSET:
             field_dict["cpu_percent"] = cpu_percent
         if memory_rss is not UNSET:
@@ -104,8 +93,6 @@ class ResourceUsage:
             field_dict["memory_bytes"] = memory_bytes
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -145,7 +132,6 @@ class ResourceUsage:
             io_write_bytes=io_write_bytes,
             memory_bytes=memory_bytes,
         )
-
 
         resource_usage.additional_properties = d
         return resource_usage

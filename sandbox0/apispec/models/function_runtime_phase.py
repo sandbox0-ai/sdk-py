@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class FunctionRuntimePhase(str, Enum):
     DISABLED = "disabled"
     DRAINING = "draining"

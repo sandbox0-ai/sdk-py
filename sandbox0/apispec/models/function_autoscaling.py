@@ -1,24 +1,15 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
-
 T = TypeVar("T", bound="FunctionAutoscaling")
-
 
 
 @_attrs_define
 class FunctionAutoscaling:
-    """ Function runtime pool autoscaling settings. target_concurrency is a soft routing and scale-out signal; it is not a
+    """Function runtime pool autoscaling settings. target_concurrency is a soft routing and scale-out signal; it is not a
     strong distributed per-instance concurrency semaphore.
 
         Attributes:
@@ -28,17 +19,13 @@ class FunctionAutoscaling:
             target_concurrency (int): Soft per-runtime in-flight request target used for routing and scale-out. Default: 80.
             scale_down_after_seconds (int): Idle time before the autoscaler removes extra runtime sandboxes above min_warm.
                 Default: 300.
-     """
+    """
 
     min_warm: int = 0
     max_active: int = 20
     target_concurrency: int = 80
     scale_down_after_seconds: int = 300
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         min_warm = self.min_warm
@@ -49,19 +36,18 @@ class FunctionAutoscaling:
 
         scale_down_after_seconds = self.scale_down_after_seconds
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "min_warm": min_warm,
-            "max_active": max_active,
-            "target_concurrency": target_concurrency,
-            "scale_down_after_seconds": scale_down_after_seconds,
-        })
+        field_dict.update(
+            {
+                "min_warm": min_warm,
+                "max_active": max_active,
+                "target_concurrency": target_concurrency,
+                "scale_down_after_seconds": scale_down_after_seconds,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -80,7 +66,6 @@ class FunctionAutoscaling:
             target_concurrency=target_concurrency,
             scale_down_after_seconds=scale_down_after_seconds,
         )
-
 
         function_autoscaling.additional_properties = d
         return function_autoscaling

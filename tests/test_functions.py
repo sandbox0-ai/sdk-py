@@ -12,7 +12,9 @@ from sandbox0.apispec.models.function_runtime_readiness_state import FunctionRun
 from sandbox0.apispec.models.function_runtime_state import FunctionRuntimeState
 from sandbox0.apispec.models.function_runtime_status import FunctionRuntimeStatus
 from sandbox0.apispec.models.function_revision import FunctionRevision
-from sandbox0.apispec.models.function_source_request import FunctionSourceRequest
+from sandbox0.apispec.models.function_revision_input_source_type import FunctionRevisionInputSourceType
+from sandbox0.apispec.models.function_revision_spec import FunctionRevisionSpec
+from sandbox0.apispec.models.function_revision_source_type import FunctionRevisionSourceType
 from sandbox0.apispec.models.function_update_request import FunctionUpdateRequest
 from sandbox0.apispec.models.sandbox_app_service import SandboxAppService
 from sandbox0.apispec.models.sandbox_app_service_ingress import SandboxAppServiceIngress
@@ -79,6 +81,37 @@ class TestFunctions(TestCase):
         self.assertEqual(result.function.id, "fn-1")
         self.assertEqual(result.revision.revision_number, 1)
         self.assertEqual(result.alias.alias, "production")
+
+    def test_create_from_revision_spec_builds_request(self) -> None:
+        client = Client(token="test-token", base_url="https://example.com")
+        self.addCleanup(client.close)
+
+        captured = {}
+
+        def fake_sync_detailed(*, client, body):
+            captured["body"] = body
+            return Response(
+                status_code=HTTPStatus.CREATED,
+                content=b"{}",
+                headers={},
+                parsed=SuccessFunctionCreateResponse(
+                    success=True,
+                    data=SuccessFunctionCreateResponseData(
+                        function=_function_record(),
+                        revision=_function_revision(1),
+                        alias=_function_alias(1),
+                    ),
+                ),
+            )
+
+        with patch("sandbox0.client_functions.post_api_v1_functions.sync_detailed", side_effect=fake_sync_detailed):
+            client.functions.create_from_revision_spec(_function_revision_spec(), name="web-fn")
+
+        request = captured["body"]
+        self.assertEqual(request.name, "web-fn")
+        self.assertEqual(request.source.type_, FunctionRevisionInputSourceType.REVISION_SPEC)
+        self.assertEqual(request.source.revision_spec.template_id, "default")
+        self.assertEqual(request.source.revision_spec.runtime_service.id, "web")
 
     def test_create_revision_and_alias(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
@@ -307,6 +340,8 @@ def _function_revision(revision_number: int) -> FunctionRevision:
         function_id="fn-1",
         team_id="team-1",
         revision_number=revision_number,
+        source_type=FunctionRevisionSourceType.SANDBOX_SERVICE,
+        revision_spec=_function_revision_spec(),
         source_sandbox_id="sbx-1",
         source_service_id="web",
         source_template_id="default",
@@ -315,7 +350,21 @@ def _function_revision(revision_number: int) -> FunctionRevision:
             port=8080,
             ingress=SandboxAppServiceIngress(public=True),
         ),
-        created_at="2026-05-14T00:00:00Z",
+        created_at=datetime.datetime(2026, 5, 14, tzinfo=datetime.timezone.utc),
+    )
+
+
+def _function_revision_spec() -> FunctionRevisionSpec:
+    return FunctionRevisionSpec(
+        template_id="default",
+        runtime_service=SandboxAppService(
+            id="web",
+            port=8080,
+            ingress=SandboxAppServiceIngress(public=True),
+        ),
+        mounts=[],
+        static_assets=[],
+        env_refs=[],
     )
 
 

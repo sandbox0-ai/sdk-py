@@ -1,41 +1,29 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.file_watch_event_type import FileWatchEventType
-
-
-
-
-
 
 T = TypeVar("T", bound="FileWatchEvent")
 
 
-
 @_attrs_define
 class FileWatchEvent:
-    """ 
-        Attributes:
-            type_ (FileWatchEventType):
-            watch_id (str):
-            event (str):
-            path (str):
-     """
+    """
+    Attributes:
+        type_ (FileWatchEventType):
+        watch_id (str):
+        event (str):
+        path (str):
+    """
 
     type_: FileWatchEventType
     watch_id: str
     event: str
     path: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
@@ -46,27 +34,23 @@ class FileWatchEvent:
 
         path = self.path
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "type": type_,
-            "watch_id": watch_id,
-            "event": event,
-            "path": path,
-        })
+        field_dict.update(
+            {
+                "type": type_,
+                "watch_id": watch_id,
+                "event": event,
+                "path": path,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = FileWatchEventType(d.pop("type"))
-
-
-
 
         watch_id = d.pop("watch_id")
 
@@ -80,7 +64,6 @@ class FileWatchEvent:
             event=event,
             path=path,
         )
-
 
         file_watch_event.additional_properties = d
         return file_watch_event

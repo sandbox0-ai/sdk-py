@@ -1,86 +1,71 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.credential_source_resolver_kind import CredentialSourceResolverKind
-from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.credential_source_write_spec import CredentialSourceWriteSpec
-
-
-
+    from ..models.credential_source_write_spec import CredentialSourceWriteSpec
 
 
 T = TypeVar("T", bound="CredentialSourceWriteRequest")
 
 
-
 @_attrs_define
 class CredentialSourceWriteRequest:
-    """ 
-        Attributes:
-            name (str):
-            resolver_kind (CredentialSourceResolverKind):
-            spec (CredentialSourceWriteSpec):
-     """
+    """
+    Attributes:
+        name (str):
+        resolver_kind (CredentialSourceResolverKind):
+        spec (CredentialSourceWriteSpec):
+    """
 
     name: str
     resolver_kind: CredentialSourceResolverKind
-    spec: 'CredentialSourceWriteSpec'
+    spec: "CredentialSourceWriteSpec"
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.credential_source_write_spec import CredentialSourceWriteSpec
         name = self.name
 
         resolver_kind = self.resolver_kind.value
 
         spec = self.spec.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "name": name,
-            "resolverKind": resolver_kind,
-            "spec": spec,
-        })
+        field_dict.update(
+            {
+                "name": name,
+                "resolverKind": resolver_kind,
+                "spec": spec,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.credential_source_write_spec import CredentialSourceWriteSpec
+
         d = dict(src_dict)
         name = d.pop("name")
 
         resolver_kind = CredentialSourceResolverKind(d.pop("resolverKind"))
 
-
-
-
         spec = CredentialSourceWriteSpec.from_dict(d.pop("spec"))
-
-
-
 
         credential_source_write_request = cls(
             name=name,
             resolver_kind=resolver_kind,
             spec=spec,
         )
-
 
         credential_source_write_request.additional_properties = d
         return credential_source_write_request
