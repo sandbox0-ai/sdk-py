@@ -9,9 +9,9 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.function_record import FunctionRecord
   from ..models.function_revision import FunctionRevision
   from ..models.function_alias import FunctionAlias
+  from ..models.function_record import FunctionRecord
 
 
 
@@ -40,9 +40,9 @@ class SuccessFunctionCreateResponseData:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_record import FunctionRecord
         from ..models.function_revision import FunctionRevision
         from ..models.function_alias import FunctionAlias
+        from ..models.function_record import FunctionRecord
         function = self.function.to_dict()
 
         revision = self.revision.to_dict()
@@ -64,9 +64,9 @@ class SuccessFunctionCreateResponseData:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_record import FunctionRecord
         from ..models.function_revision import FunctionRevision
         from ..models.function_alias import FunctionAlias
+        from ..models.function_record import FunctionRecord
         d = dict(src_dict)
         function = FunctionRecord.from_dict(d.pop("function"))
 

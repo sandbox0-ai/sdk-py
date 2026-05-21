@@ -11,10 +11,11 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.egress_credential_rule import EgressCredentialRule
-  from ..models.egress_proxy_policy import EgressProxyPolicy
-  from ..models.port_spec import PortSpec
   from ..models.traffic_rule import TrafficRule
+  from ..models.port_spec import PortSpec
+  from ..models.egress_credential_rule import EgressCredentialRule
+  from ..models.protocol_rule import ProtocolRule
+  from ..models.egress_proxy_policy import EgressProxyPolicy
 
 
 
@@ -48,6 +49,8 @@ class NetworkEgressPolicy:
             traffic_rules (Union[Unset, list['TrafficRule']]): Ordered egress allow/deny rules. The first matching rule wins
                 and
                 unmatched traffic falls back to `mode`.
+            protocol_rules (Union[Unset, list['ProtocolRule']]): Protocol-aware controls applied after traffic is allowed by
+                `trafficRules` or legacy allow/deny fields.
             credential_rules (Union[Unset, list['EgressCredentialRule']]): Structured egress auth injection rules resolved
                 by the manager runtime egress auth path.
                 These rules are orthogonal to allow/deny matching and are intended for
@@ -62,6 +65,7 @@ class NetworkEgressPolicy:
     denied_cidrs: Union[Unset, list[str]] = UNSET
     denied_ports: Union[Unset, list['PortSpec']] = UNSET
     traffic_rules: Union[Unset, list['TrafficRule']] = UNSET
+    protocol_rules: Union[Unset, list['ProtocolRule']] = UNSET
     credential_rules: Union[Unset, list['EgressCredentialRule']] = UNSET
     proxy: Union[Unset, 'EgressProxyPolicy'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -71,10 +75,11 @@ class NetworkEgressPolicy:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.egress_credential_rule import EgressCredentialRule
-        from ..models.egress_proxy_policy import EgressProxyPolicy
-        from ..models.port_spec import PortSpec
         from ..models.traffic_rule import TrafficRule
+        from ..models.port_spec import PortSpec
+        from ..models.egress_credential_rule import EgressCredentialRule
+        from ..models.protocol_rule import ProtocolRule
+        from ..models.egress_proxy_policy import EgressProxyPolicy
         allowed_cidrs: Union[Unset, list[str]] = UNSET
         if not isinstance(self.allowed_cidrs, Unset):
             allowed_cidrs = self.allowed_cidrs
@@ -126,6 +131,15 @@ class NetworkEgressPolicy:
 
 
 
+        protocol_rules: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.protocol_rules, Unset):
+            protocol_rules = []
+            for protocol_rules_item_data in self.protocol_rules:
+                protocol_rules_item = protocol_rules_item_data.to_dict()
+                protocol_rules.append(protocol_rules_item)
+
+
+
         credential_rules: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.credential_rules, Unset):
             credential_rules = []
@@ -158,6 +172,8 @@ class NetworkEgressPolicy:
             field_dict["deniedPorts"] = denied_ports
         if traffic_rules is not UNSET:
             field_dict["trafficRules"] = traffic_rules
+        if protocol_rules is not UNSET:
+            field_dict["protocolRules"] = protocol_rules
         if credential_rules is not UNSET:
             field_dict["credentialRules"] = credential_rules
         if proxy is not UNSET:
@@ -169,10 +185,11 @@ class NetworkEgressPolicy:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.egress_credential_rule import EgressCredentialRule
-        from ..models.egress_proxy_policy import EgressProxyPolicy
-        from ..models.port_spec import PortSpec
         from ..models.traffic_rule import TrafficRule
+        from ..models.port_spec import PortSpec
+        from ..models.egress_credential_rule import EgressCredentialRule
+        from ..models.protocol_rule import ProtocolRule
+        from ..models.egress_proxy_policy import EgressProxyPolicy
         d = dict(src_dict)
         allowed_cidrs = cast(list[str], d.pop("allowedCidrs", UNSET))
 
@@ -216,6 +233,16 @@ class NetworkEgressPolicy:
             traffic_rules.append(traffic_rules_item)
 
 
+        protocol_rules = []
+        _protocol_rules = d.pop("protocolRules", UNSET)
+        for protocol_rules_item_data in (_protocol_rules or []):
+            protocol_rules_item = ProtocolRule.from_dict(protocol_rules_item_data)
+
+
+
+            protocol_rules.append(protocol_rules_item)
+
+
         credential_rules = []
         _credential_rules = d.pop("credentialRules", UNSET)
         for credential_rules_item_data in (_credential_rules or []):
@@ -244,6 +271,7 @@ class NetworkEgressPolicy:
             denied_cidrs=denied_cidrs,
             denied_ports=denied_ports,
             traffic_rules=traffic_rules,
+            protocol_rules=protocol_rules,
             credential_rules=credential_rules,
             proxy=proxy,
         )

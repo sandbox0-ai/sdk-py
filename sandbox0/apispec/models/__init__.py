@@ -89,8 +89,11 @@ from .function_record import FunctionRecord
 from .function_restore_mount import FunctionRestoreMount
 from .function_revision import FunctionRevision
 from .function_revision_create_request import FunctionRevisionCreateRequest
+from .function_runtime_event import FunctionRuntimeEvent
 from .function_runtime_instance import FunctionRuntimeInstance
 from .function_runtime_instance_state import FunctionRuntimeInstanceState
+from .function_runtime_phase import FunctionRuntimePhase
+from .function_runtime_readiness_state import FunctionRuntimeReadinessState
 from .function_runtime_state import FunctionRuntimeState
 from .function_runtime_status import FunctionRuntimeStatus
 from .function_source_request import FunctionSourceRequest
@@ -111,6 +114,8 @@ from .label_selector_requirement import LabelSelectorRequirement
 from .lifecycle_policy import LifecyclePolicy
 from .login_request import LoginRequest
 from .login_response import LoginResponse
+from .mcp_protocol_rule import MCPProtocolRule
+from .mcp_tool_policy import MCPToolPolicy
 from .mount_status import MountStatus
 from .mount_status_state import MountStatusState
 from .move_file_request import MoveFileRequest
@@ -136,6 +141,8 @@ from .process_probe_action import ProcessProbeAction
 from .process_type import ProcessType
 from .projected_header import ProjectedHeader
 from .projection_spec import ProjectionSpec
+from .protocol_rule import ProtocolRule
+from .protocol_rule_protocol import ProtocolRuleProtocol
 from .pty_size import PTYSize
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
@@ -411,8 +418,11 @@ __all__ = (
     "FunctionRestoreMount",
     "FunctionRevision",
     "FunctionRevisionCreateRequest",
+    "FunctionRuntimeEvent",
     "FunctionRuntimeInstance",
     "FunctionRuntimeInstanceState",
+    "FunctionRuntimePhase",
+    "FunctionRuntimeReadinessState",
     "FunctionRuntimeState",
     "FunctionRuntimeStatus",
     "FunctionSourceRequest",
@@ -433,6 +443,8 @@ __all__ = (
     "LifecyclePolicy",
     "LoginRequest",
     "LoginResponse",
+    "MCPProtocolRule",
+    "MCPToolPolicy",
     "MountStatus",
     "MountStatusState",
     "MoveFileRequest",
@@ -458,6 +470,8 @@ __all__ = (
     "ProcessType",
     "ProjectedHeader",
     "ProjectionSpec",
+    "ProtocolRule",
+    "ProtocolRuleProtocol",
     "PTYSize",
     "RefreshRequest",
     "RefreshResponse",

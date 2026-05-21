@@ -7,8 +7,15 @@ from sandbox0.apispec.models.credential_binding import CredentialBinding
 from sandbox0.apispec.models.credential_projection_type import CredentialProjectionType
 from sandbox0.apispec.models.egress_proxy_policy import EgressProxyPolicy
 from sandbox0.apispec.models.egress_proxy_type import EgressProxyType
+from sandbox0.apispec.models.egress_tls_mode import EgressTLSMode
+from sandbox0.apispec.models.http_match import HTTPMatch
+from sandbox0.apispec.models.mcp_protocol_rule import MCPProtocolRule
+from sandbox0.apispec.models.mcp_tool_policy import MCPToolPolicy
 from sandbox0.apispec.models.network_egress_policy import NetworkEgressPolicy
+from sandbox0.apispec.models.port_spec import PortSpec
 from sandbox0.apispec.models.projection_spec import ProjectionSpec
+from sandbox0.apispec.models.protocol_rule import ProtocolRule
+from sandbox0.apispec.models.protocol_rule_protocol import ProtocolRuleProtocol
 from sandbox0.apispec.models.sandbox_network_policy import SandboxNetworkPolicy
 from sandbox0.apispec.models.sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from sandbox0.apispec.models.success_sandbox_network_policy_response import (
@@ -40,6 +47,22 @@ class TestSandboxNetwork(TestCase):
                         action=TrafficRuleAction.ALLOW,
                         domains=["api.internal.example.com"],
                         app_protocols=[TrafficRuleAppProtocol.TLS],
+                    )
+                ],
+                protocol_rules=[
+                    ProtocolRule(
+                        name="internal-mcp",
+                        protocol=ProtocolRuleProtocol.MCP,
+                        domains=["api.internal.example.com"],
+                        ports=[PortSpec(port=443, protocol="tcp")],
+                        tls_mode=EgressTLSMode.TERMINATE_REORIGINATE,
+                        http_match=HTTPMatch(methods=["POST"], paths=["/mcp"]),
+                        mcp=MCPProtocolRule(
+                            tools=MCPToolPolicy(
+                                allowed=["read_file"],
+                                denied=["run_command"],
+                            ),
+                        ),
                     )
                 ],
                 proxy=EgressProxyPolicy(
@@ -79,6 +102,9 @@ class TestSandboxNetwork(TestCase):
         self.assertIs(updated, policy)
         self.assertEqual(captured["id"], "sb_123")
         self.assertIs(captured["body"], policy)
+        self.assertEqual(policy.egress.protocol_rules[0].protocol, ProtocolRuleProtocol.MCP)
+        self.assertEqual(policy.egress.protocol_rules[0].mcp.tools.allowed, ["read_file"])
+        self.assertEqual(policy.egress.protocol_rules[0].mcp.tools.denied, ["run_command"])
         self.assertEqual(policy.egress.proxy.type_, EgressProxyType.SOCKS5)
         self.assertEqual(policy.egress.proxy.address, "proxy.example.com:1080")
         self.assertEqual(

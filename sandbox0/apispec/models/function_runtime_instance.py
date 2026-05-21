@@ -7,6 +7,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.function_runtime_instance_state import FunctionRuntimeInstanceState
+from ..models.function_runtime_readiness_state import FunctionRuntimeReadinessState
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -32,10 +33,13 @@ class FunctionRuntimeInstance:
             revision_id (str):
             sandbox_id (str):
             state (FunctionRuntimeInstanceState):
+            readiness_state (FunctionRuntimeReadinessState):
             created_at (datetime.datetime):
             updated_at (datetime.datetime):
             context_id (Union[Unset, str]):
+            startup_duration_ms (Union[Unset, int]):
             last_error (Union[Unset, str]):
+            last_error_at (Union[Unset, datetime.datetime]):
             ready_at (Union[Unset, datetime.datetime]):
             last_used_at (Union[Unset, datetime.datetime]):
             draining_at (Union[Unset, datetime.datetime]):
@@ -48,10 +52,13 @@ class FunctionRuntimeInstance:
     revision_id: str
     sandbox_id: str
     state: FunctionRuntimeInstanceState
+    readiness_state: FunctionRuntimeReadinessState
     created_at: datetime.datetime
     updated_at: datetime.datetime
     context_id: Union[Unset, str] = UNSET
+    startup_duration_ms: Union[Unset, int] = UNSET
     last_error: Union[Unset, str] = UNSET
+    last_error_at: Union[Unset, datetime.datetime] = UNSET
     ready_at: Union[Unset, datetime.datetime] = UNSET
     last_used_at: Union[Unset, datetime.datetime] = UNSET
     draining_at: Union[Unset, datetime.datetime] = UNSET
@@ -75,13 +82,21 @@ class FunctionRuntimeInstance:
 
         state = self.state.value
 
+        readiness_state = self.readiness_state.value
+
         created_at = self.created_at.isoformat()
 
         updated_at = self.updated_at.isoformat()
 
         context_id = self.context_id
 
+        startup_duration_ms = self.startup_duration_ms
+
         last_error = self.last_error
+
+        last_error_at: Union[Unset, str] = UNSET
+        if not isinstance(self.last_error_at, Unset):
+            last_error_at = self.last_error_at.isoformat()
 
         ready_at: Union[Unset, str] = UNSET
         if not isinstance(self.ready_at, Unset):
@@ -109,13 +124,18 @@ class FunctionRuntimeInstance:
             "revision_id": revision_id,
             "sandbox_id": sandbox_id,
             "state": state,
+            "readiness_state": readiness_state,
             "created_at": created_at,
             "updated_at": updated_at,
         })
         if context_id is not UNSET:
             field_dict["context_id"] = context_id
+        if startup_duration_ms is not UNSET:
+            field_dict["startup_duration_ms"] = startup_duration_ms
         if last_error is not UNSET:
             field_dict["last_error"] = last_error
+        if last_error_at is not UNSET:
+            field_dict["last_error_at"] = last_error_at
         if ready_at is not UNSET:
             field_dict["ready_at"] = ready_at
         if last_used_at is not UNSET:
@@ -147,6 +167,11 @@ class FunctionRuntimeInstance:
 
 
 
+        readiness_state = FunctionRuntimeReadinessState(d.pop("readiness_state"))
+
+
+
+
         created_at = isoparse(d.pop("created_at"))
 
 
@@ -159,7 +184,19 @@ class FunctionRuntimeInstance:
 
         context_id = d.pop("context_id", UNSET)
 
+        startup_duration_ms = d.pop("startup_duration_ms", UNSET)
+
         last_error = d.pop("last_error", UNSET)
+
+        _last_error_at = d.pop("last_error_at", UNSET)
+        last_error_at: Union[Unset, datetime.datetime]
+        if isinstance(_last_error_at,  Unset):
+            last_error_at = UNSET
+        else:
+            last_error_at = isoparse(_last_error_at)
+
+
+
 
         _ready_at = d.pop("ready_at", UNSET)
         ready_at: Union[Unset, datetime.datetime]
@@ -208,10 +245,13 @@ class FunctionRuntimeInstance:
             revision_id=revision_id,
             sandbox_id=sandbox_id,
             state=state,
+            readiness_state=readiness_state,
             created_at=created_at,
             updated_at=updated_at,
             context_id=context_id,
+            startup_duration_ms=startup_duration_ms,
             last_error=last_error,
+            last_error_at=last_error_at,
             ready_at=ready_at,
             last_used_at=last_used_at,
             draining_at=draining_at,
