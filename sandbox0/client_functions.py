@@ -22,6 +22,8 @@ from sandbox0.apispec.models.function_alias_update_request import FunctionAliasU
 from sandbox0.apispec.models.function_autoscaling import FunctionAutoscaling
 from sandbox0.apispec.models.function_create_request import FunctionCreateRequest
 from sandbox0.apispec.models.function_record import FunctionRecord
+from sandbox0.apispec.models.function_revision_input_source_type import FunctionRevisionInputSourceType
+from sandbox0.apispec.models.function_revision_spec import FunctionRevisionSpec
 from sandbox0.apispec.models.function_runtime_status import FunctionRuntimeStatus
 from sandbox0.apispec.models.function_revision import FunctionRevision
 from sandbox0.apispec.models.function_revision_create_request import FunctionRevisionCreateRequest
@@ -63,6 +65,10 @@ def function_source(sandbox_id: str, service_id: str) -> FunctionSourceRequest:
     return FunctionSourceRequest(sandbox_id=sandbox_id, service_id=service_id)
 
 
+def function_revision_spec_source(spec: FunctionRevisionSpec) -> FunctionSourceRequest:
+    return FunctionSourceRequest(type_=FunctionRevisionInputSourceType.REVISION_SPEC, revision_spec=spec)
+
+
 class ClientFunctionsMixin:
     _api: Any
 
@@ -90,6 +96,15 @@ class ClientFunctionsMixin:
         autoscaling: FunctionAutoscaling | None = None,
     ) -> FunctionCreateResult:
         return _create_function_from_sandbox(self._api, sandbox_id, service_id, name=name, autoscaling=autoscaling)
+
+    def create_function_from_revision_spec(  # type: ignore[misc]
+        self: "Client",
+        spec: FunctionRevisionSpec,
+        *,
+        name: str | None = None,
+        autoscaling: FunctionAutoscaling | None = None,
+    ) -> FunctionCreateResult:
+        return _create_function_from_revision_spec(self._api, spec, name=name, autoscaling=autoscaling)
 
     def list_function_revisions(self: "Client", function_id: str) -> list[FunctionRevision]:  # type: ignore[misc]
         return _list_function_revisions(self._api, function_id)
@@ -119,6 +134,15 @@ class ClientFunctionsMixin:
             service_id,
             promote=promote,
         )
+
+    def create_function_revision_from_spec(  # type: ignore[misc]
+        self: "Client",
+        function_id: str,
+        spec: FunctionRevisionSpec,
+        *,
+        promote: bool | None = None,
+    ) -> FunctionRevisionCreateResult:
+        return _create_function_revision_from_spec(self._api, function_id, spec, promote=promote)
 
     def set_function_alias(self: "Client", function_id: str, alias: str, revision_number: int) -> FunctionAlias:  # type: ignore[misc]
         return _set_function_alias(self._api, function_id, alias, revision_number)
@@ -168,6 +192,15 @@ class Functions:
     ) -> FunctionCreateResult:
         return _create_function_from_sandbox(self._client.api, sandbox_id, service_id, name=name, autoscaling=autoscaling)
 
+    def create_from_revision_spec(
+        self,
+        spec: FunctionRevisionSpec,
+        *,
+        name: str | None = None,
+        autoscaling: FunctionAutoscaling | None = None,
+    ) -> FunctionCreateResult:
+        return _create_function_from_revision_spec(self._client.api, spec, name=name, autoscaling=autoscaling)
+
     def list_revisions(self, function_id: str) -> List[FunctionRevision]:
         return _list_function_revisions(self._client.api, function_id)
 
@@ -192,6 +225,15 @@ class Functions:
             service_id,
             promote=promote,
         )
+
+    def create_revision_from_spec(
+        self,
+        function_id: str,
+        spec: FunctionRevisionSpec,
+        *,
+        promote: bool | None = None,
+    ) -> FunctionRevisionCreateResult:
+        return _create_function_revision_from_spec(self._client.api, function_id, spec, promote=promote)
 
     def set_alias(self, function_id: str, alias: str, revision_number: int) -> FunctionAlias:
         return _set_function_alias(self._client.api, function_id, alias, revision_number)
@@ -258,6 +300,21 @@ def _create_function_from_sandbox(
     return _create_function(api, request)
 
 
+def _create_function_from_revision_spec(
+    api: Any,
+    spec: FunctionRevisionSpec,
+    *,
+    name: str | None = None,
+    autoscaling: FunctionAutoscaling | None = None,
+) -> FunctionCreateResult:
+    request = FunctionCreateRequest(source=function_revision_spec_source(spec))
+    if name is not None:
+        request.name = name
+    if autoscaling is not None:
+        request.autoscaling = autoscaling
+    return _create_function(api, request)
+
+
 def _list_function_revisions(api: Any, function_id: str) -> list[FunctionRevision]:
     resp = get_api_v1_functions_id_revisions.sync_detailed(id=function_id, client=api)
     data = ensure_data(resp, SuccessFunctionRevisionListResponse)
@@ -293,6 +350,19 @@ def _create_function_revision_from_sandbox(
     promote: bool | None = None,
 ) -> FunctionRevisionCreateResult:
     request = FunctionRevisionCreateRequest(source=function_source(sandbox_id, service_id))
+    if promote is not None:
+        request.promote = promote
+    return _create_function_revision(api, function_id, request)
+
+
+def _create_function_revision_from_spec(
+    api: Any,
+    function_id: str,
+    spec: FunctionRevisionSpec,
+    *,
+    promote: bool | None = None,
+) -> FunctionRevisionCreateResult:
+    request = FunctionRevisionCreateRequest(source=function_revision_spec_source(spec))
     if promote is not None:
         request.promote = promote
     return _create_function_revision(api, function_id, request)

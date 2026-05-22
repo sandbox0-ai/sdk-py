@@ -1,59 +1,44 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="MCPToolPolicy")
-
 
 
 @_attrs_define
 class MCPToolPolicy:
-    """ Tool-name allow and deny lists for MCP tools/call requests.
+    """Tool-name allow and deny lists for MCP tools/call requests.
 
-        Attributes:
-            allowed (Union[Unset, list[str]]): When non-empty, only listed tool names are allowed.
-            denied (Union[Unset, list[str]]): Tool names denied before the allowed list is evaluated.
-     """
+    Attributes:
+        allowed (Union[Unset, list[str]]): When non-empty, only listed tool names are allowed.
+        denied (Union[Unset, list[str]]): Tool names denied before the allowed list is evaluated.
+    """
 
     allowed: Union[Unset, list[str]] = UNSET
     denied: Union[Unset, list[str]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         allowed: Union[Unset, list[str]] = UNSET
         if not isinstance(self.allowed, Unset):
             allowed = self.allowed
 
-
-
         denied: Union[Unset, list[str]] = UNSET
         if not isinstance(self.denied, Unset):
             denied = self.denied
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if allowed is not UNSET:
             field_dict["allowed"] = allowed
         if denied is not UNSET:
@@ -61,22 +46,17 @@ class MCPToolPolicy:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         allowed = cast(list[str], d.pop("allowed", UNSET))
 
-
         denied = cast(list[str], d.pop("denied", UNSET))
-
 
         mcp_tool_policy = cls(
             allowed=allowed,
             denied=denied,
         )
-
 
         mcp_tool_policy.additional_properties = d
         return mcp_tool_policy

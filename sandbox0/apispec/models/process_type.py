@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ProcessType(str, Enum):
     CMD = "cmd"
     REPL = "repl"

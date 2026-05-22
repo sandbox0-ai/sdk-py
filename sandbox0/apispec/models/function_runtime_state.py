@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class FunctionRuntimeState(str, Enum):
     ACTIVE = "active"
     DISABLED = "disabled"

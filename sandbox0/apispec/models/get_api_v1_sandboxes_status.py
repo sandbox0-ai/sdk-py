@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class GetApiV1SandboxesStatus(str, Enum):
     COMPLETED = "completed"
     FAILED = "failed"

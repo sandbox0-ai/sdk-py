@@ -1,50 +1,44 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
+from dateutil.parser import isoparse
 
 from ..models.function_runtime_instance_state import FunctionRuntimeInstanceState
 from ..models.function_runtime_readiness_state import FunctionRuntimeReadinessState
 from ..types import UNSET, Unset
-from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
-
-
-
-
-
 
 T = TypeVar("T", bound="FunctionRuntimeInstance")
 
 
-
 @_attrs_define
 class FunctionRuntimeInstance:
-    """ 
-        Attributes:
-            id (str):
-            team_id (str):
-            function_id (str):
-            revision_id (str):
-            sandbox_id (str):
-            state (FunctionRuntimeInstanceState):
-            readiness_state (FunctionRuntimeReadinessState):
-            created_at (datetime.datetime):
-            updated_at (datetime.datetime):
-            context_id (Union[Unset, str]):
-            startup_duration_ms (Union[Unset, int]):
-            last_error (Union[Unset, str]):
-            last_error_at (Union[Unset, datetime.datetime]):
-            ready_at (Union[Unset, datetime.datetime]):
-            last_used_at (Union[Unset, datetime.datetime]):
-            draining_at (Union[Unset, datetime.datetime]):
-            failed_at (Union[Unset, datetime.datetime]):
-     """
+    """
+    Attributes:
+        id (str):
+        team_id (str):
+        function_id (str):
+        revision_id (str):
+        sandbox_id (str):
+        state (FunctionRuntimeInstanceState):
+        readiness_state (FunctionRuntimeReadinessState):
+        created_at (datetime.datetime):
+        updated_at (datetime.datetime):
+        context_id (Union[Unset, str]):
+        startup_duration_ms (Union[Unset, int]):
+        last_error (Union[Unset, str]):
+        last_error_at (Union[Unset, datetime.datetime]):
+        ready_at (Union[Unset, datetime.datetime]):
+        last_used_at (Union[Unset, datetime.datetime]):
+        draining_at (Union[Unset, datetime.datetime]):
+        failed_at (Union[Unset, datetime.datetime]):
+    """
 
     id: str
     team_id: str
@@ -64,10 +58,6 @@ class FunctionRuntimeInstance:
     draining_at: Union[Unset, datetime.datetime] = UNSET
     failed_at: Union[Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -114,20 +104,21 @@ class FunctionRuntimeInstance:
         if not isinstance(self.failed_at, Unset):
             failed_at = self.failed_at.isoformat()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "team_id": team_id,
-            "function_id": function_id,
-            "revision_id": revision_id,
-            "sandbox_id": sandbox_id,
-            "state": state,
-            "readiness_state": readiness_state,
-            "created_at": created_at,
-            "updated_at": updated_at,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "team_id": team_id,
+                "function_id": function_id,
+                "revision_id": revision_id,
+                "sandbox_id": sandbox_id,
+                "state": state,
+                "readiness_state": readiness_state,
+                "created_at": created_at,
+                "updated_at": updated_at,
+            }
+        )
         if context_id is not UNSET:
             field_dict["context_id"] = context_id
         if startup_duration_ms is not UNSET:
@@ -147,8 +138,6 @@ class FunctionRuntimeInstance:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
@@ -164,23 +153,11 @@ class FunctionRuntimeInstance:
 
         state = FunctionRuntimeInstanceState(d.pop("state"))
 
-
-
-
         readiness_state = FunctionRuntimeReadinessState(d.pop("readiness_state"))
-
-
-
 
         created_at = isoparse(d.pop("created_at"))
 
-
-
-
         updated_at = isoparse(d.pop("updated_at"))
-
-
-
 
         context_id = d.pop("context_id", UNSET)
 
@@ -190,53 +167,38 @@ class FunctionRuntimeInstance:
 
         _last_error_at = d.pop("last_error_at", UNSET)
         last_error_at: Union[Unset, datetime.datetime]
-        if isinstance(_last_error_at,  Unset):
+        if isinstance(_last_error_at, Unset):
             last_error_at = UNSET
         else:
             last_error_at = isoparse(_last_error_at)
 
-
-
-
         _ready_at = d.pop("ready_at", UNSET)
         ready_at: Union[Unset, datetime.datetime]
-        if isinstance(_ready_at,  Unset):
+        if isinstance(_ready_at, Unset):
             ready_at = UNSET
         else:
             ready_at = isoparse(_ready_at)
 
-
-
-
         _last_used_at = d.pop("last_used_at", UNSET)
         last_used_at: Union[Unset, datetime.datetime]
-        if isinstance(_last_used_at,  Unset):
+        if isinstance(_last_used_at, Unset):
             last_used_at = UNSET
         else:
             last_used_at = isoparse(_last_used_at)
 
-
-
-
         _draining_at = d.pop("draining_at", UNSET)
         draining_at: Union[Unset, datetime.datetime]
-        if isinstance(_draining_at,  Unset):
+        if isinstance(_draining_at, Unset):
             draining_at = UNSET
         else:
             draining_at = isoparse(_draining_at)
 
-
-
-
         _failed_at = d.pop("failed_at", UNSET)
         failed_at: Union[Unset, datetime.datetime]
-        if isinstance(_failed_at,  Unset):
+        if isinstance(_failed_at, Unset):
             failed_at = UNSET
         else:
             failed_at = isoparse(_failed_at)
-
-
-
 
         function_runtime_instance = cls(
             id=id,
@@ -257,7 +219,6 @@ class FunctionRuntimeInstance:
             draining_at=draining_at,
             failed_at=failed_at,
         )
-
 
         function_runtime_instance.additional_properties = d
         return function_runtime_instance

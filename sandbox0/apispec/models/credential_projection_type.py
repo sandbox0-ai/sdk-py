@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class CredentialProjectionType(str, Enum):
     HTTP_HEADERS = "http_headers"
     SSH_PROXY = "ssh_proxy"

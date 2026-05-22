@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SandboxSummaryStatus(str, Enum):
     COMPLETED = "completed"
     FAILED = "failed"

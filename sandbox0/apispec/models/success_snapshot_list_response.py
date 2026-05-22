@@ -1,44 +1,36 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.snapshot import Snapshot
-
-
-
+    from ..models.snapshot import Snapshot
 
 
 T = TypeVar("T", bound="SuccessSnapshotListResponse")
 
 
-
 @_attrs_define
 class SuccessSnapshotListResponse:
-    """ 
-        Attributes:
-            success (bool):
-            data (Union[Unset, list['Snapshot']]):
-     """
+    """
+    Attributes:
+        success (bool):
+        data (Union[Unset, list['Snapshot']]):
+    """
 
     success: bool
-    data: Union[Unset, list['Snapshot']] = UNSET
+    data: Union[Unset, list["Snapshot"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.snapshot import Snapshot
         success = self.success
 
         data: Union[Unset, list[dict[str, Any]]] = UNSET
@@ -48,42 +40,36 @@ class SuccessSnapshotListResponse:
                 data_item = data_item_data.to_dict()
                 data.append(data_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "success": success,
-        })
+        field_dict.update(
+            {
+                "success": success,
+            }
+        )
         if data is not UNSET:
             field_dict["data"] = data
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.snapshot import Snapshot
+
         d = dict(src_dict)
         success = d.pop("success")
 
         data = []
         _data = d.pop("data", UNSET)
-        for data_item_data in (_data or []):
+        for data_item_data in _data or []:
             data_item = Snapshot.from_dict(data_item_data)
 
-
-
             data.append(data_item)
-
 
         success_snapshot_list_response = cls(
             success=success,
             data=data,
         )
-
 
         success_snapshot_list_response.additional_properties = d
         return success_snapshot_list_response

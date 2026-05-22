@@ -1,66 +1,53 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-from typing import cast
-
 if TYPE_CHECKING:
-  from ..models.function_alias import FunctionAlias
-
-
-
+    from ..models.function_alias import FunctionAlias
 
 
 T = TypeVar("T", bound="SuccessFunctionAliasResponseData")
 
 
-
 @_attrs_define
 class SuccessFunctionAliasResponseData:
-    """ 
-        Attributes:
-            alias (FunctionAlias):
-     """
+    """
+    Attributes:
+        alias (FunctionAlias):
+    """
 
-    alias: 'FunctionAlias'
+    alias: "FunctionAlias"
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_alias import FunctionAlias
         alias = self.alias.to_dict()
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "alias": alias,
-        })
+        field_dict.update(
+            {
+                "alias": alias,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.function_alias import FunctionAlias
+
         d = dict(src_dict)
         alias = FunctionAlias.from_dict(d.pop("alias"))
-
-
-
 
         success_function_alias_response_data = cls(
             alias=alias,
         )
-
 
         success_function_alias_response_data.additional_properties = d
         return success_function_alias_response_data

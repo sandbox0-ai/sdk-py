@@ -1,51 +1,43 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
-
-from ..types import UNSET, Unset
 from dateutil.parser import isoparse
-from typing import cast
-from typing import cast, Union
-from typing import Union
-import datetime
+
+from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-  from ..models.sandbox_template_condition import SandboxTemplateCondition
-
-
-
+    from ..models.sandbox_template_condition import SandboxTemplateCondition
 
 
 T = TypeVar("T", bound="SandboxTemplateStatus")
 
 
-
 @_attrs_define
 class SandboxTemplateStatus:
-    """ 
-        Attributes:
-            idle_count (Union[Unset, int]):
-            active_count (Union[Unset, int]):
-            conditions (Union[Unset, list['SandboxTemplateCondition']]):
-            last_update_time (Union[None, Unset, datetime.datetime]):
-     """
+    """
+    Attributes:
+        idle_count (Union[Unset, int]):
+        active_count (Union[Unset, int]):
+        conditions (Union[Unset, list['SandboxTemplateCondition']]):
+        last_update_time (Union[None, Unset, datetime.datetime]):
+    """
 
     idle_count: Union[Unset, int] = UNSET
     active_count: Union[Unset, int] = UNSET
-    conditions: Union[Unset, list['SandboxTemplateCondition']] = UNSET
+    conditions: Union[Unset, list["SandboxTemplateCondition"]] = UNSET
     last_update_time: Union[None, Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_template_condition import SandboxTemplateCondition
         idle_count = self.idle_count
 
         active_count = self.active_count
@@ -57,8 +49,6 @@ class SandboxTemplateStatus:
                 conditions_item = conditions_item_data.to_dict()
                 conditions.append(conditions_item)
 
-
-
         last_update_time: Union[None, Unset, str]
         if isinstance(self.last_update_time, Unset):
             last_update_time = UNSET
@@ -67,11 +57,9 @@ class SandboxTemplateStatus:
         else:
             last_update_time = self.last_update_time
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if idle_count is not UNSET:
             field_dict["idleCount"] = idle_count
         if active_count is not UNSET:
@@ -83,11 +71,10 @@ class SandboxTemplateStatus:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_template_condition import SandboxTemplateCondition
+
         d = dict(src_dict)
         idle_count = d.pop("idleCount", UNSET)
 
@@ -95,15 +82,14 @@ class SandboxTemplateStatus:
 
         conditions = []
         _conditions = d.pop("conditions", UNSET)
-        for conditions_item_data in (_conditions or []):
+        for conditions_item_data in _conditions or []:
             conditions_item = SandboxTemplateCondition.from_dict(conditions_item_data)
-
-
 
             conditions.append(conditions_item)
 
-
-        def _parse_last_update_time(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_last_update_time(
+            data: object,
+        ) -> Union[None, Unset, datetime.datetime]:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -113,15 +99,12 @@ class SandboxTemplateStatus:
                     raise TypeError()
                 last_update_time_type_0 = isoparse(data)
 
-
-
                 return last_update_time_type_0
-            except: # noqa: E722
+            except:  # noqa: E722
                 pass
             return cast(Union[None, Unset, datetime.datetime], data)
 
         last_update_time = _parse_last_update_time(d.pop("lastUpdateTime", UNSET))
-
 
         sandbox_template_status = cls(
             idle_count=idle_count,
@@ -129,7 +112,6 @@ class SandboxTemplateStatus:
             conditions=conditions,
             last_update_time=last_update_time,
         )
-
 
         sandbox_template_status.additional_properties = d
         return sandbox_template_status

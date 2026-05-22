@@ -1,26 +1,21 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="WebhookConfig")
-
 
 
 @_attrs_define
 class WebhookConfig:
-    """ Per-sandbox webhook configuration. Sandbox0 delivers webhook events at least once and consumers should deduplicate
+    """Per-sandbox webhook configuration. Sandbox0 delivers webhook events at least once and consumers should deduplicate
     by event_id. For sandbox lifecycle events, procd persists signed delivery records to a manager-owned SandboxVolume
     outside the workspace before dispatch; manager also emits sandbox.deleted during pod deletion cleanup.
 
@@ -29,16 +24,12 @@ class WebhookConfig:
             secret (Union[Unset, str]): Optional. Shared secret used to sign webhook payloads.
             watch_dir (Union[Unset, str]): Optional. When set, procd subscribes to file events under this directory (same
                 semantics as the file watch WebSocket API) and emits file.modified events.
-     """
+    """
 
     url: Union[Unset, str] = UNSET
     secret: Union[Unset, str] = UNSET
     watch_dir: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         url = self.url
@@ -47,11 +38,9 @@ class WebhookConfig:
 
         watch_dir = self.watch_dir
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if url is not UNSET:
             field_dict["url"] = url
         if secret is not UNSET:
@@ -60,8 +49,6 @@ class WebhookConfig:
             field_dict["watch_dir"] = watch_dir
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -77,7 +64,6 @@ class WebhookConfig:
             secret=secret,
             watch_dir=watch_dir,
         )
-
 
         webhook_config.additional_properties = d
         return webhook_config

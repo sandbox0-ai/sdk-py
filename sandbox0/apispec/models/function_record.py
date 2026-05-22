@@ -1,49 +1,46 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
-
-from ..types import UNSET, Unset
 from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
+
+from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-  from ..models.function_autoscaling import FunctionAutoscaling
-
-
-
+    from ..models.function_autoscaling import FunctionAutoscaling
 
 
 T = TypeVar("T", bound="FunctionRecord")
 
 
-
 @_attrs_define
 class FunctionRecord:
-    """ 
-        Attributes:
-            id (str):
-            team_id (str):
-            name (str):
-            slug (str):
-            domain_label (str):
-            enabled (bool):
-            autoscaling (FunctionAutoscaling): Function runtime pool autoscaling settings. target_concurrency is a soft
-                routing and scale-out signal; it is not a strong distributed per-instance concurrency semaphore.
-            created_at (datetime.datetime):
-            updated_at (datetime.datetime):
-            host (str):
-            url (str):
-            active_revision_id (Union[Unset, str]):
-            created_by (Union[Unset, str]):
-            deleted_at (Union[Unset, datetime.datetime]): Set when the function has been soft-deleted. Deleted functions are
-                hidden from normal list/get APIs and do not serve traffic.
-     """
+    """
+    Attributes:
+        id (str):
+        team_id (str):
+        name (str):
+        slug (str):
+        domain_label (str):
+        enabled (bool):
+        autoscaling (FunctionAutoscaling): Function runtime pool autoscaling settings. target_concurrency is a soft
+            routing and scale-out signal; it is not a strong distributed per-instance concurrency semaphore.
+        created_at (datetime.datetime):
+        updated_at (datetime.datetime):
+        host (str):
+        url (str):
+        active_revision_id (Union[Unset, str]):
+        created_by (Union[Unset, str]):
+        deleted_at (Union[Unset, datetime.datetime]): Set when the function has been soft-deleted. Deleted functions are
+            hidden from normal list/get APIs and do not serve traffic.
+    """
 
     id: str
     team_id: str
@@ -51,7 +48,7 @@ class FunctionRecord:
     slug: str
     domain_label: str
     enabled: bool
-    autoscaling: 'FunctionAutoscaling'
+    autoscaling: "FunctionAutoscaling"
     created_at: datetime.datetime
     updated_at: datetime.datetime
     host: str
@@ -61,12 +58,7 @@ class FunctionRecord:
     deleted_at: Union[Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_autoscaling import FunctionAutoscaling
         id = self.id
 
         team_id = self.team_id
@@ -97,22 +89,23 @@ class FunctionRecord:
         if not isinstance(self.deleted_at, Unset):
             deleted_at = self.deleted_at.isoformat()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "team_id": team_id,
-            "name": name,
-            "slug": slug,
-            "domain_label": domain_label,
-            "enabled": enabled,
-            "autoscaling": autoscaling,
-            "created_at": created_at,
-            "updated_at": updated_at,
-            "host": host,
-            "url": url,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "team_id": team_id,
+                "name": name,
+                "slug": slug,
+                "domain_label": domain_label,
+                "enabled": enabled,
+                "autoscaling": autoscaling,
+                "created_at": created_at,
+                "updated_at": updated_at,
+                "host": host,
+                "url": url,
+            }
+        )
         if active_revision_id is not UNSET:
             field_dict["active_revision_id"] = active_revision_id
         if created_by is not UNSET:
@@ -122,11 +115,10 @@ class FunctionRecord:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.function_autoscaling import FunctionAutoscaling
+
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -142,18 +134,9 @@ class FunctionRecord:
 
         autoscaling = FunctionAutoscaling.from_dict(d.pop("autoscaling"))
 
-
-
-
         created_at = isoparse(d.pop("created_at"))
 
-
-
-
         updated_at = isoparse(d.pop("updated_at"))
-
-
-
 
         host = d.pop("host")
 
@@ -165,13 +148,10 @@ class FunctionRecord:
 
         _deleted_at = d.pop("deleted_at", UNSET)
         deleted_at: Union[Unset, datetime.datetime]
-        if isinstance(_deleted_at,  Unset):
+        if isinstance(_deleted_at, Unset):
             deleted_at = UNSET
         else:
             deleted_at = isoparse(_deleted_at)
-
-
-
 
         function_record = cls(
             id=id,
@@ -189,7 +169,6 @@ class FunctionRecord:
             created_by=created_by,
             deleted_at=deleted_at,
         )
-
 
         function_record.additional_properties = d
         return function_record

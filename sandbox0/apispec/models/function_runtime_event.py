@@ -1,46 +1,40 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
+from dateutil.parser import isoparse
 
 from ..models.function_runtime_phase import FunctionRuntimePhase
 from ..models.function_runtime_readiness_state import FunctionRuntimeReadinessState
 from ..types import UNSET, Unset
-from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
-
-
-
-
-
 
 T = TypeVar("T", bound="FunctionRuntimeEvent")
 
 
-
 @_attrs_define
 class FunctionRuntimeEvent:
-    """ 
-        Attributes:
-            id (str):
-            team_id (str):
-            function_id (str):
-            revision_id (str):
-            phase (FunctionRuntimePhase):
-            readiness_state (FunctionRuntimeReadinessState):
-            created_at (datetime.datetime):
-            runtime_instance_id (Union[Unset, str]):
-            runtime_sandbox_id (Union[Unset, str]):
-            runtime_context_id (Union[Unset, str]):
-            reason (Union[Unset, str]):
-            message (Union[Unset, str]):
-            startup_duration_ms (Union[Unset, int]):
-     """
+    """
+    Attributes:
+        id (str):
+        team_id (str):
+        function_id (str):
+        revision_id (str):
+        phase (FunctionRuntimePhase):
+        readiness_state (FunctionRuntimeReadinessState):
+        created_at (datetime.datetime):
+        runtime_instance_id (Union[Unset, str]):
+        runtime_sandbox_id (Union[Unset, str]):
+        runtime_context_id (Union[Unset, str]):
+        reason (Union[Unset, str]):
+        message (Union[Unset, str]):
+        startup_duration_ms (Union[Unset, int]):
+    """
 
     id: str
     team_id: str
@@ -56,10 +50,6 @@ class FunctionRuntimeEvent:
     message: Union[Unset, str] = UNSET
     startup_duration_ms: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -88,18 +78,19 @@ class FunctionRuntimeEvent:
 
         startup_duration_ms = self.startup_duration_ms
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "team_id": team_id,
-            "function_id": function_id,
-            "revision_id": revision_id,
-            "phase": phase,
-            "readiness_state": readiness_state,
-            "created_at": created_at,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "team_id": team_id,
+                "function_id": function_id,
+                "revision_id": revision_id,
+                "phase": phase,
+                "readiness_state": readiness_state,
+                "created_at": created_at,
+            }
+        )
         if runtime_instance_id is not UNSET:
             field_dict["runtime_instance_id"] = runtime_instance_id
         if runtime_sandbox_id is not UNSET:
@@ -115,8 +106,6 @@ class FunctionRuntimeEvent:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
@@ -130,18 +119,9 @@ class FunctionRuntimeEvent:
 
         phase = FunctionRuntimePhase(d.pop("phase"))
 
-
-
-
         readiness_state = FunctionRuntimeReadinessState(d.pop("readiness_state"))
 
-
-
-
         created_at = isoparse(d.pop("created_at"))
-
-
-
 
         runtime_instance_id = d.pop("runtime_instance_id", UNSET)
 
@@ -170,7 +150,6 @@ class FunctionRuntimeEvent:
             message=message,
             startup_duration_ms=startup_duration_ms,
         )
-
 
         function_runtime_event.additional_properties = d
         return function_runtime_event
