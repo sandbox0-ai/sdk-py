@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class ContextWebSocketResizeType(str, Enum):
     RESIZE = "resize"
 

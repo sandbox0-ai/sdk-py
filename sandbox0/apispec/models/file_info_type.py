@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class FileInfoType(str, Enum):
     DIR = "dir"
     FILE = "file"

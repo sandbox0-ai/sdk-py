@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class ContextWebSocketDoneType(str, Enum):
     DONE = "done"
 

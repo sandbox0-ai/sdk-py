@@ -1,30 +1,35 @@
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.function_revision_mount_source_type import FunctionRevisionMountSourceType
 from ..types import UNSET, Unset
 
+from ..models.function_revision_mount_source_type import FunctionRevisionMountSourceType
+from ..types import UNSET, Unset
+from typing import Union
+
+
+
+
+
+
 T = TypeVar("T", bound="FunctionRevisionMountSource")
+
 
 
 @_attrs_define
 class FunctionRevisionMountSource:
     """
-    Attributes:
-        type_ (FunctionRevisionMountSourceType):
-        sandboxvolume_id (Union[Unset, str]): Prepared SandboxVolume ID available to the runtime claim path.
-        source_sandboxvolume_id (Union[Unset, str]): Source SandboxVolume captured by a sandbox-service publish.
-        snapshot_id (Union[Unset, str]): Immutable snapshot used to materialize this mount.
-        artifact_id (Union[Unset, str]): Future first-class Function artifact ID.
-        digest (Union[Unset, str]): Content digest for artifact-backed sources.
-    """
+        Attributes:
+            type_ (FunctionRevisionMountSourceType):
+            sandboxvolume_id (Union[Unset, str]): Prepared SandboxVolume ID available to the runtime claim path.
+            source_sandboxvolume_id (Union[Unset, str]): Source SandboxVolume captured by a sandbox-service publish.
+            snapshot_id (Union[Unset, str]): Immutable snapshot used to materialize this mount.
+            artifact_id (Union[Unset, str]): Future first-class Function artifact ID.
+            digest (Union[Unset, str]): Content digest for artifact-backed sources.
+     """
 
     type_: FunctionRevisionMountSourceType
     sandboxvolume_id: Union[Unset, str] = UNSET
@@ -33,6 +38,10 @@ class FunctionRevisionMountSource:
     artifact_id: Union[Unset, str] = UNSET
     digest: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
@@ -47,13 +56,12 @@ class FunctionRevisionMountSource:
 
         digest = self.digest
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "type": type_,
-            }
-        )
+        field_dict.update({
+            "type": type_,
+        })
         if sandboxvolume_id is not UNSET:
             field_dict["sandboxvolume_id"] = sandboxvolume_id
         if source_sandboxvolume_id is not UNSET:
@@ -67,10 +75,15 @@ class FunctionRevisionMountSource:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = FunctionRevisionMountSourceType(d.pop("type"))
+
+
+
 
         sandboxvolume_id = d.pop("sandboxvolume_id", UNSET)
 
@@ -90,6 +103,7 @@ class FunctionRevisionMountSource:
             artifact_id=artifact_id,
             digest=digest,
         )
+
 
         function_revision_mount_source.additional_properties = d
         return function_revision_mount_source

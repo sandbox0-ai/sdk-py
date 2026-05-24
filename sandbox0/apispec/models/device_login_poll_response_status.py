@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class DeviceLoginPollResponseStatus(str, Enum):
     COMPLETED = "completed"
     PENDING = "pending"

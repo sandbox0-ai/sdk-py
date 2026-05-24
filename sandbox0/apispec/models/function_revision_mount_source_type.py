@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class FunctionRevisionMountSourceType(str, Enum):
     ARTIFACT = "artifact"
     SANDBOX_VOLUME = "sandbox_volume"

@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class FunctionRuntimeReadinessState(str, Enum):
     CHECKING = "checking"
     FAILED = "failed"

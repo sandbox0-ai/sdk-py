@@ -1,31 +1,32 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.function_revision_input_source_type import FunctionRevisionInputSourceType
 from ..types import UNSET, Unset
 
+from ..models.function_revision_input_source_type import FunctionRevisionInputSourceType
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.function_revision_spec import FunctionRevisionSpec
-    from ..models.function_sandbox_service_source import FunctionSandboxServiceSource
-    from ..models.function_source_request_provenance import (
-        FunctionSourceRequestProvenance,
-    )
+  from ..models.function_sandbox_service_source import FunctionSandboxServiceSource
+  from ..models.function_source_request_provenance import FunctionSourceRequestProvenance
+  from ..models.function_revision_spec import FunctionRevisionSpec
+
+
+
 
 
 T = TypeVar("T", bound="FunctionSourceRequest")
 
 
+
 @_attrs_define
 class FunctionSourceRequest:
-    """Source used to create a function revision. Omitting type with sandbox_id and service_id keeps the sandbox-service
+    """ Source used to create a function revision. Omitting type with sandbox_id and service_id keeps the sandbox-service
     shortcut shape; internally it is compiled into an immutable FunctionRevisionSpec.
 
         Attributes:
@@ -37,20 +38,28 @@ class FunctionSourceRequest:
                 serve a revision.
             provenance (Union[Unset, FunctionSourceRequestProvenance]): Optional non-execution metadata describing how the
                 revision spec was produced.
-    """
+     """
 
     type_: Union[Unset, FunctionRevisionInputSourceType] = UNSET
     sandbox_id: Union[Unset, str] = UNSET
     service_id: Union[Unset, str] = UNSET
-    sandbox_service: Union[Unset, "FunctionSandboxServiceSource"] = UNSET
-    revision_spec: Union[Unset, "FunctionRevisionSpec"] = UNSET
-    provenance: Union[Unset, "FunctionSourceRequestProvenance"] = UNSET
+    sandbox_service: Union[Unset, 'FunctionSandboxServiceSource'] = UNSET
+    revision_spec: Union[Unset, 'FunctionRevisionSpec'] = UNSET
+    provenance: Union[Unset, 'FunctionSourceRequestProvenance'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.function_sandbox_service_source import FunctionSandboxServiceSource
+        from ..models.function_source_request_provenance import FunctionSourceRequestProvenance
+        from ..models.function_revision_spec import FunctionRevisionSpec
         type_: Union[Unset, str] = UNSET
         if not isinstance(self.type_, Unset):
             type_ = self.type_.value
+
 
         sandbox_id = self.sandbox_id
 
@@ -68,9 +77,11 @@ class FunctionSourceRequest:
         if not isinstance(self.provenance, Unset):
             provenance = self.provenance.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if type_ is not UNSET:
             field_dict["type"] = type_
         if sandbox_id is not UNSET:
@@ -86,23 +97,23 @@ class FunctionSourceRequest:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.function_sandbox_service_source import FunctionSandboxServiceSource
+        from ..models.function_source_request_provenance import FunctionSourceRequestProvenance
         from ..models.function_revision_spec import FunctionRevisionSpec
-        from ..models.function_sandbox_service_source import (
-            FunctionSandboxServiceSource,
-        )
-        from ..models.function_source_request_provenance import (
-            FunctionSourceRequestProvenance,
-        )
-
         d = dict(src_dict)
         _type_ = d.pop("type", UNSET)
         type_: Union[Unset, FunctionRevisionInputSourceType]
-        if isinstance(_type_, Unset):
+        if isinstance(_type_,  Unset):
             type_ = UNSET
         else:
             type_ = FunctionRevisionInputSourceType(_type_)
+
+
+
 
         sandbox_id = d.pop("sandbox_id", UNSET)
 
@@ -110,24 +121,33 @@ class FunctionSourceRequest:
 
         _sandbox_service = d.pop("sandbox_service", UNSET)
         sandbox_service: Union[Unset, FunctionSandboxServiceSource]
-        if isinstance(_sandbox_service, Unset):
+        if isinstance(_sandbox_service,  Unset):
             sandbox_service = UNSET
         else:
             sandbox_service = FunctionSandboxServiceSource.from_dict(_sandbox_service)
 
+
+
+
         _revision_spec = d.pop("revision_spec", UNSET)
         revision_spec: Union[Unset, FunctionRevisionSpec]
-        if isinstance(_revision_spec, Unset):
+        if isinstance(_revision_spec,  Unset):
             revision_spec = UNSET
         else:
             revision_spec = FunctionRevisionSpec.from_dict(_revision_spec)
 
+
+
+
         _provenance = d.pop("provenance", UNSET)
         provenance: Union[Unset, FunctionSourceRequestProvenance]
-        if isinstance(_provenance, Unset):
+        if isinstance(_provenance,  Unset):
             provenance = UNSET
         else:
             provenance = FunctionSourceRequestProvenance.from_dict(_provenance)
+
+
+
 
         function_source_request = cls(
             type_=type_,
@@ -137,6 +157,7 @@ class FunctionSourceRequest:
             revision_spec=revision_spec,
             provenance=provenance,
         )
+
 
         function_source_request.additional_properties = d
         return function_source_request

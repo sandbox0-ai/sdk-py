@@ -1,10 +1,15 @@
 from __future__ import annotations
 
 import base64
+from http import HTTPStatus
 import json
+import os
+import tarfile
+import tempfile
 from io import BytesIO
-from typing import Any, cast
+from typing import Any, BinaryIO, Union, cast
 
+from sandbox0.apispec.models.success_volume_file_archive_import_response import SuccessVolumeFileArchiveImportResponse
 from sandbox0.apispec.api.files import delete_api_v1_sandboxvolumes_id_files
 from sandbox0.apispec.api.files import get_api_v1_sandboxvolumes_id_files
 from sandbox0.apispec.api.files import get_api_v1_sandboxvolumes_id_files_list
@@ -22,7 +27,9 @@ from sandbox0.apispec.models.success_file_read_response import SuccessFileReadRe
 from sandbox0.apispec.models.success_file_stat_response import SuccessFileStatResponse
 from sandbox0.apispec.models.success_moved_response import SuccessMovedResponse
 from sandbox0.apispec.models.success_written_response import SuccessWrittenResponse
+from sandbox0.apispec.models.volume_file_archive_import_response import VolumeFileArchiveImportResponse
 from sandbox0.apispec.types import File as APIFile
+from sandbox0.apispec.types import Response
 from sandbox0.apispec.types import UNSET
 from sandbox0.errors import APIError
 from sandbox0.sandbox_files import FileWatchStream
@@ -75,6 +82,59 @@ def write_volume_file(client: Any, volume_id: str, path: str, data: bytes) -> Su
     if isinstance(parsed, SuccessCreatedResponse):
         raise APIError(status_code=int(resp.status_code), message="directory created instead of file")
     raise APIError(status_code=int(resp.status_code), message="unexpected response")
+
+
+def import_volume_archive(
+    client: Any,
+    volume_id: str,
+    path: str,
+    archive: Union[bytes, BinaryIO],
+) -> VolumeFileArchiveImportResponse:
+    resp = client.api.get_httpx_client().request(
+        "put",
+        f"/api/v1/sandboxvolumes/{volume_id}/files/archive",
+        params={"path": path},
+        content=BytesIO(archive) if isinstance(archive, bytes) else archive,
+        headers={"Content-Type": "application/x-tar"},
+    )
+    parsed = SuccessVolumeFileArchiveImportResponse.from_dict(resp.json()) if resp.status_code == 200 else None
+    response: Response[SuccessVolumeFileArchiveImportResponse] = Response(
+        status_code=HTTPStatus(resp.status_code),
+        content=resp.content,
+        headers=resp.headers,
+        parsed=parsed,
+    )
+    return ensure_data(response, SuccessVolumeFileArchiveImportResponse)
+
+
+def upload_volume_directory(
+    client: Any,
+    volume_id: str,
+    local_path: str,
+    remote_path: str,
+) -> VolumeFileArchiveImportResponse:
+    if not os.path.isdir(local_path):
+        raise ValueError(f"local path is not a directory: {local_path}")
+
+    root = os.path.abspath(local_path)
+    with tempfile.TemporaryFile() as archive:
+        with tarfile.open(fileobj=archive, mode="w") as tar:
+            for current, dirs, files in os.walk(root, followlinks=False):
+                rel_current = os.path.relpath(current, root)
+                if rel_current != ".":
+                    tar.add(current, arcname=rel_current.replace(os.sep, "/"), recursive=False)
+                for name in dirs:
+                    local = os.path.join(current, name)
+                    if not os.path.islink(local):
+                        continue
+                    rel = os.path.relpath(local, root).replace(os.sep, "/")
+                    tar.add(local, arcname=rel, recursive=False)
+                for name in files:
+                    local = os.path.join(current, name)
+                    rel = os.path.relpath(local, root).replace(os.sep, "/")
+                    tar.add(local, arcname=rel, recursive=False)
+        archive.seek(0)
+        return import_volume_archive(client, volume_id, remote_path, archive)
 
 
 def mkdir_volume_file(client: Any, volume_id: str, path: str, recursive: bool = False) -> SuccessCreatedResponse:
