@@ -5,6 +5,8 @@ test-e2e:
 	@printf "Running E2E tests...\n"
 	python3 -m unittest discover -s tests/e2e -p "test_*.py" -v
 
+OPENAPI_PYTHON_CLIENT := .venv/bin/openapi-python-client
+
 # Version for publishing (usage: make publish v=0.0.0)
 v ?=
 
@@ -20,9 +22,10 @@ endif
 # Generate typed low-level SDK code from OpenAPI spec.
 apispec:
 	@printf "Generating Python API spec code...\n"
-	@python3 -m openapi_python_client --version >/dev/null 2>&1 || \
-		python3 -m pip install --user openapi-python-client==0.26.2
-	@python3 -m openapi_python_client generate \
+	@test -x .venv/bin/python || python3 -m venv .venv
+	@$(OPENAPI_PYTHON_CLIENT) --version >/dev/null 2>&1 || \
+		.venv/bin/python -m pip install openapi-python-client==0.26.2
+	@$(OPENAPI_PYTHON_CLIENT) generate \
 		--path openapi.yaml \
 		--meta none \
 		--overwrite \

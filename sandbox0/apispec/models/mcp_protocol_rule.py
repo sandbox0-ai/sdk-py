@@ -1,62 +1,77 @@
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
 if TYPE_CHECKING:
-    from ..models.mcp_tool_policy import MCPToolPolicy
+  from ..models.mcp_tool_policy import MCPToolPolicy
+
+
+
 
 
 T = TypeVar("T", bound="MCPProtocolRule")
 
 
+
 @_attrs_define
 class MCPProtocolRule:
-    """Model Context Protocol operation policy.
+    """ Model Context Protocol operation policy.
 
-    Attributes:
-        tools (Union[Unset, MCPToolPolicy]): Tool-name allow and deny lists for MCP tools/call requests.
-    """
+        Attributes:
+            tools (Union[Unset, MCPToolPolicy]): Tool-name allow and deny lists for MCP tools/call requests.
+     """
 
-    tools: Union[Unset, "MCPToolPolicy"] = UNSET
+    tools: Union[Unset, 'MCPToolPolicy'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.mcp_tool_policy import MCPToolPolicy
         tools: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.tools, Unset):
             tools = self.tools.to_dict()
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update({
+        })
         if tools is not UNSET:
             field_dict["tools"] = tools
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.mcp_tool_policy import MCPToolPolicy
-
         d = dict(src_dict)
         _tools = d.pop("tools", UNSET)
         tools: Union[Unset, MCPToolPolicy]
-        if isinstance(_tools, Unset):
+        if isinstance(_tools,  Unset):
             tools = UNSET
         else:
             tools = MCPToolPolicy.from_dict(_tools)
 
+
+
+
         mcp_protocol_rule = cls(
             tools=tools,
         )
+
 
         mcp_protocol_rule.additional_properties = d
         return mcp_protocol_rule

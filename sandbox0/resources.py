@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, List, Optional, TYPE_CHECKING, Union
+from typing import Any, BinaryIO, List, Optional, TYPE_CHECKING, Union
 
 from sandbox0.apispec.api.sandboxes import delete_api_v1_sandboxes_id
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes
@@ -57,17 +57,20 @@ from sandbox0.apispec.models.success_sandbox_volume_response import SuccessSandb
 from sandbox0.apispec.models.success_snapshot_list_response import SuccessSnapshotListResponse
 from sandbox0.apispec.models.success_snapshot_response import SuccessSnapshotResponse
 from sandbox0.apispec.models.success_written_response import SuccessWrittenResponse
+from sandbox0.apispec.models.volume_file_archive_import_response import VolumeFileArchiveImportResponse
 from sandbox0.apispec.types import UNSET
 from sandbox0.response import ensure_data, ensure_model
 from sandbox0.sandbox_files import FileWatchStream
 from sandbox0.sessions import SandboxSession, VolumeSession
 from sandbox0.volume_files import (
     delete_volume_file,
+    import_volume_archive,
     list_volume_files,
     mkdir_volume_file,
     move_volume_file,
     read_volume_file,
     stat_volume_file,
+    upload_volume_directory,
     watch_volume_files,
     write_volume_file,
 )
@@ -262,6 +265,17 @@ class Volumes:
 
     def write_file(self, volume_id: str, path: str, data: bytes) -> SuccessWrittenResponse:
         return write_volume_file(self._client, volume_id, path, data)
+
+    def import_archive(
+        self,
+        volume_id: str,
+        path: str,
+        archive: Union[bytes, BinaryIO],
+    ) -> VolumeFileArchiveImportResponse:
+        return import_volume_archive(self._client, volume_id, path, archive)
+
+    def upload_directory(self, volume_id: str, local_path: str, remote_path: str) -> VolumeFileArchiveImportResponse:
+        return upload_volume_directory(self._client, volume_id, local_path, remote_path)
 
     def mkdir(self, volume_id: str, path: str, recursive: bool = False) -> SuccessCreatedResponse:
         return mkdir_volume_file(self._client, volume_id, path, recursive)

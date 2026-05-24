@@ -1,40 +1,51 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_function_alias_response import SuccessFunctionAliasResponse
-from ...types import Response
+from typing import cast
+
 
 
 def _get_kwargs(
     id: str,
     alias: str,
+
 ) -> dict[str, Any]:
+
+
+
+
+
+
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/v1/functions/{id}/aliases/{alias}".format(
-            id=id,
-            alias=alias,
-        ),
+        "url": "/api/v1/functions/{id}/aliases/{alias}".format(id=id,alias=alias,),
     }
+
 
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
+
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
     if response.status_code == 200:
         response_200 = SuccessFunctionAliasResponse.from_dict(response.json())
+
+
 
         return response_200
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
+
+
 
         return response_404
 
@@ -44,9 +55,7 @@ def _parse_response(
         return None
 
 
-def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -60,8 +69,9 @@ def sync_detailed(
     alias: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Response[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
-    """Get function alias
+    """ Get function alias
 
     Args:
         id (str):
@@ -73,11 +83,13 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        alias=alias,
+alias=alias,
+
     )
 
     response = client.get_httpx_client().request(
@@ -86,14 +98,14 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
 def sync(
     id: str,
     alias: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
-    """Get function alias
+    """ Get function alias
 
     Args:
         id (str):
@@ -105,22 +117,24 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessFunctionAliasResponse]
-    """
+     """
+
 
     return sync_detailed(
         id=id,
-        alias=alias,
-        client=client,
-    ).parsed
+alias=alias,
+client=client,
 
+    ).parsed
 
 async def asyncio_detailed(
     id: str,
     alias: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Response[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
-    """Get function alias
+    """ Get function alias
 
     Args:
         id (str):
@@ -132,25 +146,29 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]
-    """
+     """
+
 
     kwargs = _get_kwargs(
         id=id,
-        alias=alias,
+alias=alias,
+
     )
 
-    response = await client.get_async_httpx_client().request(**kwargs)
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
 
     return _build_response(client=client, response=response)
-
 
 async def asyncio(
     id: str,
     alias: str,
     *,
     client: AuthenticatedClient,
+
 ) -> Optional[Union[ErrorEnvelope, SuccessFunctionAliasResponse]]:
-    """Get function alias
+    """ Get function alias
 
     Args:
         id (str):
@@ -162,12 +180,12 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessFunctionAliasResponse]
-    """
+     """
 
-    return (
-        await asyncio_detailed(
-            id=id,
-            alias=alias,
-            client=client,
-        )
-    ).parsed
+
+    return (await asyncio_detailed(
+        id=id,
+alias=alias,
+client=client,
+
+    )).parsed

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import Any, BinaryIO, TYPE_CHECKING, Union
 
 from sandbox0.apispec.api.sandbox_volumes import delete_api_v1_sandboxvolumes_id
 from sandbox0.apispec.api.sandbox_volumes import get_api_v1_sandboxvolumes
@@ -25,15 +25,18 @@ from sandbox0.apispec.models.success_sandbox_volume_response import SuccessSandb
 from sandbox0.apispec.models.success_snapshot_list_response import SuccessSnapshotListResponse
 from sandbox0.apispec.models.success_snapshot_response import SuccessSnapshotResponse
 from sandbox0.apispec.models.success_written_response import SuccessWrittenResponse
+from sandbox0.apispec.models.volume_file_archive_import_response import VolumeFileArchiveImportResponse
 from sandbox0.response import ensure_data, ensure_model
 from sandbox0.sandbox_files import FileWatchStream
 from sandbox0.volume_files import (
     delete_volume_file,
+    import_volume_archive,
     list_volume_files,
     mkdir_volume_file,
     move_volume_file,
     read_volume_file,
     stat_volume_file,
+    upload_volume_directory,
     watch_volume_files,
     write_volume_file,
 )
@@ -110,6 +113,12 @@ class ClientVolumesMixin:
 
     def write_volume_file(self: "Client", volume_id: str, path: str, data: bytes) -> SuccessWrittenResponse:  # type: ignore[misc]
         return write_volume_file(self, volume_id, path, data)
+
+    def import_volume_archive(self: "Client", volume_id: str, path: str, archive: Union[bytes, BinaryIO]) -> VolumeFileArchiveImportResponse:  # type: ignore[misc]
+        return import_volume_archive(self, volume_id, path, archive)
+
+    def upload_volume_directory(self: "Client", volume_id: str, local_path: str, remote_path: str) -> VolumeFileArchiveImportResponse:  # type: ignore[misc]
+        return upload_volume_directory(self, volume_id, local_path, remote_path)
 
     def mkdir_volume_file(self: "Client", volume_id: str, path: str, recursive: bool = False) -> SuccessCreatedResponse:  # type: ignore[misc]
         return mkdir_volume_file(self, volume_id, path, recursive)

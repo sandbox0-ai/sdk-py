@@ -1,76 +1,87 @@
-import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
+
+from ..types import UNSET, Unset
 
 from ..models.function_revision_source_type import FunctionRevisionSourceType
 from ..types import UNSET, Unset
+from dateutil.parser import isoparse
+from typing import cast
+from typing import Union
+import datetime
 
 if TYPE_CHECKING:
-    from ..models.function_restore_mount import FunctionRestoreMount
-    from ..models.function_revision_provenance import FunctionRevisionProvenance
-    from ..models.function_revision_spec import FunctionRevisionSpec
-    from ..models.sandbox_app_service import SandboxAppService
+  from ..models.function_revision_provenance import FunctionRevisionProvenance
+  from ..models.function_restore_mount import FunctionRestoreMount
+  from ..models.function_revision_spec import FunctionRevisionSpec
+  from ..models.sandbox_app_service import SandboxAppService
+
+
+
 
 
 T = TypeVar("T", bound="FunctionRevision")
 
 
+
 @_attrs_define
 class FunctionRevision:
     """
-    Attributes:
-        id (str):
-        function_id (str):
-        team_id (str):
-        revision_number (int):
-        source_type (FunctionRevisionSourceType):
-        revision_spec (FunctionRevisionSpec): Immutable execution contract used by Function Gateway to serve a revision.
-        created_at (datetime.datetime):
-        provenance (Union[Unset, FunctionRevisionProvenance]): Non-execution metadata describing how the revision spec
-            was produced.
-        source_sandbox_id (Union[Unset, str]): Compatibility mirror for sandbox-service revisions.
-        source_service_id (Union[Unset, str]): Compatibility mirror for sandbox-service revisions.
-        source_template_id (Union[Unset, str]): Compatibility mirror of revision_spec.template_id.
-        restore_mounts (Union[Unset, list['FunctionRestoreMount']]): Compatibility mirror of revision_spec.mounts for
-            prepared SandboxVolume mounts.
-        service_snapshot (Union[Unset, SandboxAppService]): Canonical service model for sandbox exposure and function
-            publishing.
-        runtime_sandbox_id (Union[Unset, str]): Current restored runtime sandbox serving the revision, if one exists.
-        runtime_context_id (Union[Unset, str]): Current runtime process context inside the restored runtime sandbox.
-        runtime_updated_at (Union[Unset, datetime.datetime]): Last time the restored runtime sandbox mapping was
-            updated.
-        created_by (Union[Unset, str]):
-    """
+        Attributes:
+            id (str):
+            function_id (str):
+            team_id (str):
+            revision_number (int):
+            source_type (FunctionRevisionSourceType):
+            revision_spec (FunctionRevisionSpec): Immutable execution contract used by Function Gateway to serve a revision.
+            created_at (datetime.datetime):
+            provenance (Union[Unset, FunctionRevisionProvenance]): Non-execution metadata describing how the revision spec
+                was produced.
+            source_sandbox_id (Union[Unset, str]): Compatibility mirror for sandbox-service revisions.
+            source_service_id (Union[Unset, str]): Compatibility mirror for sandbox-service revisions.
+            source_template_id (Union[Unset, str]): Compatibility mirror of revision_spec.template_id.
+            restore_mounts (Union[Unset, list['FunctionRestoreMount']]): Compatibility mirror of revision_spec.mounts for
+                prepared SandboxVolume mounts.
+            service_snapshot (Union[Unset, SandboxAppService]): Canonical service model for sandbox exposure and function
+                publishing.
+            runtime_sandbox_id (Union[Unset, str]): Current restored runtime sandbox serving the revision, if one exists.
+            runtime_context_id (Union[Unset, str]): Current runtime process context inside the restored runtime sandbox.
+            runtime_updated_at (Union[Unset, datetime.datetime]): Last time the restored runtime sandbox mapping was
+                updated.
+            created_by (Union[Unset, str]):
+     """
 
     id: str
     function_id: str
     team_id: str
     revision_number: int
     source_type: FunctionRevisionSourceType
-    revision_spec: "FunctionRevisionSpec"
+    revision_spec: 'FunctionRevisionSpec'
     created_at: datetime.datetime
-    provenance: Union[Unset, "FunctionRevisionProvenance"] = UNSET
+    provenance: Union[Unset, 'FunctionRevisionProvenance'] = UNSET
     source_sandbox_id: Union[Unset, str] = UNSET
     source_service_id: Union[Unset, str] = UNSET
     source_template_id: Union[Unset, str] = UNSET
-    restore_mounts: Union[Unset, list["FunctionRestoreMount"]] = UNSET
-    service_snapshot: Union[Unset, "SandboxAppService"] = UNSET
+    restore_mounts: Union[Unset, list['FunctionRestoreMount']] = UNSET
+    service_snapshot: Union[Unset, 'SandboxAppService'] = UNSET
     runtime_sandbox_id: Union[Unset, str] = UNSET
     runtime_context_id: Union[Unset, str] = UNSET
     runtime_updated_at: Union[Unset, datetime.datetime] = UNSET
     created_by: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
+
+
+
+
     def to_dict(self) -> dict[str, Any]:
+        from ..models.function_revision_provenance import FunctionRevisionProvenance
+        from ..models.function_restore_mount import FunctionRestoreMount
+        from ..models.function_revision_spec import FunctionRevisionSpec
+        from ..models.sandbox_app_service import SandboxAppService
         id = self.id
 
         function_id = self.function_id
@@ -102,6 +113,8 @@ class FunctionRevision:
                 restore_mounts_item = restore_mounts_item_data.to_dict()
                 restore_mounts.append(restore_mounts_item)
 
+
+
         service_snapshot: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.service_snapshot, Unset):
             service_snapshot = self.service_snapshot.to_dict()
@@ -116,19 +129,18 @@ class FunctionRevision:
 
         created_by = self.created_by
 
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update(
-            {
-                "id": id,
-                "function_id": function_id,
-                "team_id": team_id,
-                "revision_number": revision_number,
-                "source_type": source_type,
-                "revision_spec": revision_spec,
-                "created_at": created_at,
-            }
-        )
+        field_dict.update({
+            "id": id,
+            "function_id": function_id,
+            "team_id": team_id,
+            "revision_number": revision_number,
+            "source_type": source_type,
+            "revision_spec": revision_spec,
+            "created_at": created_at,
+        })
         if provenance is not UNSET:
             field_dict["provenance"] = provenance
         if source_sandbox_id is not UNSET:
@@ -152,13 +164,14 @@ class FunctionRevision:
 
         return field_dict
 
+
+
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_restore_mount import FunctionRestoreMount
         from ..models.function_revision_provenance import FunctionRevisionProvenance
+        from ..models.function_restore_mount import FunctionRestoreMount
         from ..models.function_revision_spec import FunctionRevisionSpec
         from ..models.sandbox_app_service import SandboxAppService
-
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -170,16 +183,28 @@ class FunctionRevision:
 
         source_type = FunctionRevisionSourceType(d.pop("source_type"))
 
+
+
+
         revision_spec = FunctionRevisionSpec.from_dict(d.pop("revision_spec"))
+
+
+
 
         created_at = isoparse(d.pop("created_at"))
 
+
+
+
         _provenance = d.pop("provenance", UNSET)
         provenance: Union[Unset, FunctionRevisionProvenance]
-        if isinstance(_provenance, Unset):
+        if isinstance(_provenance,  Unset):
             provenance = UNSET
         else:
             provenance = FunctionRevisionProvenance.from_dict(_provenance)
+
+
+
 
         source_sandbox_id = d.pop("source_sandbox_id", UNSET)
 
@@ -189,19 +214,23 @@ class FunctionRevision:
 
         restore_mounts = []
         _restore_mounts = d.pop("restore_mounts", UNSET)
-        for restore_mounts_item_data in _restore_mounts or []:
-            restore_mounts_item = FunctionRestoreMount.from_dict(
-                restore_mounts_item_data
-            )
+        for restore_mounts_item_data in (_restore_mounts or []):
+            restore_mounts_item = FunctionRestoreMount.from_dict(restore_mounts_item_data)
+
+
 
             restore_mounts.append(restore_mounts_item)
 
+
         _service_snapshot = d.pop("service_snapshot", UNSET)
         service_snapshot: Union[Unset, SandboxAppService]
-        if isinstance(_service_snapshot, Unset):
+        if isinstance(_service_snapshot,  Unset):
             service_snapshot = UNSET
         else:
             service_snapshot = SandboxAppService.from_dict(_service_snapshot)
+
+
+
 
         runtime_sandbox_id = d.pop("runtime_sandbox_id", UNSET)
 
@@ -209,10 +238,13 @@ class FunctionRevision:
 
         _runtime_updated_at = d.pop("runtime_updated_at", UNSET)
         runtime_updated_at: Union[Unset, datetime.datetime]
-        if isinstance(_runtime_updated_at, Unset):
+        if isinstance(_runtime_updated_at,  Unset):
             runtime_updated_at = UNSET
         else:
             runtime_updated_at = isoparse(_runtime_updated_at)
+
+
+
 
         created_by = d.pop("created_by", UNSET)
 
@@ -235,6 +267,7 @@ class FunctionRevision:
             runtime_updated_at=runtime_updated_at,
             created_by=created_by,
         )
+
 
         function_revision.additional_properties = d
         return function_revision

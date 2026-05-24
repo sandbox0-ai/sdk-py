@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class FunctionRevisionSourceType(str, Enum):
     ARTIFACT = "artifact"
     REVISION_SPEC = "revision_spec"
