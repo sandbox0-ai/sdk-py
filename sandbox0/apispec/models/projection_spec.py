@@ -12,8 +12,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.http_headers_projection import HTTPHeadersProjection
   from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
+  from ..models.http_headers_projection import HTTPHeadersProjection
   from ..models.username_password_projection import UsernamePasswordProjection
   from ..models.ssh_proxy_projection import SSHProxyProjection
 
@@ -51,8 +51,8 @@ class ProjectionSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.http_headers_projection import HTTPHeadersProjection
         from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
+        from ..models.http_headers_projection import HTTPHeadersProjection
         from ..models.username_password_projection import UsernamePasswordProjection
         from ..models.ssh_proxy_projection import SSHProxyProjection
         type_ = self.type_.value
@@ -94,8 +94,8 @@ class ProjectionSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.http_headers_projection import HTTPHeadersProjection
         from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
+        from ..models.http_headers_projection import HTTPHeadersProjection
         from ..models.username_password_projection import UsernamePasswordProjection
         from ..models.ssh_proxy_projection import SSHProxyProjection
         d = dict(src_dict)
