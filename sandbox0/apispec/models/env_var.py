@@ -18,7 +18,7 @@ T = TypeVar("T", bound="EnvVar")
 
 @_attrs_define
 class EnvVar:
-    """
+    """ 
         Attributes:
             name (str):
             value (str):

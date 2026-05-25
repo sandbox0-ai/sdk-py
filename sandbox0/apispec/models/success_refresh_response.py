@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessRefreshResponse")
 
 @_attrs_define
 class SuccessRefreshResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, RefreshResponse]):

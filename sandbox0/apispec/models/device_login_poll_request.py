@@ -18,7 +18,7 @@ T = TypeVar("T", bound="DeviceLoginPollRequest")
 
 @_attrs_define
 class DeviceLoginPollRequest:
-    """
+    """ 
         Attributes:
             device_login_id (str):
      """

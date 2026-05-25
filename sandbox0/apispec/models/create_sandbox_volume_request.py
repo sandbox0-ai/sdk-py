@@ -21,7 +21,7 @@ T = TypeVar("T", bound="CreateSandboxVolumeRequest")
 
 @_attrs_define
 class CreateSandboxVolumeRequest:
-    """
+    """ 
         Attributes:
             snapshot_id (Union[Unset, str]): Optional snapshot ID used to initialize the new volume from immutable snapshot
                 state.

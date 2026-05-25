@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessSandboxServicesResponseData")
 
 @_attrs_define
 class SuccessSandboxServicesResponseData:
-    """
+    """ 
         Attributes:
             sandbox_id (str):
             services (list['SandboxAppServiceView']):

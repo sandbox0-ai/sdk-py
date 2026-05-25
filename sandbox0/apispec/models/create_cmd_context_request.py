@@ -19,7 +19,7 @@ T = TypeVar("T", bound="CreateCMDContextRequest")
 
 @_attrs_define
 class CreateCMDContextRequest:
-    """
+    """ 
         Attributes:
             command (list[str]):
      """

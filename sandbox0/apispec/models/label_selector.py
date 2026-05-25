@@ -24,7 +24,7 @@ T = TypeVar("T", bound="LabelSelector")
 
 @_attrs_define
 class LabelSelector:
-    """
+    """ 
         Attributes:
             match_labels (Union[Unset, LabelSelectorMatchLabels]):
             match_expressions (Union[Unset, list['LabelSelectorRequirement']]):

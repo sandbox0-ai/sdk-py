@@ -20,7 +20,7 @@ T = TypeVar("T", bound="ContextWebSocketOutput")
 
 @_attrs_define
 class ContextWebSocketOutput:
-    """
+    """ 
         Attributes:
             type_ (ContextWebSocketOutputType):
             source (ContextWebSocketOutputSource):

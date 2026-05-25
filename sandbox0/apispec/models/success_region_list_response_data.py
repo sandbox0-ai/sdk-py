@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessRegionListResponseData")
 
 @_attrs_define
 class SuccessRegionListResponseData:
-    """
+    """ 
         Attributes:
             regions (Union[Unset, list['Region']]):
      """

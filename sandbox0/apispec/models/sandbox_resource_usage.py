@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SandboxResourceUsage")
 
 @_attrs_define
 class SandboxResourceUsage:
-    """
+    """ 
         Attributes:
             container_memory_usage (Union[Unset, int]):
             container_memory_limit (Union[Unset, int]):

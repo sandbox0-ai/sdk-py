@@ -22,7 +22,7 @@ T = TypeVar("T", bound="CredentialSourceWriteRequest")
 
 @_attrs_define
 class CredentialSourceWriteRequest:
-    """
+    """ 
         Attributes:
             name (str):
             resolver_kind (CredentialSourceResolverKind):

@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SandboxRefreshRequest")
 
 @_attrs_define
 class SandboxRefreshRequest:
-    """
+    """ 
         Attributes:
             duration (Union[Unset, int]): Duration to extend TTL in seconds (optional, defaults to original TTL)
      """

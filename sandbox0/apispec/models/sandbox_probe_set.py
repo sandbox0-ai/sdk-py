@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SandboxProbeSet")
 
 @_attrs_define
 class SandboxProbeSet:
-    """
+    """ 
         Attributes:
             startup (Union[Unset, SandboxProbeSpec]):
             readiness (Union[Unset, SandboxProbeSpec]):

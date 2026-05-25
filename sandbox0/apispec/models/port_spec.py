@@ -20,7 +20,7 @@ T = TypeVar("T", bound="PortSpec")
 
 @_attrs_define
 class PortSpec:
-    """
+    """ 
         Attributes:
             port (int):
             protocol (Union[Unset, str]):

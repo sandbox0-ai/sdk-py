@@ -18,7 +18,7 @@ T = TypeVar("T", bound="CreateSSHPublicKeyRequest")
 
 @_attrs_define
 class CreateSSHPublicKeyRequest:
-    """
+    """ 
         Attributes:
             name (str):
             public_key (str):

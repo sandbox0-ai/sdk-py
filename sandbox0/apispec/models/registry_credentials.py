@@ -23,7 +23,7 @@ T = TypeVar("T", bound="RegistryCredentials")
 
 @_attrs_define
 class RegistryCredentials:
-    """
+    """ 
         Attributes:
             provider (str):
             push_registry (str):

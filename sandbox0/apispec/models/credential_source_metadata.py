@@ -25,7 +25,7 @@ T = TypeVar("T", bound="CredentialSourceMetadata")
 
 @_attrs_define
 class CredentialSourceMetadata:
-    """
+    """ 
         Attributes:
             name (str):
             resolver_kind (CredentialSourceResolverKind):

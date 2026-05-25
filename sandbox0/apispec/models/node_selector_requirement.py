@@ -21,7 +21,7 @@ T = TypeVar("T", bound="NodeSelectorRequirement")
 
 @_attrs_define
 class NodeSelectorRequirement:
-    """
+    """ 
         Attributes:
             key (str):
             operator (str):

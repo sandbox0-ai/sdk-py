@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SandboxStatus")
 
 @_attrs_define
 class SandboxStatus:
-    """
+    """ 
         Attributes:
             sandbox_id (Union[Unset, str]):
             template_id (Union[Unset, str]):

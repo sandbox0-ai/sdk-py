@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessCreatedResponse")
 
 @_attrs_define
 class SuccessCreatedResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, SuccessCreatedResponseData]):

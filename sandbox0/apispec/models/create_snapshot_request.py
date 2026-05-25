@@ -20,7 +20,7 @@ T = TypeVar("T", bound="CreateSnapshotRequest")
 
 @_attrs_define
 class CreateSnapshotRequest:
-    """
+    """ 
         Attributes:
             name (str):
             description (Union[Unset, str]):

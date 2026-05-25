@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SuccessHealthResponseData")
 
 @_attrs_define
 class SuccessHealthResponseData:
-    """
+    """ 
         Attributes:
             status (Union[Unset, str]):
             timestamp (Union[Unset, int]):

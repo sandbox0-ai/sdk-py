@@ -21,7 +21,7 @@ T = TypeVar("T", bound="CurrentAPIKeyResponse")
 
 @_attrs_define
 class CurrentAPIKeyResponse:
-    """
+    """ 
         Attributes:
             id (str):
             team_id (str):

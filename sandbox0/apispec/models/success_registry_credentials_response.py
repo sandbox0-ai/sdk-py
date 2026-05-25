@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessRegistryCredentialsResponse")
 
 @_attrs_define
 class SuccessRegistryCredentialsResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, RegistryCredentials]):

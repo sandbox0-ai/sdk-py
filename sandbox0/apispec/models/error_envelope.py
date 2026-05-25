@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ErrorEnvelope")
 
 @_attrs_define
 class ErrorEnvelope:
-    """
+    """ 
         Attributes:
             success (bool):
             error (Error):

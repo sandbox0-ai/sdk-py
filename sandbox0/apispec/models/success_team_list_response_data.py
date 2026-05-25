@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessTeamListResponseData")
 
 @_attrs_define
 class SuccessTeamListResponseData:
-    """
+    """ 
         Attributes:
             teams (Union[Unset, list['Team']]):
      """

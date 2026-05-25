@@ -23,7 +23,7 @@ T = TypeVar("T", bound="PodAffinityTerm")
 
 @_attrs_define
 class PodAffinityTerm:
-    """
+    """ 
         Attributes:
             topology_key (str):
             label_selector (Union[Unset, LabelSelector]):

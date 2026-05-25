@@ -24,7 +24,7 @@ T = TypeVar("T", bound="ClaimResponse")
 
 @_attrs_define
 class ClaimResponse:
-    """
+    """ 
         Attributes:
             sandbox_id (str):
             status (str):

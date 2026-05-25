@@ -20,7 +20,7 @@ T = TypeVar("T", bound="RegistryCredentialsRequest")
 
 @_attrs_define
 class RegistryCredentialsRequest:
-    """
+    """ 
         Attributes:
             target_image (Union[Unset, str]): Target image name and tag requested for push, without credentials.
      """

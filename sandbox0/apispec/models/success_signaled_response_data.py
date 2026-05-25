@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SuccessSignaledResponseData")
 
 @_attrs_define
 class SuccessSignaledResponseData:
-    """
+    """ 
         Attributes:
             signaled (Union[Unset, bool]):
      """

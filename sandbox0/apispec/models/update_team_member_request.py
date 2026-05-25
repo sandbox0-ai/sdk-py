@@ -19,7 +19,7 @@ T = TypeVar("T", bound="UpdateTeamMemberRequest")
 
 @_attrs_define
 class UpdateTeamMemberRequest:
-    """
+    """ 
         Attributes:
             role (UpdateTeamMemberRequestRole):
      """

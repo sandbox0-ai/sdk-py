@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SandboxTemplateCondition")
 
 @_attrs_define
 class SandboxTemplateCondition:
-    """
+    """ 
         Attributes:
             type_ (Union[Unset, str]):
             status (Union[Unset, str]):

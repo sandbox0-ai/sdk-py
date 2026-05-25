@@ -20,7 +20,7 @@ T = TypeVar("T", bound="VolumeMountSpec")
 
 @_attrs_define
 class VolumeMountSpec:
-    """
+    """ 
         Attributes:
             name (str):
             mount_path (str):

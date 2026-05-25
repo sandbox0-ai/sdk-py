@@ -23,7 +23,7 @@ T = TypeVar("T", bound="HTTPHeadersProjection")
 
 @_attrs_define
 class HTTPHeadersProjection:
-    """
+    """ 
         Attributes:
             headers (Union[Unset, list['ProjectedHeader']]): Outbound headers synthesized from the resolved credential
                 source.

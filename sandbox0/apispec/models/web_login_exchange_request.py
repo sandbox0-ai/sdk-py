@@ -18,7 +18,7 @@ T = TypeVar("T", bound="WebLoginExchangeRequest")
 
 @_attrs_define
 class WebLoginExchangeRequest:
-    """
+    """ 
         Attributes:
             login_code (str): Short-lived one-time code returned to the web login callback.
             return_url (str): Exact return URL used when the login code was created.

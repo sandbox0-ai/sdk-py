@@ -21,7 +21,7 @@ T = TypeVar("T", bound="CreateRegionRequest")
 
 @_attrs_define
 class CreateRegionRequest:
-    """
+    """ 
         Attributes:
             id (str):
             regional_gateway_url (str):

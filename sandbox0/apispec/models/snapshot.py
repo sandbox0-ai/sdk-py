@@ -21,7 +21,7 @@ T = TypeVar("T", bound="Snapshot")
 
 @_attrs_define
 class Snapshot:
-    """
+    """ 
         Attributes:
             id (str):
             volume_id (str):

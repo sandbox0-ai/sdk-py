@@ -24,7 +24,7 @@ T = TypeVar("T", bound="APIKey")
 
 @_attrs_define
 class APIKey:
-    """
+    """ 
         Attributes:
             id (str):
             team_id (str):

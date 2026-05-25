@@ -21,7 +21,7 @@ T = TypeVar("T", bound="PreStopHook")
 
 @_attrs_define
 class PreStopHook:
-    """
+    """ 
         Attributes:
             command (Union[Unset, list[str]]):
             timeout_seconds (Union[Unset, int]):

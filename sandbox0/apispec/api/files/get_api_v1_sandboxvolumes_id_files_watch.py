@@ -14,11 +14,11 @@ def _get_kwargs(
     id: str,
 
 ) -> dict[str, Any]:
+    
 
+    
 
-
-
-
+    
 
     _kwargs: dict[str, Any] = {
         "method": "get",
@@ -133,3 +133,4 @@ async def asyncio_detailed(
     )
 
     return _build_response(client=client, response=response)
+

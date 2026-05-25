@@ -19,7 +19,7 @@ T = TypeVar("T", bound="GatewayMetadata")
 
 @_attrs_define
 class GatewayMetadata:
-    """
+    """ 
         Attributes:
             gateway_mode (GatewayMetadataGatewayMode):
             service (str):

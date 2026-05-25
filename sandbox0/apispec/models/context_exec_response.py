@@ -18,7 +18,7 @@ T = TypeVar("T", bound="ContextExecResponse")
 
 @_attrs_define
 class ContextExecResponse:
-    r"""
+    r""" 
         Attributes:
             output_raw (str): Raw PTY output, may contain terminal control characters (e.g. \r)
      """

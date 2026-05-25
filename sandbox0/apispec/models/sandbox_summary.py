@@ -27,7 +27,7 @@ T = TypeVar("T", bound="SandboxSummary")
 
 @_attrs_define
 class SandboxSummary:
-    """
+    """ 
         Attributes:
             id (str):
             template_id (str):

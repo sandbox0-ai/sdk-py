@@ -19,7 +19,7 @@ T = TypeVar("T", bound="ContextWebSocketResize")
 
 @_attrs_define
 class ContextWebSocketResize:
-    """
+    """ 
         Attributes:
             type_ (ContextWebSocketResizeType):
             rows (int):

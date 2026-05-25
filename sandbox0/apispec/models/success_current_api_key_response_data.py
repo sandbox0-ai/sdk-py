@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessCurrentAPIKeyResponseData")
 
 @_attrs_define
 class SuccessCurrentAPIKeyResponseData:
-    """
+    """ 
         Attributes:
             api_key (Union[Unset, CurrentAPIKeyResponse]):
      """

@@ -12,8 +12,8 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.sandbox_app_service_health import SandboxAppServiceHealth
-  from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
   from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+  from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
 
 
 
@@ -25,7 +25,7 @@ T = TypeVar("T", bound="SandboxAppService")
 
 @_attrs_define
 class SandboxAppService:
-    """ Canonical service model for sandbox exposure and function publishing.
+    """ Canonical service model for sandbox exposure.
 
         Attributes:
             id (str): Stable service ID. Must be a DNS label.
@@ -50,8 +50,8 @@ class SandboxAppService:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
-        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         id = self.id
 
         port = self.port
@@ -90,8 +90,8 @@ class SandboxAppService:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
-        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         d = dict(src_dict)
         id = d.pop("id")
 

@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessAuthProvidersResponseData")
 
 @_attrs_define
 class SuccessAuthProvidersResponseData:
-    """
+    """ 
         Attributes:
             providers (Union[Unset, list['AuthProvider']]):
      """

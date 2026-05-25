@@ -21,7 +21,7 @@ T = TypeVar("T", bound="TeamMember")
 
 @_attrs_define
 class TeamMember:
-    """
+    """ 
         Attributes:
             id (str):
             team_id (str):

@@ -21,7 +21,7 @@ T = TypeVar("T", bound="HTTPValueMatch")
 
 @_attrs_define
 class HTTPValueMatch:
-    """
+    """ 
         Attributes:
             name (str): Header or query parameter name.
             values (Union[Unset, list[str]]): Accepted values. Empty with present=true requires only presence.

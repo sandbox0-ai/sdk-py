@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.pod_affinity import PodAffinity
   from ..models.node_affinity import NodeAffinity
+  from ..models.pod_affinity import PodAffinity
 
 
 
@@ -24,7 +24,7 @@ T = TypeVar("T", bound="Affinity")
 
 @_attrs_define
 class Affinity:
-    """
+    """ 
         Attributes:
             node_affinity (Union[Unset, NodeAffinity]):
             pod_affinity (Union[Unset, PodAffinity]):
@@ -39,8 +39,8 @@ class Affinity:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.pod_affinity import PodAffinity
         from ..models.node_affinity import NodeAffinity
+        from ..models.pod_affinity import PodAffinity
         node_affinity: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.node_affinity, Unset):
             node_affinity = self.node_affinity.to_dict()
@@ -65,8 +65,8 @@ class Affinity:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.pod_affinity import PodAffinity
         from ..models.node_affinity import NodeAffinity
+        from ..models.pod_affinity import PodAffinity
         d = dict(src_dict)
         _node_affinity = d.pop("nodeAffinity", UNSET)
         node_affinity: Union[Unset, NodeAffinity]

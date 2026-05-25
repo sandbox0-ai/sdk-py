@@ -23,7 +23,7 @@ T = TypeVar("T", bound="LifecyclePolicy")
 
 @_attrs_define
 class LifecyclePolicy:
-    """
+    """ 
         Attributes:
             default_ttl (Union[Unset, int]):
             max_ttl (Union[Unset, int]):

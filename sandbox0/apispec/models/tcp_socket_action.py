@@ -20,7 +20,7 @@ T = TypeVar("T", bound="TCPSocketAction")
 
 @_attrs_define
 class TCPSocketAction:
-    """
+    """ 
         Attributes:
             port (int):
             host (Union[Unset, str]):

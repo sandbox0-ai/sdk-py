@@ -23,7 +23,7 @@ T = TypeVar("T", bound="StaticHeadersSourceSpec")
 
 @_attrs_define
 class StaticHeadersSourceSpec:
-    """
+    """ 
         Attributes:
             values (Union[Unset, StaticHeadersSourceSpecValues]):
      """

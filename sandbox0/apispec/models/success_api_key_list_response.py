@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessAPIKeyListResponse")
 
 @_attrs_define
 class SuccessAPIKeyListResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, SuccessAPIKeyListResponseData]):

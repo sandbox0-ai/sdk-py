@@ -19,7 +19,7 @@ T = TypeVar("T", bound="ContextWebSocketSignal")
 
 @_attrs_define
 class ContextWebSocketSignal:
-    """
+    """ 
         Attributes:
             type_ (ContextWebSocketSignalType):
             signal (str):

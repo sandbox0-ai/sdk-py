@@ -20,7 +20,7 @@ T = TypeVar("T", bound="CachePolicySpec")
 
 @_attrs_define
 class CachePolicySpec:
-    """
+    """ 
         Attributes:
             ttl (Union[Unset, str]): Override for the broker-side cache TTL of resolved auth material.
      """

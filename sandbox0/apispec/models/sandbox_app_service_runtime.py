@@ -24,15 +24,13 @@ T = TypeVar("T", bound="SandboxAppServiceRuntime")
 
 @_attrs_define
 class SandboxAppServiceRuntime:
-    """
+    """ 
         Attributes:
-            type_ (SandboxAppServiceRuntimeType): Runtime strategy for restarting a service when it is restored as a
-                function runtime.
+            type_ (SandboxAppServiceRuntimeType): Runtime strategy for restarting a service process.
             command (Union[Unset, list[str]]): Process argv used when type is cmd.
             cwd (Union[Unset, str]):
             env_vars (Union[Unset, SandboxAppServiceRuntimeEnvVars]):
-            warm_process_name (Union[Unset, str]): Warm process alias or context ID used when type is warm_process. Function
-                runtimes require this to reference an existing cmd warm process.
+            warm_process_name (Union[Unset, str]): Warm process alias or context ID used when type is warm_process.
      """
 
     type_: SandboxAppServiceRuntimeType

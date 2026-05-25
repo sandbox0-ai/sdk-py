@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessGatewayMetadataResponse")
 
 @_attrs_define
 class SuccessGatewayMetadataResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, GatewayMetadata]):

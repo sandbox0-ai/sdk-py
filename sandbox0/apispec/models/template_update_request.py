@@ -21,7 +21,7 @@ T = TypeVar("T", bound="TemplateUpdateRequest")
 
 @_attrs_define
 class TemplateUpdateRequest:
-    """
+    """ 
         Attributes:
             spec (SandboxTemplateSpec):
      """

@@ -20,7 +20,7 @@ T = TypeVar("T", bound="ResourceUsage")
 
 @_attrs_define
 class ResourceUsage:
-    """
+    """ 
         Attributes:
             cpu_percent (Union[Unset, float]):
             memory_rss (Union[Unset, int]):

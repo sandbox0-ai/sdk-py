@@ -23,7 +23,7 @@ T = TypeVar("T", bound="CreateREPLContextRequest")
 
 @_attrs_define
 class CreateREPLContextRequest:
-    """
+    """ 
         Attributes:
             alias (Union[Unset, str]): Alias for the REPL or CLI tool (e.g., python, node, bash, redis-cli)
             input_ (Union[Unset, str]):

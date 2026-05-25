@@ -21,7 +21,7 @@ T = TypeVar("T", bound="REPLReadyConfig")
 
 @_attrs_define
 class REPLReadyConfig:
-    """
+    """ 
         Attributes:
             mode (Union[Unset, REPLReadyMode]):
             token (Union[Unset, str]):

@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessTemplateResponse")
 
 @_attrs_define
 class SuccessTemplateResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, Template]):

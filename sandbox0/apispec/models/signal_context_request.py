@@ -18,7 +18,7 @@ T = TypeVar("T", bound="SignalContextRequest")
 
 @_attrs_define
 class SignalContextRequest:
-    """
+    """ 
         Attributes:
             signal (str):
      """

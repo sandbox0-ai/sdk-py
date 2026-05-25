@@ -21,7 +21,7 @@ T = TypeVar("T", bound="SuccessSandboxListResponseData")
 
 @_attrs_define
 class SuccessSandboxListResponseData:
-    """
+    """ 
         Attributes:
             sandboxes (list['SandboxSummary']):
             count (int): Total matching sandboxes

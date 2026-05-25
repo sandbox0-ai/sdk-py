@@ -18,7 +18,7 @@ T = TypeVar("T", bound="ChangePasswordRequest")
 
 @_attrs_define
 class ChangePasswordRequest:
-    """
+    """ 
         Attributes:
             old_password (str):
             new_password (str):

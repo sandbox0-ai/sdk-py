@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SecurityContext")
 
 @_attrs_define
 class SecurityContext:
-    """
+    """ 
         Attributes:
             capabilities (Union[Unset, Capabilities]):
             run_as_user (Union[Unset, int]):

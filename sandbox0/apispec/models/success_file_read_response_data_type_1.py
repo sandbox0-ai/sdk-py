@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessFileReadResponseDataType1")
 
 @_attrs_define
 class SuccessFileReadResponseDataType1:
-    """
+    """ 
         Attributes:
             entries (Union[Unset, list['FileInfo']]):
      """

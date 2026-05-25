@@ -23,7 +23,7 @@ T = TypeVar("T", bound="ContextResourceUsage")
 
 @_attrs_define
 class ContextResourceUsage:
-    """
+    """ 
         Attributes:
             context_id (Union[Unset, str]):
             type_ (Union[Unset, str]):

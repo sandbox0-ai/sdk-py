@@ -20,7 +20,7 @@ T = TypeVar("T", bound="REPLPromptConfig")
 
 @_attrs_define
 class REPLPromptConfig:
-    """
+    """ 
         Attributes:
             custom_prompt (Union[Unset, str]):
      """

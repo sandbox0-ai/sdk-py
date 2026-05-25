@@ -21,7 +21,7 @@ T = TypeVar("T", bound="SandboxAppServiceRouteAuth")
 
 @_attrs_define
 class SandboxAppServiceRouteAuth:
-    """
+    """ 
         Attributes:
             mode (SandboxAppServiceRouteAuthMode):  Default: SandboxAppServiceRouteAuthMode.NONE.
             bearer_token_sha256 (Union[Unset, str]): Hex SHA-256 of the accepted bearer token. Required when mode is bearer.

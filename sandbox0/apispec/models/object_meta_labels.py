@@ -18,7 +18,7 @@ T = TypeVar("T", bound="ObjectMetaLabels")
 
 @_attrs_define
 class ObjectMetaLabels:
-    """
+    """ 
      """
 
     additional_properties: dict[str, str] = _attrs_field(init=False, factory=dict)
@@ -28,7 +28,7 @@ class ObjectMetaLabels:
 
 
     def to_dict(self) -> dict[str, Any]:
-
+        
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
 

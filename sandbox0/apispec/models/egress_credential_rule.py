@@ -28,7 +28,7 @@ T = TypeVar("T", bound="EgressCredentialRule")
 
 @_attrs_define
 class EgressCredentialRule:
-    """
+    """ 
         Attributes:
             credential_ref (str): Stable binding ref to resolve when this traffic rule matches.
                 The referenced binding must be present in `network.credentialBindings`.

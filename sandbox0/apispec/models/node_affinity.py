@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.preferred_scheduling_term import PreferredSchedulingTerm
   from ..models.node_selector import NodeSelector
+  from ..models.preferred_scheduling_term import PreferredSchedulingTerm
 
 
 
@@ -24,7 +24,7 @@ T = TypeVar("T", bound="NodeAffinity")
 
 @_attrs_define
 class NodeAffinity:
-    """
+    """ 
         Attributes:
             required_during_scheduling_ignored_during_execution (Union[Unset, NodeSelector]):
             preferred_during_scheduling_ignored_during_execution (Union[Unset, list['PreferredSchedulingTerm']]):
@@ -39,8 +39,8 @@ class NodeAffinity:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.preferred_scheduling_term import PreferredSchedulingTerm
         from ..models.node_selector import NodeSelector
+        from ..models.preferred_scheduling_term import PreferredSchedulingTerm
         required_during_scheduling_ignored_during_execution: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.required_during_scheduling_ignored_during_execution, Unset):
             required_during_scheduling_ignored_during_execution = self.required_during_scheduling_ignored_during_execution.to_dict()
@@ -70,8 +70,8 @@ class NodeAffinity:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.preferred_scheduling_term import PreferredSchedulingTerm
         from ..models.node_selector import NodeSelector
+        from ..models.preferred_scheduling_term import PreferredSchedulingTerm
         d = dict(src_dict)
         _required_during_scheduling_ignored_during_execution = d.pop("requiredDuringSchedulingIgnoredDuringExecution", UNSET)
         required_during_scheduling_ignored_during_execution: Union[Unset, NodeSelector]

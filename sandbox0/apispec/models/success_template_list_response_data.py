@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessTemplateListResponseData")
 
 @_attrs_define
 class SuccessTemplateListResponseData:
-    """
+    """ 
         Attributes:
             templates (Union[Unset, list['Template']]):
             count (Union[Unset, int]):

@@ -19,7 +19,7 @@ T = TypeVar("T", bound="FileWatchUnsubscribed")
 
 @_attrs_define
 class FileWatchUnsubscribed:
-    """
+    """ 
         Attributes:
             type_ (FileWatchUnsubscribedType):
             watch_id (str):

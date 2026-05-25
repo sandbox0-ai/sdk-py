@@ -23,7 +23,7 @@ T = TypeVar("T", bound="HTTPGetAction")
 
 @_attrs_define
 class HTTPGetAction:
-    """
+    """ 
         Attributes:
             port (int):
             path (Union[Unset, str]):

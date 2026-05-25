@@ -21,7 +21,7 @@ T = TypeVar("T", bound="WeightedPodAffinityTerm")
 
 @_attrs_define
 class WeightedPodAffinityTerm:
-    """
+    """ 
         Attributes:
             weight (int):
             pod_affinity_term (PodAffinityTerm):
