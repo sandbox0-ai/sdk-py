@@ -12,8 +12,8 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-  from ..models.sandbox_app_service import SandboxAppService
   from ..models.sandbox_network_policy import SandboxNetworkPolicy
+  from ..models.sandbox_app_service import SandboxAppService
   from ..models.webhook_config import WebhookConfig
 
 
@@ -30,7 +30,8 @@ class SandboxConfig:
         Attributes:
             env_vars (Union[Unset, SandboxConfigEnvVars]):
             ttl (Union[Unset, int]):
-            hard_ttl (Union[Unset, int]):
+            hard_ttl (Union[Unset, int]): Hard time-to-live in seconds. When it expires, Sandbox0 cleans the runtime pod and
+                preserves the sandbox identity, services, and public URLs until the sandbox is explicitly deleted.
             network (Union[Unset, SandboxNetworkPolicy]):
             webhook (Union[Unset, WebhookConfig]): Per-sandbox webhook configuration. Sandbox0 delivers webhook events at
                 least once and consumers should deduplicate by event_id. For sandbox lifecycle events, procd persists signed
@@ -58,8 +59,8 @@ class SandboxConfig:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_app_service import SandboxAppService
         from ..models.webhook_config import WebhookConfig
         env_vars: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.env_vars, Unset):
@@ -115,8 +116,8 @@ class SandboxConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_app_service import SandboxAppService
         from ..models.webhook_config import WebhookConfig
         d = dict(src_dict)
         _env_vars = d.pop("env_vars", UNSET)

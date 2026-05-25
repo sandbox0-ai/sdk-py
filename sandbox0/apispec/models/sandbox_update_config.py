@@ -29,7 +29,8 @@ class SandboxUpdateConfig:
 
         Attributes:
             ttl (Union[Unset, int]):
-            hard_ttl (Union[Unset, int]):
+            hard_ttl (Union[Unset, int]): Hard time-to-live in seconds. When it expires, Sandbox0 cleans the runtime pod and
+                preserves the sandbox identity, services, and public URLs until the sandbox is explicitly deleted.
             network (Union[Unset, SandboxNetworkPolicy]):
             auto_resume (Union[Unset, bool]): Sandbox-level resume gate for paused sandboxes. When false, any inbound
                 request

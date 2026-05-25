@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -13,10 +14,10 @@ from typing import Union
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.sandbox_power_state import SandboxPowerState
   from ..models.sandbox_app_service import SandboxAppService
   from ..models.sandbox_ssh_connection import SandboxSSHConnection
   from ..models.claim_mount_request import ClaimMountRequest
-  from ..models.sandbox_power_state import SandboxPowerState
 
 
 
@@ -33,7 +34,7 @@ class Sandbox:
             id (str):
             template_id (str):
             team_id (str):
-            status (str):
+            status (SandboxLifecycleStatus):
             paused (bool):
             power_state (SandboxPowerState):
             auto_resume (bool):
@@ -51,7 +52,7 @@ class Sandbox:
     id: str
     template_id: str
     team_id: str
-    status: str
+    status: SandboxLifecycleStatus
     paused: bool
     power_state: 'SandboxPowerState'
     auto_resume: bool
@@ -71,17 +72,17 @@ class Sandbox:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
         from ..models.claim_mount_request import ClaimMountRequest
-        from ..models.sandbox_power_state import SandboxPowerState
         id = self.id
 
         template_id = self.template_id
 
         team_id = self.team_id
 
-        status = self.status
+        status = self.status.value
 
         paused = self.paused
 
@@ -155,10 +156,10 @@ class Sandbox:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
         from ..models.claim_mount_request import ClaimMountRequest
-        from ..models.sandbox_power_state import SandboxPowerState
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -166,7 +167,10 @@ class Sandbox:
 
         team_id = d.pop("team_id")
 
-        status = d.pop("status")
+        status = SandboxLifecycleStatus(d.pop("status"))
+
+
+
 
         paused = d.pop("paused")
 

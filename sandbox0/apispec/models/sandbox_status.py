@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
 from typing import Union
 
@@ -27,7 +28,7 @@ class SandboxStatus:
             team_id (Union[Unset, str]):
             user_id (Union[Unset, str]):
             pod_name (Union[Unset, str]):
-            status (Union[Unset, str]):
+            status (Union[Unset, SandboxLifecycleStatus]):
             claimed_at (Union[Unset, str]):
             expires_at (Union[Unset, str]):
             hard_expires_at (Union[Unset, str]):
@@ -39,7 +40,7 @@ class SandboxStatus:
     team_id: Union[Unset, str] = UNSET
     user_id: Union[Unset, str] = UNSET
     pod_name: Union[Unset, str] = UNSET
-    status: Union[Unset, str] = UNSET
+    status: Union[Unset, SandboxLifecycleStatus] = UNSET
     claimed_at: Union[Unset, str] = UNSET
     expires_at: Union[Unset, str] = UNSET
     hard_expires_at: Union[Unset, str] = UNSET
@@ -61,7 +62,10 @@ class SandboxStatus:
 
         pod_name = self.pod_name
 
-        status = self.status
+        status: Union[Unset, str] = UNSET
+        if not isinstance(self.status, Unset):
+            status = self.status.value
+
 
         claimed_at = self.claimed_at
 
@@ -114,7 +118,15 @@ class SandboxStatus:
 
         pod_name = d.pop("pod_name", UNSET)
 
-        status = d.pop("status", UNSET)
+        _status = d.pop("status", UNSET)
+        status: Union[Unset, SandboxLifecycleStatus]
+        if isinstance(_status,  Unset):
+            status = UNSET
+        else:
+            status = SandboxLifecycleStatus(_status)
+
+
+
 
         claimed_at = d.pop("claimed_at", UNSET)
 

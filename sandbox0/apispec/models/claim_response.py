@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
 from typing import cast
 from typing import cast, Union
@@ -27,7 +28,7 @@ class ClaimResponse:
     """ 
         Attributes:
             sandbox_id (str):
-            status (str):
+            status (SandboxLifecycleStatus):
             pod_name (str):
             template (str):
             cluster_id (Union[None, Unset, str]):
@@ -35,7 +36,7 @@ class ClaimResponse:
      """
 
     sandbox_id: str
-    status: str
+    status: SandboxLifecycleStatus
     pod_name: str
     template: str
     cluster_id: Union[None, Unset, str] = UNSET
@@ -50,7 +51,7 @@ class ClaimResponse:
         from ..models.mount_status import MountStatus
         sandbox_id = self.sandbox_id
 
-        status = self.status
+        status = self.status.value
 
         pod_name = self.pod_name
 
@@ -95,7 +96,10 @@ class ClaimResponse:
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 
-        status = d.pop("status")
+        status = SandboxLifecycleStatus(d.pop("status"))
+
+
+
 
         pod_name = d.pop("pod_name")
 
