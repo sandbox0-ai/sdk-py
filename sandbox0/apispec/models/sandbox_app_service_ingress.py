@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SandboxAppServiceIngress")
 
 @_attrs_define
 class SandboxAppServiceIngress:
-    """
+    """ 
         Attributes:
             public (bool):
             routes (Union[Unset, list['SandboxAppServiceRoute']]):

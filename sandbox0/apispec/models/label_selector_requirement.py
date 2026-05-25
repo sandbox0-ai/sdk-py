@@ -21,7 +21,7 @@ T = TypeVar("T", bound="LabelSelectorRequirement")
 
 @_attrs_define
 class LabelSelectorRequirement:
-    """
+    """ 
         Attributes:
             key (str):
             operator (str):

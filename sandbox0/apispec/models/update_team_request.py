@@ -20,7 +20,7 @@ T = TypeVar("T", bound="UpdateTeamRequest")
 
 @_attrs_define
 class UpdateTeamRequest:
-    """
+    """ 
         Attributes:
             name (Union[Unset, str]):
             slug (Union[Unset, str]):

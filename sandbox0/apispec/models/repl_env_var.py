@@ -20,7 +20,7 @@ T = TypeVar("T", bound="REPLEnvVar")
 
 @_attrs_define
 class REPLEnvVar:
-    """
+    """ 
         Attributes:
             name (str):
             value (Union[Unset, str]):

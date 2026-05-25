@@ -20,7 +20,7 @@ T = TypeVar("T", bound="Toleration")
 
 @_attrs_define
 class Toleration:
-    """
+    """ 
         Attributes:
             key (Union[Unset, str]):
             operator (Union[Unset, str]):

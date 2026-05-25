@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessDeviceLoginStartResponse")
 
 @_attrs_define
 class SuccessDeviceLoginStartResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, DeviceLoginStartResponse]):

@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.quota_dimension import QuotaDimension
 from ..types import UNSET, Unset
 from typing import cast, Union
 from typing import Union
@@ -15,25 +16,22 @@ from typing import Union
 
 
 
-T = TypeVar("T", bound="RegisterRequest")
+T = TypeVar("T", bound="TeamQuota")
 
 
 
 @_attrs_define
-class RegisterRequest:
+class TeamQuota:
     """ 
         Attributes:
-            email (str):
-            password (str):
-            name (str):
-            home_region_id (Union[None, Unset, str]): Required in global-gateway mode because registration creates the
-                user's initial team.
+            team_id (str):
+            dimension (QuotaDimension):
+            limit_value (Union[None, Unset, int]):
      """
 
-    email: str
-    password: str
-    name: str
-    home_region_id: Union[None, Unset, str] = UNSET
+    team_id: str
+    dimension: QuotaDimension
+    limit_value: Union[None, Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,28 +39,25 @@ class RegisterRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        email = self.email
+        team_id = self.team_id
 
-        password = self.password
+        dimension = self.dimension.value
 
-        name = self.name
-
-        home_region_id: Union[None, Unset, str]
-        if isinstance(self.home_region_id, Unset):
-            home_region_id = UNSET
+        limit_value: Union[None, Unset, int]
+        if isinstance(self.limit_value, Unset):
+            limit_value = UNSET
         else:
-            home_region_id = self.home_region_id
+            limit_value = self.limit_value
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "email": email,
-            "password": password,
-            "name": name,
+            "team_id": team_id,
+            "dimension": dimension,
         })
-        if home_region_id is not UNSET:
-            field_dict["home_region_id"] = home_region_id
+        if limit_value is not UNSET:
+            field_dict["limit_value"] = limit_value
 
         return field_dict
 
@@ -71,32 +66,32 @@ class RegisterRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        email = d.pop("email")
+        team_id = d.pop("team_id")
 
-        password = d.pop("password")
+        dimension = QuotaDimension(d.pop("dimension"))
 
-        name = d.pop("name")
 
-        def _parse_home_region_id(data: object) -> Union[None, Unset, str]:
+
+
+        def _parse_limit_value(data: object) -> Union[None, Unset, int]:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(Union[None, Unset, int], data)
 
-        home_region_id = _parse_home_region_id(d.pop("home_region_id", UNSET))
+        limit_value = _parse_limit_value(d.pop("limit_value", UNSET))
 
 
-        register_request = cls(
-            email=email,
-            password=password,
-            name=name,
-            home_region_id=home_region_id,
+        team_quota = cls(
+            team_id=team_id,
+            dimension=dimension,
+            limit_value=limit_value,
         )
 
 
-        register_request.additional_properties = d
-        return register_request
+        team_quota.additional_properties = d
+        return team_quota
 
     @property
     def additional_keys(self) -> list[str]:

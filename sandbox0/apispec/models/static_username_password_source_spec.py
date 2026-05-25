@@ -18,7 +18,7 @@ T = TypeVar("T", bound="StaticUsernamePasswordSourceSpec")
 
 @_attrs_define
 class StaticUsernamePasswordSourceSpec:
-    """
+    """ 
         Attributes:
             username (str):
             password (str):

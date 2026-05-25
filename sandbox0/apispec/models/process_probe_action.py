@@ -18,7 +18,7 @@ T = TypeVar("T", bound="ProcessProbeAction")
 
 @_attrs_define
 class ProcessProbeAction:
-    """
+    """ 
      """
 
 
@@ -27,7 +27,7 @@ class ProcessProbeAction:
 
 
     def to_dict(self) -> dict[str, Any]:
-
+        
         field_dict: dict[str, Any] = {}
 
 
@@ -41,3 +41,4 @@ class ProcessProbeAction:
         )
 
         return process_probe_action
+

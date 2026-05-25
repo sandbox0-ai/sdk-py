@@ -11,26 +11,26 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.success_function_revision_create_response_data import SuccessFunctionRevisionCreateResponseData
+  from ..models.team_quota import TeamQuota
 
 
 
 
 
-T = TypeVar("T", bound="SuccessFunctionRevisionCreateResponse")
+T = TypeVar("T", bound="SuccessTeamQuotaResponse")
 
 
 
 @_attrs_define
-class SuccessFunctionRevisionCreateResponse:
-    """
+class SuccessTeamQuotaResponse:
+    """ 
         Attributes:
             success (bool):
-            data (Union[Unset, SuccessFunctionRevisionCreateResponseData]):
+            data (Union[Unset, TeamQuota]):
      """
 
     success: bool
-    data: Union[Unset, 'SuccessFunctionRevisionCreateResponseData'] = UNSET
+    data: Union[Unset, 'TeamQuota'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,7 +38,7 @@ class SuccessFunctionRevisionCreateResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.success_function_revision_create_response_data import SuccessFunctionRevisionCreateResponseData
+        from ..models.team_quota import TeamQuota
         success = self.success
 
         data: Union[Unset, dict[str, Any]] = UNSET
@@ -60,28 +60,28 @@ class SuccessFunctionRevisionCreateResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.success_function_revision_create_response_data import SuccessFunctionRevisionCreateResponseData
+        from ..models.team_quota import TeamQuota
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, SuccessFunctionRevisionCreateResponseData]
+        data: Union[Unset, TeamQuota]
         if isinstance(_data,  Unset):
             data = UNSET
         else:
-            data = SuccessFunctionRevisionCreateResponseData.from_dict(_data)
+            data = TeamQuota.from_dict(_data)
 
 
 
 
-        success_function_revision_create_response = cls(
+        success_team_quota_response = cls(
             success=success,
             data=data,
         )
 
 
-        success_function_revision_create_response.additional_properties = d
-        return success_function_revision_create_response
+        success_team_quota_response.additional_properties = d
+        return success_team_quota_response
 
     @property
     def additional_keys(self) -> list[str]:

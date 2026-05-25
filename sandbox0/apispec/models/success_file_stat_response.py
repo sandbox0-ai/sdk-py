@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessFileStatResponse")
 
 @_attrs_define
 class SuccessFileStatResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, FileInfo]):

@@ -23,7 +23,7 @@ T = TypeVar("T", bound="ResumeSandboxResponse")
 
 @_attrs_define
 class ResumeSandboxResponse:
-    """
+    """ 
         Attributes:
             sandbox_id (str):
             resumed (bool):

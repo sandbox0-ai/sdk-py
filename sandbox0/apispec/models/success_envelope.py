@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SuccessEnvelope")
 
 @_attrs_define
 class SuccessEnvelope:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, Any]):

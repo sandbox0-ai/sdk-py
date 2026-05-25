@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessResumeSandboxResponse")
 
 @_attrs_define
 class SuccessResumeSandboxResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, ResumeSandboxResponse]):

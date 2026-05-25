@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessIdentityListResponse")
 
 @_attrs_define
 class SuccessIdentityListResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, SuccessIdentityListResponseData]):

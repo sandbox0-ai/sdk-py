@@ -21,7 +21,7 @@ T = TypeVar("T", bound="FileWatchSubscribeRequest")
 
 @_attrs_define
 class FileWatchSubscribeRequest:
-    """
+    """ 
         Attributes:
             action (FileWatchSubscribeRequestAction):
             path (str):

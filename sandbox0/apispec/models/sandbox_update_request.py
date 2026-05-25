@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SandboxUpdateRequest")
 
 @_attrs_define
 class SandboxUpdateRequest:
-    """
+    """ 
         Attributes:
             config (Union[Unset, SandboxUpdateConfig]): Subset of SandboxConfig fields that can be updated at runtime
                 without restarting the sandbox.

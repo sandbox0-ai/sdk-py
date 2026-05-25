@@ -23,7 +23,7 @@ T = TypeVar("T", bound="ContextStatsResponse")
 
 @_attrs_define
 class ContextStatsResponse:
-    """
+    """ 
         Attributes:
             context_id (Union[Unset, str]):
             type_ (Union[Unset, str]):

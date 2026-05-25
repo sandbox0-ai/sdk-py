@@ -14,13 +14,13 @@ from typing import cast
 
 
 def _get_kwargs(
-
+    
 ) -> dict[str, Any]:
+    
 
+    
 
-
-
-
+    
 
     _kwargs: dict[str, Any] = {
         "method": "get",
@@ -79,7 +79,7 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-
+        
     )
 
     response = client.get_httpx_client().request(
@@ -126,7 +126,7 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-
+        
     )
 
     response = await client.get_async_httpx_client().request(

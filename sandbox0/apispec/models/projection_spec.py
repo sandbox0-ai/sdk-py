@@ -12,10 +12,10 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.ssh_proxy_projection import SSHProxyProjection
-  from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
   from ..models.http_headers_projection import HTTPHeadersProjection
+  from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
   from ..models.username_password_projection import UsernamePasswordProjection
+  from ..models.ssh_proxy_projection import SSHProxyProjection
 
 
 
@@ -27,7 +27,7 @@ T = TypeVar("T", bound="ProjectionSpec")
 
 @_attrs_define
 class ProjectionSpec:
-    """
+    """ 
         Attributes:
             type_ (CredentialProjectionType):
             http_headers (Union[Unset, HTTPHeadersProjection]):
@@ -51,10 +51,10 @@ class ProjectionSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.ssh_proxy_projection import SSHProxyProjection
-        from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
         from ..models.http_headers_projection import HTTPHeadersProjection
+        from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
         from ..models.username_password_projection import UsernamePasswordProjection
+        from ..models.ssh_proxy_projection import SSHProxyProjection
         type_ = self.type_.value
 
         http_headers: Union[Unset, dict[str, Any]] = UNSET
@@ -94,10 +94,10 @@ class ProjectionSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.ssh_proxy_projection import SSHProxyProjection
-        from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
         from ..models.http_headers_projection import HTTPHeadersProjection
+        from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
         from ..models.username_password_projection import UsernamePasswordProjection
+        from ..models.ssh_proxy_projection import SSHProxyProjection
         d = dict(src_dict)
         type_ = CredentialProjectionType(d.pop("type"))
 

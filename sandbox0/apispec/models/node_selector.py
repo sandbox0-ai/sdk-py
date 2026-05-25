@@ -23,7 +23,7 @@ T = TypeVar("T", bound="NodeSelector")
 
 @_attrs_define
 class NodeSelector:
-    """
+    """ 
         Attributes:
             node_selector_terms (Union[Unset, list['NodeSelectorTerm']]):
      """

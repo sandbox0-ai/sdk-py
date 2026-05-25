@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessContextResponse")
 
 @_attrs_define
 class SuccessContextResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, ContextResponse]):

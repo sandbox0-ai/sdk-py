@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SuccessRestoreResponseData")
 
 @_attrs_define
 class SuccessRestoreResponseData:
-    """
+    """ 
         Attributes:
             status (Union[Unset, str]):
      """

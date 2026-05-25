@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessRegionResponse")
 
 @_attrs_define
 class SuccessRegionResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, Region]):

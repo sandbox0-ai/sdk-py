@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ExecCandidate")
 
 @_attrs_define
 class ExecCandidate:
-    """
+    """ 
         Attributes:
             name (str):
             args (Union[Unset, list[str]]):

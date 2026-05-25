@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessSandboxVolumeResponse")
 
 @_attrs_define
 class SuccessSandboxVolumeResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, SandboxVolume]):

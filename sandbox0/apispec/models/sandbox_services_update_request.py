@@ -21,7 +21,7 @@ T = TypeVar("T", bound="SandboxServicesUpdateRequest")
 
 @_attrs_define
 class SandboxServicesUpdateRequest:
-    """
+    """ 
         Attributes:
             services (list['SandboxAppService']):
      """

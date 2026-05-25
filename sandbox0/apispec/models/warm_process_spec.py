@@ -12,8 +12,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_probe_set import SandboxProbeSet
   from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
+  from ..models.sandbox_probe_set import SandboxProbeSet
 
 
 
@@ -25,7 +25,7 @@ T = TypeVar("T", bound="WarmProcessSpec")
 
 @_attrs_define
 class WarmProcessSpec:
-    """
+    """ 
         Attributes:
             type_ (WarmProcessSpecType):
             name (Union[Unset, str]):
@@ -50,8 +50,8 @@ class WarmProcessSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_probe_set import SandboxProbeSet
         from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
+        from ..models.sandbox_probe_set import SandboxProbeSet
         type_ = self.type_.value
 
         name = self.name
@@ -99,8 +99,8 @@ class WarmProcessSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_probe_set import SandboxProbeSet
         from ..models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
+        from ..models.sandbox_probe_set import SandboxProbeSet
         d = dict(src_dict)
         type_ = WarmProcessSpecType(d.pop("type"))
 

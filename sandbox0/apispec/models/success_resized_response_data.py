@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SuccessResizedResponseData")
 
 @_attrs_define
 class SuccessResizedResponseData:
-    """
+    """ 
         Attributes:
             resized (Union[Unset, bool]):
      """

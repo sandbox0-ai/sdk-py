@@ -20,7 +20,7 @@ T = TypeVar("T", bound="SandboxAppServiceHealth")
 
 @_attrs_define
 class SandboxAppServiceHealth:
-    """
+    """ 
         Attributes:
             path (Union[Unset, str]):
      """

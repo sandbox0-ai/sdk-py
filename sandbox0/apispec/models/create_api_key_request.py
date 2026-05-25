@@ -21,7 +21,7 @@ T = TypeVar("T", bound="CreateAPIKeyRequest")
 
 @_attrs_define
 class CreateAPIKeyRequest:
-    """
+    """ 
         Attributes:
             name (str):
             scope (Union[Unset, str]): API key scope: team or platform. Defaults to team. platform keys grant system admin

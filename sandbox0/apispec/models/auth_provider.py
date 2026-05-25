@@ -20,7 +20,7 @@ T = TypeVar("T", bound="AuthProvider")
 
 @_attrs_define
 class AuthProvider:
-    """
+    """ 
         Attributes:
             id (str):
             name (str):

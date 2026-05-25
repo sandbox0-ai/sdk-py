@@ -21,7 +21,7 @@ T = TypeVar("T", bound="FileContentResponse")
 
 @_attrs_define
 class FileContentResponse:
-    """
+    """ 
         Attributes:
             content (Union[Unset, str]):
             encoding (Union[Unset, FileContentResponseEncoding]):

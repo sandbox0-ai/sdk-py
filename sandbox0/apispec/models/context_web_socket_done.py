@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ContextWebSocketDone")
 
 @_attrs_define
 class ContextWebSocketDone:
-    """
+    """ 
         Attributes:
             type_ (ContextWebSocketDoneType):
             request_id (Union[Unset, str]): Present for request-scoped REPL completion events.

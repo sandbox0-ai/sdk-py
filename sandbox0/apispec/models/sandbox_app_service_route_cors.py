@@ -21,7 +21,7 @@ T = TypeVar("T", bound="SandboxAppServiceRouteCORS")
 
 @_attrs_define
 class SandboxAppServiceRouteCORS:
-    """
+    """ 
         Attributes:
             allowed_origins (Union[Unset, list[str]]):
             allowed_methods (Union[Unset, list[str]]):

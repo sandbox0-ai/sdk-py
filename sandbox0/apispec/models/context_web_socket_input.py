@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ContextWebSocketInput")
 
 @_attrs_define
 class ContextWebSocketInput:
-    """
+    """ 
         Attributes:
             type_ (ContextWebSocketInputType):
             data (Union[Unset, str]): Input bytes encoded as a string. The WebSocket endpoint writes this value exactly as

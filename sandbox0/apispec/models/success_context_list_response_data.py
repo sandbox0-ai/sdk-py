@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessContextListResponseData")
 
 @_attrs_define
 class SuccessContextListResponseData:
-    """
+    """ 
         Attributes:
             contexts (Union[Unset, list['ContextResponse']]):
      """

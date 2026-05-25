@@ -20,7 +20,7 @@ T = TypeVar("T", bound="StaticSSHPrivateKeySourceSpec")
 
 @_attrs_define
 class StaticSSHPrivateKeySourceSpec:
-    """
+    """ 
         Attributes:
             private_key_pem (str):
             passphrase (Union[Unset, str]):

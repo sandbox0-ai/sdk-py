@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ExecAction")
 
 @_attrs_define
 class ExecAction:
-    """
+    """ 
         Attributes:
             command (Union[Unset, list[str]]):
      """

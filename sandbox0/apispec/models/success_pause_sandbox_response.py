@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessPauseSandboxResponse")
 
 @_attrs_define
 class SuccessPauseSandboxResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, PauseSandboxResponse]):

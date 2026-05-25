@@ -19,7 +19,7 @@ T = TypeVar("T", bound="FileWatchUnsubscribeRequest")
 
 @_attrs_define
 class FileWatchUnsubscribeRequest:
-    """
+    """ 
         Attributes:
             action (FileWatchUnsubscribeRequestAction):
             watch_id (str):

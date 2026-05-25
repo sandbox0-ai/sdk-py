@@ -24,7 +24,7 @@ T = TypeVar("T", bound="DeviceLoginPollResponse")
 
 @_attrs_define
 class DeviceLoginPollResponse:
-    """
+    """ 
         Attributes:
             status (DeviceLoginPollResponseStatus):
             interval_seconds (Union[Unset, int]):

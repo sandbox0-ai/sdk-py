@@ -18,7 +18,7 @@ T = TypeVar("T", bound="PoolStrategy")
 
 @_attrs_define
 class PoolStrategy:
-    """
+    """ 
         Attributes:
             min_idle (int):
             max_idle (int):

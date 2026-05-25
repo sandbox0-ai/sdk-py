@@ -7,24 +7,26 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.success_function_revision_list_response import SuccessFunctionRevisionListResponse
+from ...models.error_envelope import ErrorEnvelope
+from ...models.quota_dimension import QuotaDimension
+from ...models.success_deleted_response import SuccessDeletedResponse
 from typing import cast
 
 
 
 def _get_kwargs(
-    id: str,
+    dimension: QuotaDimension,
 
 ) -> dict[str, Any]:
+    
 
+    
 
-
-
-
+    
 
     _kwargs: dict[str, Any] = {
-        "method": "get",
-        "url": "/api/v1/functions/{id}/revisions".format(id=id,),
+        "method": "delete",
+        "url": "/api/v1/quotas/{dimension}".format(dimension=dimension,),
     }
 
 
@@ -32,13 +34,20 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessFunctionRevisionListResponse]:
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessFunctionRevisionListResponse.from_dict(response.json())
+        response_200 = SuccessDeletedResponse.from_dict(response.json())
 
 
 
         return response_200
+
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+
+
+        return response_400
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -46,7 +55,7 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessFunctionRevisionListResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,27 +65,27 @@ def _build_response(*, client: Union[AuthenticatedClient, Client], response: htt
 
 
 def sync_detailed(
-    id: str,
+    dimension: QuotaDimension,
     *,
     client: AuthenticatedClient,
 
-) -> Response[SuccessFunctionRevisionListResponse]:
-    """ List function revisions
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete team quota
 
     Args:
-        id (str):
+        dimension (QuotaDimension):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessFunctionRevisionListResponse]
+        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
      """
 
 
     kwargs = _get_kwargs(
-        id=id,
+        dimension=dimension,
 
     )
 
@@ -87,53 +96,53 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 def sync(
-    id: str,
+    dimension: QuotaDimension,
     *,
     client: AuthenticatedClient,
 
-) -> Optional[SuccessFunctionRevisionListResponse]:
-    """ List function revisions
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete team quota
 
     Args:
-        id (str):
+        dimension (QuotaDimension):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessFunctionRevisionListResponse
+        Union[ErrorEnvelope, SuccessDeletedResponse]
      """
 
 
     return sync_detailed(
-        id=id,
+        dimension=dimension,
 client=client,
 
     ).parsed
 
 async def asyncio_detailed(
-    id: str,
+    dimension: QuotaDimension,
     *,
     client: AuthenticatedClient,
 
-) -> Response[SuccessFunctionRevisionListResponse]:
-    """ List function revisions
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete team quota
 
     Args:
-        id (str):
+        dimension (QuotaDimension):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessFunctionRevisionListResponse]
+        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
      """
 
 
     kwargs = _get_kwargs(
-        id=id,
+        dimension=dimension,
 
     )
 
@@ -144,27 +153,27 @@ async def asyncio_detailed(
     return _build_response(client=client, response=response)
 
 async def asyncio(
-    id: str,
+    dimension: QuotaDimension,
     *,
     client: AuthenticatedClient,
 
-) -> Optional[SuccessFunctionRevisionListResponse]:
-    """ List function revisions
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete team quota
 
     Args:
-        id (str):
+        dimension (QuotaDimension):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessFunctionRevisionListResponse
+        Union[ErrorEnvelope, SuccessDeletedResponse]
      """
 
 
     return (await asyncio_detailed(
-        id=id,
+        dimension=dimension,
 client=client,
 
     )).parsed

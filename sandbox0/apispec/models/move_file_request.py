@@ -18,7 +18,7 @@ T = TypeVar("T", bound="MoveFileRequest")
 
 @_attrs_define
 class MoveFileRequest:
-    """
+    """ 
         Attributes:
             source (str):
             destination (str):

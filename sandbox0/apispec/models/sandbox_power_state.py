@@ -21,7 +21,7 @@ T = TypeVar("T", bound="SandboxPowerState")
 
 @_attrs_define
 class SandboxPowerState:
-    """
+    """ 
         Attributes:
             desired (SandboxPowerStateDesired):
             desired_generation (int):

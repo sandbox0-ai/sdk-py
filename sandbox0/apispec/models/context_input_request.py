@@ -18,7 +18,7 @@ T = TypeVar("T", bound="ContextInputRequest")
 
 @_attrs_define
 class ContextInputRequest:
-    """
+    """ 
         Attributes:
             data (str): Input bytes encoded as a string. The /input endpoint writes this value exactly as provided. The
                 /exec endpoint appends a trailing newline for REPL contexts when missing.

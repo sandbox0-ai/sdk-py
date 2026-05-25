@@ -18,7 +18,7 @@ T = TypeVar("T", bound="ResizeContextRequest")
 
 @_attrs_define
 class ResizeContextRequest:
-    """
+    """ 
         Attributes:
             rows (int):
             cols (int):

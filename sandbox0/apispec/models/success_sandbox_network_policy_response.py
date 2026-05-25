@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessSandboxNetworkPolicyResponse")
 
 @_attrs_define
 class SuccessSandboxNetworkPolicyResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, SandboxNetworkPolicy]):

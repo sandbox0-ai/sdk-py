@@ -21,7 +21,7 @@ T = TypeVar("T", bound="UpdateRegionRequest")
 
 @_attrs_define
 class UpdateRegionRequest:
-    """
+    """ 
         Attributes:
             display_name (Union[Unset, str]):
             regional_gateway_url (Union[Unset, str]):

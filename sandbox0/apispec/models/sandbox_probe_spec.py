@@ -11,9 +11,9 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
+  from ..models.http_get_action import HTTPGetAction
   from ..models.exec_action import ExecAction
   from ..models.process_probe_action import ProcessProbeAction
-  from ..models.http_get_action import HTTPGetAction
   from ..models.tcp_socket_action import TCPSocketAction
 
 
@@ -26,7 +26,7 @@ T = TypeVar("T", bound="SandboxProbeSpec")
 
 @_attrs_define
 class SandboxProbeSpec:
-    """
+    """ 
         Attributes:
             process (Union[Unset, ProcessProbeAction]):
             exec_ (Union[Unset, ExecAction]):
@@ -49,9 +49,9 @@ class SandboxProbeSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.http_get_action import HTTPGetAction
         from ..models.exec_action import ExecAction
         from ..models.process_probe_action import ProcessProbeAction
-        from ..models.http_get_action import HTTPGetAction
         from ..models.tcp_socket_action import TCPSocketAction
         process: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.process, Unset):
@@ -97,9 +97,9 @@ class SandboxProbeSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.http_get_action import HTTPGetAction
         from ..models.exec_action import ExecAction
         from ..models.process_probe_action import ProcessProbeAction
-        from ..models.http_get_action import HTTPGetAction
         from ..models.tcp_socket_action import TCPSocketAction
         d = dict(src_dict)
         _process = d.pop("process", UNSET)

@@ -24,7 +24,7 @@ T = TypeVar("T", bound="ClaimRequest")
 
 @_attrs_define
 class ClaimRequest:
-    """
+    """ 
         Attributes:
             template (Union[Unset, str]):
             config (Union[Unset, SandboxConfig]):

@@ -21,7 +21,7 @@ T = TypeVar("T", bound="Region")
 
 @_attrs_define
 class Region:
-    """
+    """ 
         Attributes:
             id (str):
             regional_gateway_url (str):

@@ -12,20 +12,18 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="FunctionEnvRef")
+T = TypeVar("T", bound="PutTeamQuotaRequest")
 
 
 
 @_attrs_define
-class FunctionEnvRef:
-    """
+class PutTeamQuotaRequest:
+    """ 
         Attributes:
-            name (str):
-            source_ref (str):
+            limit_value (int):
      """
 
-    name: str
-    source_ref: str
+    limit_value: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -33,16 +31,13 @@ class FunctionEnvRef:
 
 
     def to_dict(self) -> dict[str, Any]:
-        name = self.name
-
-        source_ref = self.source_ref
+        limit_value = self.limit_value
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "name": name,
-            "source_ref": source_ref,
+            "limit_value": limit_value,
         })
 
         return field_dict
@@ -52,18 +47,15 @@ class FunctionEnvRef:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        name = d.pop("name")
+        limit_value = d.pop("limit_value")
 
-        source_ref = d.pop("source_ref")
-
-        function_env_ref = cls(
-            name=name,
-            source_ref=source_ref,
+        put_team_quota_request = cls(
+            limit_value=limit_value,
         )
 
 
-        function_env_ref.additional_properties = d
-        return function_env_ref
+        put_team_quota_request.additional_properties = d
+        return put_team_quota_request
 
     @property
     def additional_keys(self) -> list[str]:

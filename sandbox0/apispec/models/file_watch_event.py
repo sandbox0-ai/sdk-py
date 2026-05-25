@@ -19,7 +19,7 @@ T = TypeVar("T", bound="FileWatchEvent")
 
 @_attrs_define
 class FileWatchEvent:
-    """
+    """ 
         Attributes:
             type_ (FileWatchEventType):
             watch_id (str):

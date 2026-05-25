@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessSSHPublicKeyResponse")
 
 @_attrs_define
 class SuccessSSHPublicKeyResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, SSHPublicKey]):

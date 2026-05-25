@@ -20,7 +20,7 @@ T = TypeVar("T", bound="StaticTLSClientCertificateSourceSpec")
 
 @_attrs_define
 class StaticTLSClientCertificateSourceSpec:
-    """
+    """ 
         Attributes:
             certificate_pem (str):
             private_key_pem (str):

@@ -19,7 +19,7 @@ T = TypeVar("T", bound="FileWatchError")
 
 @_attrs_define
 class FileWatchError:
-    """
+    """ 
         Attributes:
             type_ (FileWatchErrorType):
             error (str):

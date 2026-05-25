@@ -18,7 +18,7 @@ T = TypeVar("T", bound="ClaimMountRequest")
 
 @_attrs_define
 class ClaimMountRequest:
-    """
+    """ 
         Attributes:
             sandboxvolume_id (str):
             mount_point (str):

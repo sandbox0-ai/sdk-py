@@ -24,7 +24,7 @@ T = TypeVar("T", bound="CredentialBinding")
 
 @_attrs_define
 class CredentialBinding:
-    """
+    """ 
         Attributes:
             ref (str): Stable binding identifier matched by `credentialRef`.
             source_ref (str): Region-scoped credential source reference resolved by `manager`.

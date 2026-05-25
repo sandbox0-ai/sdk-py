@@ -25,7 +25,7 @@ T = TypeVar("T", bound="TrafficRule")
 
 @_attrs_define
 class TrafficRule:
-    """
+    """ 
         Attributes:
             action (TrafficRuleAction):
             name (Union[Unset, str]): Optional stable identifier used for merge and replacement.

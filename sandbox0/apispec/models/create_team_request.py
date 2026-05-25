@@ -21,7 +21,7 @@ T = TypeVar("T", bound="CreateTeamRequest")
 
 @_attrs_define
 class CreateTeamRequest:
-    """
+    """ 
         Attributes:
             name (str):
             slug (Union[Unset, str]):

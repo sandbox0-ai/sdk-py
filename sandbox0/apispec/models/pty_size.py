@@ -20,7 +20,7 @@ T = TypeVar("T", bound="PTYSize")
 
 @_attrs_define
 class PTYSize:
-    """
+    """ 
         Attributes:
             rows (Union[Unset, int]):
             cols (Union[Unset, int]):

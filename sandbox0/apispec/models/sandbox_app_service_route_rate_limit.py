@@ -18,7 +18,7 @@ T = TypeVar("T", bound="SandboxAppServiceRouteRateLimit")
 
 @_attrs_define
 class SandboxAppServiceRouteRateLimit:
-    """
+    """ 
         Attributes:
             rps (int):
             burst (int):

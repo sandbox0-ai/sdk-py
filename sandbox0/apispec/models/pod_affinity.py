@@ -24,7 +24,7 @@ T = TypeVar("T", bound="PodAffinity")
 
 @_attrs_define
 class PodAffinity:
-    """
+    """ 
         Attributes:
             required_during_scheduling_ignored_during_execution (Union[Unset, list['PodAffinityTerm']]):
             preferred_during_scheduling_ignored_during_execution (Union[Unset, list['WeightedPodAffinityTerm']]):

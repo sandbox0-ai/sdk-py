@@ -24,7 +24,7 @@ T = TypeVar("T", bound="FileInfo")
 
 @_attrs_define
 class FileInfo:
-    """
+    """ 
         Attributes:
             name (Union[Unset, str]):
             path (Union[Unset, str]):

@@ -25,9 +25,9 @@ def _get_kwargs(
     offset: Union[Unset, int] = 0,
 
 ) -> dict[str, Any]:
+    
 
-
-
+    
 
     params: dict[str, Any] = {}
 

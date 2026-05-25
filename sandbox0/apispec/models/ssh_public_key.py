@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SSHPublicKey")
 
 @_attrs_define
 class SSHPublicKey:
-    """
+    """ 
         Attributes:
             id (str):
             name (str):

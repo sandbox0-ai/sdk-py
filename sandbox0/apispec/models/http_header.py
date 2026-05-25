@@ -18,7 +18,7 @@ T = TypeVar("T", bound="HTTPHeader")
 
 @_attrs_define
 class HTTPHeader:
-    """
+    """ 
         Attributes:
             name (str):
             value (str):

@@ -23,7 +23,7 @@ T = TypeVar("T", bound="CreateAPIKeyResponse")
 
 @_attrs_define
 class CreateAPIKeyResponse:
-    """
+    """ 
         Attributes:
             id (str):
             name (str):

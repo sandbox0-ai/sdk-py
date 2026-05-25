@@ -21,7 +21,7 @@ T = TypeVar("T", bound="RefreshResponse")
 
 @_attrs_define
 class RefreshResponse:
-    """
+    """ 
         Attributes:
             sandbox_id (str):
             expires_at (datetime.datetime):

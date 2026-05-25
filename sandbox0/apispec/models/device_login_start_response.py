@@ -20,7 +20,7 @@ T = TypeVar("T", bound="DeviceLoginStartResponse")
 
 @_attrs_define
 class DeviceLoginStartResponse:
-    """
+    """ 
         Attributes:
             device_login_id (str):
             user_code (str):

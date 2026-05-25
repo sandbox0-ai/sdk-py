@@ -18,7 +18,7 @@ T = TypeVar("T", bound="RefreshRequest")
 
 @_attrs_define
 class RefreshRequest:
-    """
+    """ 
         Attributes:
             refresh_token (str):
      """

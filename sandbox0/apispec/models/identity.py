@@ -18,7 +18,7 @@ T = TypeVar("T", bound="Identity")
 
 @_attrs_define
 class Identity:
-    """
+    """ 
         Attributes:
             id (str):
             provider (str):

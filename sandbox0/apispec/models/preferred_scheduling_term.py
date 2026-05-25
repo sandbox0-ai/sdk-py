@@ -21,7 +21,7 @@ T = TypeVar("T", bound="PreferredSchedulingTerm")
 
 @_attrs_define
 class PreferredSchedulingTerm:
-    """
+    """ 
         Attributes:
             weight (int):
             preference (NodeSelectorTerm):

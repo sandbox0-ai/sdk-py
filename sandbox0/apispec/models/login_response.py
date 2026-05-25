@@ -21,7 +21,7 @@ T = TypeVar("T", bound="LoginResponse")
 
 @_attrs_define
 class LoginResponse:
-    """
+    """ 
         Attributes:
             access_token (str):
             refresh_token (str):

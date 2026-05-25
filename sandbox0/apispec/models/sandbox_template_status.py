@@ -26,7 +26,7 @@ T = TypeVar("T", bound="SandboxTemplateStatus")
 
 @_attrs_define
 class SandboxTemplateStatus:
-    """
+    """ 
         Attributes:
             idle_count (Union[Unset, int]):
             active_count (Union[Unset, int]):

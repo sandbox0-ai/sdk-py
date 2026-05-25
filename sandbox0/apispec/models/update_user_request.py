@@ -20,7 +20,7 @@ T = TypeVar("T", bound="UpdateUserRequest")
 
 @_attrs_define
 class UpdateUserRequest:
-    """
+    """ 
         Attributes:
             name (Union[Unset, str]):
             avatar_url (Union[Unset, str]):

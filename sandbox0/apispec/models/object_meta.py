@@ -24,7 +24,7 @@ T = TypeVar("T", bound="ObjectMeta")
 
 @_attrs_define
 class ObjectMeta:
-    """
+    """ 
         Attributes:
             name (Union[Unset, str]):
             namespace (Union[Unset, str]):

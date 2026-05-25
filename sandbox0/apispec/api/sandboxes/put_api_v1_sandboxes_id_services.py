@@ -23,9 +23,9 @@ def _get_kwargs(
     headers: dict[str, Any] = {}
 
 
+    
 
-
-
+    
 
     _kwargs: dict[str, Any] = {
         "method": "put",
@@ -81,7 +81,7 @@ def sync_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxServicesResponse]]:
     """ Replace sandbox services
 
-     Replaces the sandbox services used for public exposure and function publishing.
+     Replaces the sandbox services used for public exposure.
 
     Args:
         id (str):
@@ -117,7 +117,7 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxServicesResponse]]:
     """ Replace sandbox services
 
-     Replaces the sandbox services used for public exposure and function publishing.
+     Replaces the sandbox services used for public exposure.
 
     Args:
         id (str):
@@ -148,7 +148,7 @@ async def asyncio_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxServicesResponse]]:
     """ Replace sandbox services
 
-     Replaces the sandbox services used for public exposure and function publishing.
+     Replaces the sandbox services used for public exposure.
 
     Args:
         id (str):
@@ -184,7 +184,7 @@ async def asyncio(
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxServicesResponse]]:
     """ Replace sandbox services
 
-     Replaces the sandbox services used for public exposure and function publishing.
+     Replaces the sandbox services used for public exposure.
 
     Args:
         id (str):

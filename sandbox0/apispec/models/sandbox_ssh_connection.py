@@ -18,7 +18,7 @@ T = TypeVar("T", bound="SandboxSSHConnection")
 
 @_attrs_define
 class SandboxSSHConnection:
-    """
+    """ 
         Attributes:
             host (str):
             port (int):

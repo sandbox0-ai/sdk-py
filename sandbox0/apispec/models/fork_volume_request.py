@@ -21,7 +21,7 @@ T = TypeVar("T", bound="ForkVolumeRequest")
 
 @_attrs_define
 class ForkVolumeRequest:
-    """
+    """ 
         Attributes:
             default_posix_uid (Union[Unset, int]): Override the default POSIX UID for external volume access paths. Inherits
                 from the source volume when omitted.

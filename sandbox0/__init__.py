@@ -1,13 +1,4 @@
 from sandbox0.client import Client
-from sandbox0.apispec.models.function_autoscaling import FunctionAutoscaling
-from sandbox0.apispec.models.function_revision_spec import FunctionRevisionSpec
-from sandbox0.client_functions import (
-    FunctionCreateResult,
-    FunctionRevisionCreateResult,
-    Functions,
-    function_revision_spec_source,
-    function_source,
-)
 from sandbox0.errors import APIError
 from sandbox0.models import (
     CmdResult,
@@ -30,11 +21,6 @@ __all__ = [
     "CmdOptions",
     "CmdResult",
     "FileWatchResponse",
-    "FunctionAutoscaling",
-    "FunctionCreateResult",
-    "FunctionRevisionCreateResult",
-    "FunctionRevisionSpec",
-    "Functions",
     "MountSession",
     "RunOptions",
     "RunResult",
@@ -49,7 +35,5 @@ __all__ = [
     "StreamOutput",
     "Volumes",
     "VolumeSession",
-    "function_revision_spec_source",
-    "function_source",
     "verify_webhook_signature",
 ]

@@ -25,7 +25,7 @@ T = TypeVar("T", bound="ContainerSpec")
 
 @_attrs_define
 class ContainerSpec:
-    """
+    """ 
         Attributes:
             image (str):
             resources (ResourceQuota):

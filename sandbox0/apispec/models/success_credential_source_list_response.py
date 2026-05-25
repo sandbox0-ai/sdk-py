@@ -23,7 +23,7 @@ T = TypeVar("T", bound="SuccessCredentialSourceListResponse")
 
 @_attrs_define
 class SuccessCredentialSourceListResponse:
-    """
+    """ 
         Attributes:
             success (bool):
             data (Union[Unset, list['CredentialSourceMetadata']]):
