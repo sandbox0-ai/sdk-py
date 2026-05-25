@@ -37,6 +37,7 @@ class TestSandboxServices(TestCase):
                                     routes=[SandboxAppServiceRoute(id="api", resume=True)],
                                 ),
                                 publishable=False,
+                                public_url="https://rs-default-api-abcde--p8080.us.sandbox0.app",
                             )
                         ],
                     ),
@@ -74,6 +75,10 @@ class TestSandboxServices(TestCase):
         self.assertEqual(captured["get"]["id"], "sb_123")
         self.assertEqual(current.services[0].id, "api")
         self.assertEqual(current.services[0].port, 8080)
+        self.assertEqual(
+            current.services[0].public_url,
+            "https://rs-default-api-abcde--p8080.us.sandbox0.app",
+        )
         self.assertEqual(captured["put"]["id"], "sb_123")
         self.assertEqual(captured["put"]["body"].services, [])
         self.assertEqual(cleared.services, [])

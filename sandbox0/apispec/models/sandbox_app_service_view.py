@@ -11,9 +11,9 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
+  from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
   from ..models.sandbox_app_service_health import SandboxAppServiceHealth
   from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-  from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
 
 
 
@@ -35,6 +35,7 @@ class SandboxAppServiceView:
             runtime (Union[Unset, SandboxAppServiceRuntime]):
             health_check (Union[Unset, SandboxAppServiceHealth]):
             publish_blockers (Union[Unset, list[str]]):
+            public_url (Union[Unset, str]): Public HTTPS URL for this service when public exposure is enabled.
      """
 
     id: str
@@ -45,6 +46,7 @@ class SandboxAppServiceView:
     runtime: Union[Unset, 'SandboxAppServiceRuntime'] = UNSET
     health_check: Union[Unset, 'SandboxAppServiceHealth'] = UNSET
     publish_blockers: Union[Unset, list[str]] = UNSET
+    public_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -52,9 +54,9 @@ class SandboxAppServiceView:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
         from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         id = self.id
 
         port = self.port
@@ -79,6 +81,8 @@ class SandboxAppServiceView:
 
 
 
+        public_url = self.public_url
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -96,6 +100,8 @@ class SandboxAppServiceView:
             field_dict["health_check"] = health_check
         if publish_blockers is not UNSET:
             field_dict["publish_blockers"] = publish_blockers
+        if public_url is not UNSET:
+            field_dict["public_url"] = public_url
 
         return field_dict
 
@@ -103,9 +109,9 @@ class SandboxAppServiceView:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
         from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -143,6 +149,8 @@ class SandboxAppServiceView:
         publish_blockers = cast(list[str], d.pop("publish_blockers", UNSET))
 
 
+        public_url = d.pop("public_url", UNSET)
+
         sandbox_app_service_view = cls(
             id=id,
             port=port,
@@ -152,6 +160,7 @@ class SandboxAppServiceView:
             runtime=runtime,
             health_check=health_check,
             publish_blockers=publish_blockers,
+            public_url=public_url,
         )
 
 

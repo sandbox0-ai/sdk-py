@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.object_meta_labels import ObjectMetaLabels
   from ..models.object_meta_annotations import ObjectMetaAnnotations
+  from ..models.object_meta_labels import ObjectMetaLabels
 
 
 
@@ -43,8 +43,8 @@ class ObjectMeta:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.object_meta_labels import ObjectMetaLabels
         from ..models.object_meta_annotations import ObjectMetaAnnotations
+        from ..models.object_meta_labels import ObjectMetaLabels
         name = self.name
 
         namespace = self.namespace
@@ -77,8 +77,8 @@ class ObjectMeta:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.object_meta_labels import ObjectMetaLabels
         from ..models.object_meta_annotations import ObjectMetaAnnotations
+        from ..models.object_meta_labels import ObjectMetaLabels
         d = dict(src_dict)
         name = d.pop("name", UNSET)
 
