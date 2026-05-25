@@ -1,6 +1,7 @@
 from enum import Enum
 
-class GetApiV1SandboxesStatus(str, Enum):
+class SandboxLifecycleStatus(str, Enum):
+    CLEANED = "cleaned"
     COMPLETED = "completed"
     FAILED = "failed"
     RUNNING = "running"

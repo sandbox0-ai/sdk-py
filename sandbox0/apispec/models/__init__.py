@@ -82,7 +82,6 @@ from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_volume_request import ForkVolumeRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
-from .get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from .grpc_action import GRPCAction
 from .http_get_action import HTTPGetAction
 from .http_header import HTTPHeader
@@ -158,6 +157,7 @@ from .sandbox_app_service_runtime_type import SandboxAppServiceRuntimeType
 from .sandbox_app_service_view import SandboxAppServiceView
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
+from .sandbox_lifecycle_status import SandboxLifecycleStatus
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_power_state import SandboxPowerState
@@ -172,7 +172,6 @@ from .sandbox_services_update_request import SandboxServicesUpdateRequest
 from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
 from .sandbox_summary import SandboxSummary
-from .sandbox_summary_status import SandboxSummaryStatus
 from .sandbox_template import SandboxTemplate
 from .sandbox_template_condition import SandboxTemplateCondition
 from .sandbox_template_spec import SandboxTemplateSpec
@@ -381,7 +380,6 @@ __all__ = (
     "ForkVolumeRequest",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
-    "GetApiV1SandboxesStatus",
     "GRPCAction",
     "HTTPGetAction",
     "HTTPHeader",
@@ -457,6 +455,7 @@ __all__ = (
     "SandboxAppServiceView",
     "SandboxConfig",
     "SandboxConfigEnvVars",
+    "SandboxLifecycleStatus",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
     "SandboxPowerState",
@@ -471,7 +470,6 @@ __all__ = (
     "SandboxSSHConnection",
     "SandboxStatus",
     "SandboxSummary",
-    "SandboxSummaryStatus",
     "SandboxTemplate",
     "SandboxTemplateCondition",
     "SandboxTemplateSpec",

@@ -6,7 +6,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.sandbox_summary_status import SandboxSummaryStatus
+from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -31,7 +31,7 @@ class SandboxSummary:
         Attributes:
             id (str):
             template_id (str):
-            status (SandboxSummaryStatus):
+            status (SandboxLifecycleStatus):
             paused (bool):
             power_state (SandboxPowerState):
             created_at (datetime.datetime):
@@ -42,7 +42,7 @@ class SandboxSummary:
 
     id: str
     template_id: str
-    status: SandboxSummaryStatus
+    status: SandboxLifecycleStatus
     paused: bool
     power_state: 'SandboxPowerState'
     created_at: datetime.datetime
@@ -107,7 +107,7 @@ class SandboxSummary:
 
         template_id = d.pop("template_id")
 
-        status = SandboxSummaryStatus(d.pop("status"))
+        status = SandboxLifecycleStatus(d.pop("status"))
 
 
 

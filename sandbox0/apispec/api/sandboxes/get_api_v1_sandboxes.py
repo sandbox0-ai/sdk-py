@@ -8,7 +8,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error_envelope import ErrorEnvelope
-from ...models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
+from ...models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ...models.success_sandbox_list_response import SuccessSandboxListResponse
 from ...types import UNSET, Unset
 from typing import cast
@@ -18,7 +18,7 @@ from typing import Union
 
 def _get_kwargs(
     *,
-    status: Union[Unset, GetApiV1SandboxesStatus] = UNSET,
+    status: Union[Unset, SandboxLifecycleStatus] = UNSET,
     template_id: Union[Unset, str] = UNSET,
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
@@ -93,7 +93,7 @@ def _build_response(*, client: Union[AuthenticatedClient, Client], response: htt
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    status: Union[Unset, GetApiV1SandboxesStatus] = UNSET,
+    status: Union[Unset, SandboxLifecycleStatus] = UNSET,
     template_id: Union[Unset, str] = UNSET,
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
@@ -106,7 +106,7 @@ def sync_detailed(
     results from all enabled clusters.
 
     Args:
-        status (Union[Unset, GetApiV1SandboxesStatus]):
+        status (Union[Unset, SandboxLifecycleStatus]):
         template_id (Union[Unset, str]):
         paused (Union[Unset, bool]):
         limit (Union[Unset, int]):  Default: 50.
@@ -139,7 +139,7 @@ offset=offset,
 def sync(
     *,
     client: AuthenticatedClient,
-    status: Union[Unset, GetApiV1SandboxesStatus] = UNSET,
+    status: Union[Unset, SandboxLifecycleStatus] = UNSET,
     template_id: Union[Unset, str] = UNSET,
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
@@ -152,7 +152,7 @@ def sync(
     results from all enabled clusters.
 
     Args:
-        status (Union[Unset, GetApiV1SandboxesStatus]):
+        status (Union[Unset, SandboxLifecycleStatus]):
         template_id (Union[Unset, str]):
         paused (Union[Unset, bool]):
         limit (Union[Unset, int]):  Default: 50.
@@ -180,7 +180,7 @@ offset=offset,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    status: Union[Unset, GetApiV1SandboxesStatus] = UNSET,
+    status: Union[Unset, SandboxLifecycleStatus] = UNSET,
     template_id: Union[Unset, str] = UNSET,
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
@@ -193,7 +193,7 @@ async def asyncio_detailed(
     results from all enabled clusters.
 
     Args:
-        status (Union[Unset, GetApiV1SandboxesStatus]):
+        status (Union[Unset, SandboxLifecycleStatus]):
         template_id (Union[Unset, str]):
         paused (Union[Unset, bool]):
         limit (Union[Unset, int]):  Default: 50.
@@ -226,7 +226,7 @@ offset=offset,
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    status: Union[Unset, GetApiV1SandboxesStatus] = UNSET,
+    status: Union[Unset, SandboxLifecycleStatus] = UNSET,
     template_id: Union[Unset, str] = UNSET,
     paused: Union[Unset, bool] = UNSET,
     limit: Union[Unset, int] = 50,
@@ -239,7 +239,7 @@ async def asyncio(
     results from all enabled clusters.
 
     Args:
-        status (Union[Unset, GetApiV1SandboxesStatus]):
+        status (Union[Unset, SandboxLifecycleStatus]):
         template_id (Union[Unset, str]):
         paused (Union[Unset, bool]):
         limit (Union[Unset, int]):  Default: 50.
