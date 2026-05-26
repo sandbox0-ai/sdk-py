@@ -1,5 +1,6 @@
 """ Contains all the data models used in inputs/outputs """
 
+from .activate_function_revision_request import ActivateFunctionRevisionRequest
 from .add_team_member_request import AddTeamMemberRequest
 from .add_team_member_request_role import AddTeamMemberRequestRole
 from .affinity import Affinity
@@ -80,6 +81,18 @@ from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAc
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_volume_request import ForkVolumeRequest
+from .function import Function
+from .function_deploy_request import FunctionDeployRequest
+from .function_deploy_result import FunctionDeployResult
+from .function_revision import FunctionRevision
+from .function_revision_mount import FunctionRevisionMount
+from .function_revision_spec import FunctionRevisionSpec
+from .function_revision_spec_env_vars import FunctionRevisionSpecEnvVars
+from .function_revision_status import FunctionRevisionStatus
+from .function_scale_policy import FunctionScalePolicy
+from .function_source import FunctionSource
+from .function_source_type import FunctionSourceType
+from .function_update_request import FunctionUpdateRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .grpc_action import GRPCAction
@@ -168,6 +181,7 @@ from .sandbox_probe_set import SandboxProbeSet
 from .sandbox_probe_spec import SandboxProbeSpec
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
+from .sandbox_service_function_source import SandboxServiceFunctionSource
 from .sandbox_services_update_request import SandboxServicesUpdateRequest
 from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
@@ -183,6 +197,7 @@ from .sandbox_volume import SandboxVolume
 from .security_context import SecurityContext
 from .signal_context_request import SignalContextRequest
 from .snapshot import Snapshot
+from .snapshot_function_source import SnapshotFunctionSource
 from .ssh_proxy_projection import SSHProxyProjection
 from .ssh_public_key import SSHPublicKey
 from .static_headers_source_spec import StaticHeadersSourceSpec
@@ -217,6 +232,12 @@ from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
 from .success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
 from .success_file_stat_response import SuccessFileStatResponse
+from .success_function_deploy_result_response import SuccessFunctionDeployResultResponse
+from .success_function_list_response import SuccessFunctionListResponse
+from .success_function_list_response_data import SuccessFunctionListResponseData
+from .success_function_response import SuccessFunctionResponse
+from .success_function_revision_list_response import SuccessFunctionRevisionListResponse
+from .success_function_revision_list_response_data import SuccessFunctionRevisionListResponseData
 from .success_gateway_metadata_response import SuccessGatewayMetadataResponse
 from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
@@ -298,6 +319,7 @@ from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
 __all__ = (
+    "ActivateFunctionRevisionRequest",
     "AddTeamMemberRequest",
     "AddTeamMemberRequestRole",
     "Affinity",
@@ -378,6 +400,18 @@ __all__ = (
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
     "ForkVolumeRequest",
+    "Function",
+    "FunctionDeployRequest",
+    "FunctionDeployResult",
+    "FunctionRevision",
+    "FunctionRevisionMount",
+    "FunctionRevisionSpec",
+    "FunctionRevisionSpecEnvVars",
+    "FunctionRevisionStatus",
+    "FunctionScalePolicy",
+    "FunctionSource",
+    "FunctionSourceType",
+    "FunctionUpdateRequest",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GRPCAction",
@@ -466,6 +500,7 @@ __all__ = (
     "SandboxProbeSpec",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
+    "SandboxServiceFunctionSource",
     "SandboxServicesUpdateRequest",
     "SandboxSSHConnection",
     "SandboxStatus",
@@ -481,6 +516,7 @@ __all__ = (
     "SecurityContext",
     "SignalContextRequest",
     "Snapshot",
+    "SnapshotFunctionSource",
     "SSHProxyProjection",
     "SSHPublicKey",
     "StaticHeadersSourceSpec",
@@ -515,6 +551,12 @@ __all__ = (
     "SuccessFileReadResponse",
     "SuccessFileReadResponseDataType1",
     "SuccessFileStatResponse",
+    "SuccessFunctionDeployResultResponse",
+    "SuccessFunctionListResponse",
+    "SuccessFunctionListResponseData",
+    "SuccessFunctionResponse",
+    "SuccessFunctionRevisionListResponse",
+    "SuccessFunctionRevisionListResponseData",
     "SuccessGatewayMetadataResponse",
     "SuccessHealthResponse",
     "SuccessHealthResponseData",

@@ -13,13 +13,13 @@ from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes_id_resume
 from sandbox0.apispec.api.sandboxes import put_api_v1_sandboxes_id
 from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.claim_response import ClaimResponse
-from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
+from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
@@ -89,16 +89,16 @@ class ClientSandboxesMixin:
     def list_sandboxes(  # type: ignore[misc]
         self: "Client",
         *,
-        status: Union[GetApiV1SandboxesStatus, str] = UNSET,  # type: ignore[assignment]
+        status: Union[SandboxLifecycleStatus, str] = UNSET,  # type: ignore[assignment]
         template_id: str = UNSET,  # type: ignore[assignment]
         paused: bool = UNSET,  # type: ignore[assignment]
         limit: int = 50,
         offset: int = 0,
     ) -> List[SandboxSummary]:
-        status_enum: Union[GetApiV1SandboxesStatus, Any] = UNSET
+        status_enum: Union[SandboxLifecycleStatus, Any] = UNSET
         if status != UNSET:
             if isinstance(status, str):
-                status_enum = GetApiV1SandboxesStatus(status)
+                status_enum = SandboxLifecycleStatus(status)
             else:
                 status_enum = status
         resp = get_api_v1_sandboxes.sync_detailed(

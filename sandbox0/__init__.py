@@ -9,7 +9,15 @@ from sandbox0.models import (
     StreamInput,
     StreamOutput,
 )
-from sandbox0.resources import Sandboxes, Volumes
+from sandbox0.resources import (
+    FunctionDeployOptions,
+    FunctionDeploySpec,
+    FunctionServiceSpec,
+    FunctionSnapshotMount,
+    Functions,
+    Sandboxes,
+    Volumes,
+)
 from sandbox0.sandbox import CmdOptions, RunOptions, Sandbox
 from sandbox0.sandbox_logs import SandboxLogStream, SandboxLogsOptions
 from sandbox0.sessions import MountSession, SandboxSession, VolumeSession
@@ -21,6 +29,11 @@ __all__ = [
     "CmdOptions",
     "CmdResult",
     "FileWatchResponse",
+    "FunctionDeployOptions",
+    "FunctionDeploySpec",
+    "FunctionServiceSpec",
+    "FunctionSnapshotMount",
+    "Functions",
     "MountSession",
     "RunOptions",
     "RunResult",

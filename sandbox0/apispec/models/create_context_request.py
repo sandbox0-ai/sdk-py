@@ -12,8 +12,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.create_repl_context_request import CreateREPLContextRequest
   from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+  from ..models.create_repl_context_request import CreateREPLContextRequest
   from ..models.pty_size import PTYSize
   from ..models.create_cmd_context_request import CreateCMDContextRequest
 
@@ -56,8 +56,8 @@ class CreateContextRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.create_repl_context_request import CreateREPLContextRequest
         from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+        from ..models.create_repl_context_request import CreateREPLContextRequest
         from ..models.pty_size import PTYSize
         from ..models.create_cmd_context_request import CreateCMDContextRequest
         type_: Union[Unset, str] = UNSET
@@ -119,8 +119,8 @@ class CreateContextRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.create_repl_context_request import CreateREPLContextRequest
         from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+        from ..models.create_repl_context_request import CreateREPLContextRequest
         from ..models.pty_size import PTYSize
         from ..models.create_cmd_context_request import CreateCMDContextRequest
         d = dict(src_dict)
