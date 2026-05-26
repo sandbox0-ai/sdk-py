@@ -6,26 +6,31 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
+from typing import Union
+
+if TYPE_CHECKING:
+  from ..models.run import Run
 
 
 
 
 
-
-T = TypeVar("T", bound="SandboxServiceFunctionSource")
+T = TypeVar("T", bound="SuccessRunResponse")
 
 
 
 @_attrs_define
-class SandboxServiceFunctionSource:
+class SuccessRunResponse:
     """ 
         Attributes:
-            sandbox_id (str):
-            service_id (str):
+            success (bool):
+            data (Union[Unset, Run]):
      """
 
-    sandbox_id: str
-    service_id: str
+    success: bool
+    data: Union[Unset, 'Run'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -33,17 +38,21 @@ class SandboxServiceFunctionSource:
 
 
     def to_dict(self) -> dict[str, Any]:
-        sandbox_id = self.sandbox_id
+        from ..models.run import Run
+        success = self.success
 
-        service_id = self.service_id
+        data: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.data, Unset):
+            data = self.data.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "sandbox_id": sandbox_id,
-            "service_id": service_id,
+            "success": success,
         })
+        if data is not UNSET:
+            field_dict["data"] = data
 
         return field_dict
 
@@ -51,19 +60,28 @@ class SandboxServiceFunctionSource:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.run import Run
         d = dict(src_dict)
-        sandbox_id = d.pop("sandbox_id")
+        success = d.pop("success")
 
-        service_id = d.pop("service_id")
+        _data = d.pop("data", UNSET)
+        data: Union[Unset, Run]
+        if isinstance(_data,  Unset):
+            data = UNSET
+        else:
+            data = Run.from_dict(_data)
 
-        sandbox_service_function_source = cls(
-            sandbox_id=sandbox_id,
-            service_id=service_id,
+
+
+
+        success_run_response = cls(
+            success=success,
+            data=data,
         )
 
 
-        sandbox_service_function_source.additional_properties = d
-        return sandbox_service_function_source
+        success_run_response.additional_properties = d
+        return success_run_response
 
     @property
     def additional_keys(self) -> list[str]:

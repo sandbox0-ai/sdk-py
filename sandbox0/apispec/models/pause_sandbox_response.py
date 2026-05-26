@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_power_state import SandboxPowerState
   from ..models.sandbox_resource_usage import SandboxResourceUsage
+  from ..models.sandbox_power_state import SandboxPowerState
 
 
 
@@ -47,8 +47,8 @@ class PauseSandboxResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_resource_usage import SandboxResourceUsage
+        from ..models.sandbox_power_state import SandboxPowerState
         sandbox_id = self.sandbox_id
 
         paused = self.paused
@@ -84,8 +84,8 @@ class PauseSandboxResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_resource_usage import SandboxResourceUsage
+        from ..models.sandbox_power_state import SandboxPowerState
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 

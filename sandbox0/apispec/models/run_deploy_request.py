@@ -11,36 +11,35 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.function_scale_policy import FunctionScalePolicy
-  from ..models.function_source import FunctionSource
-  from ..models.function_revision_spec import FunctionRevisionSpec
+  from ..models.run_scale_policy import RunScalePolicy
+  from ..models.run_revision_spec import RunRevisionSpec
+  from ..models.run_source import RunSource
 
 
 
 
 
-T = TypeVar("T", bound="FunctionDeployRequest")
+T = TypeVar("T", bound="RunDeployRequest")
 
 
 
 @_attrs_define
-class FunctionDeployRequest:
+class RunDeployRequest:
     """ 
         Attributes:
             name (Union[Unset, str]):
             slug (Union[Unset, str]):
-            scale (Union[Unset, FunctionScalePolicy]): Scale-to-zero policy. Functions do not have a minimum idle instance
-                count.
-            source (Union[Unset, FunctionSource]):
-            spec (Union[Unset, FunctionRevisionSpec]): Canonical runtime contract compiled from every function deploy mode.
+            scale (Union[Unset, RunScalePolicy]): Scale-to-zero policy. Runs do not have a minimum idle instance count.
+            source (Union[Unset, RunSource]):
+            spec (Union[Unset, RunRevisionSpec]): Canonical runtime contract compiled from every run deploy mode.
             activate (Union[Unset, bool]):  Default: True.
      """
 
     name: Union[Unset, str] = UNSET
     slug: Union[Unset, str] = UNSET
-    scale: Union[Unset, 'FunctionScalePolicy'] = UNSET
-    source: Union[Unset, 'FunctionSource'] = UNSET
-    spec: Union[Unset, 'FunctionRevisionSpec'] = UNSET
+    scale: Union[Unset, 'RunScalePolicy'] = UNSET
+    source: Union[Unset, 'RunSource'] = UNSET
+    spec: Union[Unset, 'RunRevisionSpec'] = UNSET
     activate: Union[Unset, bool] = True
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -49,9 +48,9 @@ class FunctionDeployRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_scale_policy import FunctionScalePolicy
-        from ..models.function_source import FunctionSource
-        from ..models.function_revision_spec import FunctionRevisionSpec
+        from ..models.run_scale_policy import RunScalePolicy
+        from ..models.run_revision_spec import RunRevisionSpec
+        from ..models.run_source import RunSource
         name = self.name
 
         slug = self.slug
@@ -94,47 +93,47 @@ class FunctionDeployRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_scale_policy import FunctionScalePolicy
-        from ..models.function_source import FunctionSource
-        from ..models.function_revision_spec import FunctionRevisionSpec
+        from ..models.run_scale_policy import RunScalePolicy
+        from ..models.run_revision_spec import RunRevisionSpec
+        from ..models.run_source import RunSource
         d = dict(src_dict)
         name = d.pop("name", UNSET)
 
         slug = d.pop("slug", UNSET)
 
         _scale = d.pop("scale", UNSET)
-        scale: Union[Unset, FunctionScalePolicy]
+        scale: Union[Unset, RunScalePolicy]
         if isinstance(_scale,  Unset):
             scale = UNSET
         else:
-            scale = FunctionScalePolicy.from_dict(_scale)
+            scale = RunScalePolicy.from_dict(_scale)
 
 
 
 
         _source = d.pop("source", UNSET)
-        source: Union[Unset, FunctionSource]
+        source: Union[Unset, RunSource]
         if isinstance(_source,  Unset):
             source = UNSET
         else:
-            source = FunctionSource.from_dict(_source)
+            source = RunSource.from_dict(_source)
 
 
 
 
         _spec = d.pop("spec", UNSET)
-        spec: Union[Unset, FunctionRevisionSpec]
+        spec: Union[Unset, RunRevisionSpec]
         if isinstance(_spec,  Unset):
             spec = UNSET
         else:
-            spec = FunctionRevisionSpec.from_dict(_spec)
+            spec = RunRevisionSpec.from_dict(_spec)
 
 
 
 
         activate = d.pop("activate", UNSET)
 
-        function_deploy_request = cls(
+        run_deploy_request = cls(
             name=name,
             slug=slug,
             scale=scale,
@@ -144,8 +143,8 @@ class FunctionDeployRequest:
         )
 
 
-        function_deploy_request.additional_properties = d
-        return function_deploy_request
+        run_deploy_request.additional_properties = d
+        return run_deploy_request
 
     @property
     def additional_keys(self) -> list[str]:

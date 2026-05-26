@@ -13,18 +13,18 @@ from typing import Union
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.function_scale_policy import FunctionScalePolicy
+  from ..models.run_scale_policy import RunScalePolicy
 
 
 
 
 
-T = TypeVar("T", bound="Function")
+T = TypeVar("T", bound="Run")
 
 
 
 @_attrs_define
-class Function:
+class Run:
     """ 
         Attributes:
             id (str):
@@ -33,7 +33,7 @@ class Function:
             slug (str):
             domain_label (str):
             enabled (bool):
-            scale (FunctionScalePolicy): Scale-to-zero policy. Functions do not have a minimum idle instance count.
+            scale (RunScalePolicy): Scale-to-zero policy. Runs do not have a minimum idle instance count.
             created_at (datetime.datetime):
             updated_at (datetime.datetime):
             created_by (Union[Unset, str]):
@@ -47,7 +47,7 @@ class Function:
     slug: str
     domain_label: str
     enabled: bool
-    scale: 'FunctionScalePolicy'
+    scale: 'RunScalePolicy'
     created_at: datetime.datetime
     updated_at: datetime.datetime
     created_by: Union[Unset, str] = UNSET
@@ -60,7 +60,7 @@ class Function:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_scale_policy import FunctionScalePolicy
+        from ..models.run_scale_policy import RunScalePolicy
         id = self.id
 
         team_id = self.team_id
@@ -112,7 +112,7 @@ class Function:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_scale_policy import FunctionScalePolicy
+        from ..models.run_scale_policy import RunScalePolicy
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -126,7 +126,7 @@ class Function:
 
         enabled = d.pop("enabled")
 
-        scale = FunctionScalePolicy.from_dict(d.pop("scale"))
+        scale = RunScalePolicy.from_dict(d.pop("scale"))
 
 
 
@@ -147,7 +147,7 @@ class Function:
 
         active_revision_id = d.pop("active_revision_id", UNSET)
 
-        function = cls(
+        run = cls(
             id=id,
             team_id=team_id,
             name=name,
@@ -163,8 +163,8 @@ class Function:
         )
 
 
-        function.additional_properties = d
-        return function
+        run.additional_properties = d
+        return run
 
     @property
     def additional_keys(self) -> list[str]:

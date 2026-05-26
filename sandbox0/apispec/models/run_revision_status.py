@@ -1,6 +1,6 @@
 from enum import Enum
 
-class FunctionRevisionStatus(str, Enum):
+class RunRevisionStatus(str, Enum):
     ACTIVE = "active"
     CREATED = "created"
     FAILED = "failed"

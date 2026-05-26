@@ -11,33 +11,33 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.function_revision_spec_env_vars import FunctionRevisionSpecEnvVars
+  from ..models.run_revision_spec_env_vars import RunRevisionSpecEnvVars
   from ..models.sandbox_app_service import SandboxAppService
-  from ..models.function_revision_mount import FunctionRevisionMount
+  from ..models.run_revision_mount import RunRevisionMount
 
 
 
 
 
-T = TypeVar("T", bound="FunctionRevisionSpec")
+T = TypeVar("T", bound="RunRevisionSpec")
 
 
 
 @_attrs_define
-class FunctionRevisionSpec:
-    """ Canonical runtime contract compiled from every function deploy mode.
+class RunRevisionSpec:
+    """ Canonical runtime contract compiled from every run deploy mode.
 
         Attributes:
             template (str):
             service (SandboxAppService): Canonical service model for sandbox exposure.
-            mounts (Union[Unset, list['FunctionRevisionMount']]):
-            env_vars (Union[Unset, FunctionRevisionSpecEnvVars]):
+            mounts (Union[Unset, list['RunRevisionMount']]):
+            env_vars (Union[Unset, RunRevisionSpecEnvVars]):
      """
 
     template: str
     service: 'SandboxAppService'
-    mounts: Union[Unset, list['FunctionRevisionMount']] = UNSET
-    env_vars: Union[Unset, 'FunctionRevisionSpecEnvVars'] = UNSET
+    mounts: Union[Unset, list['RunRevisionMount']] = UNSET
+    env_vars: Union[Unset, 'RunRevisionSpecEnvVars'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -45,9 +45,9 @@ class FunctionRevisionSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_revision_spec_env_vars import FunctionRevisionSpecEnvVars
+        from ..models.run_revision_spec_env_vars import RunRevisionSpecEnvVars
         from ..models.sandbox_app_service import SandboxAppService
-        from ..models.function_revision_mount import FunctionRevisionMount
+        from ..models.run_revision_mount import RunRevisionMount
         template = self.template
 
         service = self.service.to_dict()
@@ -83,9 +83,9 @@ class FunctionRevisionSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_revision_spec_env_vars import FunctionRevisionSpecEnvVars
+        from ..models.run_revision_spec_env_vars import RunRevisionSpecEnvVars
         from ..models.sandbox_app_service import SandboxAppService
-        from ..models.function_revision_mount import FunctionRevisionMount
+        from ..models.run_revision_mount import RunRevisionMount
         d = dict(src_dict)
         template = d.pop("template")
 
@@ -97,7 +97,7 @@ class FunctionRevisionSpec:
         mounts = []
         _mounts = d.pop("mounts", UNSET)
         for mounts_item_data in (_mounts or []):
-            mounts_item = FunctionRevisionMount.from_dict(mounts_item_data)
+            mounts_item = RunRevisionMount.from_dict(mounts_item_data)
 
 
 
@@ -105,16 +105,16 @@ class FunctionRevisionSpec:
 
 
         _env_vars = d.pop("env_vars", UNSET)
-        env_vars: Union[Unset, FunctionRevisionSpecEnvVars]
+        env_vars: Union[Unset, RunRevisionSpecEnvVars]
         if isinstance(_env_vars,  Unset):
             env_vars = UNSET
         else:
-            env_vars = FunctionRevisionSpecEnvVars.from_dict(_env_vars)
+            env_vars = RunRevisionSpecEnvVars.from_dict(_env_vars)
 
 
 
 
-        function_revision_spec = cls(
+        run_revision_spec = cls(
             template=template,
             service=service,
             mounts=mounts,
@@ -122,8 +122,8 @@ class FunctionRevisionSpec:
         )
 
 
-        function_revision_spec.additional_properties = d
-        return function_revision_spec
+        run_revision_spec.additional_properties = d
+        return run_revision_spec
 
     @property
     def additional_keys(self) -> list[str]:

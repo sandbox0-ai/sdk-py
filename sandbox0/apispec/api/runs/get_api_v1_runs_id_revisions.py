@@ -8,7 +8,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error_envelope import ErrorEnvelope
-from ...models.success_function_revision_list_response import SuccessFunctionRevisionListResponse
+from ...models.success_run_revision_list_response import SuccessRunRevisionListResponse
 from typing import cast
 
 
@@ -25,7 +25,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/v1/functions/{id}/revisions".format(id=id,),
+        "url": "/api/v1/runs/{id}/revisions".format(id=id,),
     }
 
 
@@ -33,9 +33,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]:
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessFunctionRevisionListResponse.from_dict(response.json())
+        response_200 = SuccessRunRevisionListResponse.from_dict(response.json())
 
 
 
@@ -68,7 +68,7 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,8 +82,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]:
-    """ List function revisions
+) -> Response[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]:
+    """ List run revisions
 
     Args:
         id (str):
@@ -93,7 +93,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]
      """
 
 
@@ -113,8 +113,8 @@ def sync(
     *,
     client: AuthenticatedClient,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]:
-    """ List function revisions
+) -> Optional[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]:
+    """ List run revisions
 
     Args:
         id (str):
@@ -124,7 +124,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]
+        Union[ErrorEnvelope, SuccessRunRevisionListResponse]
      """
 
 
@@ -139,8 +139,8 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]:
-    """ List function revisions
+) -> Response[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]:
+    """ List run revisions
 
     Args:
         id (str):
@@ -150,7 +150,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]
      """
 
 
@@ -170,8 +170,8 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]]:
-    """ List function revisions
+) -> Optional[Union[ErrorEnvelope, SuccessRunRevisionListResponse]]:
+    """ List run revisions
 
     Args:
         id (str):
@@ -181,7 +181,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionRevisionListResponse]
+        Union[ErrorEnvelope, SuccessRunRevisionListResponse]
      """
 
 

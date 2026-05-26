@@ -6,30 +6,24 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from typing import cast
-
-if TYPE_CHECKING:
-  from ..models.function import Function
-  from ..models.function_revision import FunctionRevision
 
 
 
 
 
-T = TypeVar("T", bound="FunctionDeployResult")
+
+T = TypeVar("T", bound="ActivateRunRevisionRequest")
 
 
 
 @_attrs_define
-class FunctionDeployResult:
+class ActivateRunRevisionRequest:
     """ 
         Attributes:
-            function (Function):
-            revision (FunctionRevision):
+            revision_id (str):
      """
 
-    function: 'Function'
-    revision: 'FunctionRevision'
+    revision_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -37,18 +31,13 @@ class FunctionDeployResult:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function import Function
-        from ..models.function_revision import FunctionRevision
-        function = self.function.to_dict()
-
-        revision = self.revision.to_dict()
+        revision_id = self.revision_id
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "function": function,
-            "revision": revision,
+            "revision_id": revision_id,
         })
 
         return field_dict
@@ -57,27 +46,16 @@ class FunctionDeployResult:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function import Function
-        from ..models.function_revision import FunctionRevision
         d = dict(src_dict)
-        function = Function.from_dict(d.pop("function"))
+        revision_id = d.pop("revision_id")
 
-
-
-
-        revision = FunctionRevision.from_dict(d.pop("revision"))
-
-
-
-
-        function_deploy_result = cls(
-            function=function,
-            revision=revision,
+        activate_run_revision_request = cls(
+            revision_id=revision_id,
         )
 
 
-        function_deploy_result.additional_properties = d
-        return function_deploy_result
+        activate_run_revision_request.additional_properties = d
+        return activate_run_revision_request
 
     @property
     def additional_keys(self) -> list[str]:

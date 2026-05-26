@@ -32,7 +32,7 @@ _NULL_ARRAY_KEYS = {
     "drop",
     "entries",
     "env",
-    "functions",
+    "runs",
     "identities",
     "matchExpressions",
     "matchFields",

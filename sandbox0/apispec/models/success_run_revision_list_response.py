@@ -11,26 +11,26 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.success_function_revision_list_response_data import SuccessFunctionRevisionListResponseData
+  from ..models.success_run_revision_list_response_data import SuccessRunRevisionListResponseData
 
 
 
 
 
-T = TypeVar("T", bound="SuccessFunctionRevisionListResponse")
+T = TypeVar("T", bound="SuccessRunRevisionListResponse")
 
 
 
 @_attrs_define
-class SuccessFunctionRevisionListResponse:
+class SuccessRunRevisionListResponse:
     """ 
         Attributes:
             success (bool):
-            data (Union[Unset, SuccessFunctionRevisionListResponseData]):
+            data (Union[Unset, SuccessRunRevisionListResponseData]):
      """
 
     success: bool
-    data: Union[Unset, 'SuccessFunctionRevisionListResponseData'] = UNSET
+    data: Union[Unset, 'SuccessRunRevisionListResponseData'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,7 +38,7 @@ class SuccessFunctionRevisionListResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.success_function_revision_list_response_data import SuccessFunctionRevisionListResponseData
+        from ..models.success_run_revision_list_response_data import SuccessRunRevisionListResponseData
         success = self.success
 
         data: Union[Unset, dict[str, Any]] = UNSET
@@ -60,28 +60,28 @@ class SuccessFunctionRevisionListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.success_function_revision_list_response_data import SuccessFunctionRevisionListResponseData
+        from ..models.success_run_revision_list_response_data import SuccessRunRevisionListResponseData
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, SuccessFunctionRevisionListResponseData]
+        data: Union[Unset, SuccessRunRevisionListResponseData]
         if isinstance(_data,  Unset):
             data = UNSET
         else:
-            data = SuccessFunctionRevisionListResponseData.from_dict(_data)
+            data = SuccessRunRevisionListResponseData.from_dict(_data)
 
 
 
 
-        success_function_revision_list_response = cls(
+        success_run_revision_list_response = cls(
             success=success,
             data=data,
         )
 
 
-        success_function_revision_list_response.additional_properties = d
-        return success_function_revision_list_response
+        success_run_revision_list_response.additional_properties = d
+        return success_run_revision_list_response
 
     @property
     def additional_keys(self) -> list[str]:

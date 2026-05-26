@@ -15,12 +15,12 @@ from typing import Union
 
 
 
-T = TypeVar("T", bound="SnapshotFunctionSource")
+T = TypeVar("T", bound="SnapshotRunSource")
 
 
 
 @_attrs_define
-class SnapshotFunctionSource:
+class SnapshotRunSource:
     """ 
         Attributes:
             snapshot_ids (Union[Unset, list[str]]):
@@ -58,13 +58,13 @@ class SnapshotFunctionSource:
         snapshot_ids = cast(list[str], d.pop("snapshot_ids", UNSET))
 
 
-        snapshot_function_source = cls(
+        snapshot_run_source = cls(
             snapshot_ids=snapshot_ids,
         )
 
 
-        snapshot_function_source.additional_properties = d
-        return snapshot_function_source
+        snapshot_run_source.additional_properties = d
+        return snapshot_run_source
 
     @property
     def additional_keys(self) -> list[str]:

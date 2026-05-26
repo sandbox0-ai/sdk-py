@@ -6,31 +6,27 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 from typing import cast
-from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.function import Function
+  from ..models.run import Run
 
 
 
 
 
-T = TypeVar("T", bound="SuccessFunctionResponse")
+T = TypeVar("T", bound="SuccessRunListResponseData")
 
 
 
 @_attrs_define
-class SuccessFunctionResponse:
+class SuccessRunListResponseData:
     """ 
         Attributes:
-            success (bool):
-            data (Union[Unset, Function]):
+            runs (list['Run']):
      """
 
-    success: bool
-    data: Union[Unset, 'Function'] = UNSET
+    runs: list['Run']
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,21 +34,20 @@ class SuccessFunctionResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function import Function
-        success = self.success
+        from ..models.run import Run
+        runs = []
+        for runs_item_data in self.runs:
+            runs_item = runs_item_data.to_dict()
+            runs.append(runs_item)
 
-        data: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "success": success,
+            "runs": runs,
         })
-        if data is not UNSET:
-            field_dict["data"] = data
 
         return field_dict
 
@@ -60,28 +55,25 @@ class SuccessFunctionResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function import Function
+        from ..models.run import Run
         d = dict(src_dict)
-        success = d.pop("success")
-
-        _data = d.pop("data", UNSET)
-        data: Union[Unset, Function]
-        if isinstance(_data,  Unset):
-            data = UNSET
-        else:
-            data = Function.from_dict(_data)
+        runs = []
+        _runs = d.pop("runs")
+        for runs_item_data in (_runs):
+            runs_item = Run.from_dict(runs_item_data)
 
 
 
+            runs.append(runs_item)
 
-        success_function_response = cls(
-            success=success,
-            data=data,
+
+        success_run_list_response_data = cls(
+            runs=runs,
         )
 
 
-        success_function_response.additional_properties = d
-        return success_function_response
+        success_run_list_response_data.additional_properties = d
+        return success_run_list_response_data
 
     @property
     def additional_keys(self) -> list[str]:

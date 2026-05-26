@@ -1,6 +1,6 @@
 from enum import Enum
 
-class FunctionSourceType(str, Enum):
+class RunSourceType(str, Enum):
     SANDBOX_SERVICE = "sandbox_service"
     SNAPSHOT = "snapshot"
 

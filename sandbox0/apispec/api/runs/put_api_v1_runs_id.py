@@ -7,9 +7,9 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.activate_function_revision_request import ActivateFunctionRevisionRequest
 from ...models.error_envelope import ErrorEnvelope
-from ...models.success_function_deploy_result_response import SuccessFunctionDeployResultResponse
+from ...models.run_update_request import RunUpdateRequest
+from ...models.success_run_response import SuccessRunResponse
 from typing import cast
 
 
@@ -17,7 +17,7 @@ from typing import cast
 def _get_kwargs(
     id: str,
     *,
-    body: ActivateFunctionRevisionRequest,
+    body: RunUpdateRequest,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -29,7 +29,7 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/v1/functions/{id}/active-revision".format(id=id,),
+        "url": "/api/v1/runs/{id}".format(id=id,),
     }
 
     _kwargs["json"] = body.to_dict()
@@ -42,9 +42,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessRunResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessFunctionDeployResultResponse.from_dict(response.json())
+        response_200 = SuccessRunResponse.from_dict(response.json())
 
 
 
@@ -84,7 +84,7 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessRunResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -97,21 +97,23 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: ActivateFunctionRevisionRequest,
+    body: RunUpdateRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Activate a function revision
+) -> Response[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Update a run
+
+     Updates mutable run metadata such as name, enabled state, and scale-to-zero policy.
 
     Args:
         id (str):
-        body (ActivateFunctionRevisionRequest):
+        body (RunUpdateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunResponse]]
      """
 
 
@@ -131,21 +133,23 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: ActivateFunctionRevisionRequest,
+    body: RunUpdateRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Activate a function revision
+) -> Optional[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Update a run
+
+     Updates mutable run metadata such as name, enabled state, and scale-to-zero policy.
 
     Args:
         id (str):
-        body (ActivateFunctionRevisionRequest):
+        body (RunUpdateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]
+        Union[ErrorEnvelope, SuccessRunResponse]
      """
 
 
@@ -160,21 +164,23 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: ActivateFunctionRevisionRequest,
+    body: RunUpdateRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Activate a function revision
+) -> Response[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Update a run
+
+     Updates mutable run metadata such as name, enabled state, and scale-to-zero policy.
 
     Args:
         id (str):
-        body (ActivateFunctionRevisionRequest):
+        body (RunUpdateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunResponse]]
      """
 
 
@@ -194,21 +200,23 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: ActivateFunctionRevisionRequest,
+    body: RunUpdateRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Activate a function revision
+) -> Optional[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Update a run
+
+     Updates mutable run metadata such as name, enabled state, and scale-to-zero policy.
 
     Args:
         id (str):
-        body (ActivateFunctionRevisionRequest):
+        body (RunUpdateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]
+        Union[ErrorEnvelope, SuccessRunResponse]
      """
 
 

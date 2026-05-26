@@ -6,7 +6,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.function_revision_status import FunctionRevisionStatus
+from ..models.run_revision_status import RunRevisionStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -14,28 +14,28 @@ from typing import Union
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.function_source import FunctionSource
-  from ..models.function_revision_spec import FunctionRevisionSpec
+  from ..models.run_revision_spec import RunRevisionSpec
+  from ..models.run_source import RunSource
 
 
 
 
 
-T = TypeVar("T", bound="FunctionRevision")
+T = TypeVar("T", bound="RunRevision")
 
 
 
 @_attrs_define
-class FunctionRevision:
+class RunRevision:
     """ 
         Attributes:
             id (str):
-            function_id (str):
+            run_id (str):
             team_id (str):
             number (int):
-            source (FunctionSource):
-            spec (FunctionRevisionSpec): Canonical runtime contract compiled from every function deploy mode.
-            status (FunctionRevisionStatus):
+            source (RunSource):
+            spec (RunRevisionSpec): Canonical runtime contract compiled from every run deploy mode.
+            status (RunRevisionStatus):
             created_at (datetime.datetime):
             runtime_sandbox_id (Union[Unset, str]):
             runtime_cluster_id (Union[Unset, str]):
@@ -44,12 +44,12 @@ class FunctionRevision:
      """
 
     id: str
-    function_id: str
+    run_id: str
     team_id: str
     number: int
-    source: 'FunctionSource'
-    spec: 'FunctionRevisionSpec'
-    status: FunctionRevisionStatus
+    source: 'RunSource'
+    spec: 'RunRevisionSpec'
+    status: RunRevisionStatus
     created_at: datetime.datetime
     runtime_sandbox_id: Union[Unset, str] = UNSET
     runtime_cluster_id: Union[Unset, str] = UNSET
@@ -62,11 +62,11 @@ class FunctionRevision:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_source import FunctionSource
-        from ..models.function_revision_spec import FunctionRevisionSpec
+        from ..models.run_revision_spec import RunRevisionSpec
+        from ..models.run_source import RunSource
         id = self.id
 
-        function_id = self.function_id
+        run_id = self.run_id
 
         team_id = self.team_id
 
@@ -95,7 +95,7 @@ class FunctionRevision:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "id": id,
-            "function_id": function_id,
+            "run_id": run_id,
             "team_id": team_id,
             "number": number,
             "source": source,
@@ -118,28 +118,28 @@ class FunctionRevision:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_source import FunctionSource
-        from ..models.function_revision_spec import FunctionRevisionSpec
+        from ..models.run_revision_spec import RunRevisionSpec
+        from ..models.run_source import RunSource
         d = dict(src_dict)
         id = d.pop("id")
 
-        function_id = d.pop("function_id")
+        run_id = d.pop("run_id")
 
         team_id = d.pop("team_id")
 
         number = d.pop("number")
 
-        source = FunctionSource.from_dict(d.pop("source"))
+        source = RunSource.from_dict(d.pop("source"))
 
 
 
 
-        spec = FunctionRevisionSpec.from_dict(d.pop("spec"))
+        spec = RunRevisionSpec.from_dict(d.pop("spec"))
 
 
 
 
-        status = FunctionRevisionStatus(d.pop("status"))
+        status = RunRevisionStatus(d.pop("status"))
 
 
 
@@ -165,9 +165,9 @@ class FunctionRevision:
 
 
 
-        function_revision = cls(
+        run_revision = cls(
             id=id,
-            function_id=function_id,
+            run_id=run_id,
             team_id=team_id,
             number=number,
             source=source,
@@ -181,8 +181,8 @@ class FunctionRevision:
         )
 
 
-        function_revision.additional_properties = d
-        return function_revision
+        run_revision.additional_properties = d
+        return run_revision
 
     @property
     def additional_keys(self) -> list[str]:

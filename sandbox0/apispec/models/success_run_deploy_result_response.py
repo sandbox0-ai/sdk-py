@@ -11,26 +11,26 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.function_deploy_result import FunctionDeployResult
+  from ..models.run_deploy_result import RunDeployResult
 
 
 
 
 
-T = TypeVar("T", bound="SuccessFunctionDeployResultResponse")
+T = TypeVar("T", bound="SuccessRunDeployResultResponse")
 
 
 
 @_attrs_define
-class SuccessFunctionDeployResultResponse:
+class SuccessRunDeployResultResponse:
     """ 
         Attributes:
             success (bool):
-            data (Union[Unset, FunctionDeployResult]):
+            data (Union[Unset, RunDeployResult]):
      """
 
     success: bool
-    data: Union[Unset, 'FunctionDeployResult'] = UNSET
+    data: Union[Unset, 'RunDeployResult'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,7 +38,7 @@ class SuccessFunctionDeployResultResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_deploy_result import FunctionDeployResult
+        from ..models.run_deploy_result import RunDeployResult
         success = self.success
 
         data: Union[Unset, dict[str, Any]] = UNSET
@@ -60,28 +60,28 @@ class SuccessFunctionDeployResultResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_deploy_result import FunctionDeployResult
+        from ..models.run_deploy_result import RunDeployResult
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, FunctionDeployResult]
+        data: Union[Unset, RunDeployResult]
         if isinstance(_data,  Unset):
             data = UNSET
         else:
-            data = FunctionDeployResult.from_dict(_data)
+            data = RunDeployResult.from_dict(_data)
 
 
 
 
-        success_function_deploy_result_response = cls(
+        success_run_deploy_result_response = cls(
             success=success,
             data=data,
         )
 
 
-        success_function_deploy_result_response.additional_properties = d
-        return success_function_deploy_result_response
+        success_run_deploy_result_response.additional_properties = d
+        return success_run_deploy_result_response
 
     @property
     def additional_keys(self) -> list[str]:

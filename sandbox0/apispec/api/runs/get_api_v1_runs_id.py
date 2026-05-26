@@ -8,7 +8,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error_envelope import ErrorEnvelope
-from ...models.success_deleted_response import SuccessDeletedResponse
+from ...models.success_run_response import SuccessRunResponse
 from typing import cast
 
 
@@ -24,8 +24,8 @@ def _get_kwargs(
     
 
     _kwargs: dict[str, Any] = {
-        "method": "delete",
-        "url": "/api/v1/functions/{id}".format(id=id,),
+        "method": "get",
+        "url": "/api/v1/runs/{id}".format(id=id,),
     }
 
 
@@ -33,9 +33,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessRunResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessDeletedResponse.from_dict(response.json())
+        response_200 = SuccessRunResponse.from_dict(response.json())
 
 
 
@@ -68,7 +68,7 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessRunResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,8 +82,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
 
-) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete a function
+) -> Response[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Get a run
 
     Args:
         id (str):
@@ -93,7 +93,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunResponse]]
      """
 
 
@@ -113,8 +113,8 @@ def sync(
     *,
     client: AuthenticatedClient,
 
-) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete a function
+) -> Optional[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Get a run
 
     Args:
         id (str):
@@ -124,7 +124,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessDeletedResponse]
+        Union[ErrorEnvelope, SuccessRunResponse]
      """
 
 
@@ -139,8 +139,8 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
 
-) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete a function
+) -> Response[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Get a run
 
     Args:
         id (str):
@@ -150,7 +150,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunResponse]]
      """
 
 
@@ -170,8 +170,8 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
 
-) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
-    """ Delete a function
+) -> Optional[Union[ErrorEnvelope, SuccessRunResponse]]:
+    """ Get a run
 
     Args:
         id (str):
@@ -181,7 +181,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessDeletedResponse]
+        Union[ErrorEnvelope, SuccessRunResponse]
      """
 
 

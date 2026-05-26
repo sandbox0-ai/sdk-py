@@ -8,8 +8,8 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error_envelope import ErrorEnvelope
-from ...models.function_update_request import FunctionUpdateRequest
-from ...models.success_function_response import SuccessFunctionResponse
+from ...models.run_deploy_request import RunDeployRequest
+from ...models.success_run_deploy_result_response import SuccessRunDeployResultResponse
 from typing import cast
 
 
@@ -17,7 +17,7 @@ from typing import cast
 def _get_kwargs(
     id: str,
     *,
-    body: FunctionUpdateRequest,
+    body: RunDeployRequest,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -28,8 +28,8 @@ def _get_kwargs(
     
 
     _kwargs: dict[str, Any] = {
-        "method": "put",
-        "url": "/api/v1/functions/{id}".format(id=id,),
+        "method": "post",
+        "url": "/api/v1/runs/{id}/deploy".format(id=id,),
     }
 
     _kwargs["json"] = body.to_dict()
@@ -42,13 +42,13 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessFunctionResponse]]:
-    if response.status_code == 200:
-        response_200 = SuccessFunctionResponse.from_dict(response.json())
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]:
+    if response.status_code == 201:
+        response_201 = SuccessRunDeployResultResponse.from_dict(response.json())
 
 
 
-        return response_200
+        return response_201
 
     if response.status_code == 400:
         response_400 = ErrorEnvelope.from_dict(response.json())
@@ -84,7 +84,7 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessFunctionResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -97,23 +97,24 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionUpdateRequest,
+    body: RunDeployRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionResponse]]:
-    """ Update a function
+) -> Response[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]:
+    """ Deploy a new run revision
 
-     Updates mutable function metadata such as name, enabled state, and scale-to-zero policy.
+     Adds an immutable revision to an existing run. The revision can be activated immediately or left
+    inactive.
 
     Args:
         id (str):
-        body (FunctionUpdateRequest):
+        body (RunDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]
      """
 
 
@@ -133,23 +134,24 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionUpdateRequest,
+    body: RunDeployRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionResponse]]:
-    """ Update a function
+) -> Optional[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]:
+    """ Deploy a new run revision
 
-     Updates mutable function metadata such as name, enabled state, and scale-to-zero policy.
+     Adds an immutable revision to an existing run. The revision can be activated immediately or left
+    inactive.
 
     Args:
         id (str):
-        body (FunctionUpdateRequest):
+        body (RunDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionResponse]
+        Union[ErrorEnvelope, SuccessRunDeployResultResponse]
      """
 
 
@@ -164,23 +166,24 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionUpdateRequest,
+    body: RunDeployRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionResponse]]:
-    """ Update a function
+) -> Response[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]:
+    """ Deploy a new run revision
 
-     Updates mutable function metadata such as name, enabled state, and scale-to-zero policy.
+     Adds an immutable revision to an existing run. The revision can be activated immediately or left
+    inactive.
 
     Args:
         id (str):
-        body (FunctionUpdateRequest):
+        body (RunDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]
      """
 
 
@@ -200,23 +203,24 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionUpdateRequest,
+    body: RunDeployRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionResponse]]:
-    """ Update a function
+) -> Optional[Union[ErrorEnvelope, SuccessRunDeployResultResponse]]:
+    """ Deploy a new run revision
 
-     Updates mutable function metadata such as name, enabled state, and scale-to-zero policy.
+     Adds an immutable revision to an existing run. The revision can be activated immediately or left
+    inactive.
 
     Args:
         id (str):
-        body (FunctionUpdateRequest):
+        body (RunDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionResponse]
+        Union[ErrorEnvelope, SuccessRunDeployResultResponse]
      """
 
 

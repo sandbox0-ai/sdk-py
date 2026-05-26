@@ -6,24 +6,27 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from typing import cast
+
+if TYPE_CHECKING:
+  from ..models.run_revision import RunRevision
 
 
 
 
 
-
-T = TypeVar("T", bound="ActivateFunctionRevisionRequest")
+T = TypeVar("T", bound="SuccessRunRevisionListResponseData")
 
 
 
 @_attrs_define
-class ActivateFunctionRevisionRequest:
+class SuccessRunRevisionListResponseData:
     """ 
         Attributes:
-            revision_id (str):
+            revisions (list['RunRevision']):
      """
 
-    revision_id: str
+    revisions: list['RunRevision']
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -31,13 +34,19 @@ class ActivateFunctionRevisionRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        revision_id = self.revision_id
+        from ..models.run_revision import RunRevision
+        revisions = []
+        for revisions_item_data in self.revisions:
+            revisions_item = revisions_item_data.to_dict()
+            revisions.append(revisions_item)
+
+
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "revision_id": revision_id,
+            "revisions": revisions,
         })
 
         return field_dict
@@ -46,16 +55,25 @@ class ActivateFunctionRevisionRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.run_revision import RunRevision
         d = dict(src_dict)
-        revision_id = d.pop("revision_id")
+        revisions = []
+        _revisions = d.pop("revisions")
+        for revisions_item_data in (_revisions):
+            revisions_item = RunRevision.from_dict(revisions_item_data)
 
-        activate_function_revision_request = cls(
-            revision_id=revision_id,
+
+
+            revisions.append(revisions_item)
+
+
+        success_run_revision_list_response_data = cls(
+            revisions=revisions,
         )
 
 
-        activate_function_revision_request.additional_properties = d
-        return activate_function_revision_request
+        success_run_revision_list_response_data.additional_properties = d
+        return success_run_revision_list_response_data
 
     @property
     def additional_keys(self) -> list[str]:

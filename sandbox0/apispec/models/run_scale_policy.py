@@ -14,13 +14,13 @@ from typing import Union
 
 
 
-T = TypeVar("T", bound="FunctionScalePolicy")
+T = TypeVar("T", bound="RunScalePolicy")
 
 
 
 @_attrs_define
-class FunctionScalePolicy:
-    """ Scale-to-zero policy. Functions do not have a minimum idle instance count.
+class RunScalePolicy:
+    """ Scale-to-zero policy. Runs do not have a minimum idle instance count.
 
         Attributes:
             max_instances (Union[Unset, int]):  Default: 1.
@@ -79,7 +79,7 @@ class FunctionScalePolicy:
 
         startup_timeout_seconds = d.pop("startup_timeout_seconds", UNSET)
 
-        function_scale_policy = cls(
+        run_scale_policy = cls(
             max_instances=max_instances,
             target_concurrency=target_concurrency,
             idle_timeout_seconds=idle_timeout_seconds,
@@ -87,8 +87,8 @@ class FunctionScalePolicy:
         )
 
 
-        function_scale_policy.additional_properties = d
-        return function_scale_policy
+        run_scale_policy.additional_properties = d
+        return run_scale_policy
 
     @property
     def additional_keys(self) -> list[str]:

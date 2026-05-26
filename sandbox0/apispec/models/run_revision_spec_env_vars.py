@@ -12,12 +12,12 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="FunctionRevisionSpecEnvVars")
+T = TypeVar("T", bound="RunRevisionSpecEnvVars")
 
 
 
 @_attrs_define
-class FunctionRevisionSpecEnvVars:
+class RunRevisionSpecEnvVars:
     """ 
      """
 
@@ -39,12 +39,12 @@ class FunctionRevisionSpecEnvVars:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        function_revision_spec_env_vars = cls(
+        run_revision_spec_env_vars = cls(
         )
 
 
-        function_revision_spec_env_vars.additional_properties = d
-        return function_revision_spec_env_vars
+        run_revision_spec_env_vars.additional_properties = d
+        return run_revision_spec_env_vars
 
     @property
     def additional_keys(self) -> list[str]:

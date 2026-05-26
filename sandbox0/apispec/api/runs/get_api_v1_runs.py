@@ -8,53 +8,37 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error_envelope import ErrorEnvelope
-from ...models.function_deploy_request import FunctionDeployRequest
-from ...models.success_function_deploy_result_response import SuccessFunctionDeployResultResponse
+from ...models.success_run_list_response import SuccessRunListResponse
 from typing import cast
 
 
 
 def _get_kwargs(
-    *,
-    body: FunctionDeployRequest,
-
+    
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
+    
 
     
 
     
 
     _kwargs: dict[str, Any] = {
-        "method": "post",
-        "url": "/api/v1/functions/deploy",
+        "method": "get",
+        "url": "/api/v1/runs",
     }
 
-    _kwargs["json"] = body.to_dict()
 
-
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    if response.status_code == 201:
-        response_201 = SuccessFunctionDeployResultResponse.from_dict(response.json())
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessRunListResponse]]:
+    if response.status_code == 200:
+        response_200 = SuccessRunListResponse.from_dict(response.json())
 
 
 
-        return response_201
-
-    if response.status_code == 400:
-        response_400 = ErrorEnvelope.from_dict(response.json())
-
-
-
-        return response_400
+        return response_200
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
@@ -70,20 +54,13 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
 
         return response_403
 
-    if response.status_code == 404:
-        response_404 = ErrorEnvelope.from_dict(response.json())
-
-
-
-        return response_404
-
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessRunListResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -95,29 +72,23 @@ def _build_response(*, client: Union[AuthenticatedClient, Client], response: htt
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a function
+) -> Response[Union[ErrorEnvelope, SuccessRunListResponse]]:
+    """ List runs
 
-     Creates a function or deploys a new revision from a sandbox service or snapshot-backed
-    specification.
-
-    Args:
-        body (FunctionDeployRequest):
+     Lists production run identities for the authenticated team.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunListResponse]]
      """
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = client.get_httpx_client().request(
@@ -129,58 +100,46 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a function
+) -> Optional[Union[ErrorEnvelope, SuccessRunListResponse]]:
+    """ List runs
 
-     Creates a function or deploys a new revision from a sandbox service or snapshot-backed
-    specification.
-
-    Args:
-        body (FunctionDeployRequest):
+     Lists production run identities for the authenticated team.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]
+        Union[ErrorEnvelope, SuccessRunListResponse]
      """
 
 
     return sync_detailed(
         client=client,
-body=body,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a function
+) -> Response[Union[ErrorEnvelope, SuccessRunListResponse]]:
+    """ List runs
 
-     Creates a function or deploys a new revision from a sandbox service or snapshot-backed
-    specification.
-
-    Args:
-        body (FunctionDeployRequest):
+     Lists production run identities for the authenticated team.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]
+        Response[Union[ErrorEnvelope, SuccessRunListResponse]]
      """
 
 
     kwargs = _get_kwargs(
-        body=body,
-
+        
     )
 
     response = await client.get_async_httpx_client().request(
@@ -192,28 +151,22 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a function
+) -> Optional[Union[ErrorEnvelope, SuccessRunListResponse]]:
+    """ List runs
 
-     Creates a function or deploys a new revision from a sandbox service or snapshot-backed
-    specification.
-
-    Args:
-        body (FunctionDeployRequest):
+     Lists production run identities for the authenticated team.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]
+        Union[ErrorEnvelope, SuccessRunListResponse]
      """
 
 
     return (await asyncio_detailed(
         client=client,
-body=body,
 
     )).parsed

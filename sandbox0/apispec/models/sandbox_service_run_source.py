@@ -6,27 +6,26 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from typing import cast
-
-if TYPE_CHECKING:
-  from ..models.function_revision import FunctionRevision
 
 
 
 
 
-T = TypeVar("T", bound="SuccessFunctionRevisionListResponseData")
+
+T = TypeVar("T", bound="SandboxServiceRunSource")
 
 
 
 @_attrs_define
-class SuccessFunctionRevisionListResponseData:
+class SandboxServiceRunSource:
     """ 
         Attributes:
-            revisions (list['FunctionRevision']):
+            sandbox_id (str):
+            service_id (str):
      """
 
-    revisions: list['FunctionRevision']
+    sandbox_id: str
+    service_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -34,19 +33,16 @@ class SuccessFunctionRevisionListResponseData:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_revision import FunctionRevision
-        revisions = []
-        for revisions_item_data in self.revisions:
-            revisions_item = revisions_item_data.to_dict()
-            revisions.append(revisions_item)
+        sandbox_id = self.sandbox_id
 
-
+        service_id = self.service_id
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "revisions": revisions,
+            "sandbox_id": sandbox_id,
+            "service_id": service_id,
         })
 
         return field_dict
@@ -55,25 +51,19 @@ class SuccessFunctionRevisionListResponseData:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_revision import FunctionRevision
         d = dict(src_dict)
-        revisions = []
-        _revisions = d.pop("revisions")
-        for revisions_item_data in (_revisions):
-            revisions_item = FunctionRevision.from_dict(revisions_item_data)
+        sandbox_id = d.pop("sandbox_id")
 
+        service_id = d.pop("service_id")
 
-
-            revisions.append(revisions_item)
-
-
-        success_function_revision_list_response_data = cls(
-            revisions=revisions,
+        sandbox_service_run_source = cls(
+            sandbox_id=sandbox_id,
+            service_id=service_id,
         )
 
 
-        success_function_revision_list_response_data.additional_properties = d
-        return success_function_revision_list_response_data
+        sandbox_service_run_source.additional_properties = d
+        return sandbox_service_run_source
 
     @property
     def additional_keys(self) -> list[str]:

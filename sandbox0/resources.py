@@ -3,14 +3,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, BinaryIO, List, Optional, TYPE_CHECKING, Union
 
-from sandbox0.apispec.api.functions import delete_api_v1_functions_id
-from sandbox0.apispec.api.functions import get_api_v1_functions
-from sandbox0.apispec.api.functions import get_api_v1_functions_id
-from sandbox0.apispec.api.functions import get_api_v1_functions_id_revisions
-from sandbox0.apispec.api.functions import post_api_v1_functions_deploy
-from sandbox0.apispec.api.functions import post_api_v1_functions_id_deploy
-from sandbox0.apispec.api.functions import put_api_v1_functions_id
-from sandbox0.apispec.api.functions import put_api_v1_functions_id_active_revision
+from sandbox0.apispec.api.runs import delete_api_v1_runs_id
+from sandbox0.apispec.api.runs import get_api_v1_runs
+from sandbox0.apispec.api.runs import get_api_v1_runs_id
+from sandbox0.apispec.api.runs import get_api_v1_runs_id_revisions
+from sandbox0.apispec.api.runs import post_api_v1_runs_deploy
+from sandbox0.apispec.api.runs import post_api_v1_runs_id_deploy
+from sandbox0.apispec.api.runs import put_api_v1_runs_id
+from sandbox0.apispec.api.runs import put_api_v1_runs_id_active_revision
 from sandbox0.apispec.api.sandboxes import delete_api_v1_sandboxes_id
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes_id
@@ -36,18 +36,18 @@ from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxV
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
 from sandbox0.apispec.models.file_info import FileInfo
 from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
-from sandbox0.apispec.models.activate_function_revision_request import ActivateFunctionRevisionRequest
-from sandbox0.apispec.models.function import Function as APIFunction
-from sandbox0.apispec.models.function_deploy_request import FunctionDeployRequest
-from sandbox0.apispec.models.function_deploy_result import FunctionDeployResult
-from sandbox0.apispec.models.function_revision import FunctionRevision
-from sandbox0.apispec.models.function_revision_mount import FunctionRevisionMount
-from sandbox0.apispec.models.function_revision_spec import FunctionRevisionSpec
-from sandbox0.apispec.models.function_revision_spec_env_vars import FunctionRevisionSpecEnvVars
-from sandbox0.apispec.models.function_scale_policy import FunctionScalePolicy
-from sandbox0.apispec.models.function_source import FunctionSource
-from sandbox0.apispec.models.function_source_type import FunctionSourceType
-from sandbox0.apispec.models.function_update_request import FunctionUpdateRequest
+from sandbox0.apispec.models.activate_run_revision_request import ActivateRunRevisionRequest
+from sandbox0.apispec.models.run import Run as APIRun
+from sandbox0.apispec.models.run_deploy_request import RunDeployRequest
+from sandbox0.apispec.models.run_deploy_result import RunDeployResult
+from sandbox0.apispec.models.run_revision import RunRevision
+from sandbox0.apispec.models.run_revision_mount import RunRevisionMount
+from sandbox0.apispec.models.run_revision_spec import RunRevisionSpec
+from sandbox0.apispec.models.run_revision_spec_env_vars import RunRevisionSpecEnvVars
+from sandbox0.apispec.models.run_scale_policy import RunScalePolicy
+from sandbox0.apispec.models.run_source import RunSource
+from sandbox0.apispec.models.run_source_type import RunSourceType
+from sandbox0.apispec.models.run_update_request import RunUpdateRequest
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.mount_status import MountStatus
@@ -67,15 +67,15 @@ from sandbox0.apispec.models.sandbox_app_service_route import SandboxAppServiceR
 from sandbox0.apispec.models.sandbox_app_service_runtime import SandboxAppServiceRuntime
 from sandbox0.apispec.models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
 from sandbox0.apispec.models.sandbox_app_service_runtime_type import SandboxAppServiceRuntimeType
-from sandbox0.apispec.models.sandbox_service_function_source import SandboxServiceFunctionSource
+from sandbox0.apispec.models.sandbox_service_run_source import SandboxServiceRunSource
 from sandbox0.apispec.models.snapshot import Snapshot
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_created_response import SuccessCreatedResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
-from sandbox0.apispec.models.success_function_deploy_result_response import SuccessFunctionDeployResultResponse
-from sandbox0.apispec.models.success_function_list_response import SuccessFunctionListResponse
-from sandbox0.apispec.models.success_function_response import SuccessFunctionResponse
-from sandbox0.apispec.models.success_function_revision_list_response import SuccessFunctionRevisionListResponse
+from sandbox0.apispec.models.success_run_deploy_result_response import SuccessRunDeployResultResponse
+from sandbox0.apispec.models.success_run_list_response import SuccessRunListResponse
+from sandbox0.apispec.models.success_run_response import SuccessRunResponse
+from sandbox0.apispec.models.success_run_revision_list_response import SuccessRunRevisionListResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
 from sandbox0.apispec.models.success_moved_response import SuccessMovedResponse
 from sandbox0.apispec.models.success_pause_sandbox_response import SuccessPauseSandboxResponse
@@ -221,13 +221,13 @@ class Sandboxes:
 
 
 @dataclass
-class FunctionSnapshotMount:
+class RunSnapshotMount:
     snapshot_id: str
     mount_path: str
 
 
 @dataclass
-class FunctionServiceSpec:
+class RunServiceSpec:
     port: int
     id: str = "app"
     display_name: Optional[str] = None
@@ -240,62 +240,62 @@ class FunctionServiceSpec:
 
 
 @dataclass
-class FunctionDeploySpec:
+class RunDeploySpec:
     template: str
-    service: FunctionServiceSpec
+    service: RunServiceSpec
     name: Optional[str] = None
     slug: Optional[str] = None
-    mounts: Optional[list[FunctionSnapshotMount]] = None
+    mounts: Optional[list[RunSnapshotMount]] = None
     env_vars: Optional[dict[str, str]] = None
-    scale: Optional[FunctionScalePolicy] = None
+    scale: Optional[RunScalePolicy] = None
     activate: Optional[bool] = None
 
 
 @dataclass
-class FunctionDeployOptions:
+class RunDeployOptions:
     name: Optional[str] = None
     slug: Optional[str] = None
-    scale: Optional[FunctionScalePolicy] = None
+    scale: Optional[RunScalePolicy] = None
     activate: Optional[bool] = None
 
 
-class Functions:
+class Runs:
     def __init__(self, client: "Client") -> None:
         self._client = client
 
-    def deploy(self, spec: FunctionDeploySpec) -> FunctionDeployResult:
-        return self.deploy_request(function_deploy_request_from_spec(spec))
+    def deploy(self, spec: RunDeploySpec) -> RunDeployResult:
+        return self.deploy_request(run_deploy_request_from_spec(spec))
 
-    def deploy_request(self, request: FunctionDeployRequest) -> FunctionDeployResult:
-        resp = post_api_v1_functions_deploy.sync_detailed(client=self._client.api, body=request)
-        return ensure_data(resp, SuccessFunctionDeployResultResponse)
+    def deploy_request(self, request: RunDeployRequest) -> RunDeployResult:
+        resp = post_api_v1_runs_deploy.sync_detailed(client=self._client.api, body=request)
+        return ensure_data(resp, SuccessRunDeployResultResponse)
 
-    def deploy_revision(self, function_id: str, spec: FunctionDeploySpec) -> FunctionDeployResult:
-        return self.deploy_revision_request(function_id, function_deploy_request_from_spec(spec))
+    def deploy_revision(self, run_id: str, spec: RunDeploySpec) -> RunDeployResult:
+        return self.deploy_revision_request(run_id, run_deploy_request_from_spec(spec))
 
-    def deploy_revision_request(self, function_id: str, request: FunctionDeployRequest) -> FunctionDeployResult:
-        resp = post_api_v1_functions_id_deploy.sync_detailed(
-            id=function_id,
+    def deploy_revision_request(self, run_id: str, request: RunDeployRequest) -> RunDeployResult:
+        resp = post_api_v1_runs_id_deploy.sync_detailed(
+            id=run_id,
             client=self._client.api,
             body=request,
         )
-        return ensure_data(resp, SuccessFunctionDeployResultResponse)
+        return ensure_data(resp, SuccessRunDeployResultResponse)
 
     def deploy_from_sandbox_service(
         self,
         sandbox_id: str,
         service_id: str,
-        options: Optional[FunctionDeployOptions] = None,
-    ) -> FunctionDeployResult:
-        options = options or FunctionDeployOptions()
-        request = FunctionDeployRequest(
+        options: Optional[RunDeployOptions] = None,
+    ) -> RunDeployResult:
+        options = options or RunDeployOptions()
+        request = RunDeployRequest(
             name=options.name or UNSET,  # type: ignore[arg-type]
             slug=options.slug or UNSET,  # type: ignore[arg-type]
             scale=options.scale or UNSET,  # type: ignore[arg-type]
             activate=options.activate if options.activate is not None else True,
-            source=FunctionSource(
-                type_=FunctionSourceType.SANDBOX_SERVICE,
-                sandbox_service=SandboxServiceFunctionSource(
+            source=RunSource(
+                type_=RunSourceType.SANDBOX_SERVICE,
+                sandbox_service=SandboxServiceRunSource(
                     sandbox_id=sandbox_id,
                     service_id=service_id,
                 ),
@@ -303,109 +303,109 @@ class Functions:
         )
         return self.deploy_request(request)
 
-    def list(self) -> list[APIFunction]:
-        resp = get_api_v1_functions.sync_detailed(client=self._client.api)
-        data = ensure_data(resp, SuccessFunctionListResponse)
-        return list(data.functions)
+    def list(self) -> list[APIRun]:
+        resp = get_api_v1_runs.sync_detailed(client=self._client.api)
+        data = ensure_data(resp, SuccessRunListResponse)
+        return list(data.runs)
 
-    def get(self, function_id: str) -> APIFunction:
-        resp = get_api_v1_functions_id.sync_detailed(id=function_id, client=self._client.api)
-        return ensure_data(resp, SuccessFunctionResponse)
+    def get(self, run_id: str) -> APIRun:
+        resp = get_api_v1_runs_id.sync_detailed(id=run_id, client=self._client.api)
+        return ensure_data(resp, SuccessRunResponse)
 
-    def update(self, function_id: str, request: FunctionUpdateRequest) -> APIFunction:
-        resp = put_api_v1_functions_id.sync_detailed(
-            id=function_id,
+    def update(self, run_id: str, request: RunUpdateRequest) -> APIRun:
+        resp = put_api_v1_runs_id.sync_detailed(
+            id=run_id,
             client=self._client.api,
             body=request,
         )
-        return ensure_data(resp, SuccessFunctionResponse)
+        return ensure_data(resp, SuccessRunResponse)
 
-    def delete(self, function_id: str) -> SuccessDeletedResponse:
-        resp = delete_api_v1_functions_id.sync_detailed(id=function_id, client=self._client.api)
+    def delete(self, run_id: str) -> SuccessDeletedResponse:
+        resp = delete_api_v1_runs_id.sync_detailed(id=run_id, client=self._client.api)
         return ensure_model(resp, SuccessDeletedResponse)
 
-    def revisions(self, function_id: str) -> list[FunctionRevision]:
-        resp = get_api_v1_functions_id_revisions.sync_detailed(id=function_id, client=self._client.api)
-        data = ensure_data(resp, SuccessFunctionRevisionListResponse)
+    def revisions(self, run_id: str) -> list[RunRevision]:
+        resp = get_api_v1_runs_id_revisions.sync_detailed(id=run_id, client=self._client.api)
+        data = ensure_data(resp, SuccessRunRevisionListResponse)
         return list(data.revisions)
 
-    def activate_revision(self, function_id: str, revision_id: str) -> FunctionDeployResult:
-        resp = put_api_v1_functions_id_active_revision.sync_detailed(
-            id=function_id,
+    def activate_revision(self, run_id: str, revision_id: str) -> RunDeployResult:
+        resp = put_api_v1_runs_id_active_revision.sync_detailed(
+            id=run_id,
             client=self._client.api,
-            body=ActivateFunctionRevisionRequest(revision_id=revision_id),
+            body=ActivateRunRevisionRequest(revision_id=revision_id),
         )
-        return ensure_data(resp, SuccessFunctionDeployResultResponse)
+        return ensure_data(resp, SuccessRunDeployResultResponse)
 
 
-def function_deploy_request_from_spec(spec: FunctionDeploySpec) -> FunctionDeployRequest:
+def run_deploy_request_from_spec(spec: RunDeploySpec) -> RunDeployRequest:
     if not spec.template:
-        raise ValueError("function template is required")
+        raise ValueError("run template is required")
     mounts = []
     for mount in spec.mounts or []:
         if not mount.snapshot_id or not mount.mount_path:
-            raise ValueError("function mount requires snapshot_id and mount_path")
+            raise ValueError("run mount requires snapshot_id and mount_path")
         mounts.append(
-            FunctionRevisionMount(
+            RunRevisionMount(
                 snapshot_id=mount.snapshot_id,
                 mount_path=mount.mount_path,
                 read_only=True,
             )
         )
 
-    revision_spec = FunctionRevisionSpec(
+    revision_spec = RunRevisionSpec(
         template=spec.template,
-        service=function_service_from_spec(spec.service),
+        service=run_service_from_spec(spec.service),
         mounts=mounts,
-        env_vars=_function_revision_env_vars(spec.env_vars),
+        env_vars=_run_revision_env_vars(spec.env_vars),
     )
-    return FunctionDeployRequest(
+    return RunDeployRequest(
         name=spec.name or UNSET,  # type: ignore[arg-type]
         slug=spec.slug or UNSET,  # type: ignore[arg-type]
         scale=spec.scale or UNSET,  # type: ignore[arg-type]
         activate=spec.activate if spec.activate is not None else True,
-        source=FunctionSource(type_=FunctionSourceType.SNAPSHOT),
+        source=RunSource(type_=RunSourceType.SNAPSHOT),
         spec=revision_spec,
     )
 
 
-def function_service_from_spec(spec: FunctionServiceSpec) -> SandboxAppService:
+def run_service_from_spec(spec: RunServiceSpec) -> SandboxAppService:
     if spec.port <= 0:
-        raise ValueError("function service port is required")
+        raise ValueError("run service port is required")
     service = SandboxAppService(
         id=spec.id or "app",
         display_name=spec.display_name or UNSET,  # type: ignore[arg-type]
         port=spec.port,
-        runtime=function_runtime_from_spec(spec),
+        runtime=run_runtime_from_spec(spec),
         ingress=SandboxAppServiceIngress(public=True, routes=spec.routes or UNSET),  # type: ignore[arg-type]
         health_check=SandboxAppServiceHealth(path=spec.health_path) if spec.health_path else UNSET,  # type: ignore[arg-type]
     )
     return service
 
 
-def function_runtime_from_spec(spec: FunctionServiceSpec) -> SandboxAppServiceRuntime:
+def run_runtime_from_spec(spec: RunServiceSpec) -> SandboxAppServiceRuntime:
     if spec.command:
         return SandboxAppServiceRuntime(
             type_=SandboxAppServiceRuntimeType.CMD,
             command=list(spec.command),
             cwd=spec.cwd or UNSET,  # type: ignore[arg-type]
-            env_vars=_function_runtime_env_vars(spec.env_vars),
+            env_vars=_run_runtime_env_vars(spec.env_vars),
         )
     if spec.warm_process_name:
         return SandboxAppServiceRuntime(
             type_=SandboxAppServiceRuntimeType.WARM_PROCESS,
             warm_process_name=spec.warm_process_name,
         )
-    raise ValueError("function service command or warm_process_name is required")
+    raise ValueError("run service command or warm_process_name is required")
 
 
-def _function_revision_env_vars(values: Optional[dict[str, str]]) -> Union[FunctionRevisionSpecEnvVars, Any]:
+def _run_revision_env_vars(values: Optional[dict[str, str]]) -> Union[RunRevisionSpecEnvVars, Any]:
     if values is None:
         return UNSET
-    return FunctionRevisionSpecEnvVars.from_dict(dict(values))
+    return RunRevisionSpecEnvVars.from_dict(dict(values))
 
 
-def _function_runtime_env_vars(values: Optional[dict[str, str]]) -> Union[SandboxAppServiceRuntimeEnvVars, Any]:
+def _run_runtime_env_vars(values: Optional[dict[str, str]]) -> Union[SandboxAppServiceRuntimeEnvVars, Any]:
     if values is None:
         return UNSET
     return SandboxAppServiceRuntimeEnvVars.from_dict(dict(values))

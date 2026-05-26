@@ -6,35 +6,35 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.function_source_type import FunctionSourceType
+from ..models.run_source_type import RunSourceType
 from ..types import UNSET, Unset
 from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.snapshot_function_source import SnapshotFunctionSource
-  from ..models.sandbox_service_function_source import SandboxServiceFunctionSource
+  from ..models.sandbox_service_run_source import SandboxServiceRunSource
+  from ..models.snapshot_run_source import SnapshotRunSource
 
 
 
 
 
-T = TypeVar("T", bound="FunctionSource")
+T = TypeVar("T", bound="RunSource")
 
 
 
 @_attrs_define
-class FunctionSource:
+class RunSource:
     """ 
         Attributes:
-            type_ (FunctionSourceType):
-            sandbox_service (Union[Unset, SandboxServiceFunctionSource]):
-            snapshot (Union[Unset, SnapshotFunctionSource]):
+            type_ (RunSourceType):
+            sandbox_service (Union[Unset, SandboxServiceRunSource]):
+            snapshot (Union[Unset, SnapshotRunSource]):
      """
 
-    type_: FunctionSourceType
-    sandbox_service: Union[Unset, 'SandboxServiceFunctionSource'] = UNSET
-    snapshot: Union[Unset, 'SnapshotFunctionSource'] = UNSET
+    type_: RunSourceType
+    sandbox_service: Union[Unset, 'SandboxServiceRunSource'] = UNSET
+    snapshot: Union[Unset, 'SnapshotRunSource'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -42,8 +42,8 @@ class FunctionSource:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.snapshot_function_source import SnapshotFunctionSource
-        from ..models.sandbox_service_function_source import SandboxServiceFunctionSource
+        from ..models.sandbox_service_run_source import SandboxServiceRunSource
+        from ..models.snapshot_run_source import SnapshotRunSource
         type_ = self.type_.value
 
         sandbox_service: Union[Unset, dict[str, Any]] = UNSET
@@ -71,43 +71,43 @@ class FunctionSource:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.snapshot_function_source import SnapshotFunctionSource
-        from ..models.sandbox_service_function_source import SandboxServiceFunctionSource
+        from ..models.sandbox_service_run_source import SandboxServiceRunSource
+        from ..models.snapshot_run_source import SnapshotRunSource
         d = dict(src_dict)
-        type_ = FunctionSourceType(d.pop("type"))
+        type_ = RunSourceType(d.pop("type"))
 
 
 
 
         _sandbox_service = d.pop("sandbox_service", UNSET)
-        sandbox_service: Union[Unset, SandboxServiceFunctionSource]
+        sandbox_service: Union[Unset, SandboxServiceRunSource]
         if isinstance(_sandbox_service,  Unset):
             sandbox_service = UNSET
         else:
-            sandbox_service = SandboxServiceFunctionSource.from_dict(_sandbox_service)
+            sandbox_service = SandboxServiceRunSource.from_dict(_sandbox_service)
 
 
 
 
         _snapshot = d.pop("snapshot", UNSET)
-        snapshot: Union[Unset, SnapshotFunctionSource]
+        snapshot: Union[Unset, SnapshotRunSource]
         if isinstance(_snapshot,  Unset):
             snapshot = UNSET
         else:
-            snapshot = SnapshotFunctionSource.from_dict(_snapshot)
+            snapshot = SnapshotRunSource.from_dict(_snapshot)
 
 
 
 
-        function_source = cls(
+        run_source = cls(
             type_=type_,
             sandbox_service=sandbox_service,
             snapshot=snapshot,
         )
 
 
-        function_source.additional_properties = d
-        return function_source
+        run_source.additional_properties = d
+        return run_source
 
     @property
     def additional_keys(self) -> list[str]:

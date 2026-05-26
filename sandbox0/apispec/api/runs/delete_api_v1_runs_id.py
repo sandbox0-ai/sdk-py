@@ -8,54 +8,38 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error_envelope import ErrorEnvelope
-from ...models.function_deploy_request import FunctionDeployRequest
-from ...models.success_function_deploy_result_response import SuccessFunctionDeployResultResponse
+from ...models.success_deleted_response import SuccessDeletedResponse
 from typing import cast
 
 
 
 def _get_kwargs(
     id: str,
-    *,
-    body: FunctionDeployRequest,
 
 ) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
-
+    
 
     
 
     
 
     _kwargs: dict[str, Any] = {
-        "method": "post",
-        "url": "/api/v1/functions/{id}/deploy".format(id=id,),
+        "method": "delete",
+        "url": "/api/v1/runs/{id}".format(id=id,),
     }
 
-    _kwargs["json"] = body.to_dict()
 
-
-    headers["Content-Type"] = "application/json"
-
-    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    if response.status_code == 201:
-        response_201 = SuccessFunctionDeployResultResponse.from_dict(response.json())
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    if response.status_code == 200:
+        response_200 = SuccessDeletedResponse.from_dict(response.json())
 
 
 
-        return response_201
-
-    if response.status_code == 400:
-        response_400 = ErrorEnvelope.from_dict(response.json())
-
-
-
-        return response_400
+        return response_200
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
@@ -84,7 +68,7 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -97,30 +81,24 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a new function revision
-
-     Adds an immutable revision to an existing function. The revision can be activated immediately or
-    left inactive.
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete a run
 
     Args:
         id (str):
-        body (FunctionDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]
+        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
-body=body,
 
     )
 
@@ -134,31 +112,25 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a new function revision
-
-     Adds an immutable revision to an existing function. The revision can be activated immediately or
-    left inactive.
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete a run
 
     Args:
         id (str):
-        body (FunctionDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]
+        Union[ErrorEnvelope, SuccessDeletedResponse]
      """
 
 
     return sync_detailed(
         id=id,
 client=client,
-body=body,
 
     ).parsed
 
@@ -166,30 +138,24 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a new function revision
-
-     Adds an immutable revision to an existing function. The revision can be activated immediately or
-    left inactive.
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete a run
 
     Args:
         id (str):
-        body (FunctionDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]
+        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
-body=body,
 
     )
 
@@ -203,30 +169,24 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: FunctionDeployRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]]:
-    """ Deploy a new function revision
-
-     Adds an immutable revision to an existing function. The revision can be activated immediately or
-    left inactive.
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
+    """ Delete a run
 
     Args:
         id (str):
-        body (FunctionDeployRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessFunctionDeployResultResponse]
+        Union[ErrorEnvelope, SuccessDeletedResponse]
      """
 
 
     return (await asyncio_detailed(
         id=id,
 client=client,
-body=body,
 
     )).parsed

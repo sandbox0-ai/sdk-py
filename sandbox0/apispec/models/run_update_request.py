@@ -11,29 +11,28 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.function_scale_policy import FunctionScalePolicy
+  from ..models.run_scale_policy import RunScalePolicy
 
 
 
 
 
-T = TypeVar("T", bound="FunctionUpdateRequest")
+T = TypeVar("T", bound="RunUpdateRequest")
 
 
 
 @_attrs_define
-class FunctionUpdateRequest:
+class RunUpdateRequest:
     """ 
         Attributes:
             name (Union[Unset, str]):
             enabled (Union[Unset, bool]):
-            scale (Union[Unset, FunctionScalePolicy]): Scale-to-zero policy. Functions do not have a minimum idle instance
-                count.
+            scale (Union[Unset, RunScalePolicy]): Scale-to-zero policy. Runs do not have a minimum idle instance count.
      """
 
     name: Union[Unset, str] = UNSET
     enabled: Union[Unset, bool] = UNSET
-    scale: Union[Unset, 'FunctionScalePolicy'] = UNSET
+    scale: Union[Unset, 'RunScalePolicy'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,7 +40,7 @@ class FunctionUpdateRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_scale_policy import FunctionScalePolicy
+        from ..models.run_scale_policy import RunScalePolicy
         name = self.name
 
         enabled = self.enabled
@@ -68,31 +67,31 @@ class FunctionUpdateRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_scale_policy import FunctionScalePolicy
+        from ..models.run_scale_policy import RunScalePolicy
         d = dict(src_dict)
         name = d.pop("name", UNSET)
 
         enabled = d.pop("enabled", UNSET)
 
         _scale = d.pop("scale", UNSET)
-        scale: Union[Unset, FunctionScalePolicy]
+        scale: Union[Unset, RunScalePolicy]
         if isinstance(_scale,  Unset):
             scale = UNSET
         else:
-            scale = FunctionScalePolicy.from_dict(_scale)
+            scale = RunScalePolicy.from_dict(_scale)
 
 
 
 
-        function_update_request = cls(
+        run_update_request = cls(
             name=name,
             enabled=enabled,
             scale=scale,
         )
 
 
-        function_update_request.additional_properties = d
-        return function_update_request
+        run_update_request.additional_properties = d
+        return run_update_request
 
     @property
     def additional_keys(self) -> list[str]:

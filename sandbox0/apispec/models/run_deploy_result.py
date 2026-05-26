@@ -6,31 +6,30 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
+from typing import cast
+
+if TYPE_CHECKING:
+  from ..models.run_revision import RunRevision
+  from ..models.run import Run
 
 
 
 
 
-
-T = TypeVar("T", bound="FunctionRevisionMount")
+T = TypeVar("T", bound="RunDeployResult")
 
 
 
 @_attrs_define
-class FunctionRevisionMount:
+class RunDeployResult:
     """ 
         Attributes:
-            snapshot_id (str):
-            mount_path (str):
-            read_only (Union[Unset, bool]): Function snapshot mounts are immutable and are materialized as read-only volumes
-                at runtime. Default: True.
+            run (Run):
+            revision (RunRevision):
      """
 
-    snapshot_id: str
-    mount_path: str
-    read_only: Union[Unset, bool] = True
+    run: 'Run'
+    revision: 'RunRevision'
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,21 +37,19 @@ class FunctionRevisionMount:
 
 
     def to_dict(self) -> dict[str, Any]:
-        snapshot_id = self.snapshot_id
+        from ..models.run_revision import RunRevision
+        from ..models.run import Run
+        run = self.run.to_dict()
 
-        mount_path = self.mount_path
-
-        read_only = self.read_only
+        revision = self.revision.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "snapshot_id": snapshot_id,
-            "mount_path": mount_path,
+            "run": run,
+            "revision": revision,
         })
-        if read_only is not UNSET:
-            field_dict["read_only"] = read_only
 
         return field_dict
 
@@ -60,22 +57,27 @@ class FunctionRevisionMount:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.run_revision import RunRevision
+        from ..models.run import Run
         d = dict(src_dict)
-        snapshot_id = d.pop("snapshot_id")
+        run = Run.from_dict(d.pop("run"))
 
-        mount_path = d.pop("mount_path")
 
-        read_only = d.pop("read_only", UNSET)
 
-        function_revision_mount = cls(
-            snapshot_id=snapshot_id,
-            mount_path=mount_path,
-            read_only=read_only,
+
+        revision = RunRevision.from_dict(d.pop("revision"))
+
+
+
+
+        run_deploy_result = cls(
+            run=run,
+            revision=revision,
         )
 
 
-        function_revision_mount.additional_properties = d
-        return function_revision_mount
+        run_deploy_result.additional_properties = d
+        return run_deploy_result
 
     @property
     def additional_keys(self) -> list[str]:

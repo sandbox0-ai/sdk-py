@@ -11,26 +11,26 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.success_function_list_response_data import SuccessFunctionListResponseData
+  from ..models.success_run_list_response_data import SuccessRunListResponseData
 
 
 
 
 
-T = TypeVar("T", bound="SuccessFunctionListResponse")
+T = TypeVar("T", bound="SuccessRunListResponse")
 
 
 
 @_attrs_define
-class SuccessFunctionListResponse:
+class SuccessRunListResponse:
     """ 
         Attributes:
             success (bool):
-            data (Union[Unset, SuccessFunctionListResponseData]):
+            data (Union[Unset, SuccessRunListResponseData]):
      """
 
     success: bool
-    data: Union[Unset, 'SuccessFunctionListResponseData'] = UNSET
+    data: Union[Unset, 'SuccessRunListResponseData'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,7 +38,7 @@ class SuccessFunctionListResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.success_function_list_response_data import SuccessFunctionListResponseData
+        from ..models.success_run_list_response_data import SuccessRunListResponseData
         success = self.success
 
         data: Union[Unset, dict[str, Any]] = UNSET
@@ -60,28 +60,28 @@ class SuccessFunctionListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.success_function_list_response_data import SuccessFunctionListResponseData
+        from ..models.success_run_list_response_data import SuccessRunListResponseData
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, SuccessFunctionListResponseData]
+        data: Union[Unset, SuccessRunListResponseData]
         if isinstance(_data,  Unset):
             data = UNSET
         else:
-            data = SuccessFunctionListResponseData.from_dict(_data)
+            data = SuccessRunListResponseData.from_dict(_data)
 
 
 
 
-        success_function_list_response = cls(
+        success_run_list_response = cls(
             success=success,
             data=data,
         )
 
 
-        success_function_list_response.additional_properties = d
-        return success_function_list_response
+        success_run_list_response.additional_properties = d
+        return success_run_list_response
 
     @property
     def additional_keys(self) -> list[str]:

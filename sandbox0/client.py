@@ -10,7 +10,7 @@ from sandbox0.client_credential_sources import ClientCredentialSourcesMixin
 from sandbox0.client_sandboxes import ClientSandboxesMixin
 from sandbox0.client_templates import ClientTemplatesMixin
 from sandbox0.client_volumes import ClientVolumesMixin
-from sandbox0.resources import Functions, Sandboxes, Volumes
+from sandbox0.resources import Runs, Sandboxes, Volumes
 from sandbox0.response_normalize import normalize_response_hook, normalize_response_hook_async
 from sandbox0.sandbox import Sandbox
 
@@ -77,7 +77,7 @@ class Client(
         self.base_url = base_url
         self.sandboxes = Sandboxes(self)
         self.volumes = Volumes(self)
-        self.functions = Functions(self)
+        self.runs = Runs(self)
 
     @property
     def api(self) -> AuthenticatedClient:
