@@ -15,8 +15,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.http_match import HTTPMatch
   from ..models.port_spec import PortSpec
+  from ..models.http_match import HTTPMatch
 
 
 
@@ -58,8 +58,8 @@ class EgressCredentialRule:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.http_match import HTTPMatch
         from ..models.port_spec import PortSpec
+        from ..models.http_match import HTTPMatch
         credential_ref = self.credential_ref
 
         name = self.name
@@ -132,8 +132,8 @@ class EgressCredentialRule:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.http_match import HTTPMatch
         from ..models.port_spec import PortSpec
+        from ..models.http_match import HTTPMatch
         d = dict(src_dict)
         credential_ref = d.pop("credentialRef")
 
