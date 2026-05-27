@@ -11,9 +11,9 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.affinity import Affinity
   from ..models.toleration import Toleration
   from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+  from ..models.affinity import Affinity
 
 
 
@@ -44,9 +44,9 @@ class PodSpecOverride:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.affinity import Affinity
         from ..models.toleration import Toleration
         from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+        from ..models.affinity import Affinity
         node_selector: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.node_selector, Unset):
             node_selector = self.node_selector.to_dict()
@@ -86,9 +86,9 @@ class PodSpecOverride:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.affinity import Affinity
         from ..models.toleration import Toleration
         from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+        from ..models.affinity import Affinity
         d = dict(src_dict)
         _node_selector = d.pop("nodeSelector", UNSET)
         node_selector: Union[Unset, PodSpecOverrideNodeSelector]
