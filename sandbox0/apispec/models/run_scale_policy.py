@@ -27,14 +27,11 @@ class RunScalePolicy:
             target_concurrency (Union[Unset, int]):  Default: 1.
             idle_timeout_seconds (Union[Unset, int]): Seconds of inactivity before the runtime sandbox can scale back to
                 zero. Default: 300.
-            startup_timeout_seconds (Union[Unset, int]): Maximum seconds to wait for a cold-started service health check.
-                Default: 90.
      """
 
     max_instances: Union[Unset, int] = 1
     target_concurrency: Union[Unset, int] = 1
     idle_timeout_seconds: Union[Unset, int] = 300
-    startup_timeout_seconds: Union[Unset, int] = 90
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -48,8 +45,6 @@ class RunScalePolicy:
 
         idle_timeout_seconds = self.idle_timeout_seconds
 
-        startup_timeout_seconds = self.startup_timeout_seconds
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -61,8 +56,6 @@ class RunScalePolicy:
             field_dict["target_concurrency"] = target_concurrency
         if idle_timeout_seconds is not UNSET:
             field_dict["idle_timeout_seconds"] = idle_timeout_seconds
-        if startup_timeout_seconds is not UNSET:
-            field_dict["startup_timeout_seconds"] = startup_timeout_seconds
 
         return field_dict
 
@@ -77,15 +70,11 @@ class RunScalePolicy:
 
         idle_timeout_seconds = d.pop("idle_timeout_seconds", UNSET)
 
-        startup_timeout_seconds = d.pop("startup_timeout_seconds", UNSET)
-
         run_scale_policy = cls(
             max_instances=max_instances,
             target_concurrency=target_concurrency,
             idle_timeout_seconds=idle_timeout_seconds,
-            startup_timeout_seconds=startup_timeout_seconds,
         )
-
 
         run_scale_policy.additional_properties = d
         return run_scale_policy
