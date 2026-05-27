@@ -13,6 +13,7 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
+  from ..models.sandbox_function import SandboxFunction
 
 
 
@@ -31,6 +32,8 @@ class SandboxAppServiceRuntime:
             cwd (Union[Unset, str]):
             env_vars (Union[Unset, SandboxAppServiceRuntimeEnvVars]):
             warm_process_name (Union[Unset, str]): Warm process alias or context ID used when type is warm_process.
+            function (Union[Unset, SandboxFunction]): Function code executed by procd for a sandbox service request.
+                cluster-gateway owns public ingress and carries this source to procd.
      """
 
     type_: SandboxAppServiceRuntimeType
@@ -38,6 +41,7 @@ class SandboxAppServiceRuntime:
     cwd: Union[Unset, str] = UNSET
     env_vars: Union[Unset, 'SandboxAppServiceRuntimeEnvVars'] = UNSET
     warm_process_name: Union[Unset, str] = UNSET
+    function: Union[Unset, 'SandboxFunction'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -46,6 +50,7 @@ class SandboxAppServiceRuntime:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
+        from ..models.sandbox_function import SandboxFunction
         type_ = self.type_.value
 
         command: Union[Unset, list[str]] = UNSET
@@ -62,6 +67,10 @@ class SandboxAppServiceRuntime:
 
         warm_process_name = self.warm_process_name
 
+        function: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.function, Unset):
+            function = self.function.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -76,6 +85,8 @@ class SandboxAppServiceRuntime:
             field_dict["env_vars"] = env_vars
         if warm_process_name is not UNSET:
             field_dict["warm_process_name"] = warm_process_name
+        if function is not UNSET:
+            field_dict["function"] = function
 
         return field_dict
 
@@ -84,6 +95,7 @@ class SandboxAppServiceRuntime:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
+        from ..models.sandbox_function import SandboxFunction
         d = dict(src_dict)
         type_ = SandboxAppServiceRuntimeType(d.pop("type"))
 
@@ -107,12 +119,23 @@ class SandboxAppServiceRuntime:
 
         warm_process_name = d.pop("warm_process_name", UNSET)
 
+        _function = d.pop("function", UNSET)
+        function: Union[Unset, SandboxFunction]
+        if isinstance(_function,  Unset):
+            function = UNSET
+        else:
+            function = SandboxFunction.from_dict(_function)
+
+
+
+
         sandbox_app_service_runtime = cls(
             type_=type_,
             command=command,
             cwd=cwd,
             env_vars=env_vars,
             warm_process_name=warm_process_name,
+            function=function,
         )
 
 

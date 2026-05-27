@@ -14,12 +14,12 @@ from sandbox0.apispec.api.sandboxes import put_api_v1_sandboxes_id
 from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.claim_response import ClaimResponse
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
-from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
+from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest

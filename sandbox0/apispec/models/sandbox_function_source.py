@@ -6,31 +6,32 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.sandbox_function_source_type import SandboxFunctionSourceType
 from ..types import UNSET, Unset
-from typing import cast
 from typing import Union
 
-if TYPE_CHECKING:
-  from ..models.function_invoke_response import FunctionInvokeResponse
 
 
 
 
 
-T = TypeVar("T", bound="SuccessFunctionInvokeResponse")
+T = TypeVar("T", bound="SandboxFunctionSource")
 
 
 
 @_attrs_define
-class SuccessFunctionInvokeResponse:
-    """ 
+class SandboxFunctionSource:
+    """ Function source code stored in sandbox service config.
+
         Attributes:
-            success (bool):
-            data (Union[Unset, FunctionInvokeResponse]):
+            type_ (SandboxFunctionSourceType): Source transport. Only inline source is supported in this version.
+            code (str): Inline source code. Limited to 256 KiB.
+            filename (Union[Unset, str]): Relative Python filename used when materializing the source. Defaults to main.py.
      """
 
-    success: bool
-    data: Union[Unset, 'FunctionInvokeResponse'] = UNSET
+    type_: SandboxFunctionSourceType
+    code: str
+    filename: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,21 +39,21 @@ class SuccessFunctionInvokeResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.function_invoke_response import FunctionInvokeResponse
-        success = self.success
+        type_ = self.type_.value
 
-        data: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+        code = self.code
+
+        filename = self.filename
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "success": success,
+            "type": type_,
+            "code": code,
         })
-        if data is not UNSET:
-            field_dict["data"] = data
+        if filename is not UNSET:
+            field_dict["filename"] = filename
 
         return field_dict
 
@@ -60,28 +61,25 @@ class SuccessFunctionInvokeResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.function_invoke_response import FunctionInvokeResponse
         d = dict(src_dict)
-        success = d.pop("success")
-
-        _data = d.pop("data", UNSET)
-        data: Union[Unset, FunctionInvokeResponse]
-        if isinstance(_data,  Unset):
-            data = UNSET
-        else:
-            data = FunctionInvokeResponse.from_dict(_data)
+        type_ = SandboxFunctionSourceType(d.pop("type"))
 
 
 
 
-        success_function_invoke_response = cls(
-            success=success,
-            data=data,
+        code = d.pop("code")
+
+        filename = d.pop("filename", UNSET)
+
+        sandbox_function_source = cls(
+            type_=type_,
+            code=code,
+            filename=filename,
         )
 
 
-        success_function_invoke_response.additional_properties = d
-        return success_function_invoke_response
+        sandbox_function_source.additional_properties = d
+        return sandbox_function_source
 
     @property
     def additional_keys(self) -> list[str]:

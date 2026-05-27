@@ -19,7 +19,6 @@ from sandbox0.errors import APIError
 from sandbox0.models import CmdResult, RunResult, StreamDone, StreamInput, StreamOutput
 from sandbox0.sandbox_contexts import SandboxContextsMixin
 from sandbox0.sandbox_files import SandboxFilesMixin
-from sandbox0.sandbox_functions import SandboxFunctionsMixin
 from sandbox0.sandbox_logs import SandboxLogsMixin
 from sandbox0.sandbox_network import SandboxNetworkMixin
 from sandbox0.sandbox_services import SandboxServicesMixin
@@ -170,7 +169,6 @@ class ContextStream:
 class Sandbox(
     SandboxContextsMixin,
     SandboxFilesMixin,
-    SandboxFunctionsMixin,
     SandboxLogsMixin,
     SandboxNetworkMixin,
     SandboxServicesMixin,

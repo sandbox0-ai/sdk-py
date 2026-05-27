@@ -28,13 +28,13 @@ from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotReques
 from sandbox0.apispec.models.file_info import FileInfo
 from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
+from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.mount_status import MountStatus
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
-from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest

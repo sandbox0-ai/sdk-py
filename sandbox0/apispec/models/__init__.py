@@ -80,11 +80,6 @@ from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAc
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_volume_request import ForkVolumeRequest
-from .function_invoke_request import FunctionInvokeRequest
-from .function_invoke_request_headers import FunctionInvokeRequestHeaders
-from .function_invoke_request_query import FunctionInvokeRequestQuery
-from .function_invoke_response import FunctionInvokeResponse
-from .function_invoke_response_headers import FunctionInvokeResponseHeaders
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .grpc_action import GRPCAction
@@ -162,6 +157,10 @@ from .sandbox_app_service_runtime_type import SandboxAppServiceRuntimeType
 from .sandbox_app_service_view import SandboxAppServiceView
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
+from .sandbox_function import SandboxFunction
+from .sandbox_function_runtime import SandboxFunctionRuntime
+from .sandbox_function_source import SandboxFunctionSource
+from .sandbox_function_source_type import SandboxFunctionSourceType
 from .sandbox_lifecycle_status import SandboxLifecycleStatus
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
@@ -222,7 +221,6 @@ from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
 from .success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
 from .success_file_stat_response import SuccessFileStatResponse
-from .success_function_invoke_response import SuccessFunctionInvokeResponse
 from .success_gateway_metadata_response import SuccessGatewayMetadataResponse
 from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
@@ -384,11 +382,6 @@ __all__ = (
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
     "ForkVolumeRequest",
-    "FunctionInvokeRequest",
-    "FunctionInvokeRequestHeaders",
-    "FunctionInvokeRequestQuery",
-    "FunctionInvokeResponse",
-    "FunctionInvokeResponseHeaders",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GRPCAction",
@@ -466,6 +459,10 @@ __all__ = (
     "SandboxAppServiceView",
     "SandboxConfig",
     "SandboxConfigEnvVars",
+    "SandboxFunction",
+    "SandboxFunctionRuntime",
+    "SandboxFunctionSource",
+    "SandboxFunctionSourceType",
     "SandboxLifecycleStatus",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
@@ -526,7 +523,6 @@ __all__ = (
     "SuccessFileReadResponse",
     "SuccessFileReadResponseDataType1",
     "SuccessFileStatResponse",
-    "SuccessFunctionInvokeResponse",
     "SuccessGatewayMetadataResponse",
     "SuccessHealthResponse",
     "SuccessHealthResponseData",
