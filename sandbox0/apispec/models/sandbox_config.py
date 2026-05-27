@@ -11,10 +11,10 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
   from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-  from ..models.sandbox_app_service import SandboxAppService
   from ..models.webhook_config import WebhookConfig
+  from ..models.sandbox_app_service import SandboxAppService
+  from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
 
 
@@ -58,10 +58,10 @@ class SandboxConfig:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.webhook_config import WebhookConfig
+        from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         env_vars: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
@@ -115,10 +115,10 @@ class SandboxConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.webhook_config import WebhookConfig
+        from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         d = dict(src_dict)
         _env_vars = d.pop("env_vars", UNSET)
         env_vars: Union[Unset, SandboxConfigEnvVars]

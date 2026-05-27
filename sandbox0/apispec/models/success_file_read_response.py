@@ -12,9 +12,9 @@ from typing import cast, Union
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
-  from ..models.file_content_response import FileContentResponse
   from ..models.file_info import FileInfo
+  from ..models.file_content_response import FileContentResponse
+  from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
 
 
 
@@ -41,9 +41,9 @@ class SuccessFileReadResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
-        from ..models.file_content_response import FileContentResponse
         from ..models.file_info import FileInfo
+        from ..models.file_content_response import FileContentResponse
+        from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
         success = self.success
 
         data: Union[Unset, dict[str, Any]]
@@ -72,9 +72,9 @@ class SuccessFileReadResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
-        from ..models.file_content_response import FileContentResponse
         from ..models.file_info import FileInfo
+        from ..models.file_content_response import FileContentResponse
+        from ..models.success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
         d = dict(src_dict)
         success = d.pop("success")
 

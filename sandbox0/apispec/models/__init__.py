@@ -80,11 +80,6 @@ from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAc
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_volume_request import ForkVolumeRequest
-from .function_invoke_request import FunctionInvokeRequest
-from .function_invoke_request_headers import FunctionInvokeRequestHeaders
-from .function_invoke_request_query import FunctionInvokeRequestQuery
-from .function_invoke_response import FunctionInvokeResponse
-from .function_invoke_response_headers import FunctionInvokeResponseHeaders
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .grpc_action import GRPCAction
@@ -222,7 +217,6 @@ from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
 from .success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
 from .success_file_stat_response import SuccessFileStatResponse
-from .success_function_invoke_response import SuccessFunctionInvokeResponse
 from .success_gateway_metadata_response import SuccessGatewayMetadataResponse
 from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
@@ -384,11 +378,6 @@ __all__ = (
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
     "ForkVolumeRequest",
-    "FunctionInvokeRequest",
-    "FunctionInvokeRequestHeaders",
-    "FunctionInvokeRequestQuery",
-    "FunctionInvokeResponse",
-    "FunctionInvokeResponseHeaders",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GRPCAction",
@@ -526,7 +515,6 @@ __all__ = (
     "SuccessFileReadResponse",
     "SuccessFileReadResponseDataType1",
     "SuccessFileStatResponse",
-    "SuccessFunctionInvokeResponse",
     "SuccessGatewayMetadataResponse",
     "SuccessHealthResponse",
     "SuccessHealthResponseData",

@@ -27,14 +27,14 @@ from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxV
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
 from sandbox0.apispec.models.file_info import FileInfo
 from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
+from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
+from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.mount_status import MountStatus
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
-from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
-from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
@@ -158,16 +158,16 @@ class Sandboxes:
     def list(
         self,
         *,
-        status: Union[SandboxLifecycleStatus, str] = UNSET,  # type: ignore[assignment]
+        status: Union[GetApiV1SandboxesStatus, str] = UNSET,  # type: ignore[assignment]
         template_id: str = UNSET,  # type: ignore[assignment]
         paused: bool = UNSET,  # type: ignore[assignment]
         limit: int = 50,
         offset: int = 0,
     ) -> List[SandboxSummary]:
-        status_enum: Union[SandboxLifecycleStatus, Any] = UNSET
+        status_enum: Union[GetApiV1SandboxesStatus, Any] = UNSET
         if status != UNSET:
             if isinstance(status, str):
-                status_enum = SandboxLifecycleStatus(status)
+                status_enum = GetApiV1SandboxesStatus(status)
             else:
                 status_enum = status
         resp = get_api_v1_sandboxes.sync_detailed(
