@@ -13,8 +13,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.http_match import HTTPMatch
   from ..models.mcp_protocol_rule import MCPProtocolRule
+  from ..models.http_match import HTTPMatch
   from ..models.port_spec import PortSpec
 
 
@@ -53,8 +53,8 @@ class ProtocolRule:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.http_match import HTTPMatch
         from ..models.mcp_protocol_rule import MCPProtocolRule
+        from ..models.http_match import HTTPMatch
         from ..models.port_spec import PortSpec
         protocol = self.protocol.value
 
@@ -113,8 +113,8 @@ class ProtocolRule:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.http_match import HTTPMatch
         from ..models.mcp_protocol_rule import MCPProtocolRule
+        from ..models.http_match import HTTPMatch
         from ..models.port_spec import PortSpec
         d = dict(src_dict)
         protocol = ProtocolRuleProtocol(d.pop("protocol"))

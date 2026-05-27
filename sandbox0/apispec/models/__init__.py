@@ -157,6 +157,10 @@ from .sandbox_app_service_runtime_type import SandboxAppServiceRuntimeType
 from .sandbox_app_service_view import SandboxAppServiceView
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
+from .sandbox_function import SandboxFunction
+from .sandbox_function_runtime import SandboxFunctionRuntime
+from .sandbox_function_source import SandboxFunctionSource
+from .sandbox_function_source_type import SandboxFunctionSourceType
 from .sandbox_lifecycle_status import SandboxLifecycleStatus
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
@@ -455,6 +459,10 @@ __all__ = (
     "SandboxAppServiceView",
     "SandboxConfig",
     "SandboxConfigEnvVars",
+    "SandboxFunction",
+    "SandboxFunctionRuntime",
+    "SandboxFunctionSource",
+    "SandboxFunctionSourceType",
     "SandboxLifecycleStatus",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
