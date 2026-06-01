@@ -23,9 +23,11 @@ T = TypeVar("T", bound="Capabilities")
 class Capabilities:
     """ 
         Attributes:
+            add (Union[Unset, list[str]]):
             drop (Union[Unset, list[str]]):
      """
 
+    add: Union[Unset, list[str]] = UNSET
     drop: Union[Unset, list[str]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -34,6 +36,12 @@ class Capabilities:
 
 
     def to_dict(self) -> dict[str, Any]:
+        add: Union[Unset, list[str]] = UNSET
+        if not isinstance(self.add, Unset):
+            add = self.add
+
+
+
         drop: Union[Unset, list[str]] = UNSET
         if not isinstance(self.drop, Unset):
             drop = self.drop
@@ -45,6 +53,8 @@ class Capabilities:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if add is not UNSET:
+            field_dict["add"] = add
         if drop is not UNSET:
             field_dict["drop"] = drop
 
@@ -55,10 +65,14 @@ class Capabilities:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
+        add = cast(list[str], d.pop("add", UNSET))
+
+
         drop = cast(list[str], d.pop("drop", UNSET))
 
 
         capabilities = cls(
+            add=add,
             drop=drop,
         )
 

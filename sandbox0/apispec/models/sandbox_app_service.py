@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
   from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+  from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
   from ..models.sandbox_app_service_health import SandboxAppServiceHealth
 
 
@@ -29,17 +29,18 @@ class SandboxAppService:
 
         Attributes:
             id (str): Stable service ID. Must be a DNS label.
-            port (int): Public exposure routing port. Function services normally use the sandbox procd port.
             ingress (SandboxAppServiceIngress):
             display_name (Union[Unset, str]):
+            port (Union[Unset, int]): Public exposure routing port. Required for manual, cmd, and warm_process services.
+                Omit for function services; Sandbox0 assigns the internal function service port.
             runtime (Union[Unset, SandboxAppServiceRuntime]):
             health_check (Union[Unset, SandboxAppServiceHealth]):
      """
 
     id: str
-    port: int
     ingress: 'SandboxAppServiceIngress'
     display_name: Union[Unset, str] = UNSET
+    port: Union[Unset, int] = UNSET
     runtime: Union[Unset, 'SandboxAppServiceRuntime'] = UNSET
     health_check: Union[Unset, 'SandboxAppServiceHealth'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -49,16 +50,16 @@ class SandboxAppService:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
         id = self.id
-
-        port = self.port
 
         ingress = self.ingress.to_dict()
 
         display_name = self.display_name
+
+        port = self.port
 
         runtime: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.runtime, Unset):
@@ -73,11 +74,12 @@ class SandboxAppService:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "id": id,
-            "port": port,
             "ingress": ingress,
         })
         if display_name is not UNSET:
             field_dict["display_name"] = display_name
+        if port is not UNSET:
+            field_dict["port"] = port
         if runtime is not UNSET:
             field_dict["runtime"] = runtime
         if health_check is not UNSET:
@@ -89,13 +91,11 @@ class SandboxAppService:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
         d = dict(src_dict)
         id = d.pop("id")
-
-        port = d.pop("port")
 
         ingress = SandboxAppServiceIngress.from_dict(d.pop("ingress"))
 
@@ -103,6 +103,8 @@ class SandboxAppService:
 
 
         display_name = d.pop("display_name", UNSET)
+
+        port = d.pop("port", UNSET)
 
         _runtime = d.pop("runtime", UNSET)
         runtime: Union[Unset, SandboxAppServiceRuntime]
@@ -126,9 +128,9 @@ class SandboxAppService:
 
         sandbox_app_service = cls(
             id=id,
-            port=port,
             ingress=ingress,
             display_name=display_name,
+            port=port,
             runtime=runtime,
             health_check=health_check,
         )

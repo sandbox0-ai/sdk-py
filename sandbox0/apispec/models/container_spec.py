@@ -12,8 +12,8 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.env_var import EnvVar
-  from ..models.security_context import SecurityContext
   from ..models.resource_quota import ResourceQuota
+  from ..models.security_context import SecurityContext
 
 
 
@@ -47,8 +47,8 @@ class ContainerSpec:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.env_var import EnvVar
-        from ..models.security_context import SecurityContext
         from ..models.resource_quota import ResourceQuota
+        from ..models.security_context import SecurityContext
         image = self.image
 
         resources = self.resources.to_dict()
@@ -89,8 +89,8 @@ class ContainerSpec:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.env_var import EnvVar
-        from ..models.security_context import SecurityContext
         from ..models.resource_quota import ResourceQuota
+        from ..models.security_context import SecurityContext
         d = dict(src_dict)
         image = d.pop("image")
 

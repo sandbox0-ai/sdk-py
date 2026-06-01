@@ -13,6 +13,8 @@ from sandbox0.apispec.models.warm_process_spec_type import WarmProcessSpecType
 from sandbox0.response_normalize import normalize_response_json
 from sandbox0.template_helpers import (
     container as build_container,
+    empty_dir_mount,
+    pod_spec,
     resources as build_resources,
     template_create_request,
     template_spec,
@@ -74,6 +76,7 @@ class TestTemplates(TestCase):
         spec = template_spec(
             build_container("ubuntu:24.04", build_resources("1", "4Gi")),
             display_name="Helper Template",
+            pod=pod_spec(empty_dir_mounts=[empty_dir_mount("/var/lib/docker", "20Gi")]),
             warm_processes=[
                 build_warm_process(
                     WarmProcessSpecType.CMD,
@@ -90,6 +93,9 @@ class TestTemplates(TestCase):
 
         self.assertEqual(create_request.template_id, "tpl-helper")
         self.assertEqual(create_request.spec.display_name, "Helper Template")
+        self.assertEqual(len(create_request.spec.pod.empty_dir_mounts), 1)
+        self.assertEqual(create_request.spec.pod.empty_dir_mounts[0].mount_path, "/var/lib/docker")
+        self.assertEqual(create_request.spec.pod.empty_dir_mounts[0].size_limit, "20Gi")
         self.assertEqual(len(create_request.spec.warm_processes), 1)
         process = create_request.spec.warm_processes[0]
         self.assertEqual(process.alias, "helper")

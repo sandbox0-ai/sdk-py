@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 from sandbox0.apispec.models.container_spec import ContainerSpec
+from sandbox0.apispec.models.empty_dir_mount_spec import EmptyDirMountSpec
 from sandbox0.apispec.models.env_var import EnvVar
+from sandbox0.apispec.models.affinity import Affinity
 from sandbox0.apispec.models.lifecycle_policy import LifecyclePolicy
 from sandbox0.apispec.models.pod_spec_override import PodSpecOverride
+from sandbox0.apispec.models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
 from sandbox0.apispec.models.pool_strategy import PoolStrategy
 from sandbox0.apispec.models.resource_quota import ResourceQuota
 from sandbox0.apispec.models.sandbox_network_policy import SandboxNetworkPolicy
@@ -12,6 +15,7 @@ from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTempla
 from sandbox0.apispec.models.security_context import SecurityContext
 from sandbox0.apispec.models.template_create_request import TemplateCreateRequest
 from sandbox0.apispec.models.template_update_request import TemplateUpdateRequest
+from sandbox0.apispec.models.toleration import Toleration
 from sandbox0.apispec.models.warm_process_spec import WarmProcessSpec
 from sandbox0.apispec.models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
 from sandbox0.apispec.models.warm_process_spec_type import WarmProcessSpecType
@@ -20,6 +24,27 @@ from sandbox0.apispec.types import UNSET, Unset
 
 def resources(cpu: str, memory: str) -> ResourceQuota:
     return ResourceQuota(cpu=cpu, memory=memory)
+
+
+def empty_dir_mount(mount_path: str, size_limit: str | Unset = UNSET) -> EmptyDirMountSpec:
+    return EmptyDirMountSpec(mount_path=mount_path, size_limit=size_limit)
+
+
+def pod_spec(
+    *,
+    empty_dir_mounts: list[EmptyDirMountSpec] | Unset = UNSET,
+    node_selector: PodSpecOverrideNodeSelector | dict[str, str] | Unset = UNSET,
+    service_account_name: str | Unset = UNSET,
+    affinity: Affinity | Unset = UNSET,
+    tolerations: list[Toleration] | Unset = UNSET,
+) -> PodSpecOverride:
+    return PodSpecOverride(
+        empty_dir_mounts=empty_dir_mounts,
+        node_selector=_pod_node_selector(node_selector),
+        service_account_name=service_account_name,
+        affinity=affinity,
+        tolerations=tolerations,
+    )
 
 
 def container(
@@ -105,6 +130,16 @@ def _template_env_vars(
     if isinstance(env_vars, SandboxTemplateSpecEnvVars):
         return env_vars
     return SandboxTemplateSpecEnvVars.from_dict(env_vars)
+
+
+def _pod_node_selector(
+    node_selector: PodSpecOverrideNodeSelector | dict[str, str] | Unset,
+) -> PodSpecOverrideNodeSelector | Unset:
+    if isinstance(node_selector, Unset):
+        return UNSET
+    if isinstance(node_selector, PodSpecOverrideNodeSelector):
+        return node_selector
+    return PodSpecOverrideNodeSelector.from_dict(node_selector)
 
 
 def _warm_process_env_vars(

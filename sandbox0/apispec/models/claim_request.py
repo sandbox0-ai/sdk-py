@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_config import SandboxConfig
   from ..models.claim_mount_request import ClaimMountRequest
+  from ..models.sandbox_config import SandboxConfig
 
 
 
@@ -41,8 +41,8 @@ class ClaimRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_config import SandboxConfig
         from ..models.claim_mount_request import ClaimMountRequest
+        from ..models.sandbox_config import SandboxConfig
         template = self.template
 
         config: Union[Unset, dict[str, Any]] = UNSET
@@ -76,8 +76,8 @@ class ClaimRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_config import SandboxConfig
         from ..models.claim_mount_request import ClaimMountRequest
+        from ..models.sandbox_config import SandboxConfig
         d = dict(src_dict)
         template = d.pop("template", UNSET)
 

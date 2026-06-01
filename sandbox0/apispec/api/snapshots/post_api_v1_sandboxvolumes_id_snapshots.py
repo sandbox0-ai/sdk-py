@@ -8,6 +8,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.create_snapshot_request import CreateSnapshotRequest
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_snapshot_response import SuccessSnapshotResponse
 from typing import cast
 
@@ -41,7 +42,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessSnapshotResponse]:
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessSnapshotResponse]]:
     if response.status_code == 201:
         response_201 = SuccessSnapshotResponse.from_dict(response.json())
 
@@ -49,13 +50,20 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
 
         return response_201
 
+    if response.status_code == 409:
+        response_409 = ErrorEnvelope.from_dict(response.json())
+
+
+
+        return response_409
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessSnapshotResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessSnapshotResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,7 +78,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: CreateSnapshotRequest,
 
-) -> Response[SuccessSnapshotResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSnapshotResponse]]:
     """ Create snapshot
 
     Args:
@@ -82,7 +90,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessSnapshotResponse]
+        Response[Union[ErrorEnvelope, SuccessSnapshotResponse]]
      """
 
 
@@ -104,7 +112,7 @@ def sync(
     client: AuthenticatedClient,
     body: CreateSnapshotRequest,
 
-) -> Optional[SuccessSnapshotResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSnapshotResponse]]:
     """ Create snapshot
 
     Args:
@@ -116,7 +124,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessSnapshotResponse
+        Union[ErrorEnvelope, SuccessSnapshotResponse]
      """
 
 
@@ -133,7 +141,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: CreateSnapshotRequest,
 
-) -> Response[SuccessSnapshotResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSnapshotResponse]]:
     """ Create snapshot
 
     Args:
@@ -145,7 +153,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessSnapshotResponse]
+        Response[Union[ErrorEnvelope, SuccessSnapshotResponse]]
      """
 
 
@@ -167,7 +175,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: CreateSnapshotRequest,
 
-) -> Optional[SuccessSnapshotResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSnapshotResponse]]:
     """ Create snapshot
 
     Args:
@@ -179,7 +187,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessSnapshotResponse
+        Union[ErrorEnvelope, SuccessSnapshotResponse]
      """
 
 
