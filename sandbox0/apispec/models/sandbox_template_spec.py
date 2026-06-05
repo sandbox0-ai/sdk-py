@@ -11,14 +11,13 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.pod_spec_override import PodSpecOverride
-  from ..models.container_spec import ContainerSpec
+  from ..models.lifecycle_policy import LifecyclePolicy
   from ..models.sandbox_network_policy import SandboxNetworkPolicy
+  from ..models.container_spec import ContainerSpec
   from ..models.volume_mount_spec import VolumeMountSpec
   from ..models.pool_strategy import PoolStrategy
+  from ..models.pod_spec_override import PodSpecOverride
   from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-  from ..models.warm_process_spec import WarmProcessSpec
-  from ..models.lifecycle_policy import LifecyclePolicy
 
 
 
@@ -30,13 +29,12 @@ T = TypeVar("T", bound="SandboxTemplateSpec")
 
 @_attrs_define
 class SandboxTemplateSpec:
-    """ 
+    """
         Attributes:
             description (Union[Unset, str]):
             display_name (Union[Unset, str]):
             tags (Union[Unset, list[str]]):
             main_container (Union[Unset, ContainerSpec]):
-            warm_processes (Union[Unset, list['WarmProcessSpec']]):
             volume_mounts (Union[Unset, list['VolumeMountSpec']]):
             pod (Union[Unset, PodSpecOverride]):
             network (Union[Unset, SandboxNetworkPolicy]):
@@ -52,7 +50,6 @@ class SandboxTemplateSpec:
     display_name: Union[Unset, str] = UNSET
     tags: Union[Unset, list[str]] = UNSET
     main_container: Union[Unset, 'ContainerSpec'] = UNSET
-    warm_processes: Union[Unset, list['WarmProcessSpec']] = UNSET
     volume_mounts: Union[Unset, list['VolumeMountSpec']] = UNSET
     pod: Union[Unset, 'PodSpecOverride'] = UNSET
     network: Union[Unset, 'SandboxNetworkPolicy'] = UNSET
@@ -69,14 +66,13 @@ class SandboxTemplateSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.pod_spec_override import PodSpecOverride
-        from ..models.container_spec import ContainerSpec
+        from ..models.lifecycle_policy import LifecyclePolicy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.container_spec import ContainerSpec
         from ..models.volume_mount_spec import VolumeMountSpec
         from ..models.pool_strategy import PoolStrategy
+        from ..models.pod_spec_override import PodSpecOverride
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.warm_process_spec import WarmProcessSpec
-        from ..models.lifecycle_policy import LifecyclePolicy
         description = self.description
 
         display_name = self.display_name
@@ -90,15 +86,6 @@ class SandboxTemplateSpec:
         main_container: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.main_container, Unset):
             main_container = self.main_container.to_dict()
-
-        warm_processes: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.warm_processes, Unset):
-            warm_processes = []
-            for warm_processes_item_data in self.warm_processes:
-                warm_processes_item = warm_processes_item_data.to_dict()
-                warm_processes.append(warm_processes_item)
-
-
 
         volume_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.volume_mounts, Unset):
@@ -152,8 +139,6 @@ class SandboxTemplateSpec:
             field_dict["tags"] = tags
         if main_container is not UNSET:
             field_dict["mainContainer"] = main_container
-        if warm_processes is not UNSET:
-            field_dict["warmProcesses"] = warm_processes
         if volume_mounts is not UNSET:
             field_dict["volumeMounts"] = volume_mounts
         if pod is not UNSET:
@@ -179,14 +164,13 @@ class SandboxTemplateSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.pod_spec_override import PodSpecOverride
-        from ..models.container_spec import ContainerSpec
+        from ..models.lifecycle_policy import LifecyclePolicy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.container_spec import ContainerSpec
         from ..models.volume_mount_spec import VolumeMountSpec
         from ..models.pool_strategy import PoolStrategy
+        from ..models.pod_spec_override import PodSpecOverride
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.warm_process_spec import WarmProcessSpec
-        from ..models.lifecycle_policy import LifecyclePolicy
         d = dict(src_dict)
         description = d.pop("description", UNSET)
 
@@ -203,16 +187,6 @@ class SandboxTemplateSpec:
             main_container = ContainerSpec.from_dict(_main_container)
 
 
-
-
-        warm_processes = []
-        _warm_processes = d.pop("warmProcesses", UNSET)
-        for warm_processes_item_data in (_warm_processes or []):
-            warm_processes_item = WarmProcessSpec.from_dict(warm_processes_item_data)
-
-
-
-            warm_processes.append(warm_processes_item)
 
 
         volume_mounts = []
@@ -287,7 +261,6 @@ class SandboxTemplateSpec:
             display_name=display_name,
             tags=tags,
             main_container=main_container,
-            warm_processes=warm_processes,
             volume_mounts=volume_mounts,
             pod=pod,
             network=network,

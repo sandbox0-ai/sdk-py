@@ -6,28 +6,29 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.sandbox_function_source_type import SandboxFunctionSourceType
+from ..models.app_armor_profile_type import AppArmorProfileType
+from ..types import UNSET, Unset
+from typing import Union
 
 
 
 
 
 
-T = TypeVar("T", bound="SandboxFunctionSource")
+T = TypeVar("T", bound="AppArmorProfile")
 
 
 
 @_attrs_define
-class SandboxFunctionSource:
-    """ Function source code stored in sandbox service config.
-
+class AppArmorProfile:
+    """ 
         Attributes:
-            type_ (SandboxFunctionSourceType): Source transport. Only inline source is supported in this version.
-            code (str): Inline source code. Limited to 256 KiB.
+            type_ (AppArmorProfileType):
+            localhost_profile (Union[Unset, str]):
      """
 
-    type_: SandboxFunctionSourceType
-    code: str
+    type_: AppArmorProfileType
+    localhost_profile: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -37,15 +38,16 @@ class SandboxFunctionSource:
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
 
-        code = self.code
+        localhost_profile = self.localhost_profile
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "type": type_,
-            "code": code,
         })
+        if localhost_profile is not UNSET:
+            field_dict["localhostProfile"] = localhost_profile
 
         return field_dict
 
@@ -54,21 +56,21 @@ class SandboxFunctionSource:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        type_ = SandboxFunctionSourceType(d.pop("type"))
+        type_ = AppArmorProfileType(d.pop("type"))
 
 
 
 
-        code = d.pop("code")
+        localhost_profile = d.pop("localhostProfile", UNSET)
 
-        sandbox_function_source = cls(
+        app_armor_profile = cls(
             type_=type_,
-            code=code,
+            localhost_profile=localhost_profile,
         )
 
 
-        sandbox_function_source.additional_properties = d
-        return sandbox_function_source
+        app_armor_profile.additional_properties = d
+        return app_armor_profile
 
     @property
     def additional_keys(self) -> list[str]:

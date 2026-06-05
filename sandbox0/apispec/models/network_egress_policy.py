@@ -12,9 +12,9 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.protocol_rule import ProtocolRule
-  from ..models.port_spec import PortSpec
-  from ..models.traffic_rule import TrafficRule
   from ..models.egress_proxy_policy import EgressProxyPolicy
+  from ..models.traffic_rule import TrafficRule
+  from ..models.port_spec import PortSpec
   from ..models.egress_credential_rule import EgressCredentialRule
 
 
@@ -76,9 +76,9 @@ class NetworkEgressPolicy:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.protocol_rule import ProtocolRule
-        from ..models.port_spec import PortSpec
-        from ..models.traffic_rule import TrafficRule
         from ..models.egress_proxy_policy import EgressProxyPolicy
+        from ..models.traffic_rule import TrafficRule
+        from ..models.port_spec import PortSpec
         from ..models.egress_credential_rule import EgressCredentialRule
         allowed_cidrs: Union[Unset, list[str]] = UNSET
         if not isinstance(self.allowed_cidrs, Unset):
@@ -186,9 +186,9 @@ class NetworkEgressPolicy:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.protocol_rule import ProtocolRule
-        from ..models.port_spec import PortSpec
-        from ..models.traffic_rule import TrafficRule
         from ..models.egress_proxy_policy import EgressProxyPolicy
+        from ..models.traffic_rule import TrafficRule
+        from ..models.port_spec import PortSpec
         from ..models.egress_credential_rule import EgressCredentialRule
         d = dict(src_dict)
         allowed_cidrs = cast(list[str], d.pop("allowedCidrs", UNSET))

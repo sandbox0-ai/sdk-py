@@ -12,9 +12,6 @@ from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTempla
 from sandbox0.apispec.models.security_context import SecurityContext
 from sandbox0.apispec.models.template_create_request import TemplateCreateRequest
 from sandbox0.apispec.models.template_update_request import TemplateUpdateRequest
-from sandbox0.apispec.models.warm_process_spec import WarmProcessSpec
-from sandbox0.apispec.models.warm_process_spec_env_vars import WarmProcessSpecEnvVars
-from sandbox0.apispec.models.warm_process_spec_type import WarmProcessSpecType
 from sandbox0.apispec.types import UNSET, Unset
 
 
@@ -39,30 +36,12 @@ def container(
     )
 
 
-def warm_process(
-    type_: WarmProcessSpecType,
-    *,
-    alias: str | Unset = UNSET,
-    command: list[str] | Unset = UNSET,
-    cwd: str | Unset = UNSET,
-    env_vars: WarmProcessSpecEnvVars | dict[str, str] | Unset = UNSET,
-) -> WarmProcessSpec:
-    return WarmProcessSpec(
-        type_=type_,
-        alias=alias,
-        command=command,
-        cwd=cwd,
-        env_vars=_warm_process_env_vars(env_vars),
-    )
-
-
 def template_spec(
     main_container: ContainerSpec,
     *,
     description: str | Unset = UNSET,
     display_name: str | Unset = UNSET,
     tags: list[str] | Unset = UNSET,
-    warm_processes: list[WarmProcessSpec] | Unset = UNSET,
     pod: PodSpecOverride | Unset = UNSET,
     network: SandboxNetworkPolicy | Unset = UNSET,
     pool: PoolStrategy | Unset = UNSET,
@@ -77,7 +56,6 @@ def template_spec(
         description=description,
         display_name=display_name,
         tags=tags,
-        warm_processes=warm_processes,
         pod=pod,
         network=network,
         pool=pool,
@@ -105,13 +83,3 @@ def _template_env_vars(
     if isinstance(env_vars, SandboxTemplateSpecEnvVars):
         return env_vars
     return SandboxTemplateSpecEnvVars.from_dict(env_vars)
-
-
-def _warm_process_env_vars(
-    env_vars: WarmProcessSpecEnvVars | dict[str, str] | Unset,
-) -> WarmProcessSpecEnvVars | Unset:
-    if isinstance(env_vars, Unset):
-        return UNSET
-    if isinstance(env_vars, WarmProcessSpecEnvVars):
-        return env_vars
-    return WarmProcessSpecEnvVars.from_dict(env_vars)

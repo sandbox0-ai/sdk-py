@@ -25,13 +25,12 @@ T = TypeVar("T", bound="SandboxAppServiceRuntime")
 
 @_attrs_define
 class SandboxAppServiceRuntime:
-    """ 
+    """
         Attributes:
             type_ (SandboxAppServiceRuntimeType): Runtime strategy for restarting a service process.
             command (Union[Unset, list[str]]): Process argv used when type is cmd.
             cwd (Union[Unset, str]):
             env_vars (Union[Unset, SandboxAppServiceRuntimeEnvVars]):
-            warm_process_name (Union[Unset, str]): Warm process alias or context ID used when type is warm_process.
             function (Union[Unset, SandboxFunction]): Function code executed by procd for a sandbox service request.
                 cluster-gateway owns public ingress and carries this source to procd.
      """
@@ -40,7 +39,6 @@ class SandboxAppServiceRuntime:
     command: Union[Unset, list[str]] = UNSET
     cwd: Union[Unset, str] = UNSET
     env_vars: Union[Unset, 'SandboxAppServiceRuntimeEnvVars'] = UNSET
-    warm_process_name: Union[Unset, str] = UNSET
     function: Union[Unset, 'SandboxFunction'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -65,8 +63,6 @@ class SandboxAppServiceRuntime:
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
 
-        warm_process_name = self.warm_process_name
-
         function: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.function, Unset):
             function = self.function.to_dict()
@@ -83,8 +79,6 @@ class SandboxAppServiceRuntime:
             field_dict["cwd"] = cwd
         if env_vars is not UNSET:
             field_dict["env_vars"] = env_vars
-        if warm_process_name is not UNSET:
-            field_dict["warm_process_name"] = warm_process_name
         if function is not UNSET:
             field_dict["function"] = function
 
@@ -117,8 +111,6 @@ class SandboxAppServiceRuntime:
 
 
 
-        warm_process_name = d.pop("warm_process_name", UNSET)
-
         _function = d.pop("function", UNSET)
         function: Union[Unset, SandboxFunction]
         if isinstance(_function,  Unset):
@@ -134,7 +126,6 @@ class SandboxAppServiceRuntime:
             command=command,
             cwd=cwd,
             env_vars=env_vars,
-            warm_process_name=warm_process_name,
             function=function,
         )
 

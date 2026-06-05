@@ -48,7 +48,6 @@ _NULL_ARRAY_KEYS = {
     "templates",
     "tolerations",
     "values",
-    "warmProcesses",
 }
 
 SKIP_RESPONSE_NORMALIZE_EXTENSION = "sandbox0_skip_response_normalize"

@@ -6,28 +6,28 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.sandbox_function_source_type import SandboxFunctionSourceType
+from ..types import UNSET, Unset
+from typing import Union
 
 
 
 
 
 
-T = TypeVar("T", bound="SandboxFunctionSource")
+T = TypeVar("T", bound="EmptyDirMountSpec")
 
 
 
 @_attrs_define
-class SandboxFunctionSource:
-    """ Function source code stored in sandbox service config.
-
+class EmptyDirMountSpec:
+    """ 
         Attributes:
-            type_ (SandboxFunctionSourceType): Source transport. Only inline source is supported in this version.
-            code (str): Inline source code. Limited to 256 KiB.
+            mount_path (str):
+            size_limit (Union[Unset, str]): Optional size limit for the Kubernetes emptyDir volume.
      """
 
-    type_: SandboxFunctionSourceType
-    code: str
+    mount_path: str
+    size_limit: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -35,17 +35,18 @@ class SandboxFunctionSource:
 
 
     def to_dict(self) -> dict[str, Any]:
-        type_ = self.type_.value
+        mount_path = self.mount_path
 
-        code = self.code
+        size_limit = self.size_limit
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "type": type_,
-            "code": code,
+            "mountPath": mount_path,
         })
+        if size_limit is not UNSET:
+            field_dict["sizeLimit"] = size_limit
 
         return field_dict
 
@@ -54,21 +55,18 @@ class SandboxFunctionSource:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        type_ = SandboxFunctionSourceType(d.pop("type"))
+        mount_path = d.pop("mountPath")
 
+        size_limit = d.pop("sizeLimit", UNSET)
 
-
-
-        code = d.pop("code")
-
-        sandbox_function_source = cls(
-            type_=type_,
-            code=code,
+        empty_dir_mount_spec = cls(
+            mount_path=mount_path,
+            size_limit=size_limit,
         )
 
 
-        sandbox_function_source.additional_properties = d
-        return sandbox_function_source
+        empty_dir_mount_spec.additional_properties = d
+        return empty_dir_mount_spec
 
     @property
     def additional_keys(self) -> list[str]:
