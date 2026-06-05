@@ -20,14 +20,17 @@ T = TypeVar("T", bound="ResourceQuota")
 
 @_attrs_define
 class ResourceQuota:
-    """ 
+    """
         Attributes:
             cpu (Union[Unset, str]):
             memory (Union[Unset, str]):
+            ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
+                logs. Defaults to 512Mi when omitted.
      """
 
     cpu: Union[Unset, str] = UNSET
     memory: Union[Unset, str] = UNSET
+    ephemeral_storage: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -39,6 +42,8 @@ class ResourceQuota:
 
         memory = self.memory
 
+        ephemeral_storage = self.ephemeral_storage
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -48,6 +53,8 @@ class ResourceQuota:
             field_dict["cpu"] = cpu
         if memory is not UNSET:
             field_dict["memory"] = memory
+        if ephemeral_storage is not UNSET:
+            field_dict["ephemeralStorage"] = ephemeral_storage
 
         return field_dict
 
@@ -60,9 +67,12 @@ class ResourceQuota:
 
         memory = d.pop("memory", UNSET)
 
+        ephemeral_storage = d.pop("ephemeralStorage", UNSET)
+
         resource_quota = cls(
             cpu=cpu,
             memory=memory,
+            ephemeral_storage=ephemeral_storage,
         )
 
 

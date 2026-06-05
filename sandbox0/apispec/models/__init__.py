@@ -4,6 +4,8 @@ from .add_team_member_request import AddTeamMemberRequest
 from .add_team_member_request_role import AddTeamMemberRequestRole
 from .affinity import Affinity
 from .api_key import APIKey
+from .app_armor_profile import AppArmorProfile
+from .app_armor_profile_type import AppArmorProfileType
 from .auth_provider import AuthProvider
 from .cache_policy_spec import CachePolicySpec
 from .capabilities import Capabilities
@@ -58,6 +60,7 @@ from .egress_credential_rule import EgressCredentialRule
 from .egress_proxy_policy import EgressProxyPolicy
 from .egress_proxy_type import EgressProxyType
 from .egress_tls_mode import EgressTLSMode
+from .empty_dir_mount_spec import EmptyDirMountSpec
 from .env_var import EnvVar
 from .error import Error
 from .error_envelope import ErrorEnvelope
@@ -118,7 +121,6 @@ from .port_spec import PortSpec
 from .pre_stop_hook import PreStopHook
 from .preferred_scheduling_term import PreferredSchedulingTerm
 from .probe import Probe
-from .process_probe_action import ProcessProbeAction
 from .process_type import ProcessType
 from .projected_header import ProjectedHeader
 from .projection_spec import ProjectionSpec
@@ -168,8 +170,6 @@ from .sandbox_power_state import SandboxPowerState
 from .sandbox_power_state_desired import SandboxPowerStateDesired
 from .sandbox_power_state_observed import SandboxPowerStateObserved
 from .sandbox_power_state_phase import SandboxPowerStatePhase
-from .sandbox_probe_set import SandboxProbeSet
-from .sandbox_probe_spec import SandboxProbeSpec
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_services_update_request import SandboxServicesUpdateRequest
@@ -184,6 +184,8 @@ from .sandbox_template_status import SandboxTemplateStatus
 from .sandbox_update_config import SandboxUpdateConfig
 from .sandbox_update_request import SandboxUpdateRequest
 from .sandbox_volume import SandboxVolume
+from .seccomp_profile import SeccompProfile
+from .seccomp_profile_type import SeccompProfileType
 from .security_context import SecurityContext
 from .signal_context_request import SignalContextRequest
 from .snapshot import Snapshot
@@ -294,9 +296,6 @@ from .username_password_projection import UsernamePasswordProjection
 from .volume_access_mode import VolumeAccessMode
 from .volume_file_archive_import_response import VolumeFileArchiveImportResponse
 from .volume_mount_spec import VolumeMountSpec
-from .warm_process_spec import WarmProcessSpec
-from .warm_process_spec_env_vars import WarmProcessSpecEnvVars
-from .warm_process_spec_type import WarmProcessSpecType
 from .web_login_exchange_request import WebLoginExchangeRequest
 from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
@@ -306,6 +305,8 @@ __all__ = (
     "AddTeamMemberRequestRole",
     "Affinity",
     "APIKey",
+    "AppArmorProfile",
+    "AppArmorProfileType",
     "AuthProvider",
     "CachePolicySpec",
     "Capabilities",
@@ -360,6 +361,7 @@ __all__ = (
     "EgressProxyPolicy",
     "EgressProxyType",
     "EgressTLSMode",
+    "EmptyDirMountSpec",
     "EnvVar",
     "Error",
     "ErrorEnvelope",
@@ -420,7 +422,6 @@ __all__ = (
     "PreferredSchedulingTerm",
     "PreStopHook",
     "Probe",
-    "ProcessProbeAction",
     "ProcessType",
     "ProjectedHeader",
     "ProjectionSpec",
@@ -470,8 +471,6 @@ __all__ = (
     "SandboxPowerStateDesired",
     "SandboxPowerStateObserved",
     "SandboxPowerStatePhase",
-    "SandboxProbeSet",
-    "SandboxProbeSpec",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
     "SandboxServicesUpdateRequest",
@@ -486,6 +485,8 @@ __all__ = (
     "SandboxUpdateConfig",
     "SandboxUpdateRequest",
     "SandboxVolume",
+    "SeccompProfile",
+    "SeccompProfileType",
     "SecurityContext",
     "SignalContextRequest",
     "Snapshot",
@@ -596,9 +597,6 @@ __all__ = (
     "VolumeAccessMode",
     "VolumeFileArchiveImportResponse",
     "VolumeMountSpec",
-    "WarmProcessSpec",
-    "WarmProcessSpecEnvVars",
-    "WarmProcessSpecType",
     "WebhookConfig",
     "WebLoginExchangeRequest",
     "WeightedPodAffinityTerm",

@@ -11,9 +11,10 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.toleration import Toleration
-  from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
   from ..models.affinity import Affinity
+  from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+  from ..models.toleration import Toleration
+  from ..models.empty_dir_mount_spec import EmptyDirMountSpec
 
 
 
@@ -25,18 +26,20 @@ T = TypeVar("T", bound="PodSpecOverride")
 
 @_attrs_define
 class PodSpecOverride:
-    """ 
+    """
         Attributes:
             node_selector (Union[Unset, PodSpecOverrideNodeSelector]):
             affinity (Union[Unset, Affinity]):
             tolerations (Union[Unset, list['Toleration']]):
             service_account_name (Union[Unset, str]):
+            empty_dir_mounts (Union[Unset, list['EmptyDirMountSpec']]):
      """
 
     node_selector: Union[Unset, 'PodSpecOverrideNodeSelector'] = UNSET
     affinity: Union[Unset, 'Affinity'] = UNSET
     tolerations: Union[Unset, list['Toleration']] = UNSET
     service_account_name: Union[Unset, str] = UNSET
+    empty_dir_mounts: Union[Unset, list['EmptyDirMountSpec']] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -44,9 +47,10 @@ class PodSpecOverride:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.toleration import Toleration
-        from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
         from ..models.affinity import Affinity
+        from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+        from ..models.toleration import Toleration
+        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
         node_selector: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.node_selector, Unset):
             node_selector = self.node_selector.to_dict()
@@ -66,6 +70,15 @@ class PodSpecOverride:
 
         service_account_name = self.service_account_name
 
+        empty_dir_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.empty_dir_mounts, Unset):
+            empty_dir_mounts = []
+            for empty_dir_mounts_item_data in self.empty_dir_mounts:
+                empty_dir_mounts_item = empty_dir_mounts_item_data.to_dict()
+                empty_dir_mounts.append(empty_dir_mounts_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -79,6 +92,8 @@ class PodSpecOverride:
             field_dict["tolerations"] = tolerations
         if service_account_name is not UNSET:
             field_dict["serviceAccountName"] = service_account_name
+        if empty_dir_mounts is not UNSET:
+            field_dict["emptyDirMounts"] = empty_dir_mounts
 
         return field_dict
 
@@ -86,9 +101,10 @@ class PodSpecOverride:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.toleration import Toleration
-        from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
         from ..models.affinity import Affinity
+        from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+        from ..models.toleration import Toleration
+        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
         d = dict(src_dict)
         _node_selector = d.pop("nodeSelector", UNSET)
         node_selector: Union[Unset, PodSpecOverrideNodeSelector]
@@ -122,11 +138,22 @@ class PodSpecOverride:
 
         service_account_name = d.pop("serviceAccountName", UNSET)
 
+        empty_dir_mounts = []
+        _empty_dir_mounts = d.pop("emptyDirMounts", UNSET)
+        for empty_dir_mounts_item_data in (_empty_dir_mounts or []):
+            empty_dir_mounts_item = EmptyDirMountSpec.from_dict(empty_dir_mounts_item_data)
+
+
+
+            empty_dir_mounts.append(empty_dir_mounts_item)
+
+
         pod_spec_override = cls(
             node_selector=node_selector,
             affinity=affinity,
             tolerations=tolerations,
             service_account_name=service_account_name,
+            empty_dir_mounts=empty_dir_mounts,
         )
 
 

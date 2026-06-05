@@ -9,10 +9,9 @@ from sandbox0.apispec.api.templates.put_api_v1_templates_id import sync_detailed
 from sandbox0.apispec.models.success_template_list_response import SuccessTemplateListResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
 from sandbox0.apispec.models.success_template_response import SuccessTemplateResponse
+from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
 from sandbox0.apispec.models.template_create_request import TemplateCreateRequest
 from sandbox0.apispec.models.template_update_request import TemplateUpdateRequest
-from sandbox0.apispec.models.warm_process_spec import WarmProcessSpec
-from sandbox0.apispec.models.warm_process_spec_type import WarmProcessSpecType
 from sandbox0.response import ensure_data, ensure_model
 
 from tests.e2e.helpers import close_client, new_client, require_config
@@ -30,14 +29,7 @@ class TestTemplates(unittest.TestCase):
         if templates.__class__.__name__ == "Unset" or not templates:
             self.fail("no templates available")
         source = templates[0]
-        source.spec.warm_processes = [
-            WarmProcessSpec(
-                type_=WarmProcessSpecType.CMD,
-                alias="codex",
-                command=["sh", "-lc", "touch /tmp/ready; tail -f /dev/null"],
-                cwd="/workspace",
-            )
-        ]
+        source.spec.env_vars = SandboxTemplateSpecEnvVars.from_dict({"SDK_PY_E2E_MARKER": "created"})
 
         template_id = f"sdk-py-e2e-{time.time_ns()}"
         created = ensure_data(
@@ -59,19 +51,19 @@ class TestTemplates(unittest.TestCase):
 
         self.addCleanup(_cleanup)
         self.assertEqual(created.template_id, template_id)
-        self.assertEqual(len(created.spec.warm_processes), 1)
-        self.assertEqual(created.spec.warm_processes[0].type_, WarmProcessSpecType.CMD)
+        self.assertEqual(created.spec.env_vars.additional_properties["SDK_PY_E2E_MARKER"], "created")
 
         fetched = ensure_data(get_template(client=client.api, id=template_id), SuccessTemplateResponse)
         self.assertEqual(fetched.template_id, template_id)
-        self.assertEqual(len(fetched.spec.warm_processes), 1)
+        self.assertEqual(fetched.spec.env_vars.additional_properties["SDK_PY_E2E_MARKER"], "created")
 
         updated_spec = fetched.spec
         updated_spec.display_name = "SDK PY E2E Updated"
+        updated_spec.env_vars = SandboxTemplateSpecEnvVars.from_dict({"SDK_PY_E2E_MARKER": "updated"})
         update_req = TemplateUpdateRequest(spec=updated_spec)
         updated = ensure_data(update_template(client=client.api, id=template_id, body=update_req), SuccessTemplateResponse)
         self.assertEqual(updated.template_id, template_id)
-        self.assertEqual(len(updated.spec.warm_processes), 1)
+        self.assertEqual(updated.spec.env_vars.additional_properties["SDK_PY_E2E_MARKER"], "updated")
 
         ensure_model(delete_template(client=client.api, id=template_id), SuccessMessageResponse)
         deleted = True

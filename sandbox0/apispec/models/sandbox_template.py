@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_template_spec import SandboxTemplateSpec
   from ..models.object_meta import ObjectMeta
+  from ..models.sandbox_template_spec import SandboxTemplateSpec
   from ..models.sandbox_template_status import SandboxTemplateStatus
 
 
@@ -25,7 +25,7 @@ T = TypeVar("T", bound="SandboxTemplate")
 
 @_attrs_define
 class SandboxTemplate:
-    """ 
+    """
         Attributes:
             api_version (Union[Unset, str]):
             kind (Union[Unset, str]):
@@ -46,8 +46,8 @@ class SandboxTemplate:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_template_spec import SandboxTemplateSpec
         from ..models.object_meta import ObjectMeta
+        from ..models.sandbox_template_spec import SandboxTemplateSpec
         from ..models.sandbox_template_status import SandboxTemplateStatus
         api_version = self.api_version
 
@@ -87,8 +87,8 @@ class SandboxTemplate:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_template_spec import SandboxTemplateSpec
         from ..models.object_meta import ObjectMeta
+        from ..models.sandbox_template_spec import SandboxTemplateSpec
         from ..models.sandbox_template_status import SandboxTemplateStatus
         d = dict(src_dict)
         api_version = d.pop("apiVersion", UNSET)

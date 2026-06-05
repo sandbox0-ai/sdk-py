@@ -12,10 +12,10 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.create_repl_context_request import CreateREPLContextRequest
-  from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
   from ..models.pty_size import PTYSize
   from ..models.create_cmd_context_request import CreateCMDContextRequest
+  from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+  from ..models.create_repl_context_request import CreateREPLContextRequest
 
 
 
@@ -27,7 +27,7 @@ T = TypeVar("T", bound="CreateContextRequest")
 
 @_attrs_define
 class CreateContextRequest:
-    """ 
+    """
         Attributes:
             type_ (Union[Unset, ProcessType]):
             repl (Union[Unset, CreateREPLContextRequest]):
@@ -56,10 +56,10 @@ class CreateContextRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.create_repl_context_request import CreateREPLContextRequest
-        from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
         from ..models.pty_size import PTYSize
         from ..models.create_cmd_context_request import CreateCMDContextRequest
+        from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+        from ..models.create_repl_context_request import CreateREPLContextRequest
         type_: Union[Unset, str] = UNSET
         if not isinstance(self.type_, Unset):
             type_ = self.type_.value
@@ -119,10 +119,10 @@ class CreateContextRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.create_repl_context_request import CreateREPLContextRequest
-        from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
         from ..models.pty_size import PTYSize
         from ..models.create_cmd_context_request import CreateCMDContextRequest
+        from ..models.create_context_request_env_vars import CreateContextRequestEnvVars
+        from ..models.create_repl_context_request import CreateREPLContextRequest
         d = dict(src_dict)
         _type_ = d.pop("type", UNSET)
         type_: Union[Unset, ProcessType]
