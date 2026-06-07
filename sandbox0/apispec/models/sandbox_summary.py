@@ -14,8 +14,6 @@ from typing import cast, Union
 from typing import Union
 import datetime
 
-if TYPE_CHECKING:
-  from ..models.sandbox_power_state import SandboxPowerState
 
 
 
@@ -32,11 +30,12 @@ class SandboxSummary:
             id (str):
             template_id (str):
             status (SandboxLifecycleStatus):
-            paused (bool):
-            power_state (SandboxPowerState):
+            paused (bool): True when status is paused and no runtime is attached.
+            runtime_generation (int): Monotonically increasing runtime generation. Resume starts a new generation.
             created_at (datetime.datetime):
             expires_at (datetime.datetime):
             hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
+            updated_at (datetime.datetime):
             cluster_id (Union[None, Unset, str]): Cluster where sandbox runs (multi-cluster only)
      """
 
@@ -44,10 +43,11 @@ class SandboxSummary:
     template_id: str
     status: SandboxLifecycleStatus
     paused: bool
-    power_state: 'SandboxPowerState'
+    runtime_generation: int
     created_at: datetime.datetime
     expires_at: datetime.datetime
     hard_expires_at: datetime.datetime
+    updated_at: datetime.datetime
     cluster_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -56,7 +56,6 @@ class SandboxSummary:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_power_state import SandboxPowerState
         id = self.id
 
         template_id = self.template_id
@@ -65,13 +64,15 @@ class SandboxSummary:
 
         paused = self.paused
 
-        power_state = self.power_state.to_dict()
+        runtime_generation = self.runtime_generation
 
         created_at = self.created_at.isoformat()
 
         expires_at = self.expires_at.isoformat()
 
         hard_expires_at = self.hard_expires_at.isoformat()
+
+        updated_at = self.updated_at.isoformat()
 
         cluster_id: Union[None, Unset, str]
         if isinstance(self.cluster_id, Unset):
@@ -87,10 +88,11 @@ class SandboxSummary:
             "template_id": template_id,
             "status": status,
             "paused": paused,
-            "power_state": power_state,
+            "runtime_generation": runtime_generation,
             "created_at": created_at,
             "expires_at": expires_at,
             "hard_expires_at": hard_expires_at,
+            "updated_at": updated_at,
         })
         if cluster_id is not UNSET:
             field_dict["cluster_id"] = cluster_id
@@ -101,7 +103,6 @@ class SandboxSummary:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_power_state import SandboxPowerState
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -114,10 +115,7 @@ class SandboxSummary:
 
         paused = d.pop("paused")
 
-        power_state = SandboxPowerState.from_dict(d.pop("power_state"))
-
-
-
+        runtime_generation = d.pop("runtime_generation")
 
         created_at = isoparse(d.pop("created_at"))
 
@@ -130,6 +128,11 @@ class SandboxSummary:
 
 
         hard_expires_at = isoparse(d.pop("hard_expires_at"))
+
+
+
+
+        updated_at = isoparse(d.pop("updated_at"))
 
 
 
@@ -149,10 +152,11 @@ class SandboxSummary:
             template_id=template_id,
             status=status,
             paused=paused,
-            power_state=power_state,
+            runtime_generation=runtime_generation,
             created_at=created_at,
             expires_at=expires_at,
             hard_expires_at=hard_expires_at,
+            updated_at=updated_at,
             cluster_id=cluster_id,
         )
 

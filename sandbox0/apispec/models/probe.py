@@ -26,7 +26,7 @@ T = TypeVar("T", bound="Probe")
 
 @_attrs_define
 class Probe:
-    """
+    """ 
         Attributes:
             exec_ (Union[Unset, ExecAction]):
             http_get (Union[Unset, HTTPGetAction]):

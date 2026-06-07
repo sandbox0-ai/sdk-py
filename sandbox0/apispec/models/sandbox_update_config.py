@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service import SandboxAppService
   from ..models.sandbox_network_policy import SandboxNetworkPolicy
+  from ..models.sandbox_app_service import SandboxAppService
 
 
 
@@ -28,9 +28,10 @@ class SandboxUpdateConfig:
     Note: env_vars and webhook are not included as they only affect new processes or require restart.
 
         Attributes:
-            ttl (Union[Unset, int]):
-            hard_ttl (Union[Unset, int]): Hard time-to-live in seconds. When it expires, Sandbox0 cleans the runtime pod and
-                preserves the sandbox identity, services, and public URLs until the sandbox is explicitly deleted.
+            ttl (Union[Unset, int]): Runtime soft time-to-live in seconds. When it expires, Sandbox0 checkpoints the
+                writable rootfs, pauses the sandbox, and releases runtime compute while preserving durable sandbox state.
+            hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the
+                sandbox identity and durable state, including paused rootfs checkpoints.
             network (Union[Unset, SandboxNetworkPolicy]):
             auto_resume (Union[Unset, bool]): Sandbox-level resume gate for paused sandboxes. When false, any inbound
                 request
@@ -51,8 +52,8 @@ class SandboxUpdateConfig:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_app_service import SandboxAppService
         ttl = self.ttl
 
         hard_ttl = self.hard_ttl
@@ -94,8 +95,8 @@ class SandboxUpdateConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_app_service import SandboxAppService
         d = dict(src_dict)
         ttl = d.pop("ttl", UNSET)
 

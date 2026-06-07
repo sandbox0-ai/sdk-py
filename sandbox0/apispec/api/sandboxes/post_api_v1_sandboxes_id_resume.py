@@ -55,6 +55,20 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
 
         return response_409
 
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+
+
+        return response_503
+
     if response.status_code == 504:
         response_504 = ErrorEnvelope.from_dict(response.json())
 

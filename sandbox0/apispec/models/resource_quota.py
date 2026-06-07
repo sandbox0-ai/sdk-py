@@ -20,7 +20,7 @@ T = TypeVar("T", bound="ResourceQuota")
 
 @_attrs_define
 class ResourceQuota:
-    """
+    """ 
         Attributes:
             cpu (Union[Unset, str]):
             memory (Union[Unset, str]):

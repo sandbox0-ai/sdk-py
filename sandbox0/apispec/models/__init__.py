@@ -166,10 +166,6 @@ from .sandbox_function_source_type import SandboxFunctionSourceType
 from .sandbox_lifecycle_status import SandboxLifecycleStatus
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
-from .sandbox_power_state import SandboxPowerState
-from .sandbox_power_state_desired import SandboxPowerStateDesired
-from .sandbox_power_state_observed import SandboxPowerStateObserved
-from .sandbox_power_state_phase import SandboxPowerStatePhase
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_services_update_request import SandboxServicesUpdateRequest
@@ -467,10 +463,6 @@ __all__ = (
     "SandboxLifecycleStatus",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
-    "SandboxPowerState",
-    "SandboxPowerStateDesired",
-    "SandboxPowerStateObserved",
-    "SandboxPowerStatePhase",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
     "SandboxServicesUpdateRequest",

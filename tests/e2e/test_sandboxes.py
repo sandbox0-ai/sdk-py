@@ -2,10 +2,10 @@ import unittest
 
 from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
-from sandbox0.apispec.models.get_api_v1_sandboxes_status import GetApiV1SandboxesStatus
 from sandbox0.apispec.models.mount_status_state import MountStatusState
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_config_env_vars import SandboxConfigEnvVars
+from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.sandbox_network_policy import SandboxNetworkPolicy
@@ -102,7 +102,7 @@ class TestSandboxes(unittest.TestCase):
 
         # Test list via client method
         sandboxes = client.list_sandboxes(
-            status=GetApiV1SandboxesStatus.RUNNING,
+            status=SandboxLifecycleStatus.RUNNING,
             limit=10,
         )
         self.assertIsInstance(sandboxes, list)
