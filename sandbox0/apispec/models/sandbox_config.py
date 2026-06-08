@@ -12,9 +12,9 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-  from ..models.sandbox_app_service import SandboxAppService
   from ..models.sandbox_network_policy import SandboxNetworkPolicy
   from ..models.webhook_config import WebhookConfig
+  from ..models.sandbox_app_service import SandboxAppService
 
 
 
@@ -26,12 +26,13 @@ T = TypeVar("T", bound="SandboxConfig")
 
 @_attrs_define
 class SandboxConfig:
-    """
+    """ 
         Attributes:
             env_vars (Union[Unset, SandboxConfigEnvVars]):
-            ttl (Union[Unset, int]):
-            hard_ttl (Union[Unset, int]): Hard time-to-live in seconds. When it expires, Sandbox0 cleans the runtime pod and
-                preserves the sandbox identity, services, and public URLs until the sandbox is explicitly deleted.
+            ttl (Union[Unset, int]): Runtime soft time-to-live in seconds. When it expires, Sandbox0 checkpoints the
+                writable rootfs, pauses the sandbox, and releases runtime compute while preserving durable sandbox state.
+            hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the
+                sandbox identity and durable state, including paused rootfs checkpoints.
             network (Union[Unset, SandboxNetworkPolicy]):
             webhook (Union[Unset, WebhookConfig]): Per-sandbox webhook configuration. Sandbox0 delivers webhook events at
                 least once and consumers should deduplicate by event_id. For sandbox lifecycle events, procd persists signed
@@ -59,9 +60,9 @@ class SandboxConfig:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.webhook_config import WebhookConfig
+        from ..models.sandbox_app_service import SandboxAppService
         env_vars: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
@@ -116,9 +117,9 @@ class SandboxConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.webhook_config import WebhookConfig
+        from ..models.sandbox_app_service import SandboxAppService
         d = dict(src_dict)
         _env_vars = d.pop("env_vars", UNSET)
         env_vars: Union[Unset, SandboxConfigEnvVars]

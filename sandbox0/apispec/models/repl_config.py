@@ -12,9 +12,9 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.repl_ready_config import REPLReadyConfig
-  from ..models.repl_env_var import REPLEnvVar
-  from ..models.exec_candidate import ExecCandidate
   from ..models.repl_prompt_config import REPLPromptConfig
+  from ..models.exec_candidate import ExecCandidate
+  from ..models.repl_env_var import REPLEnvVar
 
 
 
@@ -26,7 +26,7 @@ T = TypeVar("T", bound="REPLConfig")
 
 @_attrs_define
 class REPLConfig:
-    """
+    """ 
         Attributes:
             name (str):
             candidates (list['ExecCandidate']):
@@ -54,9 +54,9 @@ class REPLConfig:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.repl_ready_config import REPLReadyConfig
-        from ..models.repl_env_var import REPLEnvVar
-        from ..models.exec_candidate import ExecCandidate
         from ..models.repl_prompt_config import REPLPromptConfig
+        from ..models.exec_candidate import ExecCandidate
+        from ..models.repl_env_var import REPLEnvVar
         name = self.name
 
         candidates = []
@@ -116,9 +116,9 @@ class REPLConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.repl_ready_config import REPLReadyConfig
-        from ..models.repl_env_var import REPLEnvVar
-        from ..models.exec_candidate import ExecCandidate
         from ..models.repl_prompt_config import REPLPromptConfig
+        from ..models.exec_candidate import ExecCandidate
+        from ..models.repl_env_var import REPLEnvVar
         d = dict(src_dict)
         name = d.pop("name")
 

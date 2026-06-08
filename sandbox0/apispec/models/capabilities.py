@@ -21,7 +21,7 @@ T = TypeVar("T", bound="Capabilities")
 
 @_attrs_define
 class Capabilities:
-    """
+    """ 
         Attributes:
             add (Union[Unset, list[str]]):
             drop (Union[Unset, list[str]]):

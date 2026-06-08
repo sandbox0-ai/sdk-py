@@ -14,9 +14,8 @@ from typing import Union
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service import SandboxAppService
-  from ..models.sandbox_power_state import SandboxPowerState
   from ..models.sandbox_ssh_connection import SandboxSSHConnection
+  from ..models.sandbox_app_service import SandboxAppService
   from ..models.claim_mount_request import ClaimMountRequest
 
 
@@ -29,20 +28,21 @@ T = TypeVar("T", bound="Sandbox")
 
 @_attrs_define
 class Sandbox:
-    """
+    """ 
         Attributes:
             id (str):
             template_id (str):
             team_id (str):
             status (SandboxLifecycleStatus):
-            paused (bool):
-            power_state (SandboxPowerState):
+            paused (bool): True when status is paused and no runtime is attached.
             auto_resume (bool):
             pod_name (str):
+            runtime_generation (int): Monotonically increasing runtime generation. Resume starts a new generation.
             expires_at (datetime.datetime): Soft expiration timestamp. Zero value means not set.
             hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
             claimed_at (datetime.datetime):
             created_at (datetime.datetime):
+            updated_at (datetime.datetime):
             user_id (Union[Unset, str]):
             services (Union[Unset, list['SandboxAppService']]):
             mounts (Union[Unset, list['ClaimMountRequest']]):
@@ -54,13 +54,14 @@ class Sandbox:
     team_id: str
     status: SandboxLifecycleStatus
     paused: bool
-    power_state: 'SandboxPowerState'
     auto_resume: bool
     pod_name: str
+    runtime_generation: int
     expires_at: datetime.datetime
     hard_expires_at: datetime.datetime
     claimed_at: datetime.datetime
     created_at: datetime.datetime
+    updated_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
     services: Union[Unset, list['SandboxAppService']] = UNSET
     mounts: Union[Unset, list['ClaimMountRequest']] = UNSET
@@ -72,9 +73,8 @@ class Sandbox:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service import SandboxAppService
-        from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
+        from ..models.sandbox_app_service import SandboxAppService
         from ..models.claim_mount_request import ClaimMountRequest
         id = self.id
 
@@ -86,11 +86,11 @@ class Sandbox:
 
         paused = self.paused
 
-        power_state = self.power_state.to_dict()
-
         auto_resume = self.auto_resume
 
         pod_name = self.pod_name
+
+        runtime_generation = self.runtime_generation
 
         expires_at = self.expires_at.isoformat()
 
@@ -99,6 +99,8 @@ class Sandbox:
         claimed_at = self.claimed_at.isoformat()
 
         created_at = self.created_at.isoformat()
+
+        updated_at = self.updated_at.isoformat()
 
         user_id = self.user_id
 
@@ -133,13 +135,14 @@ class Sandbox:
             "team_id": team_id,
             "status": status,
             "paused": paused,
-            "power_state": power_state,
             "auto_resume": auto_resume,
             "pod_name": pod_name,
+            "runtime_generation": runtime_generation,
             "expires_at": expires_at,
             "hard_expires_at": hard_expires_at,
             "claimed_at": claimed_at,
             "created_at": created_at,
+            "updated_at": updated_at,
         })
         if user_id is not UNSET:
             field_dict["user_id"] = user_id
@@ -156,9 +159,8 @@ class Sandbox:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_app_service import SandboxAppService
-        from ..models.sandbox_power_state import SandboxPowerState
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
+        from ..models.sandbox_app_service import SandboxAppService
         from ..models.claim_mount_request import ClaimMountRequest
         d = dict(src_dict)
         id = d.pop("id")
@@ -174,14 +176,11 @@ class Sandbox:
 
         paused = d.pop("paused")
 
-        power_state = SandboxPowerState.from_dict(d.pop("power_state"))
-
-
-
-
         auto_resume = d.pop("auto_resume")
 
         pod_name = d.pop("pod_name")
+
+        runtime_generation = d.pop("runtime_generation")
 
         expires_at = isoparse(d.pop("expires_at"))
 
@@ -199,6 +198,11 @@ class Sandbox:
 
 
         created_at = isoparse(d.pop("created_at"))
+
+
+
+
+        updated_at = isoparse(d.pop("updated_at"))
 
 
 
@@ -241,13 +245,14 @@ class Sandbox:
             team_id=team_id,
             status=status,
             paused=paused,
-            power_state=power_state,
             auto_resume=auto_resume,
             pod_name=pod_name,
+            runtime_generation=runtime_generation,
             expires_at=expires_at,
             hard_expires_at=hard_expires_at,
             claimed_at=claimed_at,
             created_at=created_at,
+            updated_at=updated_at,
             user_id=user_id,
             services=services,
             mounts=mounts,

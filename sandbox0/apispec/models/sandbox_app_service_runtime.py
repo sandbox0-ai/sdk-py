@@ -25,7 +25,7 @@ T = TypeVar("T", bound="SandboxAppServiceRuntime")
 
 @_attrs_define
 class SandboxAppServiceRuntime:
-    """
+    """ 
         Attributes:
             type_ (SandboxAppServiceRuntimeType): Runtime strategy for restarting a service process.
             command (Union[Unset, list[str]]): Process argv used when type is cmd.

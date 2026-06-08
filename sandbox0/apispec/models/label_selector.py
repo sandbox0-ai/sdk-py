@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.label_selector_match_labels import LabelSelectorMatchLabels
   from ..models.label_selector_requirement import LabelSelectorRequirement
+  from ..models.label_selector_match_labels import LabelSelectorMatchLabels
 
 
 
@@ -24,7 +24,7 @@ T = TypeVar("T", bound="LabelSelector")
 
 @_attrs_define
 class LabelSelector:
-    """
+    """ 
         Attributes:
             match_labels (Union[Unset, LabelSelectorMatchLabels]):
             match_expressions (Union[Unset, list['LabelSelectorRequirement']]):
@@ -39,8 +39,8 @@ class LabelSelector:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.label_selector_match_labels import LabelSelectorMatchLabels
         from ..models.label_selector_requirement import LabelSelectorRequirement
+        from ..models.label_selector_match_labels import LabelSelectorMatchLabels
         match_labels: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.match_labels, Unset):
             match_labels = self.match_labels.to_dict()
@@ -70,8 +70,8 @@ class LabelSelector:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.label_selector_match_labels import LabelSelectorMatchLabels
         from ..models.label_selector_requirement import LabelSelectorRequirement
+        from ..models.label_selector_match_labels import LabelSelectorMatchLabels
         d = dict(src_dict)
         _match_labels = d.pop("matchLabels", UNSET)
         match_labels: Union[Unset, LabelSelectorMatchLabels]
