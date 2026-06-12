@@ -13,8 +13,8 @@ from typing import Union
 if TYPE_CHECKING:
   from ..models.exec_action import ExecAction
   from ..models.http_get_action import HTTPGetAction
-  from ..models.grpc_action import GRPCAction
   from ..models.tcp_socket_action import TCPSocketAction
+  from ..models.grpc_action import GRPCAction
 
 
 
@@ -59,8 +59,8 @@ class Probe:
     def to_dict(self) -> dict[str, Any]:
         from ..models.exec_action import ExecAction
         from ..models.http_get_action import HTTPGetAction
-        from ..models.grpc_action import GRPCAction
         from ..models.tcp_socket_action import TCPSocketAction
+        from ..models.grpc_action import GRPCAction
         exec_: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.exec_, Unset):
             exec_ = self.exec_.to_dict()
@@ -123,8 +123,8 @@ class Probe:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.exec_action import ExecAction
         from ..models.http_get_action import HTTPGetAction
-        from ..models.grpc_action import GRPCAction
         from ..models.tcp_socket_action import TCPSocketAction
+        from ..models.grpc_action import GRPCAction
         d = dict(src_dict)
         _exec_ = d.pop("exec", UNSET)
         exec_: Union[Unset, ExecAction]

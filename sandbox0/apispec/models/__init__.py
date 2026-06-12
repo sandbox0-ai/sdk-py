@@ -90,6 +90,9 @@ from .http_get_action import HTTPGetAction
 from .http_header import HTTPHeader
 from .http_headers_projection import HTTPHeadersProjection
 from .http_match import HTTPMatch
+from .http_method_policy import HTTPMethodPolicy
+from .http_path_policy import HTTPPathPolicy
+from .http_protocol_rule import HTTPProtocolRule
 from .http_value_match import HTTPValueMatch
 from .identity import Identity
 from .label_selector import LabelSelector
@@ -387,6 +390,9 @@ __all__ = (
     "HTTPHeader",
     "HTTPHeadersProjection",
     "HTTPMatch",
+    "HTTPMethodPolicy",
+    "HTTPPathPolicy",
+    "HTTPProtocolRule",
     "HTTPValueMatch",
     "Identity",
     "LabelSelector",
