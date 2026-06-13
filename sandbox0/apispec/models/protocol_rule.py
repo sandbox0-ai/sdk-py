@@ -13,9 +13,10 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
+  from ..models.http_protocol_rule import HTTPProtocolRule
+  from ..models.port_spec import PortSpec
   from ..models.mcp_protocol_rule import MCPProtocolRule
   from ..models.http_match import HTTPMatch
-  from ..models.port_spec import PortSpec
 
 
 
@@ -36,6 +37,7 @@ class ProtocolRule:
             ports (Union[Unset, list['PortSpec']]): Port/protocol constraints for the rule.
             tls_mode (Union[Unset, EgressTLSMode]):
             http_match (Union[Unset, HTTPMatch]): Request-level matcher for HTTP-family egress credential rules.
+            http (Union[Unset, HTTPProtocolRule]): HTTP request operation policy.
             mcp (Union[Unset, MCPProtocolRule]): Model Context Protocol operation policy.
      """
 
@@ -45,6 +47,7 @@ class ProtocolRule:
     ports: Union[Unset, list['PortSpec']] = UNSET
     tls_mode: Union[Unset, EgressTLSMode] = UNSET
     http_match: Union[Unset, 'HTTPMatch'] = UNSET
+    http: Union[Unset, 'HTTPProtocolRule'] = UNSET
     mcp: Union[Unset, 'MCPProtocolRule'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -53,9 +56,10 @@ class ProtocolRule:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.http_protocol_rule import HTTPProtocolRule
+        from ..models.port_spec import PortSpec
         from ..models.mcp_protocol_rule import MCPProtocolRule
         from ..models.http_match import HTTPMatch
-        from ..models.port_spec import PortSpec
         protocol = self.protocol.value
 
         name = self.name
@@ -84,6 +88,10 @@ class ProtocolRule:
         if not isinstance(self.http_match, Unset):
             http_match = self.http_match.to_dict()
 
+        http: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.http, Unset):
+            http = self.http.to_dict()
+
         mcp: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.mcp, Unset):
             mcp = self.mcp.to_dict()
@@ -104,6 +112,8 @@ class ProtocolRule:
             field_dict["tlsMode"] = tls_mode
         if http_match is not UNSET:
             field_dict["httpMatch"] = http_match
+        if http is not UNSET:
+            field_dict["http"] = http
         if mcp is not UNSET:
             field_dict["mcp"] = mcp
 
@@ -113,9 +123,10 @@ class ProtocolRule:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.http_protocol_rule import HTTPProtocolRule
+        from ..models.port_spec import PortSpec
         from ..models.mcp_protocol_rule import MCPProtocolRule
         from ..models.http_match import HTTPMatch
-        from ..models.port_spec import PortSpec
         d = dict(src_dict)
         protocol = ProtocolRuleProtocol(d.pop("protocol"))
 
@@ -157,6 +168,16 @@ class ProtocolRule:
 
 
 
+        _http = d.pop("http", UNSET)
+        http: Union[Unset, HTTPProtocolRule]
+        if isinstance(_http,  Unset):
+            http = UNSET
+        else:
+            http = HTTPProtocolRule.from_dict(_http)
+
+
+
+
         _mcp = d.pop("mcp", UNSET)
         mcp: Union[Unset, MCPProtocolRule]
         if isinstance(_mcp,  Unset):
@@ -174,6 +195,7 @@ class ProtocolRule:
             ports=ports,
             tls_mode=tls_mode,
             http_match=http_match,
+            http=http,
             mcp=mcp,
         )
 

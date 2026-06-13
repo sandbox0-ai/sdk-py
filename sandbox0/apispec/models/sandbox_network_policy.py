@@ -12,8 +12,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.credential_binding import CredentialBinding
   from ..models.network_egress_policy import NetworkEgressPolicy
+  from ..models.credential_binding import CredentialBinding
 
 
 
@@ -46,8 +46,8 @@ class SandboxNetworkPolicy:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.credential_binding import CredentialBinding
         from ..models.network_egress_policy import NetworkEgressPolicy
+        from ..models.credential_binding import CredentialBinding
         mode = self.mode.value
 
         egress: Union[Unset, dict[str, Any]] = UNSET
@@ -80,8 +80,8 @@ class SandboxNetworkPolicy:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.credential_binding import CredentialBinding
         from ..models.network_egress_policy import NetworkEgressPolicy
+        from ..models.credential_binding import CredentialBinding
         d = dict(src_dict)
         mode = SandboxNetworkPolicyMode(d.pop("mode"))
 

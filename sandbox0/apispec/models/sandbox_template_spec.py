@@ -11,13 +11,13 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.lifecycle_policy import LifecyclePolicy
-  from ..models.container_spec import ContainerSpec
-  from ..models.pool_strategy import PoolStrategy
   from ..models.pod_spec_override import PodSpecOverride
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
+  from ..models.container_spec import ContainerSpec
   from ..models.volume_mount_spec import VolumeMountSpec
+  from ..models.pool_strategy import PoolStrategy
+  from ..models.sandbox_network_policy import SandboxNetworkPolicy
   from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+  from ..models.lifecycle_policy import LifecyclePolicy
 
 
 
@@ -66,13 +66,13 @@ class SandboxTemplateSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.lifecycle_policy import LifecyclePolicy
-        from ..models.container_spec import ContainerSpec
-        from ..models.pool_strategy import PoolStrategy
         from ..models.pod_spec_override import PodSpecOverride
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.container_spec import ContainerSpec
         from ..models.volume_mount_spec import VolumeMountSpec
+        from ..models.pool_strategy import PoolStrategy
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+        from ..models.lifecycle_policy import LifecyclePolicy
         description = self.description
 
         display_name = self.display_name
@@ -164,13 +164,13 @@ class SandboxTemplateSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.lifecycle_policy import LifecyclePolicy
-        from ..models.container_spec import ContainerSpec
-        from ..models.pool_strategy import PoolStrategy
         from ..models.pod_spec_override import PodSpecOverride
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.container_spec import ContainerSpec
         from ..models.volume_mount_spec import VolumeMountSpec
+        from ..models.pool_strategy import PoolStrategy
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+        from ..models.lifecycle_policy import LifecyclePolicy
         d = dict(src_dict)
         description = d.pop("description", UNSET)
 
