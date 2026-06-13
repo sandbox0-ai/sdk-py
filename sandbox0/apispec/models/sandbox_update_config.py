@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
   from ..models.sandbox_app_service import SandboxAppService
+  from ..models.sandbox_network_policy import SandboxNetworkPolicy
 
 
 
@@ -52,8 +52,8 @@ class SandboxUpdateConfig:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         ttl = self.ttl
 
         hard_ttl = self.hard_ttl
@@ -95,8 +95,8 @@ class SandboxUpdateConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         d = dict(src_dict)
         ttl = d.pop("ttl", UNSET)
 

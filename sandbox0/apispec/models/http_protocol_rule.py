@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.http_path_policy import HTTPPathPolicy
   from ..models.http_method_policy import HTTPMethodPolicy
+  from ..models.http_path_policy import HTTPPathPolicy
 
 
 
@@ -40,8 +40,8 @@ class HTTPProtocolRule:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.http_path_policy import HTTPPathPolicy
         from ..models.http_method_policy import HTTPMethodPolicy
+        from ..models.http_path_policy import HTTPPathPolicy
         methods: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.methods, Unset):
             methods = self.methods.to_dict()
@@ -66,8 +66,8 @@ class HTTPProtocolRule:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.http_path_policy import HTTPPathPolicy
         from ..models.http_method_policy import HTTPMethodPolicy
+        from ..models.http_path_policy import HTTPPathPolicy
         d = dict(src_dict)
         _methods = d.pop("methods", UNSET)
         methods: Union[Unset, HTTPMethodPolicy]
