@@ -14,8 +14,8 @@ from typing import Union
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.claim_mount_request import ClaimMountRequest
   from ..models.sandbox_app_service import SandboxAppService
+  from ..models.claim_mount_request import ClaimMountRequest
   from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
 
@@ -73,8 +73,8 @@ class Sandbox:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
         id = self.id
 
@@ -159,8 +159,8 @@ class Sandbox:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
         d = dict(src_dict)
         id = d.pop("id")

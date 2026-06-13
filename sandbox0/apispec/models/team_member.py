@@ -6,8 +6,10 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
+from typing import Union
 import datetime
 
 
@@ -28,6 +30,9 @@ class TeamMember:
             user_id (str):
             role (str):
             joined_at (datetime.datetime):
+            email (Union[Unset, str]): User email address. Present in team member list responses.
+            name (Union[Unset, str]): User display name. Present in team member list responses.
+            avatar_url (Union[Unset, str]): User avatar URL. Present in team member list responses.
      """
 
     id: str
@@ -35,6 +40,9 @@ class TeamMember:
     user_id: str
     role: str
     joined_at: datetime.datetime
+    email: Union[Unset, str] = UNSET
+    name: Union[Unset, str] = UNSET
+    avatar_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -52,6 +60,12 @@ class TeamMember:
 
         joined_at = self.joined_at.isoformat()
 
+        email = self.email
+
+        name = self.name
+
+        avatar_url = self.avatar_url
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -62,6 +76,12 @@ class TeamMember:
             "role": role,
             "joined_at": joined_at,
         })
+        if email is not UNSET:
+            field_dict["email"] = email
+        if name is not UNSET:
+            field_dict["name"] = name
+        if avatar_url is not UNSET:
+            field_dict["avatar_url"] = avatar_url
 
         return field_dict
 
@@ -83,12 +103,21 @@ class TeamMember:
 
 
 
+        email = d.pop("email", UNSET)
+
+        name = d.pop("name", UNSET)
+
+        avatar_url = d.pop("avatar_url", UNSET)
+
         team_member = cls(
             id=id,
             team_id=team_id,
             user_id=user_id,
             role=role,
             joined_at=joined_at,
+            email=email,
+            name=name,
+            avatar_url=avatar_url,
         )
 
 

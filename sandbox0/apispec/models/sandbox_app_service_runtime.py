@@ -12,8 +12,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
   from ..models.sandbox_function import SandboxFunction
+  from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
 
 
 
@@ -47,8 +47,8 @@ class SandboxAppServiceRuntime:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
         from ..models.sandbox_function import SandboxFunction
+        from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
         type_ = self.type_.value
 
         command: Union[Unset, list[str]] = UNSET
@@ -88,8 +88,8 @@ class SandboxAppServiceRuntime:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
         from ..models.sandbox_function import SandboxFunction
+        from ..models.sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
         d = dict(src_dict)
         type_ = SandboxAppServiceRuntimeType(d.pop("type"))
 
