@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.pod_affinity_term import PodAffinityTerm
   from ..models.weighted_pod_affinity_term import WeightedPodAffinityTerm
+  from ..models.pod_affinity_term import PodAffinityTerm
 
 
 
@@ -39,8 +39,8 @@ class PodAffinity:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.pod_affinity_term import PodAffinityTerm
         from ..models.weighted_pod_affinity_term import WeightedPodAffinityTerm
+        from ..models.pod_affinity_term import PodAffinityTerm
         required_during_scheduling_ignored_during_execution: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.required_during_scheduling_ignored_during_execution, Unset):
             required_during_scheduling_ignored_during_execution = []
@@ -75,8 +75,8 @@ class PodAffinity:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.pod_affinity_term import PodAffinityTerm
         from ..models.weighted_pod_affinity_term import WeightedPodAffinityTerm
+        from ..models.pod_affinity_term import PodAffinityTerm
         d = dict(src_dict)
         required_during_scheduling_ignored_during_execution = []
         _required_during_scheduling_ignored_during_execution = d.pop("requiredDuringSchedulingIgnoredDuringExecution", UNSET)

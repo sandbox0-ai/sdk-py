@@ -115,6 +115,9 @@ from .object_meta import ObjectMeta
 from .object_meta_annotations import ObjectMetaAnnotations
 from .object_meta_labels import ObjectMetaLabels
 from .pause_sandbox_response import PauseSandboxResponse
+from .placeholder_replacement import PlaceholderReplacement
+from .placeholder_substitution_location import PlaceholderSubstitutionLocation
+from .placeholder_substitution_projection import PlaceholderSubstitutionProjection
 from .pod_affinity import PodAffinity
 from .pod_affinity_term import PodAffinityTerm
 from .pod_spec_override import PodSpecOverride
@@ -285,6 +288,7 @@ from .toleration import Toleration
 from .traffic_rule import TrafficRule
 from .traffic_rule_action import TrafficRuleAction
 from .traffic_rule_app_protocol import TrafficRuleAppProtocol
+from .transfer_team_owner_request import TransferTeamOwnerRequest
 from .update_region_request import UpdateRegionRequest
 from .update_team_member_request import UpdateTeamMemberRequest
 from .update_team_member_request_role import UpdateTeamMemberRequestRole
@@ -415,6 +419,9 @@ __all__ = (
     "ObjectMetaAnnotations",
     "ObjectMetaLabels",
     "PauseSandboxResponse",
+    "PlaceholderReplacement",
+    "PlaceholderSubstitutionLocation",
+    "PlaceholderSubstitutionProjection",
     "PodAffinity",
     "PodAffinityTerm",
     "PodSpecOverride",
@@ -585,6 +592,7 @@ __all__ = (
     "TrafficRule",
     "TrafficRuleAction",
     "TrafficRuleAppProtocol",
+    "TransferTeamOwnerRequest",
     "UpdateRegionRequest",
     "UpdateTeamMemberRequest",
     "UpdateTeamMemberRequestRole",
