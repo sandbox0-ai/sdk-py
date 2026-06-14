@@ -8,49 +8,54 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error_envelope import ErrorEnvelope
-from ...models.success_team_member_list_response import SuccessTeamMemberListResponse
-from ...types import UNSET, Unset
+from ...models.success_team_response import SuccessTeamResponse
+from ...models.transfer_team_owner_request import TransferTeamOwnerRequest
 from typing import cast
-from typing import Union
 
 
 
 def _get_kwargs(
     id: str,
     *,
-    query: Union[Unset, str] = UNSET,
+    body: TransferTeamOwnerRequest,
 
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
+
     
 
     
-
-    params: dict[str, Any] = {}
-
-    params["query"] = query
-
-
-    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
 
     _kwargs: dict[str, Any] = {
-        "method": "get",
-        "url": "/teams/{id}/members".format(id=id,),
-        "params": params,
+        "method": "put",
+        "url": "/teams/{id}/owner".format(id=id,),
     }
 
+    _kwargs["json"] = body.to_dict()
 
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessTeamResponse]]:
     if response.status_code == 200:
-        response_200 = SuccessTeamMemberListResponse.from_dict(response.json())
+        response_200 = SuccessTeamResponse.from_dict(response.json())
 
 
 
         return response_200
+
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+
+
+        return response_400
 
     if response.status_code == 403:
         response_403 = ErrorEnvelope.from_dict(response.json())
@@ -59,13 +64,20 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = ErrorEnvelope.from_dict(response.json())
+
+
+
+        return response_404
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessTeamResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -78,27 +90,29 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    query: Union[Unset, str] = UNSET,
+    body: TransferTeamOwnerRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+) -> Response[Union[ErrorEnvelope, SuccessTeamResponse]]:
+    """ Transfer team ownership
+
+     Transfers ownership to an existing team member and promotes the new owner to admin if needed.
 
     Args:
         id (str):
-        query (Union[Unset, str]):
+        body (TransferTeamOwnerRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]
+        Response[Union[ErrorEnvelope, SuccessTeamResponse]]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
-query=query,
+body=body,
 
     )
 
@@ -112,28 +126,30 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
-    query: Union[Unset, str] = UNSET,
+    body: TransferTeamOwnerRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+) -> Optional[Union[ErrorEnvelope, SuccessTeamResponse]]:
+    """ Transfer team ownership
+
+     Transfers ownership to an existing team member and promotes the new owner to admin if needed.
 
     Args:
         id (str):
-        query (Union[Unset, str]):
+        body (TransferTeamOwnerRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessTeamMemberListResponse]
+        Union[ErrorEnvelope, SuccessTeamResponse]
      """
 
 
     return sync_detailed(
         id=id,
 client=client,
-query=query,
+body=body,
 
     ).parsed
 
@@ -141,27 +157,29 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    query: Union[Unset, str] = UNSET,
+    body: TransferTeamOwnerRequest,
 
-) -> Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+) -> Response[Union[ErrorEnvelope, SuccessTeamResponse]]:
+    """ Transfer team ownership
+
+     Transfers ownership to an existing team member and promotes the new owner to admin if needed.
 
     Args:
         id (str):
-        query (Union[Unset, str]):
+        body (TransferTeamOwnerRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]
+        Response[Union[ErrorEnvelope, SuccessTeamResponse]]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
-query=query,
+body=body,
 
     )
 
@@ -175,27 +193,29 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
-    query: Union[Unset, str] = UNSET,
+    body: TransferTeamOwnerRequest,
 
-) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+) -> Optional[Union[ErrorEnvelope, SuccessTeamResponse]]:
+    """ Transfer team ownership
+
+     Transfers ownership to an existing team member and promotes the new owner to admin if needed.
 
     Args:
         id (str):
-        query (Union[Unset, str]):
+        body (TransferTeamOwnerRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ErrorEnvelope, SuccessTeamMemberListResponse]
+        Union[ErrorEnvelope, SuccessTeamResponse]
      """
 
 
     return (await asyncio_detailed(
         id=id,
 client=client,
-query=query,
+body=body,
 
     )).parsed

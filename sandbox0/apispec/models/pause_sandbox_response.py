@@ -6,6 +6,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
 from typing import cast
 from typing import Union
@@ -26,7 +27,8 @@ class PauseSandboxResponse:
     """ 
         Attributes:
             sandbox_id (str):
-            paused (bool):
+            paused (bool): True when checkpoint completion has finished and the sandbox is paused.
+            status (Union[Unset, SandboxLifecycleStatus]):
             resource_usage (Union[Unset, SandboxResourceUsage]):
             updated_memory (Union[Unset, str]):
             updated_cpu (Union[Unset, str]):
@@ -34,6 +36,7 @@ class PauseSandboxResponse:
 
     sandbox_id: str
     paused: bool
+    status: Union[Unset, SandboxLifecycleStatus] = UNSET
     resource_usage: Union[Unset, 'SandboxResourceUsage'] = UNSET
     updated_memory: Union[Unset, str] = UNSET
     updated_cpu: Union[Unset, str] = UNSET
@@ -48,6 +51,11 @@ class PauseSandboxResponse:
         sandbox_id = self.sandbox_id
 
         paused = self.paused
+
+        status: Union[Unset, str] = UNSET
+        if not isinstance(self.status, Unset):
+            status = self.status.value
+
 
         resource_usage: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.resource_usage, Unset):
@@ -64,6 +72,8 @@ class PauseSandboxResponse:
             "sandbox_id": sandbox_id,
             "paused": paused,
         })
+        if status is not UNSET:
+            field_dict["status"] = status
         if resource_usage is not UNSET:
             field_dict["resource_usage"] = resource_usage
         if updated_memory is not UNSET:
@@ -83,6 +93,16 @@ class PauseSandboxResponse:
 
         paused = d.pop("paused")
 
+        _status = d.pop("status", UNSET)
+        status: Union[Unset, SandboxLifecycleStatus]
+        if isinstance(_status,  Unset):
+            status = UNSET
+        else:
+            status = SandboxLifecycleStatus(_status)
+
+
+
+
         _resource_usage = d.pop("resource_usage", UNSET)
         resource_usage: Union[Unset, SandboxResourceUsage]
         if isinstance(_resource_usage,  Unset):
@@ -100,6 +120,7 @@ class PauseSandboxResponse:
         pause_sandbox_response = cls(
             sandbox_id=sandbox_id,
             paused=paused,
+            status=status,
             resource_usage=resource_usage,
             updated_memory=updated_memory,
             updated_cpu=updated_cpu,

@@ -12,10 +12,11 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.ssh_proxy_projection import SSHProxyProjection
-  from ..models.http_headers_projection import HTTPHeadersProjection
-  from ..models.username_password_projection import UsernamePasswordProjection
   from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
+  from ..models.username_password_projection import UsernamePasswordProjection
+  from ..models.http_headers_projection import HTTPHeadersProjection
+  from ..models.ssh_proxy_projection import SSHProxyProjection
+  from ..models.placeholder_substitution_projection import PlaceholderSubstitutionProjection
 
 
 
@@ -31,6 +32,7 @@ class ProjectionSpec:
         Attributes:
             type_ (CredentialProjectionType):
             http_headers (Union[Unset, HTTPHeadersProjection]):
+            placeholder_substitution (Union[Unset, PlaceholderSubstitutionProjection]):
             tls_client_certificate (Union[Unset, TLSClientCertificateProjection]): Client certificate projection used for
                 TLS terminate-reoriginate auth.
             username_password (Union[Unset, UsernamePasswordProjection]): Username/password projection used for SOCKS5 and
@@ -41,6 +43,7 @@ class ProjectionSpec:
 
     type_: CredentialProjectionType
     http_headers: Union[Unset, 'HTTPHeadersProjection'] = UNSET
+    placeholder_substitution: Union[Unset, 'PlaceholderSubstitutionProjection'] = UNSET
     tls_client_certificate: Union[Unset, 'TLSClientCertificateProjection'] = UNSET
     username_password: Union[Unset, 'UsernamePasswordProjection'] = UNSET
     ssh_proxy: Union[Unset, 'SSHProxyProjection'] = UNSET
@@ -51,15 +54,20 @@ class ProjectionSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.ssh_proxy_projection import SSHProxyProjection
-        from ..models.http_headers_projection import HTTPHeadersProjection
-        from ..models.username_password_projection import UsernamePasswordProjection
         from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
+        from ..models.username_password_projection import UsernamePasswordProjection
+        from ..models.http_headers_projection import HTTPHeadersProjection
+        from ..models.ssh_proxy_projection import SSHProxyProjection
+        from ..models.placeholder_substitution_projection import PlaceholderSubstitutionProjection
         type_ = self.type_.value
 
         http_headers: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.http_headers, Unset):
             http_headers = self.http_headers.to_dict()
+
+        placeholder_substitution: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.placeholder_substitution, Unset):
+            placeholder_substitution = self.placeholder_substitution.to_dict()
 
         tls_client_certificate: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.tls_client_certificate, Unset):
@@ -81,6 +89,8 @@ class ProjectionSpec:
         })
         if http_headers is not UNSET:
             field_dict["httpHeaders"] = http_headers
+        if placeholder_substitution is not UNSET:
+            field_dict["placeholderSubstitution"] = placeholder_substitution
         if tls_client_certificate is not UNSET:
             field_dict["tlsClientCertificate"] = tls_client_certificate
         if username_password is not UNSET:
@@ -94,10 +104,11 @@ class ProjectionSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.ssh_proxy_projection import SSHProxyProjection
-        from ..models.http_headers_projection import HTTPHeadersProjection
-        from ..models.username_password_projection import UsernamePasswordProjection
         from ..models.tls_client_certificate_projection import TLSClientCertificateProjection
+        from ..models.username_password_projection import UsernamePasswordProjection
+        from ..models.http_headers_projection import HTTPHeadersProjection
+        from ..models.ssh_proxy_projection import SSHProxyProjection
+        from ..models.placeholder_substitution_projection import PlaceholderSubstitutionProjection
         d = dict(src_dict)
         type_ = CredentialProjectionType(d.pop("type"))
 
@@ -110,6 +121,16 @@ class ProjectionSpec:
             http_headers = UNSET
         else:
             http_headers = HTTPHeadersProjection.from_dict(_http_headers)
+
+
+
+
+        _placeholder_substitution = d.pop("placeholderSubstitution", UNSET)
+        placeholder_substitution: Union[Unset, PlaceholderSubstitutionProjection]
+        if isinstance(_placeholder_substitution,  Unset):
+            placeholder_substitution = UNSET
+        else:
+            placeholder_substitution = PlaceholderSubstitutionProjection.from_dict(_placeholder_substitution)
 
 
 
@@ -147,6 +168,7 @@ class ProjectionSpec:
         projection_spec = cls(
             type_=type_,
             http_headers=http_headers,
+            placeholder_substitution=placeholder_substitution,
             tls_client_certificate=tls_client_certificate,
             username_password=username_password,
             ssh_proxy=ssh_proxy,
