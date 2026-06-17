@@ -11,6 +11,12 @@ from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes_id_pause
 from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes_id_refresh
 from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes_id_resume
 from sandbox0.apispec.api.sandboxes import put_api_v1_sandboxes_id
+from sandbox0.apispec.api.sandbox_rootfs import delete_api_v1_sandbox_rootfs_snapshots_snapshot_id
+from sandbox0.apispec.api.sandbox_rootfs import get_api_v1_sandbox_rootfs_snapshots_snapshot_id
+from sandbox0.apispec.api.sandbox_rootfs import get_api_v1_sandboxes_id_snapshots
+from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_fork
+from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_rootfs_restore
+from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_snapshots
 from sandbox0.apispec.api.sandbox_volumes import delete_api_v1_sandboxvolumes_id
 from sandbox0.apispec.api.sandbox_volumes import get_api_v1_sandboxvolumes
 from sandbox0.apispec.api.sandbox_volumes import get_api_v1_sandboxvolumes_id
@@ -23,18 +29,24 @@ from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapsho
 from sandbox0.apispec.api.snapshots import post_api_v1_sandboxvolumes_id_snapshots_snapshot_id_restore
 from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.claim_request import ClaimRequest
+from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
 from sandbox0.apispec.models.file_info import FileInfo
+from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
+from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
 from sandbox0.apispec.models.fork_volume_request import ForkVolumeRequest
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.mount_status import MountStatus
 from sandbox0.apispec.models.refresh_response import RefreshResponse
+from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
+from sandbox0.apispec.models.restore_sandbox_root_fs_response import RestoreSandboxRootFSResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
+from sandbox0.apispec.models.sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
@@ -46,8 +58,12 @@ from sandbox0.apispec.models.success_deleted_response import SuccessDeletedRespo
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
 from sandbox0.apispec.models.success_moved_response import SuccessMovedResponse
 from sandbox0.apispec.models.success_pause_sandbox_response import SuccessPauseSandboxResponse
+from sandbox0.apispec.models.success_fork_sandbox_response import SuccessForkSandboxResponse
 from sandbox0.apispec.models.success_refresh_response import SuccessRefreshResponse
+from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import SuccessRestoreSandboxRootFSResponse
 from sandbox0.apispec.models.success_resume_sandbox_response import SuccessResumeSandboxResponse
+from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_list_response import SuccessSandboxRootFSSnapshotListResponse
+from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_response import SuccessSandboxRootFSSnapshotResponse
 from sandbox0.apispec.models.success_restore_response import SuccessRestoreResponse
 from sandbox0.apispec.models.success_sandbox_list_response import SuccessSandboxListResponse
 from sandbox0.apispec.models.success_sandbox_response import SuccessSandboxResponse
@@ -154,6 +170,51 @@ class Sandboxes:
         body = request if request is not None else SandboxRefreshRequest()
         resp = post_api_v1_sandboxes_id_refresh.sync_detailed(id=sandbox_id, client=self._client.api, body=body)
         return ensure_data(resp, SuccessRefreshResponse)
+
+    def create_rootfs_snapshot(
+        self,
+        sandbox_id: str,
+        request: Optional[CreateSandboxRootFSSnapshotRequest] = None,
+    ) -> SandboxRootFSSnapshot:
+        body = request if request is not None else CreateSandboxRootFSSnapshotRequest()
+        resp = post_api_v1_sandboxes_id_snapshots.sync_detailed(id=sandbox_id, client=self._client.api, body=body)
+        return ensure_data(resp, SuccessSandboxRootFSSnapshotResponse)
+
+    def list_rootfs_snapshots(self, sandbox_id: str) -> List[SandboxRootFSSnapshot]:
+        resp = get_api_v1_sandboxes_id_snapshots.sync_detailed(id=sandbox_id, client=self._client.api)
+        data = ensure_data(resp, SuccessSandboxRootFSSnapshotListResponse)
+        return data.snapshots
+
+    def get_rootfs_snapshot(self, snapshot_id: str) -> SandboxRootFSSnapshot:
+        resp = get_api_v1_sandbox_rootfs_snapshots_snapshot_id.sync_detailed(
+            snapshot_id=snapshot_id,
+            client=self._client.api,
+        )
+        return ensure_data(resp, SuccessSandboxRootFSSnapshotResponse)
+
+    def delete_rootfs_snapshot(self, snapshot_id: str) -> SuccessDeletedResponse:
+        resp = delete_api_v1_sandbox_rootfs_snapshots_snapshot_id.sync_detailed(
+            snapshot_id=snapshot_id,
+            client=self._client.api,
+        )
+        return ensure_model(resp, SuccessDeletedResponse)
+
+    def restore_rootfs(
+        self,
+        sandbox_id: str,
+        request: RestoreSandboxRootFSRequest,
+    ) -> RestoreSandboxRootFSResponse:
+        resp = post_api_v1_sandboxes_id_rootfs_restore.sync_detailed(
+            id=sandbox_id,
+            client=self._client.api,
+            body=request,
+        )
+        return ensure_data(resp, SuccessRestoreSandboxRootFSResponse)
+
+    def fork(self, sandbox_id: str, request: Optional[ForkSandboxRequest] = None) -> ForkSandboxResponse:
+        body = request if request is not None else ForkSandboxRequest()
+        resp = post_api_v1_sandboxes_id_fork.sync_detailed(id=sandbox_id, client=self._client.api, body=body)
+        return ensure_data(resp, SuccessForkSandboxResponse)
 
     def list(
         self,

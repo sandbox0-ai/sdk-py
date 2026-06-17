@@ -11,26 +11,26 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_update_config import SandboxUpdateConfig
+  from ..models.fork_sandbox_response import ForkSandboxResponse
 
 
 
 
 
-T = TypeVar("T", bound="SandboxUpdateRequest")
+T = TypeVar("T", bound="SuccessForkSandboxResponse")
 
 
 
 @_attrs_define
-class SandboxUpdateRequest:
+class SuccessForkSandboxResponse:
     """ 
         Attributes:
-            config (Union[Unset, SandboxUpdateConfig]): Subset of SandboxConfig fields that can be updated at runtime
-                without restarting the sandbox.
-                Note: env_vars only affect new processes. webhook is not included as it requires restart.
+            success (bool):
+            data (Union[Unset, ForkSandboxResponse]):
      """
 
-    config: Union[Unset, 'SandboxUpdateConfig'] = UNSET
+    success: bool
+    data: Union[Unset, 'ForkSandboxResponse'] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,18 +38,21 @@ class SandboxUpdateRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_update_config import SandboxUpdateConfig
-        config: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.config, Unset):
-            config = self.config.to_dict()
+        from ..models.fork_sandbox_response import ForkSandboxResponse
+        success = self.success
+
+        data: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.data, Unset):
+            data = self.data.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "success": success,
         })
-        if config is not UNSET:
-            field_dict["config"] = config
+        if data is not UNSET:
+            field_dict["data"] = data
 
         return field_dict
 
@@ -57,25 +60,28 @@ class SandboxUpdateRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_update_config import SandboxUpdateConfig
+        from ..models.fork_sandbox_response import ForkSandboxResponse
         d = dict(src_dict)
-        _config = d.pop("config", UNSET)
-        config: Union[Unset, SandboxUpdateConfig]
-        if isinstance(_config,  Unset):
-            config = UNSET
+        success = d.pop("success")
+
+        _data = d.pop("data", UNSET)
+        data: Union[Unset, ForkSandboxResponse]
+        if isinstance(_data,  Unset):
+            data = UNSET
         else:
-            config = SandboxUpdateConfig.from_dict(_config)
+            data = ForkSandboxResponse.from_dict(_data)
 
 
 
 
-        sandbox_update_request = cls(
-            config=config,
+        success_fork_sandbox_response = cls(
+            success=success,
+            data=data,
         )
 
 
-        sandbox_update_request.additional_properties = d
-        return sandbox_update_request
+        success_fork_sandbox_response.additional_properties = d
+        return success_fork_sandbox_response
 
     @property
     def additional_keys(self) -> list[str]:
