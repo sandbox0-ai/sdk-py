@@ -13,8 +13,8 @@ from typing import Union
 if TYPE_CHECKING:
   from ..models.static_tls_client_certificate_source_spec import StaticTLSClientCertificateSourceSpec
   from ..models.static_ssh_private_key_source_spec import StaticSSHPrivateKeySourceSpec
-  from ..models.static_username_password_source_spec import StaticUsernamePasswordSourceSpec
   from ..models.static_headers_source_spec import StaticHeadersSourceSpec
+  from ..models.static_username_password_source_spec import StaticUsernamePasswordSourceSpec
 
 
 
@@ -47,8 +47,8 @@ class CredentialSourceWriteSpec:
     def to_dict(self) -> dict[str, Any]:
         from ..models.static_tls_client_certificate_source_spec import StaticTLSClientCertificateSourceSpec
         from ..models.static_ssh_private_key_source_spec import StaticSSHPrivateKeySourceSpec
-        from ..models.static_username_password_source_spec import StaticUsernamePasswordSourceSpec
         from ..models.static_headers_source_spec import StaticHeadersSourceSpec
+        from ..models.static_username_password_source_spec import StaticUsernamePasswordSourceSpec
         static_headers: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.static_headers, Unset):
             static_headers = self.static_headers.to_dict()
@@ -87,8 +87,8 @@ class CredentialSourceWriteSpec:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.static_tls_client_certificate_source_spec import StaticTLSClientCertificateSourceSpec
         from ..models.static_ssh_private_key_source_spec import StaticSSHPrivateKeySourceSpec
-        from ..models.static_username_password_source_spec import StaticUsernamePasswordSourceSpec
         from ..models.static_headers_source_spec import StaticHeadersSourceSpec
+        from ..models.static_username_password_source_spec import StaticUsernamePasswordSourceSpec
         d = dict(src_dict)
         _static_headers = d.pop("staticHeaders", UNSET)
         static_headers: Union[Unset, StaticHeadersSourceSpec]

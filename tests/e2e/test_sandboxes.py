@@ -1,8 +1,10 @@
 import unittest
 
 from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
+from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
 from sandbox0.apispec.models.mount_status_state import MountStatusState
+from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_config_env_vars import SandboxConfigEnvVars
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
@@ -126,6 +128,70 @@ class TestSandboxes(unittest.TestCase):
         self.assertIsInstance(sandboxes3, list)
         found3 = any(sb.id == sandbox.id for sb in sandboxes3)
         self.assertFalse(found3, f"Running sandbox {sandbox.id} should not be in paused list")
+
+    def test_sandbox_rootfs_snapshot_restore_fork(self) -> None:
+        cfg = require_config(self)
+        client = new_client(cfg)
+        self.addCleanup(close_client, client)
+
+        source = client.sandboxes.claim(cfg.template)
+        self.addCleanup(lambda: self._delete_sandbox(client, source.id))
+
+        snapshot_id = ""
+        fork_id = ""
+
+        def _cleanup_snapshot() -> None:
+            if snapshot_id:
+                try:
+                    client.sandboxes.delete_rootfs_snapshot(snapshot_id)
+                except Exception:
+                    pass
+
+        def _cleanup_fork() -> None:
+            if fork_id:
+                self._delete_sandbox(client, fork_id)
+
+        self.addCleanup(_cleanup_snapshot)
+        self.addCleanup(_cleanup_fork)
+
+        marker_path = "/tmp/sdk-py-rootfs-marker.txt"
+        source.write_file(marker_path, b"rootfs-v1\n")
+        paused = client.sandboxes.pause(source.id)
+        self.assertTrue(paused.paused)
+
+        snapshot = client.sandboxes.create_rootfs_snapshot(
+            source.id,
+            CreateSandboxRootFSSnapshotRequest(name="sdk-py-e2e-rootfs"),
+        )
+        snapshot_id = snapshot.id
+        self.assertTrue(snapshot.id)
+
+        snapshots = client.sandboxes.list_rootfs_snapshots(source.id)
+        self.assertTrue(any(item.id == snapshot.id for item in snapshots))
+
+        fetched_snapshot = client.sandboxes.get_rootfs_snapshot(snapshot.id)
+        self.assertEqual(fetched_snapshot.id, snapshot.id)
+
+        client.sandboxes.resume(source.id)
+        source.write_file(marker_path, b"rootfs-v2\n")
+        client.sandboxes.pause(source.id)
+
+        restored = client.sandboxes.restore_rootfs(source.id, RestoreSandboxRootFSRequest(snapshot_id=snapshot.id))
+        self.assertEqual(restored.snapshot_id, snapshot.id)
+
+        forked = client.sandboxes.fork(source.id)
+        fork_id = forked.sandbox.id
+        self.assertEqual(forked.source_sandbox_id, source.id)
+        self.assertTrue(fork_id)
+
+        client.sandboxes.delete_rootfs_snapshot(snapshot.id)
+        snapshot_id = ""
+
+        client.sandboxes.resume(source.id)
+        client.sandboxes.resume(fork_id)
+
+        self.assertEqual(source.read_file(marker_path), b"rootfs-v1\n")
+        self.assertEqual(client.sandbox(fork_id).read_file(marker_path), b"rootfs-v1\n")
 
     @staticmethod
     def _delete_sandbox(client, sandbox_id: str) -> None:

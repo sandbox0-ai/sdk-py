@@ -11,8 +11,9 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
   from ..models.sandbox_app_service import SandboxAppService
+  from ..models.sandbox_network_policy import SandboxNetworkPolicy
+  from ..models.sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
 
 
 
@@ -25,9 +26,13 @@ T = TypeVar("T", bound="SandboxUpdateConfig")
 @_attrs_define
 class SandboxUpdateConfig:
     """ Subset of SandboxConfig fields that can be updated at runtime without restarting the sandbox.
-    Note: env_vars and webhook are not included as they only affect new processes or require restart.
+    Note: env_vars only affect new processes. webhook is not included as it requires restart.
 
         Attributes:
+            env_vars (Union[Unset, SandboxUpdateConfigEnvVars]): Sandbox-level environment variables used as defaults for
+                new procd-managed
+                processes. Omitting this field preserves the existing environment map; passing
+                an empty object clears it.
             ttl (Union[Unset, int]): Runtime soft time-to-live in seconds. When it expires, Sandbox0 checkpoints the
                 writable rootfs, pauses the sandbox, and releases runtime compute while preserving durable sandbox state.
             hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the
@@ -40,6 +45,7 @@ class SandboxUpdateConfig:
             services (Union[Unset, list['SandboxAppService']]):
      """
 
+    env_vars: Union[Unset, 'SandboxUpdateConfigEnvVars'] = UNSET
     ttl: Union[Unset, int] = UNSET
     hard_ttl: Union[Unset, int] = UNSET
     network: Union[Unset, 'SandboxNetworkPolicy'] = UNSET
@@ -52,8 +58,13 @@ class SandboxUpdateConfig:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
+        env_vars: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.env_vars, Unset):
+            env_vars = self.env_vars.to_dict()
+
         ttl = self.ttl
 
         hard_ttl = self.hard_ttl
@@ -78,6 +89,8 @@ class SandboxUpdateConfig:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if env_vars is not UNSET:
+            field_dict["env_vars"] = env_vars
         if ttl is not UNSET:
             field_dict["ttl"] = ttl
         if hard_ttl is not UNSET:
@@ -95,9 +108,20 @@ class SandboxUpdateConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
         d = dict(src_dict)
+        _env_vars = d.pop("env_vars", UNSET)
+        env_vars: Union[Unset, SandboxUpdateConfigEnvVars]
+        if isinstance(_env_vars,  Unset):
+            env_vars = UNSET
+        else:
+            env_vars = SandboxUpdateConfigEnvVars.from_dict(_env_vars)
+
+
+
+
         ttl = d.pop("ttl", UNSET)
 
         hard_ttl = d.pop("hard_ttl", UNSET)
@@ -125,6 +149,7 @@ class SandboxUpdateConfig:
 
 
         sandbox_update_config = cls(
+            env_vars=env_vars,
             ttl=ttl,
             hard_ttl=hard_ttl,
             network=network,

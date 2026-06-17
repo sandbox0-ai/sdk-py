@@ -38,6 +38,7 @@ from .create_context_request import CreateContextRequest
 from .create_context_request_env_vars import CreateContextRequestEnvVars
 from .create_region_request import CreateRegionRequest
 from .create_repl_context_request import CreateREPLContextRequest
+from .create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
 from .create_sandbox_volume_request import CreateSandboxVolumeRequest
 from .create_snapshot_request import CreateSnapshotRequest
 from .create_ssh_public_key_request import CreateSSHPublicKeyRequest
@@ -82,6 +83,8 @@ from .file_watch_unsubscribe_request import FileWatchUnsubscribeRequest
 from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAction
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
+from .fork_sandbox_request import ForkSandboxRequest
+from .fork_sandbox_response import ForkSandboxResponse
 from .fork_volume_request import ForkVolumeRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
@@ -149,6 +152,8 @@ from .repl_ready_mode import REPLReadyMode
 from .resize_context_request import ResizeContextRequest
 from .resource_quota import ResourceQuota
 from .resource_usage import ResourceUsage
+from .restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
+from .restore_sandbox_root_fs_response import RestoreSandboxRootFSResponse
 from .resume_sandbox_response import ResumeSandboxResponse
 from .sandbox import Sandbox
 from .sandbox_app_service import SandboxAppService
@@ -174,6 +179,8 @@ from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_usage import SandboxResourceUsage
+from .sandbox_root_fs_snapshot import SandboxRootFSSnapshot
+from .sandbox_root_fs_snapshot_list import SandboxRootFSSnapshotList
 from .sandbox_services_update_request import SandboxServicesUpdateRequest
 from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
@@ -184,6 +191,7 @@ from .sandbox_template_spec import SandboxTemplateSpec
 from .sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
 from .sandbox_template_status import SandboxTemplateStatus
 from .sandbox_update_config import SandboxUpdateConfig
+from .sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
 from .sandbox_update_request import SandboxUpdateRequest
 from .sandbox_volume import SandboxVolume
 from .seccomp_profile import SeccompProfile
@@ -225,6 +233,7 @@ from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
 from .success_file_read_response_data_type_1 import SuccessFileReadResponseDataType1
 from .success_file_stat_response import SuccessFileStatResponse
+from .success_fork_sandbox_response import SuccessForkSandboxResponse
 from .success_gateway_metadata_response import SuccessGatewayMetadataResponse
 from .success_health_response import SuccessHealthResponse
 from .success_health_response_data import SuccessHealthResponseData
@@ -245,11 +254,14 @@ from .success_resized_response import SuccessResizedResponse
 from .success_resized_response_data import SuccessResizedResponseData
 from .success_restore_response import SuccessRestoreResponse
 from .success_restore_response_data import SuccessRestoreResponseData
+from .success_restore_sandbox_root_fs_response import SuccessRestoreSandboxRootFSResponse
 from .success_resume_sandbox_response import SuccessResumeSandboxResponse
 from .success_sandbox_list_response import SuccessSandboxListResponse
 from .success_sandbox_list_response_data import SuccessSandboxListResponseData
 from .success_sandbox_network_policy_response import SuccessSandboxNetworkPolicyResponse
 from .success_sandbox_response import SuccessSandboxResponse
+from .success_sandbox_root_fs_snapshot_list_response import SuccessSandboxRootFSSnapshotListResponse
+from .success_sandbox_root_fs_snapshot_response import SuccessSandboxRootFSSnapshotResponse
 from .success_sandbox_services_response import SuccessSandboxServicesResponse
 from .success_sandbox_services_response_data import SuccessSandboxServicesResponseData
 from .success_sandbox_status_response import SuccessSandboxStatusResponse
@@ -342,6 +354,7 @@ __all__ = (
     "CreateContextRequestEnvVars",
     "CreateRegionRequest",
     "CreateREPLContextRequest",
+    "CreateSandboxRootFSSnapshotRequest",
     "CreateSandboxVolumeRequest",
     "CreateSnapshotRequest",
     "CreateSSHPublicKeyRequest",
@@ -386,6 +399,8 @@ __all__ = (
     "FileWatchUnsubscribedType",
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
+    "ForkSandboxRequest",
+    "ForkSandboxResponse",
     "ForkVolumeRequest",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
@@ -453,6 +468,8 @@ __all__ = (
     "ResizeContextRequest",
     "ResourceQuota",
     "ResourceUsage",
+    "RestoreSandboxRootFSRequest",
+    "RestoreSandboxRootFSResponse",
     "ResumeSandboxResponse",
     "Sandbox",
     "SandboxAppService",
@@ -478,6 +495,8 @@ __all__ = (
     "SandboxNetworkPolicyMode",
     "SandboxRefreshRequest",
     "SandboxResourceUsage",
+    "SandboxRootFSSnapshot",
+    "SandboxRootFSSnapshotList",
     "SandboxServicesUpdateRequest",
     "SandboxSSHConnection",
     "SandboxStatus",
@@ -488,6 +507,7 @@ __all__ = (
     "SandboxTemplateSpecEnvVars",
     "SandboxTemplateStatus",
     "SandboxUpdateConfig",
+    "SandboxUpdateConfigEnvVars",
     "SandboxUpdateRequest",
     "SandboxVolume",
     "SeccompProfile",
@@ -529,6 +549,7 @@ __all__ = (
     "SuccessFileReadResponse",
     "SuccessFileReadResponseDataType1",
     "SuccessFileStatResponse",
+    "SuccessForkSandboxResponse",
     "SuccessGatewayMetadataResponse",
     "SuccessHealthResponse",
     "SuccessHealthResponseData",
@@ -549,11 +570,14 @@ __all__ = (
     "SuccessResizedResponseData",
     "SuccessRestoreResponse",
     "SuccessRestoreResponseData",
+    "SuccessRestoreSandboxRootFSResponse",
     "SuccessResumeSandboxResponse",
     "SuccessSandboxListResponse",
     "SuccessSandboxListResponseData",
     "SuccessSandboxNetworkPolicyResponse",
     "SuccessSandboxResponse",
+    "SuccessSandboxRootFSSnapshotListResponse",
+    "SuccessSandboxRootFSSnapshotResponse",
     "SuccessSandboxServicesResponse",
     "SuccessSandboxServicesResponseData",
     "SuccessSandboxStatusResponse",
