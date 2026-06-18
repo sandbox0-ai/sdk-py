@@ -8,6 +8,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.credential_source_write_request import CredentialSourceWriteRequest
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_credential_source_response import SuccessCredentialSourceResponse
 from typing import cast
 
@@ -41,7 +42,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[SuccessCredentialSourceResponse]:
+def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     if response.status_code == 200:
         response_200 = SuccessCredentialSourceResponse.from_dict(response.json())
 
@@ -49,13 +50,20 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
 
         return response_200
 
+    if response.status_code == 404:
+        response_404 = ErrorEnvelope.from_dict(response.json())
+
+
+
+        return response_404
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[SuccessCredentialSourceResponse]:
+def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,7 +78,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
 
-) -> Response[SuccessCredentialSourceResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     """ Update credential source
 
     Args:
@@ -82,7 +90,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessCredentialSourceResponse]
+        Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]
      """
 
 
@@ -104,7 +112,7 @@ def sync(
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
 
-) -> Optional[SuccessCredentialSourceResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     """ Update credential source
 
     Args:
@@ -116,7 +124,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessCredentialSourceResponse
+        Union[ErrorEnvelope, SuccessCredentialSourceResponse]
      """
 
 
@@ -133,7 +141,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
 
-) -> Response[SuccessCredentialSourceResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     """ Update credential source
 
     Args:
@@ -145,7 +153,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessCredentialSourceResponse]
+        Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]
      """
 
 
@@ -167,7 +175,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
 
-) -> Optional[SuccessCredentialSourceResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     """ Update credential source
 
     Args:
@@ -179,7 +187,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessCredentialSourceResponse
+        Union[ErrorEnvelope, SuccessCredentialSourceResponse]
      """
 
 

@@ -36,6 +36,8 @@ class ContextResponse:
             env_vars (Union[Unset, ContextResponseEnvVars]):
             output_raw (Union[Unset, str]): Raw PTY output for CMD contexts with wait=true, may contain terminal control
                 characters
+            exit_code (Union[Unset, int]): Present when the underlying process has exited.
+            state (Union[Unset, str]): Final process state when the underlying process has exited.
      """
 
     id: str
@@ -47,6 +49,8 @@ class ContextResponse:
     cwd: Union[Unset, str] = UNSET
     env_vars: Union[Unset, 'ContextResponseEnvVars'] = UNSET
     output_raw: Union[Unset, str] = UNSET
+    exit_code: Union[Unset, int] = UNSET
+    state: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -75,6 +79,10 @@ class ContextResponse:
 
         output_raw = self.output_raw
 
+        exit_code = self.exit_code
+
+        state = self.state
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -93,6 +101,10 @@ class ContextResponse:
             field_dict["env_vars"] = env_vars
         if output_raw is not UNSET:
             field_dict["output_raw"] = output_raw
+        if exit_code is not UNSET:
+            field_dict["exit_code"] = exit_code
+        if state is not UNSET:
+            field_dict["state"] = state
 
         return field_dict
 
@@ -131,6 +143,10 @@ class ContextResponse:
 
         output_raw = d.pop("output_raw", UNSET)
 
+        exit_code = d.pop("exit_code", UNSET)
+
+        state = d.pop("state", UNSET)
+
         context_response = cls(
             id=id,
             type_=type_,
@@ -141,6 +157,8 @@ class ContextResponse:
             cwd=cwd,
             env_vars=env_vars,
             output_raw=output_raw,
+            exit_code=exit_code,
+            state=state,
         )
 
 
