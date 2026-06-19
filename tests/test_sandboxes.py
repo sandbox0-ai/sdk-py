@@ -65,6 +65,7 @@ class TestSandboxes(TestCase):
                 "default",
                 config=SandboxConfig(ttl=300),
                 mounts=[ClaimMountRequest(sandboxvolume_id="vol_1", mount_point="/workspace/data")],
+                snapshot_id="snap_123",
             )
 
         request = captured["body"]
@@ -72,6 +73,7 @@ class TestSandboxes(TestCase):
         self.assertEqual(request.config.ttl, 300)
         self.assertEqual(len(request.mounts), 1)
         self.assertEqual(request.mounts[0].sandboxvolume_id, "vol_1")
+        self.assertEqual(request.snapshot_id, "snap_123")
         self.assertEqual(sandbox.id, "sb_123")
         self.assertEqual(sandbox.cluster_id, "cluster-a")
         self.assertEqual(len(sandbox.bootstrap_mounts), 1)
@@ -89,12 +91,14 @@ class TestSandboxes(TestCase):
                 "default",
                 config=SandboxConfig(ttl=120),
                 mounts=[ClaimMountRequest(sandboxvolume_id="vol_2", mount_point="/workspace/cache")],
+                snapshot_id="snap_456",
             )
 
         claim_mock.assert_called_once_with(
             "default",
             config=SandboxConfig(ttl=120),
             mounts=[ClaimMountRequest(sandboxvolume_id="vol_2", mount_point="/workspace/cache")],
+            snapshot_id="snap_456",
         )
         self.assertIs(session.sandbox, sandbox)
 

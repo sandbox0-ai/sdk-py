@@ -11,12 +11,11 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
+  from ..models.pod_spec_override import PodSpecOverride
   from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+  from ..models.sandbox_network_policy import SandboxNetworkPolicy
   from ..models.pool_strategy import PoolStrategy
   from ..models.container_spec import ContainerSpec
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
-  from ..models.pod_spec_override import PodSpecOverride
-  from ..models.lifecycle_policy import LifecyclePolicy
   from ..models.volume_mount_spec import VolumeMountSpec
 
 
@@ -39,10 +38,7 @@ class SandboxTemplateSpec:
             pod (Union[Unset, PodSpecOverride]):
             network (Union[Unset, SandboxNetworkPolicy]):
             pool (Union[Unset, PoolStrategy]):
-            lifecycle (Union[Unset, LifecyclePolicy]):
             env_vars (Union[Unset, SandboxTemplateSpecEnvVars]):
-            public (Union[Unset, bool]):
-            allowed_teams (Union[Unset, list[str]]):
             cluster_id (Union[Unset, str]):
      """
 
@@ -54,10 +50,7 @@ class SandboxTemplateSpec:
     pod: Union[Unset, 'PodSpecOverride'] = UNSET
     network: Union[Unset, 'SandboxNetworkPolicy'] = UNSET
     pool: Union[Unset, 'PoolStrategy'] = UNSET
-    lifecycle: Union[Unset, 'LifecyclePolicy'] = UNSET
     env_vars: Union[Unset, 'SandboxTemplateSpecEnvVars'] = UNSET
-    public: Union[Unset, bool] = UNSET
-    allowed_teams: Union[Unset, list[str]] = UNSET
     cluster_id: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -66,12 +59,11 @@ class SandboxTemplateSpec:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.pod_spec_override import PodSpecOverride
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.pool_strategy import PoolStrategy
         from ..models.container_spec import ContainerSpec
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
-        from ..models.pod_spec_override import PodSpecOverride
-        from ..models.lifecycle_policy import LifecyclePolicy
         from ..models.volume_mount_spec import VolumeMountSpec
         description = self.description
 
@@ -108,21 +100,9 @@ class SandboxTemplateSpec:
         if not isinstance(self.pool, Unset):
             pool = self.pool.to_dict()
 
-        lifecycle: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.lifecycle, Unset):
-            lifecycle = self.lifecycle.to_dict()
-
         env_vars: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
-
-        public = self.public
-
-        allowed_teams: Union[Unset, list[str]] = UNSET
-        if not isinstance(self.allowed_teams, Unset):
-            allowed_teams = self.allowed_teams
-
-
 
         cluster_id = self.cluster_id
 
@@ -147,14 +127,8 @@ class SandboxTemplateSpec:
             field_dict["network"] = network
         if pool is not UNSET:
             field_dict["pool"] = pool
-        if lifecycle is not UNSET:
-            field_dict["lifecycle"] = lifecycle
         if env_vars is not UNSET:
             field_dict["envVars"] = env_vars
-        if public is not UNSET:
-            field_dict["public"] = public
-        if allowed_teams is not UNSET:
-            field_dict["allowedTeams"] = allowed_teams
         if cluster_id is not UNSET:
             field_dict["clusterId"] = cluster_id
 
@@ -164,12 +138,11 @@ class SandboxTemplateSpec:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.pod_spec_override import PodSpecOverride
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+        from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.pool_strategy import PoolStrategy
         from ..models.container_spec import ContainerSpec
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
-        from ..models.pod_spec_override import PodSpecOverride
-        from ..models.lifecycle_policy import LifecyclePolicy
         from ..models.volume_mount_spec import VolumeMountSpec
         d = dict(src_dict)
         description = d.pop("description", UNSET)
@@ -229,16 +202,6 @@ class SandboxTemplateSpec:
 
 
 
-        _lifecycle = d.pop("lifecycle", UNSET)
-        lifecycle: Union[Unset, LifecyclePolicy]
-        if isinstance(_lifecycle,  Unset):
-            lifecycle = UNSET
-        else:
-            lifecycle = LifecyclePolicy.from_dict(_lifecycle)
-
-
-
-
         _env_vars = d.pop("envVars", UNSET)
         env_vars: Union[Unset, SandboxTemplateSpecEnvVars]
         if isinstance(_env_vars,  Unset):
@@ -247,11 +210,6 @@ class SandboxTemplateSpec:
             env_vars = SandboxTemplateSpecEnvVars.from_dict(_env_vars)
 
 
-
-
-        public = d.pop("public", UNSET)
-
-        allowed_teams = cast(list[str], d.pop("allowedTeams", UNSET))
 
 
         cluster_id = d.pop("clusterId", UNSET)
@@ -265,10 +223,7 @@ class SandboxTemplateSpec:
             pod=pod,
             network=network,
             pool=pool,
-            lifecycle=lifecycle,
             env_vars=env_vars,
-            public=public,
-            allowed_teams=allowed_teams,
             cluster_id=cluster_id,
         )
 

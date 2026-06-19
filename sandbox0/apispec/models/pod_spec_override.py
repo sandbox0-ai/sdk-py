@@ -11,10 +11,10 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.toleration import Toleration
   from ..models.affinity import Affinity
-  from ..models.empty_dir_mount_spec import EmptyDirMountSpec
+  from ..models.toleration import Toleration
   from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+  from ..models.empty_dir_mount_spec import EmptyDirMountSpec
 
 
 
@@ -47,10 +47,10 @@ class PodSpecOverride:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.toleration import Toleration
         from ..models.affinity import Affinity
-        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
+        from ..models.toleration import Toleration
         from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
         node_selector: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.node_selector, Unset):
             node_selector = self.node_selector.to_dict()
@@ -101,10 +101,10 @@ class PodSpecOverride:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.toleration import Toleration
         from ..models.affinity import Affinity
-        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
+        from ..models.toleration import Toleration
         from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
         d = dict(src_dict)
         _node_selector = d.pop("nodeSelector", UNSET)
         node_selector: Union[Unset, PodSpecOverrideNodeSelector]

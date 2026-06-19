@@ -6,6 +6,8 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import Union
 
 
 
@@ -21,9 +23,13 @@ class ContextExecResponse:
     r""" 
         Attributes:
             output_raw (str): Raw PTY output, may contain terminal control characters (e.g. \r)
+            exit_code (Union[Unset, int]): Present when the underlying process has exited.
+            state (Union[Unset, str]): Final process state when the underlying process has exited.
      """
 
     output_raw: str
+    exit_code: Union[Unset, int] = UNSET
+    state: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -33,12 +39,20 @@ class ContextExecResponse:
     def to_dict(self) -> dict[str, Any]:
         output_raw = self.output_raw
 
+        exit_code = self.exit_code
+
+        state = self.state
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "output_raw": output_raw,
         })
+        if exit_code is not UNSET:
+            field_dict["exit_code"] = exit_code
+        if state is not UNSET:
+            field_dict["state"] = state
 
         return field_dict
 
@@ -49,8 +63,14 @@ class ContextExecResponse:
         d = dict(src_dict)
         output_raw = d.pop("output_raw")
 
+        exit_code = d.pop("exit_code", UNSET)
+
+        state = d.pop("state", UNSET)
+
         context_exec_response = cls(
             output_raw=output_raw,
+            exit_code=exit_code,
+            state=state,
         )
 
 

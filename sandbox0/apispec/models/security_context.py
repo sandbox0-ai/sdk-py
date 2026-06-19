@@ -12,8 +12,8 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.app_armor_profile import AppArmorProfile
-  from ..models.seccomp_profile import SeccompProfile
   from ..models.capabilities import Capabilities
+  from ..models.seccomp_profile import SeccompProfile
 
 
 
@@ -55,8 +55,8 @@ class SecurityContext:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.app_armor_profile import AppArmorProfile
-        from ..models.seccomp_profile import SeccompProfile
         from ..models.capabilities import Capabilities
+        from ..models.seccomp_profile import SeccompProfile
         capabilities: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.capabilities, Unset):
             capabilities = self.capabilities.to_dict()
@@ -112,8 +112,8 @@ class SecurityContext:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.app_armor_profile import AppArmorProfile
-        from ..models.seccomp_profile import SeccompProfile
         from ..models.capabilities import Capabilities
+        from ..models.seccomp_profile import SeccompProfile
         d = dict(src_dict)
         _capabilities = d.pop("capabilities", UNSET)
         capabilities: Union[Unset, Capabilities]

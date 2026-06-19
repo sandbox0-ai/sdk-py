@@ -105,12 +105,15 @@ class Sandboxes:
         template: str,
         config: Optional[SandboxConfig] = None,
         mounts: Optional[list[ClaimMountRequest]] = None,
+        snapshot_id: Optional[str] = None,
     ) -> "Sandbox":
         request = ClaimRequest(template=template)
         if config is not None:
             request.config = config
         if mounts is not None:
             request.mounts = mounts
+        if snapshot_id is not None:
+            request.snapshot_id = snapshot_id
         resp = post_api_v1_sandboxes.sync_detailed(client=self._client.api, body=request)
         data = ensure_data(resp, SuccessClaimResponse)
         from sandbox0.sandbox import Sandbox
@@ -134,11 +137,13 @@ class Sandboxes:
         template: str,
         config: Optional[SandboxConfig] = None,
         mounts: Optional[list[ClaimMountRequest]] = None,
+        snapshot_id: Optional[str] = None,
     ) -> SandboxSession:
         sandbox = self.claim(
             template,
             config=config,
             mounts=mounts,
+            snapshot_id=snapshot_id,
         )
         return SandboxSession(sandbox, closer=lambda: None if self.delete(sandbox.id) else None)
 

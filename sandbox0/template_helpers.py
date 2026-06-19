@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from sandbox0.apispec.models.container_spec import ContainerSpec
 from sandbox0.apispec.models.env_var import EnvVar
-from sandbox0.apispec.models.lifecycle_policy import LifecyclePolicy
 from sandbox0.apispec.models.pod_spec_override import PodSpecOverride
 from sandbox0.apispec.models.pool_strategy import PoolStrategy
 from sandbox0.apispec.models.resource_quota import ResourceQuota
@@ -45,10 +44,7 @@ def template_spec(
     pod: PodSpecOverride | Unset = UNSET,
     network: SandboxNetworkPolicy | Unset = UNSET,
     pool: PoolStrategy | Unset = UNSET,
-    lifecycle: LifecyclePolicy | Unset = UNSET,
     env_vars: SandboxTemplateSpecEnvVars | dict[str, str] | Unset = UNSET,
-    public: bool | Unset = UNSET,
-    allowed_teams: list[str] | Unset = UNSET,
     cluster_id: str | Unset = UNSET,
 ) -> SandboxTemplateSpec:
     return SandboxTemplateSpec(
@@ -59,10 +55,7 @@ def template_spec(
         pod=pod,
         network=network,
         pool=pool,
-        lifecycle=lifecycle,
         env_vars=_template_env_vars(env_vars),
-        public=public,
-        allowed_teams=allowed_teams,
         cluster_id=cluster_id,
     )
 

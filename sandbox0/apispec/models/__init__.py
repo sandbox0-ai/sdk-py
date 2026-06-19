@@ -101,7 +101,6 @@ from .identity import Identity
 from .label_selector import LabelSelector
 from .label_selector_match_labels import LabelSelectorMatchLabels
 from .label_selector_requirement import LabelSelectorRequirement
-from .lifecycle_policy import LifecyclePolicy
 from .login_request import LoginRequest
 from .login_response import LoginResponse
 from .mcp_protocol_rule import MCPProtocolRule
@@ -127,7 +126,6 @@ from .pod_spec_override import PodSpecOverride
 from .pod_spec_override_node_selector import PodSpecOverrideNodeSelector
 from .pool_strategy import PoolStrategy
 from .port_spec import PortSpec
-from .pre_stop_hook import PreStopHook
 from .preferred_scheduling_term import PreferredSchedulingTerm
 from .probe import Probe
 from .process_type import ProcessType
@@ -417,7 +415,6 @@ __all__ = (
     "LabelSelector",
     "LabelSelectorMatchLabels",
     "LabelSelectorRequirement",
-    "LifecyclePolicy",
     "LoginRequest",
     "LoginResponse",
     "MCPProtocolRule",
@@ -444,7 +441,6 @@ __all__ = (
     "PoolStrategy",
     "PortSpec",
     "PreferredSchedulingTerm",
-    "PreStopHook",
     "Probe",
     "ProcessType",
     "ProjectedHeader",

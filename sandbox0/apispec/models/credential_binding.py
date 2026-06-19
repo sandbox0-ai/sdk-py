@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.projection_spec import ProjectionSpec
   from ..models.cache_policy_spec import CachePolicySpec
+  from ..models.projection_spec import ProjectionSpec
 
 
 
@@ -43,8 +43,8 @@ class CredentialBinding:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.projection_spec import ProjectionSpec
         from ..models.cache_policy_spec import CachePolicySpec
+        from ..models.projection_spec import ProjectionSpec
         ref = self.ref
 
         source_ref = self.source_ref
@@ -72,8 +72,8 @@ class CredentialBinding:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.projection_spec import ProjectionSpec
         from ..models.cache_policy_spec import CachePolicySpec
+        from ..models.projection_spec import ProjectionSpec
         d = dict(src_dict)
         ref = d.pop("ref")
 
