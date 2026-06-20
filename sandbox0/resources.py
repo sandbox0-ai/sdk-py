@@ -107,6 +107,11 @@ class Sandboxes:
         mounts: Optional[list[ClaimMountRequest]] = None,
         snapshot_id: Optional[str] = None,
     ) -> "Sandbox":
+        """Claim a sandbox, optionally binding volumes to template-declared mount points.
+
+        When the template declares volumeMounts, provide one ClaimMountRequest
+        for every declared mount path.
+        """
         request = ClaimRequest(template=template)
         if config is not None:
             request.config = config
@@ -139,6 +144,7 @@ class Sandboxes:
         mounts: Optional[list[ClaimMountRequest]] = None,
         snapshot_id: Optional[str] = None,
     ) -> SandboxSession:
+        """Open a sandbox session with the same claim-time mount rules as claim()."""
         sandbox = self.claim(
             template,
             config=config,

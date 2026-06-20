@@ -56,6 +56,8 @@ print(f"exit={done.exit_code} state={done.state}")
 
 ## Bootstrap Mounts At Claim Time
 
+Mount points must be declared in the sandbox template's `volumeMounts`. If the template declares volume mounts, include a mount for every declared path in the claim request.
+
 ```python
 from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
