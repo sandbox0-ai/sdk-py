@@ -222,7 +222,19 @@ class Sandbox(
         )
         context_resp = self.create_context(request=request)
         output_raw = "" if context_resp.output_raw.__class__.__name__ == "Unset" else cast(str, context_resp.output_raw)
-        return CmdResult(sandbox_id=self.id, context_id=context_resp.id, output_raw=output_raw)
+        stdout = "" if context_resp.stdout.__class__.__name__ == "Unset" else cast(str, context_resp.stdout)
+        stderr = "" if context_resp.stderr.__class__.__name__ == "Unset" else cast(str, context_resp.stderr)
+        exit_code = None if context_resp.exit_code.__class__.__name__ == "Unset" else cast(int, context_resp.exit_code)
+        state = None if context_resp.state.__class__.__name__ == "Unset" else cast(str, context_resp.state)
+        return CmdResult(
+            sandbox_id=self.id,
+            context_id=context_resp.id,
+            output_raw=output_raw,
+            stdout=stdout,
+            stderr=stderr,
+            exit_code=exit_code,
+            state=state,
+        )
 
     def cmd_stream(self, cmd: str, options: Optional[CmdOptions] = None) -> ContextStream:
         if not cmd.strip():
