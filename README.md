@@ -49,6 +49,56 @@ done = stream.wait()
 print(f"exit={done.exit_code} state={done.state}")
 ```
 
+## OpenAI Agents SDK Sandbox
+
+Install the optional adapter dependency:
+
+```bash
+pip install "sandbox0[openai-agents]"
+```
+
+Use `Sandbox0SandboxClient` anywhere the OpenAI Agents SDK expects a sandbox client:
+
+```python
+import os
+
+from agents import Runner
+from agents.run_config import RunConfig, SandboxRunConfig
+from agents.sandbox import SandboxAgent
+
+from sandbox0_openai_agents import Sandbox0SandboxClient, Sandbox0SandboxClientOptions
+
+client = Sandbox0SandboxClient(
+    token=os.environ["SANDBOX0_TOKEN"],
+    base_url=os.environ.get("SANDBOX0_BASE_URL"),
+)
+
+sandbox_agent = SandboxAgent(
+    name="demo",
+    instructions="Use the sandbox for filesystem and command execution tasks.",
+)
+
+result = Runner.run_sync(
+    sandbox_agent,
+    "Create hello.txt in the sandbox, then print it.",
+    run_config=RunConfig(
+        sandbox=SandboxRunConfig(
+            client=client,
+            options=Sandbox0SandboxClientOptions(template="default"),
+        ),
+    ),
+)
+print(result.final_output)
+```
+
+The adapter keeps the OpenAI SDK workspace at `/workspace` on a Sandbox0
+SandboxVolume. `delete()` releases the sandbox runtime and deletes the
+workspace volume by default. Set `delete_volume_on_delete=False` when serialized
+session state must resume the same workspace volume after cleanup. Use
+`Sandbox0SandboxClientOptions(volume_snapshot_id="...")` for Sandbox0-native
+volume snapshots; generic OpenAI SDK snapshot specs are not used by this
+adapter.
+
 ## Documentation
 
 - [Sandbox0 docs](https://sandbox0.ai/docs)

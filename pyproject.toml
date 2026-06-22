@@ -42,6 +42,9 @@ dev = [
   "openapi-python-client==0.26.2",
   "mypy>=1.8.0",
 ]
+openai-agents = [
+  "openai-agents>=0.17.6,<0.18; python_version >= '3.10'",
+]
 
 [tool.setuptools]
 include-package-data = true
@@ -51,6 +54,7 @@ include = ["sandbox0*"]
 
 [tool.setuptools.package-data]
 sandbox0 = ["py.typed"]
+sandbox0_openai_agents = ["py.typed"]
 
 [tool.mypy]
 exclude = ["sandbox0/apispec/"]
