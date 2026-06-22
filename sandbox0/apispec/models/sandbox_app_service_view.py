@@ -12,8 +12,8 @@ from typing import Union
 
 if TYPE_CHECKING:
   from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-  from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
   from ..models.sandbox_app_service_health import SandboxAppServiceHealth
+  from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
 
 
 
@@ -56,8 +56,8 @@ class SandboxAppServiceView:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
+        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         id = self.id
 
         ingress = self.ingress.to_dict()
@@ -112,8 +112,8 @@ class SandboxAppServiceView:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
+        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         d = dict(src_dict)
         id = d.pop("id")
 

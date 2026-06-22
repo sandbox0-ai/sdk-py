@@ -11,8 +11,8 @@ from typing import cast
 from typing import Union
 
 if TYPE_CHECKING:
-  from ..models.claim_mount_request import ClaimMountRequest
   from ..models.sandbox_config import SandboxConfig
+  from ..models.claim_mount_request import ClaimMountRequest
 
 
 
@@ -30,7 +30,9 @@ class ClaimRequest:
             snapshot_id (Union[Unset, str]): Optional sandbox rootfs snapshot ID used to initialize the claimed sandbox
                 writable root filesystem.
             config (Union[Unset, SandboxConfig]):
-            mounts (Union[Unset, list['ClaimMountRequest']]):
+            mounts (Union[Unset, list['ClaimMountRequest']]): Optional claim-time Sandbox Volume bindings. A claim may bind
+                any subset of template-declared mount points; omitted declared mount points remain writable rootfs-backed
+                directories and are included in rootfs checkpoints.
      """
 
     template: Union[Unset, str] = UNSET
@@ -44,8 +46,8 @@ class ClaimRequest:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_config import SandboxConfig
+        from ..models.claim_mount_request import ClaimMountRequest
         template = self.template
 
         snapshot_id = self.snapshot_id
@@ -83,8 +85,8 @@ class ClaimRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_config import SandboxConfig
+        from ..models.claim_mount_request import ClaimMountRequest
         d = dict(src_dict)
         template = d.pop("template", UNSET)
 

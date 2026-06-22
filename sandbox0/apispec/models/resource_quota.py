@@ -25,7 +25,7 @@ class ResourceQuota:
             cpu (Union[Unset, str]):
             memory (Union[Unset, str]):
             ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
-                logs. Defaults to 512Mi when omitted.
+                logs. Defaults to 8Gi when omitted.
      """
 
     cpu: Union[Unset, str] = UNSET

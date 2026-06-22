@@ -23,11 +23,15 @@ class ContextExecResponse:
     r""" 
         Attributes:
             output_raw (str): Raw PTY output, may contain terminal control characters (e.g. \r)
+            stdout (Union[Unset, str]): Captured stdout for non-PTY CMD contexts when available.
+            stderr (Union[Unset, str]): Captured stderr for non-PTY CMD contexts when available.
             exit_code (Union[Unset, int]): Present when the underlying process has exited.
             state (Union[Unset, str]): Final process state when the underlying process has exited.
      """
 
     output_raw: str
+    stdout: Union[Unset, str] = UNSET
+    stderr: Union[Unset, str] = UNSET
     exit_code: Union[Unset, int] = UNSET
     state: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -39,6 +43,10 @@ class ContextExecResponse:
     def to_dict(self) -> dict[str, Any]:
         output_raw = self.output_raw
 
+        stdout = self.stdout
+
+        stderr = self.stderr
+
         exit_code = self.exit_code
 
         state = self.state
@@ -49,6 +57,10 @@ class ContextExecResponse:
         field_dict.update({
             "output_raw": output_raw,
         })
+        if stdout is not UNSET:
+            field_dict["stdout"] = stdout
+        if stderr is not UNSET:
+            field_dict["stderr"] = stderr
         if exit_code is not UNSET:
             field_dict["exit_code"] = exit_code
         if state is not UNSET:
@@ -63,12 +75,18 @@ class ContextExecResponse:
         d = dict(src_dict)
         output_raw = d.pop("output_raw")
 
+        stdout = d.pop("stdout", UNSET)
+
+        stderr = d.pop("stderr", UNSET)
+
         exit_code = d.pop("exit_code", UNSET)
 
         state = d.pop("state", UNSET)
 
         context_exec_response = cls(
             output_raw=output_raw,
+            stdout=stdout,
+            stderr=stderr,
             exit_code=exit_code,
             state=state,
         )

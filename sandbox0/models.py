@@ -19,6 +19,10 @@ class CmdResult:
     sandbox_id: str
     context_id: str
     output_raw: str
+    stdout: str = ""
+    stderr: str = ""
+    exit_code: Optional[int] = None
+    state: Optional[str] = None
 
 
 @dataclass(frozen=True)
