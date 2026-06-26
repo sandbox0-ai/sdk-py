@@ -25,7 +25,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "httpx>=0.27.0,<0.29.0",
+  "httpx[socks]>=0.27.0,<0.29.0",
   "attrs>=22.2.0",
   "python-dateutil>=2.8.0,<3.0.0",
   "websockets>=12.0",
@@ -41,10 +41,20 @@ dev = [
   "twine>=5.0.0",
   "openapi-python-client==0.26.2",
   "mypy>=1.8.0",
+  "pytest>=9.1.0,<10.0.0; python_version >= '3.10'",
+  "pytest-asyncio>=1.3.0; python_version >= '3.10'",
+  "langchain-tests>=1.1.9,<2.0.0; python_version >= '3.10'",
 ]
 openai-agents = [
   "openai-agents>=0.17.6,<0.18; python_version >= '3.10'",
 ]
+deepagents = [
+  "deepagents==0.7.0a2; python_version >= '3.11'",
+  "deepagents-code==0.1.26; python_version >= '3.11'",
+]
+
+[project.entry-points."deepagents_code.sandbox_providers"]
+sandbox0 = "sandbox0_deepagents.provider:Sandbox0Provider"
 
 [tool.setuptools]
 include-package-data = true
@@ -55,6 +65,10 @@ include = ["sandbox0*"]
 [tool.setuptools.package-data]
 sandbox0 = ["py.typed"]
 sandbox0_openai_agents = ["py.typed"]
+sandbox0_deepagents = ["py.typed"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
 
 [tool.mypy]
 exclude = ["sandbox0/apispec/"]

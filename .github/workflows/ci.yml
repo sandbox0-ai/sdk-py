@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      S0_E2E_BASE_URL: ${{ secrets.S0_E2E_BASE_URL }}
+      S0_E2E_EMAIL: ${{ secrets.S0_E2E_EMAIL }}
+      S0_E2E_PASSWORD: ${{ secrets.S0_E2E_PASSWORD }}
+      S0_E2E_TEMPLATE: default
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,openai-agents,deepagents]"
+
+      - name: Compile sources
+        run: python -m compileall -q sandbox0 sandbox0_openai_agents sandbox0_deepagents tests
+
+      - name: Run SDK, OpenAI Agents, and Deep Agents unit tests
+        run: python -m unittest discover -s tests -p "test_*.py"
+
+      - name: Run LangChain Deep Agents standard sandbox tests
+        run: python -m pytest tests/e2e/test_deepagents_standard.py
+
+      - name: Typecheck
+        run: python -m mypy sandbox0/ sandbox0_deepagents/

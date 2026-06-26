@@ -7,18 +7,21 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any, Literal, Optional
 
-from agents.sandbox.errors import ExecTimeoutError
-from agents.sandbox.manifest import Manifest
-from agents.sandbox.snapshot import NoopSnapshot, SnapshotBase
-
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from sandbox0.sandbox import Sandbox
-from sandbox0_openai_agents import (
-    Sandbox0SandboxClient,
-    Sandbox0SandboxClientOptions,
-    Sandbox0SandboxSession,
-    Sandbox0SandboxSessionState,
-)
+
+try:
+    from agents.sandbox.errors import ExecTimeoutError
+    from agents.sandbox.manifest import Manifest
+    from agents.sandbox.snapshot import NoopSnapshot, SnapshotBase
+    from sandbox0_openai_agents import (
+        Sandbox0SandboxClient,
+        Sandbox0SandboxClientOptions,
+        Sandbox0SandboxSession,
+        Sandbox0SandboxSessionState,
+    )
+except ImportError as exc:  # pragma: no cover - exercised when the extra is absent
+    raise unittest.SkipTest("openai-agents extra is not installed") from exc
 
 
 class _FakeSnapshot(SnapshotBase):
