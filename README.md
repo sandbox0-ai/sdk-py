@@ -99,6 +99,37 @@ session state must resume the same workspace volume after cleanup. Use
 volume snapshots; generic OpenAI SDK snapshot specs are not used by this
 adapter.
 
+## LangChain Deep Agents Sandbox
+
+Install the optional Deep Agents adapter dependency:
+
+```bash
+pip install "sandbox0[deepagents]"
+```
+
+The package registers a Deep Agents Code sandbox provider named `sandbox0`, so
+`dcode` can claim a Sandbox0 `default` template sandbox directly:
+
+```bash
+export SANDBOX0_TOKEN=...
+dcode --sandbox sandbox0
+```
+
+For custom Deep Agents usage, wrap an existing Sandbox0 sandbox backend:
+
+```python
+import os
+from sandbox0 import Client
+from sandbox0_deepagents import Sandbox0DeepAgentsSandbox
+
+client = Client(token=os.environ["SANDBOX0_TOKEN"])
+sandbox = client.sandboxes.claim("default")
+backend = Sandbox0DeepAgentsSandbox(sandbox=sandbox)
+
+result = backend.execute("python3 - <<'PY'\nprint('hello')\nPY")
+print(result.output)
+```
+
 ## Documentation
 
 - [Sandbox0 docs](https://sandbox0.ai/docs)

@@ -36,13 +36,13 @@ build: clean
 	@python3 -m build
 
 check:
-	@python3 -m compileall -q sandbox0 examples tests
+	@python3 -m compileall -q sandbox0 sandbox0_openai_agents sandbox0_deepagents tests
 	@python3 -m unittest discover -s tests -p "test_*.py"
 	@$(MAKE) typecheck
 
 typecheck:
 	@python3 -m pip install --user mypy >/dev/null
-	@python3 -m mypy sandbox0/
+	@python3 -m mypy sandbox0/ sandbox0_deepagents/
 
 check-dist: build
 	@python3 -m twine check dist/*
