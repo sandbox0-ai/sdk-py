@@ -1,67 +1,74 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.quota_dimension import QuotaDimension
-from ..types import UNSET, Unset
-from typing import cast, Union
-from typing import Union
-
-
-
-
-
+from ..models.team_quota_unit import TeamQuotaUnit
 
 T = TypeVar("T", bound="TeamQuota")
 
 
-
 @_attrs_define
 class TeamQuota:
-    """ 
-        Attributes:
-            team_id (str):
-            dimension (QuotaDimension):
-            limit_value (Union[None, Unset, int]):
-     """
+    """
+    Attributes:
+        team_id (str):
+        dimension (QuotaDimension):
+        limit_value (Union[None, int]):
+        current (int):
+        remaining (Union[None, int]):
+        unlimited (bool):
+        unit (TeamQuotaUnit):
+    """
 
     team_id: str
     dimension: QuotaDimension
-    limit_value: Union[None, Unset, int] = UNSET
+    limit_value: Union[None, int]
+    current: int
+    remaining: Union[None, int]
+    unlimited: bool
+    unit: TeamQuotaUnit
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         team_id = self.team_id
 
         dimension = self.dimension.value
 
-        limit_value: Union[None, Unset, int]
-        if isinstance(self.limit_value, Unset):
-            limit_value = UNSET
-        else:
-            limit_value = self.limit_value
+        limit_value: Union[None, int]
+        limit_value = self.limit_value
 
+        current = self.current
+
+        remaining: Union[None, int]
+        remaining = self.remaining
+
+        unlimited = self.unlimited
+
+        unit = self.unit.value
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "team_id": team_id,
-            "dimension": dimension,
-        })
-        if limit_value is not UNSET:
-            field_dict["limit_value"] = limit_value
+        field_dict.update(
+            {
+                "team_id": team_id,
+                "dimension": dimension,
+                "limit_value": limit_value,
+                "current": current,
+                "remaining": remaining,
+                "unlimited": unlimited,
+                "unit": unit,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -70,25 +77,35 @@ class TeamQuota:
 
         dimension = QuotaDimension(d.pop("dimension"))
 
-
-
-
-        def _parse_limit_value(data: object) -> Union[None, Unset, int]:
+        def _parse_limit_value(data: object) -> Union[None, int]:
             if data is None:
                 return data
-            if isinstance(data, Unset):
+            return cast(Union[None, int], data)
+
+        limit_value = _parse_limit_value(d.pop("limit_value"))
+
+        current = d.pop("current")
+
+        def _parse_remaining(data: object) -> Union[None, int]:
+            if data is None:
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(Union[None, int], data)
 
-        limit_value = _parse_limit_value(d.pop("limit_value", UNSET))
+        remaining = _parse_remaining(d.pop("remaining"))
 
+        unlimited = d.pop("unlimited")
+
+        unit = TeamQuotaUnit(d.pop("unit"))
 
         team_quota = cls(
             team_id=team_id,
             dimension=dimension,
             limit_value=limit_value,
+            current=current,
+            remaining=remaining,
+            unlimited=unlimited,
+            unit=unit,
         )
-
 
         team_quota.additional_properties = d
         return team_quota

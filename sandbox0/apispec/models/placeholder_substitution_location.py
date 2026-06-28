@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class PlaceholderSubstitutionLocation(str, Enum):
     BODY = "body"
     HEADER = "header"

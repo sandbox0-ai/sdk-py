@@ -1,63 +1,54 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-  from ..models.sandbox_app_service_health import SandboxAppServiceHealth
-  from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
-
-
-
+    from ..models.sandbox_app_service_health import SandboxAppServiceHealth
+    from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+    from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
 
 
 T = TypeVar("T", bound="SandboxAppServiceView")
 
 
-
 @_attrs_define
 class SandboxAppServiceView:
-    """ 
-        Attributes:
-            id (str): Stable service ID. Must be a DNS label.
-            ingress (SandboxAppServiceIngress):
-            publishable (bool):
-            display_name (Union[Unset, str]):
-            port (Union[Unset, int]): Public exposure routing port. Required for manual and cmd services. Omit for function
-                services; Sandbox0 assigns the internal function service port.
-            runtime (Union[Unset, SandboxAppServiceRuntime]):
-            health_check (Union[Unset, SandboxAppServiceHealth]):
-            publish_blockers (Union[Unset, list[str]]):
-            public_url (Union[Unset, str]): Public HTTPS URL for this service when public exposure is enabled.
-     """
+    """
+    Attributes:
+        id (str): Stable service ID. Must be a DNS label.
+        ingress (SandboxAppServiceIngress):
+        publishable (bool):
+        display_name (Union[Unset, str]):
+        port (Union[Unset, int]): Public exposure routing port. Required for manual and cmd services. Omit for function
+            services; Sandbox0 assigns the internal function service port.
+        runtime (Union[Unset, SandboxAppServiceRuntime]):
+        health_check (Union[Unset, SandboxAppServiceHealth]):
+        publish_blockers (Union[Unset, list[str]]):
+        public_url (Union[Unset, str]): Public HTTPS URL for this service when public exposure is enabled.
+    """
 
     id: str
-    ingress: 'SandboxAppServiceIngress'
+    ingress: "SandboxAppServiceIngress"
     publishable: bool
     display_name: Union[Unset, str] = UNSET
     port: Union[Unset, int] = UNSET
-    runtime: Union[Unset, 'SandboxAppServiceRuntime'] = UNSET
-    health_check: Union[Unset, 'SandboxAppServiceHealth'] = UNSET
+    runtime: Union[Unset, "SandboxAppServiceRuntime"] = UNSET
+    health_check: Union[Unset, "SandboxAppServiceHealth"] = UNSET
     publish_blockers: Union[Unset, list[str]] = UNSET
     public_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
-        from ..models.sandbox_app_service_health import SandboxAppServiceHealth
-        from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
         id = self.id
 
         ingress = self.ingress.to_dict()
@@ -80,18 +71,17 @@ class SandboxAppServiceView:
         if not isinstance(self.publish_blockers, Unset):
             publish_blockers = self.publish_blockers
 
-
-
         public_url = self.public_url
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "ingress": ingress,
-            "publishable": publishable,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "ingress": ingress,
+                "publishable": publishable,
+            }
+        )
         if display_name is not UNSET:
             field_dict["display_name"] = display_name
         if port is not UNSET:
@@ -107,20 +97,16 @@ class SandboxAppServiceView:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
         from ..models.sandbox_app_service_health import SandboxAppServiceHealth
         from ..models.sandbox_app_service_ingress import SandboxAppServiceIngress
+        from ..models.sandbox_app_service_runtime import SandboxAppServiceRuntime
+
         d = dict(src_dict)
         id = d.pop("id")
 
         ingress = SandboxAppServiceIngress.from_dict(d.pop("ingress"))
-
-
-
 
         publishable = d.pop("publishable")
 
@@ -130,26 +116,19 @@ class SandboxAppServiceView:
 
         _runtime = d.pop("runtime", UNSET)
         runtime: Union[Unset, SandboxAppServiceRuntime]
-        if isinstance(_runtime,  Unset):
+        if isinstance(_runtime, Unset):
             runtime = UNSET
         else:
             runtime = SandboxAppServiceRuntime.from_dict(_runtime)
 
-
-
-
         _health_check = d.pop("health_check", UNSET)
         health_check: Union[Unset, SandboxAppServiceHealth]
-        if isinstance(_health_check,  Unset):
+        if isinstance(_health_check, Unset):
             health_check = UNSET
         else:
             health_check = SandboxAppServiceHealth.from_dict(_health_check)
 
-
-
-
         publish_blockers = cast(list[str], d.pop("publish_blockers", UNSET))
-
 
         public_url = d.pop("public_url", UNSET)
 
@@ -164,7 +143,6 @@ class SandboxAppServiceView:
             publish_blockers=publish_blockers,
             public_url=public_url,
         )
-
 
         sandbox_app_service_view.additional_properties = d
         return sandbox_app_service_view

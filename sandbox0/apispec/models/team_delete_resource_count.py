@@ -1,61 +1,54 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
-
-T = TypeVar("T", bound="PutTeamQuotaRequest")
-
+T = TypeVar("T", bound="TeamDeleteResourceCount")
 
 
 @_attrs_define
-class PutTeamQuotaRequest:
-    """ 
-        Attributes:
-            limit_value (int):
-     """
+class TeamDeleteResourceCount:
+    """
+    Attributes:
+        category (str): Machine-readable resource category that still references the team.
+        count (int): Number of resources in this category.
+    """
 
-    limit_value: int
+    category: str
+    count: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        limit_value = self.limit_value
+        category = self.category
 
+        count = self.count
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "limit_value": limit_value,
-        })
+        field_dict.update(
+            {
+                "category": category,
+                "count": count,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        limit_value = d.pop("limit_value")
+        category = d.pop("category")
 
-        put_team_quota_request = cls(
-            limit_value=limit_value,
+        count = d.pop("count")
+
+        team_delete_resource_count = cls(
+            category=category,
+            count=count,
         )
 
-
-        put_team_quota_request.additional_properties = d
-        return put_team_quota_request
+        team_delete_resource_count.additional_properties = d
+        return team_delete_resource_count
 
     @property
     def additional_keys(self) -> list[str]:

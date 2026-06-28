@@ -1,41 +1,32 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="ResourceQuota")
-
 
 
 @_attrs_define
 class ResourceQuota:
-    """ 
-        Attributes:
-            cpu (Union[Unset, str]):
-            memory (Union[Unset, str]):
-            ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
-                logs. Defaults to 8Gi when omitted.
-     """
+    """
+    Attributes:
+        cpu (Union[Unset, str]):
+        memory (Union[Unset, str]):
+        ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
+            logs. Defaults to 8Gi when omitted.
+    """
 
     cpu: Union[Unset, str] = UNSET
     memory: Union[Unset, str] = UNSET
     ephemeral_storage: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         cpu = self.cpu
@@ -44,11 +35,9 @@ class ResourceQuota:
 
         ephemeral_storage = self.ephemeral_storage
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if cpu is not UNSET:
             field_dict["cpu"] = cpu
         if memory is not UNSET:
@@ -57,8 +46,6 @@ class ResourceQuota:
             field_dict["ephemeralStorage"] = ephemeral_storage
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -74,7 +61,6 @@ class ResourceQuota:
             memory=memory,
             ephemeral_storage=ephemeral_storage,
         )
-
 
         resource_quota.additional_properties = d
         return resource_quota

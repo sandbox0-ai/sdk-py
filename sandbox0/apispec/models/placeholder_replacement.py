@@ -1,41 +1,31 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.placeholder_substitution_location import PlaceholderSubstitutionLocation
-from typing import cast
-
-
-
-
-
 
 T = TypeVar("T", bound="PlaceholderReplacement")
 
 
-
 @_attrs_define
 class PlaceholderReplacement:
-    """ 
-        Attributes:
-            placeholder (str): Opaque sandbox-visible value to replace.
-            value_template (str): Template rendered against the resolved credential source payload.
-            locations (list[PlaceholderSubstitutionLocation]): HTTP request locations where this placeholder can be
-                replaced.
-     """
+    """
+    Attributes:
+        placeholder (str): Opaque sandbox-visible value to replace.
+        value_template (str): Template rendered against the resolved credential source payload.
+        locations (list[PlaceholderSubstitutionLocation]): HTTP request locations where this placeholder can be
+            replaced.
+    """
 
     placeholder: str
     value_template: str
     locations: list[PlaceholderSubstitutionLocation]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         placeholder = self.placeholder
@@ -47,20 +37,17 @@ class PlaceholderReplacement:
             locations_item = locations_item_data.value
             locations.append(locations_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "placeholder": placeholder,
-            "valueTemplate": value_template,
-            "locations": locations,
-        })
+        field_dict.update(
+            {
+                "placeholder": placeholder,
+                "valueTemplate": value_template,
+                "locations": locations,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -71,20 +58,16 @@ class PlaceholderReplacement:
 
         locations = []
         _locations = d.pop("locations")
-        for locations_item_data in (_locations):
+        for locations_item_data in _locations:
             locations_item = PlaceholderSubstitutionLocation(locations_item_data)
 
-
-
             locations.append(locations_item)
-
 
         placeholder_replacement = cls(
             placeholder=placeholder,
             value_template=value_template,
             locations=locations,
         )
-
 
         placeholder_replacement.additional_properties = d
         return placeholder_replacement

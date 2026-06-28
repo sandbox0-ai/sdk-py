@@ -1,42 +1,33 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="Toleration")
-
 
 
 @_attrs_define
 class Toleration:
-    """ 
-        Attributes:
-            key (Union[Unset, str]):
-            operator (Union[Unset, str]):
-            value (Union[Unset, str]):
-            effect (Union[Unset, str]):
-     """
+    """
+    Attributes:
+        key (Union[Unset, str]):
+        operator (Union[Unset, str]):
+        value (Union[Unset, str]):
+        effect (Union[Unset, str]):
+    """
 
     key: Union[Unset, str] = UNSET
     operator: Union[Unset, str] = UNSET
     value: Union[Unset, str] = UNSET
     effect: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         key = self.key
@@ -47,11 +38,9 @@ class Toleration:
 
         effect = self.effect
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if key is not UNSET:
             field_dict["key"] = key
         if operator is not UNSET:
@@ -62,8 +51,6 @@ class Toleration:
             field_dict["effect"] = effect
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -82,7 +69,6 @@ class Toleration:
             value=value,
             effect=effect,
         )
-
 
         toleration.additional_properties = d
         return toleration

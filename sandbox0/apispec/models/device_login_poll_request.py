@@ -1,48 +1,34 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
-
 T = TypeVar("T", bound="DeviceLoginPollRequest")
-
 
 
 @_attrs_define
 class DeviceLoginPollRequest:
-    """ 
-        Attributes:
-            device_login_id (str):
-     """
+    """
+    Attributes:
+        device_login_id (str):
+    """
 
     device_login_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
         device_login_id = self.device_login_id
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "device_login_id": device_login_id,
-        })
+        field_dict.update(
+            {
+                "device_login_id": device_login_id,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -52,7 +38,6 @@ class DeviceLoginPollRequest:
         device_login_poll_request = cls(
             device_login_id=device_login_id,
         )
-
 
         device_login_poll_request.additional_properties = d
         return device_login_poll_request

@@ -1,53 +1,44 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.sandbox_config import SandboxConfig
-  from ..models.claim_mount_request import ClaimMountRequest
-
-
-
+    from ..models.claim_mount_request import ClaimMountRequest
+    from ..models.sandbox_config import SandboxConfig
 
 
 T = TypeVar("T", bound="ClaimRequest")
 
 
-
 @_attrs_define
 class ClaimRequest:
-    """ 
-        Attributes:
-            template (Union[Unset, str]):
-            snapshot_id (Union[Unset, str]): Optional sandbox rootfs snapshot ID used to initialize the claimed sandbox
-                writable root filesystem.
-            config (Union[Unset, SandboxConfig]):
-            mounts (Union[Unset, list['ClaimMountRequest']]): Optional claim-time Sandbox Volume bindings. A claim may bind
-                any subset of template-declared mount points; omitted declared mount points remain writable rootfs-backed
-                directories and are included in rootfs checkpoints.
-     """
+    """
+    Attributes:
+        template (Union[Unset, str]):
+        snapshot_id (Union[Unset, str]): Optional sandbox rootfs snapshot ID used to initialize the claimed sandbox
+            writable root filesystem.
+        config (Union[Unset, SandboxConfig]):
+        mounts (Union[Unset, list['ClaimMountRequest']]): Optional claim-time Sandbox Volume bindings. A claim may bind
+            any subset of template-declared mount points; omitted declared mount points remain writable rootfs-backed
+            directories and are included in rootfs checkpoints.
+    """
 
     template: Union[Unset, str] = UNSET
     snapshot_id: Union[Unset, str] = UNSET
-    config: Union[Unset, 'SandboxConfig'] = UNSET
-    mounts: Union[Unset, list['ClaimMountRequest']] = UNSET
+    config: Union[Unset, "SandboxConfig"] = UNSET
+    mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_config import SandboxConfig
-        from ..models.claim_mount_request import ClaimMountRequest
         template = self.template
 
         snapshot_id = self.snapshot_id
@@ -63,13 +54,9 @@ class ClaimRequest:
                 mounts_item = mounts_item_data.to_dict()
                 mounts.append(mounts_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if template is not UNSET:
             field_dict["template"] = template
         if snapshot_id is not UNSET:
@@ -81,12 +68,11 @@ class ClaimRequest:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_config import SandboxConfig
         from ..models.claim_mount_request import ClaimMountRequest
+        from ..models.sandbox_config import SandboxConfig
+
         d = dict(src_dict)
         template = d.pop("template", UNSET)
 
@@ -94,23 +80,17 @@ class ClaimRequest:
 
         _config = d.pop("config", UNSET)
         config: Union[Unset, SandboxConfig]
-        if isinstance(_config,  Unset):
+        if isinstance(_config, Unset):
             config = UNSET
         else:
             config = SandboxConfig.from_dict(_config)
 
-
-
-
         mounts = []
         _mounts = d.pop("mounts", UNSET)
-        for mounts_item_data in (_mounts or []):
+        for mounts_item_data in _mounts or []:
             mounts_item = ClaimMountRequest.from_dict(mounts_item_data)
 
-
-
             mounts.append(mounts_item)
-
 
         claim_request = cls(
             template=template,
@@ -118,7 +98,6 @@ class ClaimRequest:
             config=config,
             mounts=mounts,
         )
-
 
         claim_request.additional_properties = d
         return claim_request

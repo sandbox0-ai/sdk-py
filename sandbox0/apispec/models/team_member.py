@@ -1,39 +1,33 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
-
-from ..types import UNSET, Unset
 from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
 
-
-
-
-
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="TeamMember")
 
 
-
 @_attrs_define
 class TeamMember:
-    """ 
-        Attributes:
-            id (str):
-            team_id (str):
-            user_id (str):
-            role (str):
-            joined_at (datetime.datetime):
-            email (Union[Unset, str]): User email address. Present in team member list responses.
-            name (Union[Unset, str]): User display name. Present in team member list responses.
-            avatar_url (Union[Unset, str]): User avatar URL. Present in team member list responses.
-     """
+    """
+    Attributes:
+        id (str):
+        team_id (str):
+        user_id (str):
+        role (str):
+        joined_at (datetime.datetime):
+        email (Union[Unset, str]): User email address. Present in team member list responses.
+        name (Union[Unset, str]): User display name. Present in team member list responses.
+        avatar_url (Union[Unset, str]): User avatar URL. Present in team member list responses.
+    """
 
     id: str
     team_id: str
@@ -44,10 +38,6 @@ class TeamMember:
     name: Union[Unset, str] = UNSET
     avatar_url: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -66,16 +56,17 @@ class TeamMember:
 
         avatar_url = self.avatar_url
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "team_id": team_id,
-            "user_id": user_id,
-            "role": role,
-            "joined_at": joined_at,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "team_id": team_id,
+                "user_id": user_id,
+                "role": role,
+                "joined_at": joined_at,
+            }
+        )
         if email is not UNSET:
             field_dict["email"] = email
         if name is not UNSET:
@@ -84,8 +75,6 @@ class TeamMember:
             field_dict["avatar_url"] = avatar_url
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -99,9 +88,6 @@ class TeamMember:
         role = d.pop("role")
 
         joined_at = isoparse(d.pop("joined_at"))
-
-
-
 
         email = d.pop("email", UNSET)
 
@@ -119,7 +105,6 @@ class TeamMember:
             name=name,
             avatar_url=avatar_url,
         )
-
 
         team_member.additional_properties = d
         return team_member

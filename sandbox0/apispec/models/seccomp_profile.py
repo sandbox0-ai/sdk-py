@@ -1,65 +1,52 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.seccomp_profile_type import SeccompProfileType
 from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
 
 T = TypeVar("T", bound="SeccompProfile")
 
 
-
 @_attrs_define
 class SeccompProfile:
-    """ 
-        Attributes:
-            type_ (SeccompProfileType):
-            localhost_profile (Union[Unset, str]):
-     """
+    """
+    Attributes:
+        type_ (SeccompProfileType):
+        localhost_profile (Union[Unset, str]):
+    """
 
     type_: SeccompProfileType
     localhost_profile: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
 
         localhost_profile = self.localhost_profile
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "type": type_,
-        })
+        field_dict.update(
+            {
+                "type": type_,
+            }
+        )
         if localhost_profile is not UNSET:
             field_dict["localhostProfile"] = localhost_profile
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = SeccompProfileType(d.pop("type"))
-
-
-
 
         localhost_profile = d.pop("localhostProfile", UNSET)
 
@@ -67,7 +54,6 @@ class SeccompProfile:
             type_=type_,
             localhost_profile=localhost_profile,
         )
-
 
         seccomp_profile.additional_properties = d
         return seccomp_profile

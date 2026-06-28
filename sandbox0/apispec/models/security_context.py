@@ -1,62 +1,52 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.capabilities import Capabilities
-  from ..models.app_armor_profile import AppArmorProfile
-  from ..models.seccomp_profile import SeccompProfile
-
-
-
+    from ..models.app_armor_profile import AppArmorProfile
+    from ..models.capabilities import Capabilities
+    from ..models.seccomp_profile import SeccompProfile
 
 
 T = TypeVar("T", bound="SecurityContext")
 
 
-
 @_attrs_define
 class SecurityContext:
-    """ 
-        Attributes:
-            capabilities (Union[Unset, Capabilities]):
-            privileged (Union[Unset, bool]):
-            run_as_user (Union[Unset, int]):
-            run_as_group (Union[Unset, int]):
-            run_as_non_root (Union[Unset, bool]):
-            read_only_root_filesystem (Union[Unset, bool]):
-            allow_privilege_escalation (Union[Unset, bool]):
-            seccomp_profile (Union[Unset, SeccompProfile]):
-            app_armor_profile (Union[Unset, AppArmorProfile]):
-     """
+    """
+    Attributes:
+        capabilities (Union[Unset, Capabilities]):
+        privileged (Union[Unset, bool]):
+        run_as_user (Union[Unset, int]):
+        run_as_group (Union[Unset, int]):
+        run_as_non_root (Union[Unset, bool]):
+        read_only_root_filesystem (Union[Unset, bool]):
+        allow_privilege_escalation (Union[Unset, bool]):
+        seccomp_profile (Union[Unset, SeccompProfile]):
+        app_armor_profile (Union[Unset, AppArmorProfile]):
+    """
 
-    capabilities: Union[Unset, 'Capabilities'] = UNSET
+    capabilities: Union[Unset, "Capabilities"] = UNSET
     privileged: Union[Unset, bool] = UNSET
     run_as_user: Union[Unset, int] = UNSET
     run_as_group: Union[Unset, int] = UNSET
     run_as_non_root: Union[Unset, bool] = UNSET
     read_only_root_filesystem: Union[Unset, bool] = UNSET
     allow_privilege_escalation: Union[Unset, bool] = UNSET
-    seccomp_profile: Union[Unset, 'SeccompProfile'] = UNSET
-    app_armor_profile: Union[Unset, 'AppArmorProfile'] = UNSET
+    seccomp_profile: Union[Unset, "SeccompProfile"] = UNSET
+    app_armor_profile: Union[Unset, "AppArmorProfile"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.capabilities import Capabilities
-        from ..models.app_armor_profile import AppArmorProfile
-        from ..models.seccomp_profile import SeccompProfile
         capabilities: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.capabilities, Unset):
             capabilities = self.capabilities.to_dict()
@@ -81,11 +71,9 @@ class SecurityContext:
         if not isinstance(self.app_armor_profile, Unset):
             app_armor_profile = self.app_armor_profile.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if capabilities is not UNSET:
             field_dict["capabilities"] = capabilities
         if privileged is not UNSET:
@@ -107,23 +95,19 @@ class SecurityContext:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.capabilities import Capabilities
         from ..models.app_armor_profile import AppArmorProfile
+        from ..models.capabilities import Capabilities
         from ..models.seccomp_profile import SeccompProfile
+
         d = dict(src_dict)
         _capabilities = d.pop("capabilities", UNSET)
         capabilities: Union[Unset, Capabilities]
-        if isinstance(_capabilities,  Unset):
+        if isinstance(_capabilities, Unset):
             capabilities = UNSET
         else:
             capabilities = Capabilities.from_dict(_capabilities)
-
-
-
 
         privileged = d.pop("privileged", UNSET)
 
@@ -139,23 +123,17 @@ class SecurityContext:
 
         _seccomp_profile = d.pop("seccompProfile", UNSET)
         seccomp_profile: Union[Unset, SeccompProfile]
-        if isinstance(_seccomp_profile,  Unset):
+        if isinstance(_seccomp_profile, Unset):
             seccomp_profile = UNSET
         else:
             seccomp_profile = SeccompProfile.from_dict(_seccomp_profile)
 
-
-
-
         _app_armor_profile = d.pop("appArmorProfile", UNSET)
         app_armor_profile: Union[Unset, AppArmorProfile]
-        if isinstance(_app_armor_profile,  Unset):
+        if isinstance(_app_armor_profile, Unset):
             app_armor_profile = UNSET
         else:
             app_armor_profile = AppArmorProfile.from_dict(_app_armor_profile)
-
-
-
 
         security_context = cls(
             capabilities=capabilities,
@@ -168,7 +146,6 @@ class SecurityContext:
             seccomp_profile=seccomp_profile,
             app_armor_profile=app_armor_profile,
         )
-
 
         security_context.additional_properties = d
         return security_context
