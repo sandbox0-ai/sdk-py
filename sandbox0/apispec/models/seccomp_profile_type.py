@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SeccompProfileType(str, Enum):
     LOCALHOST = "Localhost"
     RUNTIMEDEFAULT = "RuntimeDefault"

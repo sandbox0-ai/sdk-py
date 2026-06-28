@@ -1,63 +1,47 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.sandbox_function_source_type import SandboxFunctionSourceType
-
-
-
-
-
 
 T = TypeVar("T", bound="SandboxFunctionSource")
 
 
-
 @_attrs_define
 class SandboxFunctionSource:
-    """ Function source code stored in sandbox service config.
+    """Function source code stored in sandbox service config.
 
-        Attributes:
-            type_ (SandboxFunctionSourceType): Source transport. Only inline source is supported in this version.
-            code (str): Inline source code. Limited to 256 KiB.
-     """
+    Attributes:
+        type_ (SandboxFunctionSourceType): Source transport. Only inline source is supported in this version.
+        code (str): Inline source code. Limited to 256 KiB.
+    """
 
     type_: SandboxFunctionSourceType
     code: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
 
         code = self.code
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "type": type_,
-            "code": code,
-        })
+        field_dict.update(
+            {
+                "type": type_,
+                "code": code,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         type_ = SandboxFunctionSourceType(d.pop("type"))
-
-
-
 
         code = d.pop("code")
 
@@ -65,7 +49,6 @@ class SandboxFunctionSource:
             type_=type_,
             code=code,
         )
-
 
         sandbox_function_source.additional_properties = d
         return sandbox_function_source

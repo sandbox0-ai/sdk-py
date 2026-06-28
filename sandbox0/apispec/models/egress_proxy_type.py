@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class EgressProxyType(str, Enum):
     SOCKS5 = "socks5"
 

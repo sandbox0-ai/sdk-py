@@ -1,48 +1,39 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.volume_access_mode import VolumeAccessMode
 from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
 
 T = TypeVar("T", bound="CreateSandboxVolumeRequest")
 
 
-
 @_attrs_define
 class CreateSandboxVolumeRequest:
-    """ 
-        Attributes:
-            snapshot_id (Union[Unset, str]): Optional snapshot ID used to initialize the new volume from immutable snapshot
-                state.
-            default_posix_uid (Union[Unset, int]): Default POSIX UID used by external volume access paths that do not carry
-                caller identity. Defaults to 0 when omitted on create. Default: 0.
-            default_posix_gid (Union[Unset, int]): Default POSIX GID used by external volume access paths that do not carry
-                caller identity. Defaults to 0 when omitted on create. Default: 0.
-            access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
-                proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
-                instances; RWX allows read-write mounts across instances.
-     """
+    """
+    Attributes:
+        snapshot_id (Union[Unset, str]): Optional snapshot ID used to initialize the new volume from immutable snapshot
+            state.
+        default_posix_uid (Union[Unset, int]): Default POSIX UID used by external volume access paths that do not carry
+            caller identity. Defaults to 0 when omitted on create. Default: 0.
+        default_posix_gid (Union[Unset, int]): Default POSIX GID used by external volume access paths that do not carry
+            caller identity. Defaults to 0 when omitted on create. Default: 0.
+        access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
+            proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
+            instances; RWX allows read-write mounts across instances.
+    """
 
     snapshot_id: Union[Unset, str] = UNSET
     default_posix_uid: Union[Unset, int] = 0
     default_posix_gid: Union[Unset, int] = 0
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         snapshot_id = self.snapshot_id
@@ -55,12 +46,9 @@ class CreateSandboxVolumeRequest:
         if not isinstance(self.access_mode, Unset):
             access_mode = self.access_mode.value
 
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if snapshot_id is not UNSET:
             field_dict["snapshot_id"] = snapshot_id
         if default_posix_uid is not UNSET:
@@ -71,8 +59,6 @@ class CreateSandboxVolumeRequest:
             field_dict["access_mode"] = access_mode
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -85,13 +71,10 @@ class CreateSandboxVolumeRequest:
 
         _access_mode = d.pop("access_mode", UNSET)
         access_mode: Union[Unset, VolumeAccessMode]
-        if isinstance(_access_mode,  Unset):
+        if isinstance(_access_mode, Unset):
             access_mode = UNSET
         else:
             access_mode = VolumeAccessMode(_access_mode)
-
-
-
 
         create_sandbox_volume_request = cls(
             snapshot_id=snapshot_id,
@@ -99,7 +82,6 @@ class CreateSandboxVolumeRequest:
             default_posix_gid=default_posix_gid,
             access_mode=access_mode,
         )
-
 
         create_sandbox_volume_request.additional_properties = d
         return create_sandbox_volume_request

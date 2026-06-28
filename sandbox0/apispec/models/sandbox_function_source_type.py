@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SandboxFunctionSourceType(str, Enum):
     INLINE = "inline"
 

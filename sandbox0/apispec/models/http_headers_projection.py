@@ -1,43 +1,35 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.projected_header import ProjectedHeader
-
-
-
+    from ..models.projected_header import ProjectedHeader
 
 
 T = TypeVar("T", bound="HTTPHeadersProjection")
 
 
-
 @_attrs_define
 class HTTPHeadersProjection:
-    """ 
-        Attributes:
-            headers (Union[Unset, list['ProjectedHeader']]): Outbound headers synthesized from the resolved credential
-                source.
-     """
+    """
+    Attributes:
+        headers (Union[Unset, list['ProjectedHeader']]): Outbound headers synthesized from the resolved credential
+            source.
+    """
 
-    headers: Union[Unset, list['ProjectedHeader']] = UNSET
+    headers: Union[Unset, list["ProjectedHeader"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.projected_header import ProjectedHeader
         headers: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.headers, Unset):
             headers = []
@@ -45,38 +37,29 @@ class HTTPHeadersProjection:
                 headers_item = headers_item_data.to_dict()
                 headers.append(headers_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if headers is not UNSET:
             field_dict["headers"] = headers
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.projected_header import ProjectedHeader
+
         d = dict(src_dict)
         headers = []
         _headers = d.pop("headers", UNSET)
-        for headers_item_data in (_headers or []):
+        for headers_item_data in _headers or []:
             headers_item = ProjectedHeader.from_dict(headers_item_data)
 
-
-
             headers.append(headers_item)
-
 
         http_headers_projection = cls(
             headers=headers,
         )
-
 
         http_headers_projection.additional_properties = d
         return http_headers_projection

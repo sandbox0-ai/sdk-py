@@ -1,43 +1,33 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
-
-from ..types import UNSET, Unset
 from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
 
-
-
-
-
+from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="CreateSandboxRootFSSnapshotRequest")
 
 
-
 @_attrs_define
 class CreateSandboxRootFSSnapshotRequest:
-    """ 
-        Attributes:
-            name (Union[Unset, str]):
-            description (Union[Unset, str]):
-            expires_at (Union[Unset, datetime.datetime]): Optional snapshot expiration timestamp. Zero value means not set.
-     """
+    """
+    Attributes:
+        name (Union[Unset, str]):
+        description (Union[Unset, str]):
+        expires_at (Union[Unset, datetime.datetime]): Optional snapshot expiration timestamp. Zero value means not set.
+    """
 
     name: Union[Unset, str] = UNSET
     description: Union[Unset, str] = UNSET
     expires_at: Union[Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
@@ -48,11 +38,9 @@ class CreateSandboxRootFSSnapshotRequest:
         if not isinstance(self.expires_at, Unset):
             expires_at = self.expires_at.isoformat()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if name is not UNSET:
             field_dict["name"] = name
         if description is not UNSET:
@@ -61,8 +49,6 @@ class CreateSandboxRootFSSnapshotRequest:
             field_dict["expires_at"] = expires_at
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -73,20 +59,16 @@ class CreateSandboxRootFSSnapshotRequest:
 
         _expires_at = d.pop("expires_at", UNSET)
         expires_at: Union[Unset, datetime.datetime]
-        if isinstance(_expires_at,  Unset):
+        if isinstance(_expires_at, Unset):
             expires_at = UNSET
         else:
             expires_at = isoparse(_expires_at)
-
-
-
 
         create_sandbox_root_fs_snapshot_request = cls(
             name=name,
             description=description,
             expires_at=expires_at,
         )
-
 
         create_sandbox_root_fs_snapshot_request.additional_properties = d
         return create_sandbox_root_fs_snapshot_request

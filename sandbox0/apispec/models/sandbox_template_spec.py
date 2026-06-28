@@ -1,70 +1,58 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.volume_mount_spec import VolumeMountSpec
-  from ..models.sandbox_network_policy import SandboxNetworkPolicy
-  from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-  from ..models.pool_strategy import PoolStrategy
-  from ..models.pod_spec_override import PodSpecOverride
-  from ..models.container_spec import ContainerSpec
-
-
-
+    from ..models.container_spec import ContainerSpec
+    from ..models.pod_spec_override import PodSpecOverride
+    from ..models.pool_strategy import PoolStrategy
+    from ..models.sandbox_network_policy import SandboxNetworkPolicy
+    from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
+    from ..models.volume_mount_spec import VolumeMountSpec
 
 
 T = TypeVar("T", bound="SandboxTemplateSpec")
 
 
-
 @_attrs_define
 class SandboxTemplateSpec:
-    """ 
-        Attributes:
-            description (Union[Unset, str]):
-            display_name (Union[Unset, str]):
-            tags (Union[Unset, list[str]]):
-            main_container (Union[Unset, ContainerSpec]):
-            volume_mounts (Union[Unset, list['VolumeMountSpec']]):
-            pod (Union[Unset, PodSpecOverride]):
-            network (Union[Unset, SandboxNetworkPolicy]):
-            pool (Union[Unset, PoolStrategy]):
-            env_vars (Union[Unset, SandboxTemplateSpecEnvVars]):
-            cluster_id (Union[Unset, str]):
-     """
+    """
+    Attributes:
+        description (Union[Unset, str]):
+        display_name (Union[Unset, str]):
+        tags (Union[Unset, list[str]]):
+        main_container (Union[Unset, ContainerSpec]):
+        volume_mounts (Union[Unset, list['VolumeMountSpec']]):
+        pod (Union[Unset, PodSpecOverride]):
+        network (Union[Unset, SandboxNetworkPolicy]):
+        pool (Union[Unset, PoolStrategy]):
+        env_vars (Union[Unset, SandboxTemplateSpecEnvVars]):
+        cluster_id (Union[Unset, str]):
+    """
 
     description: Union[Unset, str] = UNSET
     display_name: Union[Unset, str] = UNSET
     tags: Union[Unset, list[str]] = UNSET
-    main_container: Union[Unset, 'ContainerSpec'] = UNSET
-    volume_mounts: Union[Unset, list['VolumeMountSpec']] = UNSET
-    pod: Union[Unset, 'PodSpecOverride'] = UNSET
-    network: Union[Unset, 'SandboxNetworkPolicy'] = UNSET
-    pool: Union[Unset, 'PoolStrategy'] = UNSET
-    env_vars: Union[Unset, 'SandboxTemplateSpecEnvVars'] = UNSET
+    main_container: Union[Unset, "ContainerSpec"] = UNSET
+    volume_mounts: Union[Unset, list["VolumeMountSpec"]] = UNSET
+    pod: Union[Unset, "PodSpecOverride"] = UNSET
+    network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
+    pool: Union[Unset, "PoolStrategy"] = UNSET
+    env_vars: Union[Unset, "SandboxTemplateSpecEnvVars"] = UNSET
     cluster_id: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.volume_mount_spec import VolumeMountSpec
-        from ..models.sandbox_network_policy import SandboxNetworkPolicy
-        from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.pool_strategy import PoolStrategy
-        from ..models.pod_spec_override import PodSpecOverride
-        from ..models.container_spec import ContainerSpec
         description = self.description
 
         display_name = self.display_name
@@ -72,8 +60,6 @@ class SandboxTemplateSpec:
         tags: Union[Unset, list[str]] = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
-
-
 
         main_container: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.main_container, Unset):
@@ -85,8 +71,6 @@ class SandboxTemplateSpec:
             for volume_mounts_item_data in self.volume_mounts:
                 volume_mounts_item = volume_mounts_item_data.to_dict()
                 volume_mounts.append(volume_mounts_item)
-
-
 
         pod: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pod, Unset):
@@ -106,11 +90,9 @@ class SandboxTemplateSpec:
 
         cluster_id = self.cluster_id
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if description is not UNSET:
             field_dict["description"] = description
         if display_name is not UNSET:
@@ -134,16 +116,15 @@ class SandboxTemplateSpec:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.volume_mount_spec import VolumeMountSpec
+        from ..models.container_spec import ContainerSpec
+        from ..models.pod_spec_override import PodSpecOverride
+        from ..models.pool_strategy import PoolStrategy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.pool_strategy import PoolStrategy
-        from ..models.pod_spec_override import PodSpecOverride
-        from ..models.container_spec import ContainerSpec
+        from ..models.volume_mount_spec import VolumeMountSpec
+
         d = dict(src_dict)
         description = d.pop("description", UNSET)
 
@@ -151,66 +132,47 @@ class SandboxTemplateSpec:
 
         tags = cast(list[str], d.pop("tags", UNSET))
 
-
         _main_container = d.pop("mainContainer", UNSET)
         main_container: Union[Unset, ContainerSpec]
-        if isinstance(_main_container,  Unset):
+        if isinstance(_main_container, Unset):
             main_container = UNSET
         else:
             main_container = ContainerSpec.from_dict(_main_container)
 
-
-
-
         volume_mounts = []
         _volume_mounts = d.pop("volumeMounts", UNSET)
-        for volume_mounts_item_data in (_volume_mounts or []):
+        for volume_mounts_item_data in _volume_mounts or []:
             volume_mounts_item = VolumeMountSpec.from_dict(volume_mounts_item_data)
-
-
 
             volume_mounts.append(volume_mounts_item)
 
-
         _pod = d.pop("pod", UNSET)
         pod: Union[Unset, PodSpecOverride]
-        if isinstance(_pod,  Unset):
+        if isinstance(_pod, Unset):
             pod = UNSET
         else:
             pod = PodSpecOverride.from_dict(_pod)
 
-
-
-
         _network = d.pop("network", UNSET)
         network: Union[Unset, SandboxNetworkPolicy]
-        if isinstance(_network,  Unset):
+        if isinstance(_network, Unset):
             network = UNSET
         else:
             network = SandboxNetworkPolicy.from_dict(_network)
 
-
-
-
         _pool = d.pop("pool", UNSET)
         pool: Union[Unset, PoolStrategy]
-        if isinstance(_pool,  Unset):
+        if isinstance(_pool, Unset):
             pool = UNSET
         else:
             pool = PoolStrategy.from_dict(_pool)
 
-
-
-
         _env_vars = d.pop("envVars", UNSET)
         env_vars: Union[Unset, SandboxTemplateSpecEnvVars]
-        if isinstance(_env_vars,  Unset):
+        if isinstance(_env_vars, Unset):
             env_vars = UNSET
         else:
             env_vars = SandboxTemplateSpecEnvVars.from_dict(_env_vars)
-
-
-
 
         cluster_id = d.pop("clusterId", UNSET)
 
@@ -226,7 +188,6 @@ class SandboxTemplateSpec:
             env_vars=env_vars,
             cluster_id=cluster_id,
         )
-
 
         sandbox_template_spec.additional_properties = d
         return sandbox_template_spec

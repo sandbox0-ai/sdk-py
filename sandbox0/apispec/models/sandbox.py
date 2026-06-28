@@ -1,53 +1,50 @@
+import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
+from dateutil.parser import isoparse
 
 from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
-from dateutil.parser import isoparse
-from typing import cast
-from typing import Union
-import datetime
 
 if TYPE_CHECKING:
-  from ..models.sandbox_app_service import SandboxAppService
-  from ..models.claim_mount_request import ClaimMountRequest
-  from ..models.sandbox_ssh_connection import SandboxSSHConnection
-
-
-
+    from ..models.claim_mount_request import ClaimMountRequest
+    from ..models.sandbox_app_service import SandboxAppService
+    from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
 
 T = TypeVar("T", bound="Sandbox")
 
 
-
 @_attrs_define
 class Sandbox:
-    """ 
-        Attributes:
-            id (str):
-            template_id (str):
-            team_id (str):
-            status (SandboxLifecycleStatus):
-            paused (bool): True when status is paused and no runtime is attached.
-            auto_resume (bool):
-            pod_name (str):
-            runtime_generation (int): Monotonically increasing runtime generation. Resume starts a new generation.
-            expires_at (datetime.datetime): Soft expiration timestamp. Zero value means not set.
-            hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
-            claimed_at (datetime.datetime):
-            created_at (datetime.datetime):
-            updated_at (datetime.datetime):
-            user_id (Union[Unset, str]):
-            services (Union[Unset, list['SandboxAppService']]):
-            mounts (Union[Unset, list['ClaimMountRequest']]):
-            ssh (Union[Unset, SandboxSSHConnection]):
-     """
+    """
+    Attributes:
+        id (str):
+        template_id (str):
+        team_id (str):
+        status (SandboxLifecycleStatus):
+        paused (bool): True when status is paused.
+        auto_resume (bool):
+        pod_name (str):
+        runtime_generation (int): Monotonically increasing runtime generation. Resume starts a new generation.
+        expires_at (datetime.datetime): Soft expiration timestamp. Zero value means not set.
+        hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
+        claimed_at (datetime.datetime):
+        created_at (datetime.datetime):
+        updated_at (datetime.datetime):
+        user_id (Union[Unset, str]):
+        services (Union[Unset, list['SandboxAppService']]):
+        mounts (Union[Unset, list['ClaimMountRequest']]):
+        ssh (Union[Unset, SandboxSSHConnection]):
+    """
 
     id: str
     template_id: str
@@ -63,19 +60,12 @@ class Sandbox:
     created_at: datetime.datetime
     updated_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
-    services: Union[Unset, list['SandboxAppService']] = UNSET
-    mounts: Union[Unset, list['ClaimMountRequest']] = UNSET
-    ssh: Union[Unset, 'SandboxSSHConnection'] = UNSET
+    services: Union[Unset, list["SandboxAppService"]] = UNSET
+    mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
+    ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.sandbox_app_service import SandboxAppService
-        from ..models.claim_mount_request import ClaimMountRequest
-        from ..models.sandbox_ssh_connection import SandboxSSHConnection
         id = self.id
 
         template_id = self.template_id
@@ -111,8 +101,6 @@ class Sandbox:
                 services_item = services_item_data.to_dict()
                 services.append(services_item)
 
-
-
         mounts: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.mounts, Unset):
             mounts = []
@@ -120,30 +108,29 @@ class Sandbox:
                 mounts_item = mounts_item_data.to_dict()
                 mounts.append(mounts_item)
 
-
-
         ssh: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.ssh, Unset):
             ssh = self.ssh.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "id": id,
-            "template_id": template_id,
-            "team_id": team_id,
-            "status": status,
-            "paused": paused,
-            "auto_resume": auto_resume,
-            "pod_name": pod_name,
-            "runtime_generation": runtime_generation,
-            "expires_at": expires_at,
-            "hard_expires_at": hard_expires_at,
-            "claimed_at": claimed_at,
-            "created_at": created_at,
-            "updated_at": updated_at,
-        })
+        field_dict.update(
+            {
+                "id": id,
+                "template_id": template_id,
+                "team_id": team_id,
+                "status": status,
+                "paused": paused,
+                "auto_resume": auto_resume,
+                "pod_name": pod_name,
+                "runtime_generation": runtime_generation,
+                "expires_at": expires_at,
+                "hard_expires_at": hard_expires_at,
+                "claimed_at": claimed_at,
+                "created_at": created_at,
+                "updated_at": updated_at,
+            }
+        )
         if user_id is not UNSET:
             field_dict["user_id"] = user_id
         if services is not UNSET:
@@ -155,13 +142,12 @@ class Sandbox:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_app_service import SandboxAppService
         from ..models.claim_mount_request import ClaimMountRequest
+        from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
+
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -170,9 +156,6 @@ class Sandbox:
         team_id = d.pop("team_id")
 
         status = SandboxLifecycleStatus(d.pop("status"))
-
-
-
 
         paused = d.pop("paused")
 
@@ -184,60 +167,36 @@ class Sandbox:
 
         expires_at = isoparse(d.pop("expires_at"))
 
-
-
-
         hard_expires_at = isoparse(d.pop("hard_expires_at"))
-
-
-
 
         claimed_at = isoparse(d.pop("claimed_at"))
 
-
-
-
         created_at = isoparse(d.pop("created_at"))
 
-
-
-
         updated_at = isoparse(d.pop("updated_at"))
-
-
-
 
         user_id = d.pop("user_id", UNSET)
 
         services = []
         _services = d.pop("services", UNSET)
-        for services_item_data in (_services or []):
+        for services_item_data in _services or []:
             services_item = SandboxAppService.from_dict(services_item_data)
-
-
 
             services.append(services_item)
 
-
         mounts = []
         _mounts = d.pop("mounts", UNSET)
-        for mounts_item_data in (_mounts or []):
+        for mounts_item_data in _mounts or []:
             mounts_item = ClaimMountRequest.from_dict(mounts_item_data)
-
-
 
             mounts.append(mounts_item)
 
-
         _ssh = d.pop("ssh", UNSET)
         ssh: Union[Unset, SandboxSSHConnection]
-        if isinstance(_ssh,  Unset):
+        if isinstance(_ssh, Unset):
             ssh = UNSET
         else:
             ssh = SandboxSSHConnection.from_dict(_ssh)
-
-
-
 
         sandbox = cls(
             id=id,
@@ -258,7 +217,6 @@ class Sandbox:
             mounts=mounts,
             ssh=ssh,
         )
-
 
         sandbox.additional_properties = d
         return sandbox

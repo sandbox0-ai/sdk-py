@@ -1,39 +1,31 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.credential_source_write_request import CredentialSourceWriteRequest
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_credential_source_response import SuccessCredentialSourceResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     name: str,
     *,
     body: CredentialSourceWriteRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
-
-    
-
-    
-
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/api/v1/credential-sources/{name}".format(name=name,),
+        "url": "/api/v1/credential-sources/{name}".format(
+            name=name,
+        ),
     }
 
     _kwargs["json"] = body.to_dict()
-
 
     headers["Content-Type"] = "application/json"
 
@@ -41,19 +33,21 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     if response.status_code == 200:
         response_200 = SuccessCredentialSourceResponse.from_dict(response.json())
 
-
-
         return response_200
+
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+        return response_400
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
-
-
 
         return response_404
 
@@ -63,7 +57,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -77,9 +73,11 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Update credential source
+    """Update credential source
+
+     Replace the secret material for an existing credential source. The resolver kind is immutable for a
+    source name; create a new source when changing resolver kinds.
 
     Args:
         name (str):
@@ -91,13 +89,11 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         name=name,
-body=body,
-
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -106,14 +102,17 @@ body=body,
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     name: str,
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Update credential source
+    """Update credential source
+
+     Replace the secret material for an existing credential source. The resolver kind is immutable for a
+    source name; create a new source when changing resolver kinds.
 
     Args:
         name (str):
@@ -125,24 +124,25 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessCredentialSourceResponse]
-     """
-
+    """
 
     return sync_detailed(
         name=name,
-client=client,
-body=body,
-
+        client=client,
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     name: str,
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Update credential source
+    """Update credential source
+
+     Replace the secret material for an existing credential source. The resolver kind is immutable for a
+    source name; create a new source when changing resolver kinds.
 
     Args:
         name (str):
@@ -154,29 +154,28 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         name=name,
-body=body,
-
+        body=body,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     name: str,
     *,
     client: AuthenticatedClient,
     body: CredentialSourceWriteRequest,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessCredentialSourceResponse]]:
-    """ Update credential source
+    """Update credential source
+
+     Replace the secret material for an existing credential source. The resolver kind is immutable for a
+    source name; create a new source when changing resolver kinds.
 
     Args:
         name (str):
@@ -188,12 +187,12 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessCredentialSourceResponse]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        name=name,
-client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            name=name,
+            client=client,
+            body=body,
+        )
+    ).parsed

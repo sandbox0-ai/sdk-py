@@ -1,53 +1,39 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
-
 T = TypeVar("T", bound="StaticUsernamePasswordSourceSpec")
-
 
 
 @_attrs_define
 class StaticUsernamePasswordSourceSpec:
-    """ 
-        Attributes:
-            username (str):
-            password (str):
-     """
+    """
+    Attributes:
+        username (str):
+        password (str):
+    """
 
     username: str
     password: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         username = self.username
 
         password = self.password
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "username": username,
-            "password": password,
-        })
+        field_dict.update(
+            {
+                "username": username,
+                "password": password,
+            }
+        )
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -60,7 +46,6 @@ class StaticUsernamePasswordSourceSpec:
             username=username,
             password=password,
         )
-
 
         static_username_password_source_spec.additional_properties = d
         return static_username_password_source_spec

@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class GatewayMetadataGatewayMode(str, Enum):
     DIRECT = "direct"
     GLOBAL = "global"

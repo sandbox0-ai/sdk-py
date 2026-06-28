@@ -1,61 +1,47 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.success_team_member_list_response import SuccessTeamMemberListResponse
-from ...types import UNSET, Unset
-from typing import cast
-from typing import Union
-
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
     *,
     query: Union[Unset, str] = UNSET,
-
 ) -> dict[str, Any]:
-    
-
-    
-
     params: dict[str, Any] = {}
 
     params["query"] = query
 
-
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/teams/{id}/members".format(id=id,),
+        "url": "/teams/{id}/members".format(
+            id=id,
+        ),
         "params": params,
     }
-
 
     return _kwargs
 
 
-
-def _parse_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
     if response.status_code == 200:
         response_200 = SuccessTeamMemberListResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 403:
         response_403 = ErrorEnvelope.from_dict(response.json())
-
-
 
         return response_403
 
@@ -65,7 +51,9 @@ def _parse_response(*, client: Union[AuthenticatedClient, Client], response: htt
         return None
 
 
-def _build_response(*, client: Union[AuthenticatedClient, Client], response: httpx.Response) -> Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,9 +67,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     query: Union[Unset, str] = UNSET,
-
 ) -> Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+    """List team members
 
     Args:
         id (str):
@@ -93,13 +80,11 @@ def sync_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-query=query,
-
+        query=query,
     )
 
     response = client.get_httpx_client().request(
@@ -108,14 +93,14 @@ query=query,
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     id: str,
     *,
     client: AuthenticatedClient,
     query: Union[Unset, str] = UNSET,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+    """List team members
 
     Args:
         id (str):
@@ -127,24 +112,22 @@ def sync(
 
     Returns:
         Union[ErrorEnvelope, SuccessTeamMemberListResponse]
-     """
-
+    """
 
     return sync_detailed(
         id=id,
-client=client,
-query=query,
-
+        client=client,
+        query=query,
     ).parsed
+
 
 async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
     query: Union[Unset, str] = UNSET,
-
 ) -> Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+    """List team members
 
     Args:
         id (str):
@@ -156,29 +139,25 @@ async def asyncio_detailed(
 
     Returns:
         Response[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]
-     """
-
+    """
 
     kwargs = _get_kwargs(
         id=id,
-query=query,
-
+        query=query,
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
+
 
 async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
     query: Union[Unset, str] = UNSET,
-
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamMemberListResponse]]:
-    """ List team members
+    """List team members
 
     Args:
         id (str):
@@ -190,12 +169,12 @@ async def asyncio(
 
     Returns:
         Union[ErrorEnvelope, SuccessTeamMemberListResponse]
-     """
+    """
 
-
-    return (await asyncio_detailed(
-        id=id,
-client=client,
-query=query,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            id=id,
+            client=client,
+            query=query,
+        )
+    ).parsed

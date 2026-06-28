@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class FileWatchErrorType(str, Enum):
     ERROR = "error"
 

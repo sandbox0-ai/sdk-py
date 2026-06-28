@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class QuotaDimension(str, Enum):
     ACTIVE_SANDBOXES = "active_sandboxes"
     CPU_MILLICPU = "cpu_millicpu"

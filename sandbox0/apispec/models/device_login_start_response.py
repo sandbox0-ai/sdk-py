@@ -1,34 +1,29 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import Union
-
-
-
-
-
-
 T = TypeVar("T", bound="DeviceLoginStartResponse")
-
 
 
 @_attrs_define
 class DeviceLoginStartResponse:
-    """ 
-        Attributes:
-            device_login_id (str):
-            user_code (str):
-            verification_uri (str):
-            expires_at (int):
-            interval_seconds (int):
-            verification_uri_complete (Union[Unset, str]):
-     """
+    """
+    Attributes:
+        device_login_id (str):
+        user_code (str):
+        verification_uri (str):
+        expires_at (int):
+        interval_seconds (int):
+        verification_uri_complete (Union[Unset, str]):
+    """
 
     device_login_id: str
     user_code: str
@@ -37,10 +32,6 @@ class DeviceLoginStartResponse:
     interval_seconds: int
     verification_uri_complete: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         device_login_id = self.device_login_id
@@ -55,22 +46,21 @@ class DeviceLoginStartResponse:
 
         verification_uri_complete = self.verification_uri_complete
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "device_login_id": device_login_id,
-            "user_code": user_code,
-            "verification_uri": verification_uri,
-            "expires_at": expires_at,
-            "interval_seconds": interval_seconds,
-        })
+        field_dict.update(
+            {
+                "device_login_id": device_login_id,
+                "user_code": user_code,
+                "verification_uri": verification_uri,
+                "expires_at": expires_at,
+                "interval_seconds": interval_seconds,
+            }
+        )
         if verification_uri_complete is not UNSET:
             field_dict["verification_uri_complete"] = verification_uri_complete
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -95,7 +85,6 @@ class DeviceLoginStartResponse:
             interval_seconds=interval_seconds,
             verification_uri_complete=verification_uri_complete,
         )
-
 
         device_login_start_response.additional_properties = d
         return device_login_start_response

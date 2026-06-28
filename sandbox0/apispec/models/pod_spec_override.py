@@ -1,56 +1,45 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
-  from ..models.toleration import Toleration
-  from ..models.empty_dir_mount_spec import EmptyDirMountSpec
-  from ..models.affinity import Affinity
-
-
-
+    from ..models.affinity import Affinity
+    from ..models.empty_dir_mount_spec import EmptyDirMountSpec
+    from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
+    from ..models.toleration import Toleration
 
 
 T = TypeVar("T", bound="PodSpecOverride")
 
 
-
 @_attrs_define
 class PodSpecOverride:
-    """ 
-        Attributes:
-            node_selector (Union[Unset, PodSpecOverrideNodeSelector]):
-            affinity (Union[Unset, Affinity]):
-            tolerations (Union[Unset, list['Toleration']]):
-            service_account_name (Union[Unset, str]):
-            empty_dir_mounts (Union[Unset, list['EmptyDirMountSpec']]):
-     """
+    """
+    Attributes:
+        node_selector (Union[Unset, PodSpecOverrideNodeSelector]):
+        affinity (Union[Unset, Affinity]):
+        tolerations (Union[Unset, list['Toleration']]):
+        service_account_name (Union[Unset, str]):
+        empty_dir_mounts (Union[Unset, list['EmptyDirMountSpec']]):
+    """
 
-    node_selector: Union[Unset, 'PodSpecOverrideNodeSelector'] = UNSET
-    affinity: Union[Unset, 'Affinity'] = UNSET
-    tolerations: Union[Unset, list['Toleration']] = UNSET
+    node_selector: Union[Unset, "PodSpecOverrideNodeSelector"] = UNSET
+    affinity: Union[Unset, "Affinity"] = UNSET
+    tolerations: Union[Unset, list["Toleration"]] = UNSET
     service_account_name: Union[Unset, str] = UNSET
-    empty_dir_mounts: Union[Unset, list['EmptyDirMountSpec']] = UNSET
+    empty_dir_mounts: Union[Unset, list["EmptyDirMountSpec"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
-        from ..models.toleration import Toleration
-        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
-        from ..models.affinity import Affinity
         node_selector: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.node_selector, Unset):
             node_selector = self.node_selector.to_dict()
@@ -66,8 +55,6 @@ class PodSpecOverride:
                 tolerations_item = tolerations_item_data.to_dict()
                 tolerations.append(tolerations_item)
 
-
-
         service_account_name = self.service_account_name
 
         empty_dir_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
@@ -77,13 +64,9 @@ class PodSpecOverride:
                 empty_dir_mounts_item = empty_dir_mounts_item_data.to_dict()
                 empty_dir_mounts.append(empty_dir_mounts_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if node_selector is not UNSET:
             field_dict["nodeSelector"] = node_selector
         if affinity is not UNSET:
@@ -97,56 +80,45 @@ class PodSpecOverride:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.affinity import Affinity
+        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
         from ..models.pod_spec_override_node_selector import PodSpecOverrideNodeSelector
         from ..models.toleration import Toleration
-        from ..models.empty_dir_mount_spec import EmptyDirMountSpec
-        from ..models.affinity import Affinity
+
         d = dict(src_dict)
         _node_selector = d.pop("nodeSelector", UNSET)
         node_selector: Union[Unset, PodSpecOverrideNodeSelector]
-        if isinstance(_node_selector,  Unset):
+        if isinstance(_node_selector, Unset):
             node_selector = UNSET
         else:
             node_selector = PodSpecOverrideNodeSelector.from_dict(_node_selector)
 
-
-
-
         _affinity = d.pop("affinity", UNSET)
         affinity: Union[Unset, Affinity]
-        if isinstance(_affinity,  Unset):
+        if isinstance(_affinity, Unset):
             affinity = UNSET
         else:
             affinity = Affinity.from_dict(_affinity)
 
-
-
-
         tolerations = []
         _tolerations = d.pop("tolerations", UNSET)
-        for tolerations_item_data in (_tolerations or []):
+        for tolerations_item_data in _tolerations or []:
             tolerations_item = Toleration.from_dict(tolerations_item_data)
 
-
-
             tolerations.append(tolerations_item)
-
 
         service_account_name = d.pop("serviceAccountName", UNSET)
 
         empty_dir_mounts = []
         _empty_dir_mounts = d.pop("emptyDirMounts", UNSET)
-        for empty_dir_mounts_item_data in (_empty_dir_mounts or []):
-            empty_dir_mounts_item = EmptyDirMountSpec.from_dict(empty_dir_mounts_item_data)
-
-
+        for empty_dir_mounts_item_data in _empty_dir_mounts or []:
+            empty_dir_mounts_item = EmptyDirMountSpec.from_dict(
+                empty_dir_mounts_item_data
+            )
 
             empty_dir_mounts.append(empty_dir_mounts_item)
-
 
         pod_spec_override = cls(
             node_selector=node_selector,
@@ -155,7 +127,6 @@ class PodSpecOverride:
             service_account_name=service_account_name,
             empty_dir_mounts=empty_dir_mounts,
         )
-
 
         pod_spec_override.additional_properties = d
         return pod_spec_override

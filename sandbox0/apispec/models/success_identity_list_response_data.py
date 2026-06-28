@@ -1,42 +1,34 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Optional, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-from typing import Union
-
 if TYPE_CHECKING:
-  from ..models.identity import Identity
-
-
-
+    from ..models.identity import Identity
 
 
 T = TypeVar("T", bound="SuccessIdentityListResponseData")
 
 
-
 @_attrs_define
 class SuccessIdentityListResponseData:
-    """ 
-        Attributes:
-            identities (Union[Unset, list['Identity']]):
-     """
+    """
+    Attributes:
+        identities (Union[Unset, list['Identity']]):
+    """
 
-    identities: Union[Unset, list['Identity']] = UNSET
+    identities: Union[Unset, list["Identity"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.identity import Identity
         identities: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.identities, Unset):
             identities = []
@@ -44,38 +36,29 @@ class SuccessIdentityListResponseData:
                 identities_item = identities_item_data.to_dict()
                 identities.append(identities_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if identities is not UNSET:
             field_dict["identities"] = identities
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.identity import Identity
+
         d = dict(src_dict)
         identities = []
         _identities = d.pop("identities", UNSET)
-        for identities_item_data in (_identities or []):
+        for identities_item_data in _identities or []:
             identities_item = Identity.from_dict(identities_item_data)
 
-
-
             identities.append(identities_item)
-
 
         success_identity_list_response_data = cls(
             identities=identities,
         )
-
 
         success_identity_list_response_data.additional_properties = d
         return success_identity_list_response_data

@@ -1,10 +1,9 @@
 from enum import Enum
 
+
 class SandboxLifecycleStatus(str, Enum):
     FAILED = "failed"
     PAUSED = "paused"
-    PAUSING = "pausing"
-    RESUMING = "resuming"
     RUNNING = "running"
     STARTING = "starting"
     TERMINATING = "terminating"
