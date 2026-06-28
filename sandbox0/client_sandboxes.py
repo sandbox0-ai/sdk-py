@@ -20,8 +20,10 @@ from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
+from sandbox0.apispec.models.sandbox_resource_config import SandboxResourceConfig
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
+from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
@@ -42,7 +44,20 @@ if TYPE_CHECKING:
 class ClientSandboxesMixin:
     _api: Any
 
-    def claim_sandbox(self: "Client", template: str, config: Optional[SandboxConfig] = None) -> "Sandbox":  # type: ignore[misc]
+    def claim_sandbox(  # type: ignore[misc]
+        self: "Client",
+        template: str,
+        config: Optional[SandboxConfig] = None,
+        memory: Optional[str] = None,
+    ) -> "Sandbox":
+        if memory is not None:
+            resources = SandboxResourceConfig(memory=memory)
+            if config is None:
+                config = SandboxConfig(resources=resources)
+            else:
+                data = config.to_dict()
+                data["resources"] = resources.to_dict()
+                config = SandboxConfig.from_dict(data)
         request = ClaimRequest(template=template, config=config) if config is not None else ClaimRequest(template=template)
         resp = post_api_v1_sandboxes.sync_detailed(client=self._api, body=request)
         data = ensure_data(resp, SuccessClaimResponse)
@@ -64,6 +79,14 @@ class ClientSandboxesMixin:
     def update_sandbox(self: "Client", sandbox_id: str, request: SandboxUpdateRequest) -> APISandbox:  # type: ignore[misc]
         resp = put_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._api, body=request)
         return ensure_data(resp, SuccessSandboxResponse)
+
+    def update_sandbox_memory(self: "Client", sandbox_id: str, memory: str) -> APISandbox:  # type: ignore[misc]
+        return self.update_sandbox(
+            sandbox_id,
+            SandboxUpdateRequest(
+                config=SandboxUpdateConfig(resources=SandboxResourceConfig(memory=memory)),
+            ),
+        )
 
     def delete_sandbox(self: "Client", sandbox_id: str) -> SuccessMessageResponse:  # type: ignore[misc]
         resp = delete_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._api)

@@ -46,9 +46,11 @@ from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxRespons
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
+from sandbox0.apispec.models.sandbox_resource_config import SandboxResourceConfig
 from sandbox0.apispec.models.sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
+from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.sandbox_volume import SandboxVolume
 from sandbox0.apispec.models.snapshot import Snapshot
@@ -96,6 +98,17 @@ if TYPE_CHECKING:
     from sandbox0.sandbox import Sandbox
 
 
+def _sandbox_config_with_memory(config: Optional[SandboxConfig], memory: Optional[str]) -> Optional[SandboxConfig]:
+    if memory is None:
+        return config
+    resources = SandboxResourceConfig(memory=memory)
+    if config is None:
+        return SandboxConfig(resources=resources)
+    data = config.to_dict()
+    data["resources"] = resources.to_dict()
+    return SandboxConfig.from_dict(data)
+
+
 class Sandboxes:
     def __init__(self, client: "Client") -> None:
         self._client = client
@@ -106,8 +119,10 @@ class Sandboxes:
         config: Optional[SandboxConfig] = None,
         mounts: Optional[list[ClaimMountRequest]] = None,
         snapshot_id: Optional[str] = None,
+        memory: Optional[str] = None,
     ) -> "Sandbox":
         request = ClaimRequest(template=template)
+        config = _sandbox_config_with_memory(config, memory)
         if config is not None:
             request.config = config
         if mounts is not None:
@@ -138,12 +153,14 @@ class Sandboxes:
         config: Optional[SandboxConfig] = None,
         mounts: Optional[list[ClaimMountRequest]] = None,
         snapshot_id: Optional[str] = None,
+        memory: Optional[str] = None,
     ) -> SandboxSession:
         sandbox = self.claim(
             template,
             config=config,
             mounts=mounts,
             snapshot_id=snapshot_id,
+            memory=memory,
         )
         return SandboxSession(sandbox, closer=lambda: None if self.delete(sandbox.id) else None)
 
@@ -154,6 +171,14 @@ class Sandboxes:
     def update(self, sandbox_id: str, request: SandboxUpdateRequest) -> APISandbox:
         resp = put_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._client.api, body=request)
         return ensure_data(resp, SuccessSandboxResponse)
+
+    def update_memory(self, sandbox_id: str, memory: str) -> APISandbox:
+        return self.update(
+            sandbox_id,
+            SandboxUpdateRequest(
+                config=SandboxUpdateConfig(resources=SandboxResourceConfig(memory=memory)),
+            ),
+        )
 
     def delete(self, sandbox_id: str) -> SuccessMessageResponse:
         resp = delete_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._client.api)

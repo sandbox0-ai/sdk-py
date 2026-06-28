@@ -14,6 +14,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.sandbox_app_service import SandboxAppService
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
+    from ..models.sandbox_resource_config import SandboxResourceConfig
     from ..models.sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
 
 
@@ -30,6 +31,8 @@ class SandboxUpdateConfig:
                 new procd-managed
                 processes. Omitting this field preserves the existing environment map; passing
                 an empty object clears it.
+            resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
+                memory only and derives CPU from the platform memory-per-CPU ratio.
             ttl (Union[Unset, int]): Runtime soft time-to-live in seconds. When it expires, Sandbox0 checkpoints the
                 writable rootfs, pauses the sandbox, and releases runtime compute while preserving durable sandbox state.
             hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the
@@ -43,6 +46,7 @@ class SandboxUpdateConfig:
     """
 
     env_vars: Union[Unset, "SandboxUpdateConfigEnvVars"] = UNSET
+    resources: Union[Unset, "SandboxResourceConfig"] = UNSET
     ttl: Union[Unset, int] = UNSET
     hard_ttl: Union[Unset, int] = UNSET
     network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
@@ -54,6 +58,10 @@ class SandboxUpdateConfig:
         env_vars: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
+
+        resources: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.resources, Unset):
+            resources = self.resources.to_dict()
 
         ttl = self.ttl
 
@@ -77,6 +85,8 @@ class SandboxUpdateConfig:
         field_dict.update({})
         if env_vars is not UNSET:
             field_dict["env_vars"] = env_vars
+        if resources is not UNSET:
+            field_dict["resources"] = resources
         if ttl is not UNSET:
             field_dict["ttl"] = ttl
         if hard_ttl is not UNSET:
@@ -94,6 +104,7 @@ class SandboxUpdateConfig:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
+        from ..models.sandbox_resource_config import SandboxResourceConfig
         from ..models.sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
 
         d = dict(src_dict)
@@ -103,6 +114,13 @@ class SandboxUpdateConfig:
             env_vars = UNSET
         else:
             env_vars = SandboxUpdateConfigEnvVars.from_dict(_env_vars)
+
+        _resources = d.pop("resources", UNSET)
+        resources: Union[Unset, SandboxResourceConfig]
+        if isinstance(_resources, Unset):
+            resources = UNSET
+        else:
+            resources = SandboxResourceConfig.from_dict(_resources)
 
         ttl = d.pop("ttl", UNSET)
 
@@ -126,6 +144,7 @@ class SandboxUpdateConfig:
 
         sandbox_update_config = cls(
             env_vars=env_vars,
+            resources=resources,
             ttl=ttl,
             hard_ttl=hard_ttl,
             network=network,

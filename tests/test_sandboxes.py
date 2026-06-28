@@ -21,6 +21,7 @@ from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
 from sandbox0.apispec.models.success_fork_sandbox_response import SuccessForkSandboxResponse
 from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import SuccessRestoreSandboxRootFSResponse
+from sandbox0.apispec.models.success_sandbox_response import SuccessSandboxResponse
 from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_list_response import SuccessSandboxRootFSSnapshotListResponse
 from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_response import SuccessSandboxRootFSSnapshotResponse
 from sandbox0.apispec.types import Response
@@ -64,6 +65,7 @@ class TestSandboxes(TestCase):
             sandbox = client.sandboxes.claim(
                 "default",
                 config=SandboxConfig(ttl=300),
+                memory="512Mi",
                 mounts=[ClaimMountRequest(sandboxvolume_id="vol_1", mount_point="/workspace/data")],
                 snapshot_id="snap_123",
             )
@@ -71,6 +73,7 @@ class TestSandboxes(TestCase):
         request = captured["body"]
         self.assertEqual(request.template, "default")
         self.assertEqual(request.config.ttl, 300)
+        self.assertEqual(request.config.resources.memory, "512Mi")
         self.assertEqual(len(request.mounts), 1)
         self.assertEqual(request.mounts[0].sandboxvolume_id, "vol_1")
         self.assertEqual(request.snapshot_id, "snap_123")
@@ -92,6 +95,7 @@ class TestSandboxes(TestCase):
                 config=SandboxConfig(ttl=120),
                 mounts=[ClaimMountRequest(sandboxvolume_id="vol_2", mount_point="/workspace/cache")],
                 snapshot_id="snap_456",
+                memory="1Gi",
             )
 
         claim_mock.assert_called_once_with(
@@ -99,8 +103,48 @@ class TestSandboxes(TestCase):
             config=SandboxConfig(ttl=120),
             mounts=[ClaimMountRequest(sandboxvolume_id="vol_2", mount_point="/workspace/cache")],
             snapshot_id="snap_456",
+            memory="1Gi",
         )
         self.assertIs(session.sandbox, sandbox)
+
+    def test_update_memory_builds_request(self) -> None:
+        client = Client(token="test-token", base_url="https://example.com")
+        self.addCleanup(client.close)
+
+        now = datetime.now(timezone.utc)
+        updated = APISandbox(
+            id="sb_123",
+            template_id="default",
+            team_id="team_1",
+            status=SandboxLifecycleStatus.RUNNING,
+            paused=False,
+            auto_resume=True,
+            pod_name="pod-a",
+            runtime_generation=1,
+            expires_at=now,
+            hard_expires_at=now,
+            claimed_at=now,
+            created_at=now,
+            updated_at=now,
+        )
+        captured = {}
+
+        def fake_sync_detailed(**kwargs):
+            captured.update(kwargs)
+            return Response(
+                status_code=HTTPStatus.OK,
+                content=b"{}",
+                headers={},
+                parsed=SuccessSandboxResponse(success=True, data=updated),
+            )
+
+        with patch("sandbox0.resources.put_api_v1_sandboxes_id.sync_detailed", side_effect=fake_sync_detailed):
+            result = client.sandboxes.update_memory("sb_123", "2Gi")
+
+        self.assertIs(result, updated)
+        self.assertEqual(captured["id"], "sb_123")
+        body = captured["body"]
+        self.assertEqual(body.config.resources.memory, "2Gi")
 
     def test_rootfs_operations_use_generated_api(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")

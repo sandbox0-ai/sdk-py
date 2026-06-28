@@ -17,6 +17,7 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.claim_mount_request import ClaimMountRequest
     from ..models.sandbox_app_service import SandboxAppService
+    from ..models.sandbox_resource_config import SandboxResourceConfig
     from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
 
@@ -42,6 +43,8 @@ class Sandbox:
         updated_at (datetime.datetime):
         user_id (Union[Unset, str]):
         services (Union[Unset, list['SandboxAppService']]):
+        resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
+            memory only and derives CPU from the platform memory-per-CPU ratio.
         mounts (Union[Unset, list['ClaimMountRequest']]):
         ssh (Union[Unset, SandboxSSHConnection]):
     """
@@ -61,6 +64,7 @@ class Sandbox:
     updated_at: datetime.datetime
     user_id: Union[Unset, str] = UNSET
     services: Union[Unset, list["SandboxAppService"]] = UNSET
+    resources: Union[Unset, "SandboxResourceConfig"] = UNSET
     mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
     ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -101,6 +105,10 @@ class Sandbox:
                 services_item = services_item_data.to_dict()
                 services.append(services_item)
 
+        resources: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.resources, Unset):
+            resources = self.resources.to_dict()
+
         mounts: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.mounts, Unset):
             mounts = []
@@ -135,6 +143,8 @@ class Sandbox:
             field_dict["user_id"] = user_id
         if services is not UNSET:
             field_dict["services"] = services
+        if resources is not UNSET:
+            field_dict["resources"] = resources
         if mounts is not UNSET:
             field_dict["mounts"] = mounts
         if ssh is not UNSET:
@@ -146,6 +156,7 @@ class Sandbox:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_resource_config import SandboxResourceConfig
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
 
         d = dict(src_dict)
@@ -184,6 +195,13 @@ class Sandbox:
 
             services.append(services_item)
 
+        _resources = d.pop("resources", UNSET)
+        resources: Union[Unset, SandboxResourceConfig]
+        if isinstance(_resources, Unset):
+            resources = UNSET
+        else:
+            resources = SandboxResourceConfig.from_dict(_resources)
+
         mounts = []
         _mounts = d.pop("mounts", UNSET)
         for mounts_item_data in _mounts or []:
@@ -214,6 +232,7 @@ class Sandbox:
             updated_at=updated_at,
             user_id=user_id,
             services=services,
+            resources=resources,
             mounts=mounts,
             ssh=ssh,
         )

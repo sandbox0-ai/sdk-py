@@ -175,6 +175,7 @@ from .sandbox_lifecycle_status import SandboxLifecycleStatus
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_refresh_request import SandboxRefreshRequest
+from .sandbox_resource_config import SandboxResourceConfig
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from .sandbox_root_fs_snapshot_list import SandboxRootFSSnapshotList
@@ -505,6 +506,7 @@ __all__ = (
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
     "SandboxRefreshRequest",
+    "SandboxResourceConfig",
     "SandboxResourceUsage",
     "SandboxRootFSSnapshot",
     "SandboxRootFSSnapshotList",
