@@ -83,6 +83,7 @@ from .file_watch_unsubscribe_request import FileWatchUnsubscribeRequest
 from .file_watch_unsubscribe_request_action import FileWatchUnsubscribeRequestAction
 from .file_watch_unsubscribed import FileWatchUnsubscribed
 from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
+from .fork_sandbox_config import ForkSandboxConfig
 from .fork_sandbox_request import ForkSandboxRequest
 from .fork_sandbox_response import ForkSandboxResponse
 from .fork_volume_request import ForkVolumeRequest
@@ -414,6 +415,7 @@ __all__ = (
     "FileWatchUnsubscribedType",
     "FileWatchUnsubscribeRequest",
     "FileWatchUnsubscribeRequestAction",
+    "ForkSandboxConfig",
     "ForkSandboxRequest",
     "ForkSandboxResponse",
     "ForkVolumeRequest",
