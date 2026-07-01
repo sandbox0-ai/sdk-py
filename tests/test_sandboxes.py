@@ -7,6 +7,8 @@ from unittest.mock import patch
 from sandbox0 import Client
 from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.claim_response import ClaimResponse
+from sandbox0.apispec.models.fork_sandbox_config import ForkSandboxConfig
+from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
 from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
 from sandbox0.apispec.models.mount_status import MountStatus
 from sandbox0.apispec.models.mount_status_state import MountStatusState
@@ -249,7 +251,10 @@ class TestSandboxes(TestCase):
             fetched = client.sandboxes.get_rootfs_snapshot("snap_1")
             deleted = client.sandboxes.delete_rootfs_snapshot("snap_1")
             restored = client.sandboxes.restore_rootfs("sb_1", request=RestoreSandboxRootFSRequest(snapshot_id="snap_1"))
-            forked = client.sandboxes.fork("sb_1")
+            forked = client.sandboxes.fork(
+                "sb_1",
+                request=ForkSandboxRequest(config=ForkSandboxConfig(ttl=60, hard_ttl=120)),
+            )
 
         self.assertEqual(created.id, "snap_1")
         self.assertEqual(listed[0].id, "snap_1")
@@ -263,3 +268,5 @@ class TestSandboxes(TestCase):
         self.assertEqual(captured["delete"]["snapshot_id"], "snap_1")
         self.assertEqual(captured["restore"]["id"], "sb_1")
         self.assertEqual(captured["fork"]["id"], "sb_1")
+        self.assertEqual(captured["fork"]["body"].config.ttl, 60)
+        self.assertEqual(captured["fork"]["body"].config.hard_ttl, 120)
