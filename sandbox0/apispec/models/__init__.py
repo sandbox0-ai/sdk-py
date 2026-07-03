@@ -19,7 +19,6 @@ from .context_input_request import ContextInputRequest
 from .context_resource_usage import ContextResourceUsage
 from .context_response import ContextResponse
 from .context_response_env_vars import ContextResponseEnvVars
-from .context_stats_response import ContextStatsResponse
 from .context_web_socket_done import ContextWebSocketDone
 from .context_web_socket_done_type import ContextWebSocketDoneType
 from .context_web_socket_input import ContextWebSocketInput
@@ -117,6 +116,7 @@ from .node_selector_term import NodeSelectorTerm
 from .object_meta import ObjectMeta
 from .object_meta_annotations import ObjectMetaAnnotations
 from .object_meta_labels import ObjectMetaLabels
+from .observability_event_source import ObservabilityEventSource
 from .pause_sandbox_response import PauseSandboxResponse
 from .placeholder_replacement import PlaceholderReplacement
 from .placeholder_substitution_location import PlaceholderSubstitutionLocation
@@ -175,6 +175,24 @@ from .sandbox_function_source_type import SandboxFunctionSourceType
 from .sandbox_lifecycle_status import SandboxLifecycleStatus
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
+from .sandbox_observability_event import SandboxObservabilityEvent
+from .sandbox_observability_event_attributes import SandboxObservabilityEventAttributes
+from .sandbox_observability_event_type import SandboxObservabilityEventType
+from .sandbox_observability_events_response import SandboxObservabilityEventsResponse
+from .sandbox_observability_log_entry import SandboxObservabilityLogEntry
+from .sandbox_observability_log_entry_attributes import (
+    SandboxObservabilityLogEntryAttributes,
+)
+from .sandbox_observability_log_stream import SandboxObservabilityLogStream
+from .sandbox_observability_logs_response import SandboxObservabilityLogsResponse
+from .sandbox_observability_metric_sample import SandboxObservabilityMetricSample
+from .sandbox_observability_metric_sample_attributes import (
+    SandboxObservabilityMetricSampleAttributes,
+)
+from .sandbox_observability_metrics_response import SandboxObservabilityMetricsResponse
+from .sandbox_observability_outcome import SandboxObservabilityOutcome
+from .sandbox_observability_watch_line import SandboxObservabilityWatchLine
+from .sandbox_observability_watch_line_type import SandboxObservabilityWatchLineType
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_config import SandboxResourceConfig
 from .sandbox_resource_usage import SandboxResourceUsage
@@ -216,7 +234,6 @@ from .success_context_exec_response import SuccessContextExecResponse
 from .success_context_list_response import SuccessContextListResponse
 from .success_context_list_response_data import SuccessContextListResponseData
 from .success_context_response import SuccessContextResponse
-from .success_context_stats_response import SuccessContextStatsResponse
 from .success_create_api_key_response import SuccessCreateAPIKeyResponse
 from .success_created_response import SuccessCreatedResponse
 from .success_created_response_data import SuccessCreatedResponseData
@@ -262,6 +279,15 @@ from .success_resume_sandbox_response import SuccessResumeSandboxResponse
 from .success_sandbox_list_response import SuccessSandboxListResponse
 from .success_sandbox_list_response_data import SuccessSandboxListResponseData
 from .success_sandbox_network_policy_response import SuccessSandboxNetworkPolicyResponse
+from .success_sandbox_observability_events_response import (
+    SuccessSandboxObservabilityEventsResponse,
+)
+from .success_sandbox_observability_logs_response import (
+    SuccessSandboxObservabilityLogsResponse,
+)
+from .success_sandbox_observability_metrics_response import (
+    SuccessSandboxObservabilityMetricsResponse,
+)
 from .success_sandbox_response import SuccessSandboxResponse
 from .success_sandbox_root_fs_snapshot_list_response import (
     SuccessSandboxRootFSSnapshotListResponse,
@@ -351,7 +377,6 @@ __all__ = (
     "ContextResourceUsage",
     "ContextResponse",
     "ContextResponseEnvVars",
-    "ContextStatsResponse",
     "ContextWebSocketDone",
     "ContextWebSocketDoneType",
     "ContextWebSocketInput",
@@ -449,6 +474,7 @@ __all__ = (
     "ObjectMeta",
     "ObjectMetaAnnotations",
     "ObjectMetaLabels",
+    "ObservabilityEventSource",
     "PauseSandboxResponse",
     "PlaceholderReplacement",
     "PlaceholderSubstitutionLocation",
@@ -507,6 +533,20 @@ __all__ = (
     "SandboxLifecycleStatus",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
+    "SandboxObservabilityEvent",
+    "SandboxObservabilityEventAttributes",
+    "SandboxObservabilityEventsResponse",
+    "SandboxObservabilityEventType",
+    "SandboxObservabilityLogEntry",
+    "SandboxObservabilityLogEntryAttributes",
+    "SandboxObservabilityLogsResponse",
+    "SandboxObservabilityLogStream",
+    "SandboxObservabilityMetricSample",
+    "SandboxObservabilityMetricSampleAttributes",
+    "SandboxObservabilityMetricsResponse",
+    "SandboxObservabilityOutcome",
+    "SandboxObservabilityWatchLine",
+    "SandboxObservabilityWatchLineType",
     "SandboxRefreshRequest",
     "SandboxResourceConfig",
     "SandboxResourceUsage",
@@ -546,7 +586,6 @@ __all__ = (
     "SuccessContextListResponse",
     "SuccessContextListResponseData",
     "SuccessContextResponse",
-    "SuccessContextStatsResponse",
     "SuccessCreateAPIKeyResponse",
     "SuccessCreatedResponse",
     "SuccessCreatedResponseData",
@@ -590,6 +629,9 @@ __all__ = (
     "SuccessSandboxListResponse",
     "SuccessSandboxListResponseData",
     "SuccessSandboxNetworkPolicyResponse",
+    "SuccessSandboxObservabilityEventsResponse",
+    "SuccessSandboxObservabilityLogsResponse",
+    "SuccessSandboxObservabilityMetricsResponse",
     "SuccessSandboxResponse",
     "SuccessSandboxRootFSSnapshotListResponse",
     "SuccessSandboxRootFSSnapshotResponse",
