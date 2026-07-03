@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, Iterator, Optional
+from typing import Any, Iterator, Optional
 
 import httpx
 
@@ -54,10 +54,6 @@ from sandbox0.apispec.types import UNSET
 from sandbox0.errors import APIError
 from sandbox0.response import ensure_data
 from sandbox0.response_normalize import SKIP_RESPONSE_NORMALIZE_EXTENSION
-
-if TYPE_CHECKING:
-    from sandbox0.sandbox import Sandbox
-
 
 @dataclass(frozen=True)
 class SandboxObservabilityQueryOptions:
@@ -150,7 +146,7 @@ class SandboxObservabilityMixin:
     _client: Any
 
     def list_observability_events(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityEventOptions] = None,
     ) -> SandboxObservabilityEventsResponse:  # type: ignore[misc]
         opts = options or SandboxObservabilityEventOptions()
@@ -168,7 +164,7 @@ class SandboxObservabilityMixin:
         return ensure_data(resp, SuccessSandboxObservabilityEventsResponse)
 
     def list_audit_events(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityEventOptions] = None,
     ) -> SandboxObservabilityEventsResponse:  # type: ignore[misc]
         opts = options or SandboxObservabilityEventOptions()
@@ -186,7 +182,7 @@ class SandboxObservabilityMixin:
         return ensure_data(resp, SuccessSandboxObservabilityEventsResponse)
 
     def list_logs(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityLogOptions] = None,
     ) -> SandboxObservabilityLogsResponse:  # type: ignore[misc]
         opts = options or SandboxObservabilityLogOptions()
@@ -203,7 +199,7 @@ class SandboxObservabilityMixin:
         return ensure_data(resp, SuccessSandboxObservabilityLogsResponse)
 
     def list_metrics(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityMetricOptions] = None,
     ) -> SandboxObservabilityMetricsResponse:  # type: ignore[misc]
         opts = options or SandboxObservabilityMetricOptions()
@@ -221,7 +217,7 @@ class SandboxObservabilityMixin:
         return ensure_data(resp, SuccessSandboxObservabilityMetricsResponse)
 
     def watch_observability_events(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityEventWatchOptions] = None,
     ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
         return self._watch_observability(
@@ -230,7 +226,7 @@ class SandboxObservabilityMixin:
         )
 
     def watch_audit_events(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityEventWatchOptions] = None,
     ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
         return self._watch_observability(
@@ -239,7 +235,7 @@ class SandboxObservabilityMixin:
         )
 
     def watch_logs(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityLogWatchOptions] = None,
     ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
         return self._watch_observability(
@@ -248,7 +244,7 @@ class SandboxObservabilityMixin:
         )
 
     def watch_metrics(
-        self: "Sandbox",
+        self,
         options: Optional[SandboxObservabilityMetricWatchOptions] = None,
     ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
         return self._watch_observability(
@@ -257,7 +253,7 @@ class SandboxObservabilityMixin:
         )
 
     def _watch_observability(
-        self: "Sandbox",
+        self,
         path: str,
         params: dict[str, str],
     ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
