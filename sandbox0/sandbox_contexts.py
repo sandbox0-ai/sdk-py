@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Any
 from sandbox0.apispec.api.contexts import delete_api_v1_sandboxes_id_contexts_ctx_id
 from sandbox0.apispec.api.contexts import get_api_v1_sandboxes_id_contexts
 from sandbox0.apispec.api.contexts import get_api_v1_sandboxes_id_contexts_ctx_id
-from sandbox0.apispec.api.contexts import get_api_v1_sandboxes_id_contexts_ctx_id_stats
 from sandbox0.apispec.api.contexts import post_api_v1_sandboxes_id_contexts
 from sandbox0.apispec.api.contexts import post_api_v1_sandboxes_id_contexts_ctx_id_exec
 from sandbox0.apispec.api.contexts import post_api_v1_sandboxes_id_contexts_ctx_id_input
@@ -15,14 +14,12 @@ from sandbox0.apispec.api.contexts import post_api_v1_sandboxes_id_contexts_ctx_
 from sandbox0.apispec.models.context_exec_response import ContextExecResponse
 from sandbox0.apispec.models.context_input_request import ContextInputRequest
 from sandbox0.apispec.models.context_response import ContextResponse
-from sandbox0.apispec.models.context_stats_response import ContextStatsResponse
 from sandbox0.apispec.models.create_context_request import CreateContextRequest
 from sandbox0.apispec.models.resize_context_request import ResizeContextRequest
 from sandbox0.apispec.models.signal_context_request import SignalContextRequest
 from sandbox0.apispec.models.success_context_exec_response import SuccessContextExecResponse
 from sandbox0.apispec.models.success_context_list_response import SuccessContextListResponse
 from sandbox0.apispec.models.success_context_response import SuccessContextResponse
-from sandbox0.apispec.models.success_context_stats_response import SuccessContextStatsResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
 from sandbox0.apispec.models.success_resized_response import SuccessResizedResponse
 from sandbox0.apispec.models.success_signaled_response import SuccessSignaledResponse
@@ -112,11 +109,3 @@ class SandboxContextsMixin:
             body=SignalContextRequest(signal=signal),
         )
         return ensure_model(resp, SuccessSignaledResponse)
-
-    def context_stats(self: "Sandbox", context_id: str) -> ContextStatsResponse:  # type: ignore[misc]
-        resp = get_api_v1_sandboxes_id_contexts_ctx_id_stats.sync_detailed(
-            id=self.id,
-            ctx_id=context_id,
-            client=self._client.api,
-        )
-        return ensure_data(resp, SuccessContextStatsResponse)

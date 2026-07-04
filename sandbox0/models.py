@@ -66,11 +66,3 @@ class FileWatchResponse:
     path: str = ""
     error: str = ""
 
-
-@dataclass(frozen=True)
-class SandboxLogs:
-    sandbox_id: str
-    pod_name: str
-    container: str
-    previous: bool
-    logs: str

@@ -12,22 +12,24 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.context_stats_response import ContextStatsResponse
+    from ..models.sandbox_observability_events_response import (
+        SandboxObservabilityEventsResponse,
+    )
 
 
-T = TypeVar("T", bound="SuccessContextStatsResponse")
+T = TypeVar("T", bound="SuccessSandboxObservabilityEventsResponse")
 
 
 @_attrs_define
-class SuccessContextStatsResponse:
+class SuccessSandboxObservabilityEventsResponse:
     """
     Attributes:
         success (bool):
-        data (Union[Unset, ContextStatsResponse]):
+        data (Union[Unset, SandboxObservabilityEventsResponse]):
     """
 
     success: bool
-    data: Union[Unset, "ContextStatsResponse"] = UNSET
+    data: Union[Unset, "SandboxObservabilityEventsResponse"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,25 +53,27 @@ class SuccessContextStatsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.context_stats_response import ContextStatsResponse
+        from ..models.sandbox_observability_events_response import (
+            SandboxObservabilityEventsResponse,
+        )
 
         d = dict(src_dict)
         success = d.pop("success")
 
         _data = d.pop("data", UNSET)
-        data: Union[Unset, ContextStatsResponse]
+        data: Union[Unset, SandboxObservabilityEventsResponse]
         if isinstance(_data, Unset):
             data = UNSET
         else:
-            data = ContextStatsResponse.from_dict(_data)
+            data = SandboxObservabilityEventsResponse.from_dict(_data)
 
-        success_context_stats_response = cls(
+        success_sandbox_observability_events_response = cls(
             success=success,
             data=data,
         )
 
-        success_context_stats_response.additional_properties = d
-        return success_context_stats_response
+        success_sandbox_observability_events_response.additional_properties = d
+        return success_sandbox_observability_events_response
 
     @property
     def additional_keys(self) -> list[str]:

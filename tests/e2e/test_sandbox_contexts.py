@@ -42,7 +42,6 @@ class TestSandboxContexts(unittest.TestCase):
         sandbox.context_exec(repl_ctx.id, "print('exec')\n")
         sandbox.context_resize(repl_ctx.id, 40, 100)
         sandbox.context_signal(repl_ctx.id, "SIGINT")
-        sandbox.context_stats(repl_ctx.id)
         sandbox.restart_context(repl_ctx.id)
 
         stream = sandbox.connect_ws_context(repl_ctx.id)
