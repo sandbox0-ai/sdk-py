@@ -39,6 +39,10 @@ from .create_region_request import CreateRegionRequest
 from .create_repl_context_request import CreateREPLContextRequest
 from .create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
 from .create_sandbox_volume_request import CreateSandboxVolumeRequest
+from .create_sandbox_volume_s3_config import CreateSandboxVolumeS3Config
+from .create_sandbox_volume_s3_config_provider import (
+    CreateSandboxVolumeS3ConfigProvider,
+)
 from .create_snapshot_request import CreateSnapshotRequest
 from .create_ssh_public_key_request import CreateSSHPublicKeyRequest
 from .create_team_request import CreateTeamRequest
@@ -211,6 +215,8 @@ from .sandbox_update_config import SandboxUpdateConfig
 from .sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
 from .sandbox_update_request import SandboxUpdateRequest
 from .sandbox_volume import SandboxVolume
+from .sandbox_volume_s3_config import SandboxVolumeS3Config
+from .sandbox_volume_s3_config_provider import SandboxVolumeS3ConfigProvider
 from .seccomp_profile import SeccompProfile
 from .seccomp_profile_type import SeccompProfileType
 from .security_context import SecurityContext
@@ -351,6 +357,7 @@ from .update_user_request import UpdateUserRequest
 from .user import User
 from .username_password_projection import UsernamePasswordProjection
 from .volume_access_mode import VolumeAccessMode
+from .volume_backend import VolumeBackend
 from .volume_file_archive_import_response import VolumeFileArchiveImportResponse
 from .volume_mount_spec import VolumeMountSpec
 from .web_login_exchange_request import WebLoginExchangeRequest
@@ -397,6 +404,8 @@ __all__ = (
     "CreateREPLContextRequest",
     "CreateSandboxRootFSSnapshotRequest",
     "CreateSandboxVolumeRequest",
+    "CreateSandboxVolumeS3Config",
+    "CreateSandboxVolumeS3ConfigProvider",
     "CreateSnapshotRequest",
     "CreateSSHPublicKeyRequest",
     "CreateTeamRequest",
@@ -565,6 +574,8 @@ __all__ = (
     "SandboxUpdateConfigEnvVars",
     "SandboxUpdateRequest",
     "SandboxVolume",
+    "SandboxVolumeS3Config",
+    "SandboxVolumeS3ConfigProvider",
     "SeccompProfile",
     "SeccompProfileType",
     "SecurityContext",
@@ -687,6 +698,7 @@ __all__ = (
     "User",
     "UsernamePasswordProjection",
     "VolumeAccessMode",
+    "VolumeBackend",
     "VolumeFileArchiveImportResponse",
     "VolumeMountSpec",
     "WebhookConfig",

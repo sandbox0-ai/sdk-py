@@ -1,5 +1,6 @@
 from collections.abc import Mapping
 from typing import (
+    TYPE_CHECKING,
     Any,
     TypeVar,
     Union,
@@ -9,7 +10,12 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..models.volume_access_mode import VolumeAccessMode
+from ..models.volume_backend import VolumeBackend
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.create_sandbox_volume_s3_config import CreateSandboxVolumeS3Config
+
 
 T = TypeVar("T", bound="CreateSandboxVolumeRequest")
 
@@ -20,6 +26,10 @@ class CreateSandboxVolumeRequest:
     Attributes:
         snapshot_id (Union[Unset, str]): Optional snapshot ID used to initialize the new volume from immutable snapshot
             state.
+        backend (Union[Unset, VolumeBackend]): Storage backend for a SandboxVolume. s0fs is the default durable Sandbox0
+            volume backend. s3 mounts an existing S3-compatible prefix through the volume portal and supports mount-s3-like
+            object projection.
+        s3 (Union[Unset, CreateSandboxVolumeS3Config]):
         default_posix_uid (Union[Unset, int]): Default POSIX UID used by external volume access paths that do not carry
             caller identity. Defaults to 0 when omitted on create. Default: 0.
         default_posix_gid (Union[Unset, int]): Default POSIX GID used by external volume access paths that do not carry
@@ -30,6 +40,8 @@ class CreateSandboxVolumeRequest:
     """
 
     snapshot_id: Union[Unset, str] = UNSET
+    backend: Union[Unset, VolumeBackend] = UNSET
+    s3: Union[Unset, "CreateSandboxVolumeS3Config"] = UNSET
     default_posix_uid: Union[Unset, int] = 0
     default_posix_gid: Union[Unset, int] = 0
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
@@ -37,6 +49,14 @@ class CreateSandboxVolumeRequest:
 
     def to_dict(self) -> dict[str, Any]:
         snapshot_id = self.snapshot_id
+
+        backend: Union[Unset, str] = UNSET
+        if not isinstance(self.backend, Unset):
+            backend = self.backend.value
+
+        s3: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.s3, Unset):
+            s3 = self.s3.to_dict()
 
         default_posix_uid = self.default_posix_uid
 
@@ -51,6 +71,10 @@ class CreateSandboxVolumeRequest:
         field_dict.update({})
         if snapshot_id is not UNSET:
             field_dict["snapshot_id"] = snapshot_id
+        if backend is not UNSET:
+            field_dict["backend"] = backend
+        if s3 is not UNSET:
+            field_dict["s3"] = s3
         if default_posix_uid is not UNSET:
             field_dict["default_posix_uid"] = default_posix_uid
         if default_posix_gid is not UNSET:
@@ -62,8 +86,24 @@ class CreateSandboxVolumeRequest:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.create_sandbox_volume_s3_config import CreateSandboxVolumeS3Config
+
         d = dict(src_dict)
         snapshot_id = d.pop("snapshot_id", UNSET)
+
+        _backend = d.pop("backend", UNSET)
+        backend: Union[Unset, VolumeBackend]
+        if isinstance(_backend, Unset):
+            backend = UNSET
+        else:
+            backend = VolumeBackend(_backend)
+
+        _s3 = d.pop("s3", UNSET)
+        s3: Union[Unset, CreateSandboxVolumeS3Config]
+        if isinstance(_s3, Unset):
+            s3 = UNSET
+        else:
+            s3 = CreateSandboxVolumeS3Config.from_dict(_s3)
 
         default_posix_uid = d.pop("default_posix_uid", UNSET)
 
@@ -78,6 +118,8 @@ class CreateSandboxVolumeRequest:
 
         create_sandbox_volume_request = cls(
             snapshot_id=snapshot_id,
+            backend=backend,
+            s3=s3,
             default_posix_uid=default_posix_uid,
             default_posix_gid=default_posix_gid,
             access_mode=access_mode,

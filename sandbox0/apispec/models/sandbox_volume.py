@@ -1,6 +1,7 @@
 import datetime
 from collections.abc import Mapping
 from typing import (
+    TYPE_CHECKING,
     Any,
     TypeVar,
     Union,
@@ -12,7 +13,12 @@ from attrs import field as _attrs_field
 from dateutil.parser import isoparse
 
 from ..models.volume_access_mode import VolumeAccessMode
+from ..models.volume_backend import VolumeBackend
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.sandbox_volume_s3_config import SandboxVolumeS3Config
+
 
 T = TypeVar("T", bound="SandboxVolume")
 
@@ -24,6 +30,9 @@ class SandboxVolume:
         id (str):
         team_id (str):
         user_id (str):
+        backend (VolumeBackend): Storage backend for a SandboxVolume. s0fs is the default durable Sandbox0 volume
+            backend. s3 mounts an existing S3-compatible prefix through the volume portal and supports mount-s3-like object
+            projection.
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
         source_volume_id (Union[None, Unset, str]):
@@ -32,17 +41,20 @@ class SandboxVolume:
         access_mode (Union[Unset, VolumeAccessMode]): Access mode for sandbox volumes. Enforcement is scoped to storage-
             proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
             instances; RWX allows read-write mounts across instances.
+        s3 (Union[Unset, SandboxVolumeS3Config]):
     """
 
     id: str
     team_id: str
     user_id: str
+    backend: VolumeBackend
     created_at: datetime.datetime
     updated_at: datetime.datetime
     source_volume_id: Union[None, Unset, str] = UNSET
     default_posix_uid: Union[None, Unset, int] = UNSET
     default_posix_gid: Union[None, Unset, int] = UNSET
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
+    s3: Union[Unset, "SandboxVolumeS3Config"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,6 +63,8 @@ class SandboxVolume:
         team_id = self.team_id
 
         user_id = self.user_id
+
+        backend = self.backend.value
 
         created_at = self.created_at.isoformat()
 
@@ -78,6 +92,10 @@ class SandboxVolume:
         if not isinstance(self.access_mode, Unset):
             access_mode = self.access_mode.value
 
+        s3: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.s3, Unset):
+            s3 = self.s3.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -85,6 +103,7 @@ class SandboxVolume:
                 "id": id,
                 "team_id": team_id,
                 "user_id": user_id,
+                "backend": backend,
                 "created_at": created_at,
                 "updated_at": updated_at,
             }
@@ -97,17 +116,23 @@ class SandboxVolume:
             field_dict["default_posix_gid"] = default_posix_gid
         if access_mode is not UNSET:
             field_dict["access_mode"] = access_mode
+        if s3 is not UNSET:
+            field_dict["s3"] = s3
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_volume_s3_config import SandboxVolumeS3Config
+
         d = dict(src_dict)
         id = d.pop("id")
 
         team_id = d.pop("team_id")
 
         user_id = d.pop("user_id")
+
+        backend = VolumeBackend(d.pop("backend"))
 
         created_at = isoparse(d.pop("created_at"))
 
@@ -147,16 +172,25 @@ class SandboxVolume:
         else:
             access_mode = VolumeAccessMode(_access_mode)
 
+        _s3 = d.pop("s3", UNSET)
+        s3: Union[Unset, SandboxVolumeS3Config]
+        if isinstance(_s3, Unset):
+            s3 = UNSET
+        else:
+            s3 = SandboxVolumeS3Config.from_dict(_s3)
+
         sandbox_volume = cls(
             id=id,
             team_id=team_id,
             user_id=user_id,
+            backend=backend,
             created_at=created_at,
             updated_at=updated_at,
             source_volume_id=source_volume_id,
             default_posix_uid=default_posix_uid,
             default_posix_gid=default_posix_gid,
             access_mode=access_mode,
+            s3=s3,
         )
 
         sandbox_volume.additional_properties = d
