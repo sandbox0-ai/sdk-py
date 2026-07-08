@@ -53,6 +53,7 @@ def _to_api_error(response: Response[Any], envelope: ErrorEnvelope) -> APIError:
         details=envelope.error.details,
         request_id=_request_id_from_headers(response.headers),
         body=response.content,
+        retry_after=_retry_after_from_headers(response.headers),
     )
 
 
@@ -70,6 +71,7 @@ def _unexpected_response(response: Response[Any]) -> APIError:
         message=message,
         request_id=_request_id_from_headers(response.headers),
         body=response.content,
+        retry_after=_retry_after_from_headers(response.headers),
     )
 
 
@@ -80,4 +82,20 @@ def _request_id_from_headers(headers: Mapping[str, str]) -> Optional[str]:
             stripped = value.strip()
             if stripped:
                 return stripped
+    return None
+
+
+def _retry_after_from_headers(headers: Mapping[str, str]) -> Optional[int]:
+    for key in ("Retry-After", "retry-after"):
+        value = headers.get(key)
+        if not value:
+            continue
+        stripped = value.strip()
+        if not stripped:
+            continue
+        try:
+            seconds = int(stripped, 10)
+        except ValueError:
+            return None
+        return seconds if seconds >= 0 else None
     return None

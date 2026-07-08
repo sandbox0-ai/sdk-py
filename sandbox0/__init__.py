@@ -1,5 +1,5 @@
 from sandbox0.client import Client
-from sandbox0.errors import APIError
+from sandbox0.errors import APIError, CLAIM_START_THROTTLED_CODE, is_claim_start_throttled
 from sandbox0.models import (
     CmdResult,
     FileWatchResponse,
@@ -27,6 +27,7 @@ from sandbox0.webhook_signature import verify_webhook_signature
 
 __all__ = [
     "APIError",
+    "CLAIM_START_THROTTLED_CODE",
     "Client",
     "CmdOptions",
     "CmdResult",
@@ -52,5 +53,6 @@ __all__ = [
     "StreamOutput",
     "Volumes",
     "VolumeSession",
+    "is_claim_start_throttled",
     "verify_webhook_signature",
 ]

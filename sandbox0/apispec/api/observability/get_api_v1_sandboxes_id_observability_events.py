@@ -136,7 +136,7 @@ def sync_detailed(
 
      Queries the asynchronous per-sandbox observability projection for lifecycle,
     network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and does not replace the metering usage truth stored in PostgreSQL.
+    and reads tables that are separate from the metering usage ledger.
 
     Args:
         id (str):
@@ -193,7 +193,7 @@ def sync(
 
      Queries the asynchronous per-sandbox observability projection for lifecycle,
     network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and does not replace the metering usage truth stored in PostgreSQL.
+    and reads tables that are separate from the metering usage ledger.
 
     Args:
         id (str):
@@ -245,7 +245,7 @@ async def asyncio_detailed(
 
      Queries the asynchronous per-sandbox observability projection for lifecycle,
     network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and does not replace the metering usage truth stored in PostgreSQL.
+    and reads tables that are separate from the metering usage ledger.
 
     Args:
         id (str):
@@ -300,7 +300,7 @@ async def asyncio(
 
      Queries the asynchronous per-sandbox observability projection for lifecycle,
     network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and does not replace the metering usage truth stored in PostgreSQL.
+    and reads tables that are separate from the metering usage ledger.
 
     Args:
         id (str):
