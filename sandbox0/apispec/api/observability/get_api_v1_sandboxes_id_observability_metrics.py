@@ -124,7 +124,7 @@ def sync_detailed(
     """Query historical sandbox metric samples
 
      Queries the asynchronous per-sandbox metric sample projection. This endpoint is
-    separate from platform service metrics and PostgreSQL metering usage truth.
+    separate from platform service metrics and metering usage truth.
 
     Args:
         id (str):
@@ -180,7 +180,7 @@ def sync(
     """Query historical sandbox metric samples
 
      Queries the asynchronous per-sandbox metric sample projection. This endpoint is
-    separate from platform service metrics and PostgreSQL metering usage truth.
+    separate from platform service metrics and metering usage truth.
 
     Args:
         id (str):
@@ -231,7 +231,7 @@ async def asyncio_detailed(
     """Query historical sandbox metric samples
 
      Queries the asynchronous per-sandbox metric sample projection. This endpoint is
-    separate from platform service metrics and PostgreSQL metering usage truth.
+    separate from platform service metrics and metering usage truth.
 
     Args:
         id (str):
@@ -285,7 +285,7 @@ async def asyncio(
     """Query historical sandbox metric samples
 
      Queries the asynchronous per-sandbox metric sample projection. This endpoint is
-    separate from platform service metrics and PostgreSQL metering usage truth.
+    separate from platform service metrics and metering usage truth.
 
     Args:
         id (str):
