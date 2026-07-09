@@ -22,6 +22,11 @@ from sandbox0.sandbox_observability import (
     SandboxObservabilityWatchOptions,
     SandboxObservabilityWatchStream,
 )
+from sandbox0.sandbox_processes import (
+    ProcessEventStream,
+    ProcessEventWatchOptions,
+    process_stdio_spec,
+)
 from sandbox0.sessions import MountSession, SandboxSession, VolumeSession
 from sandbox0.webhook_signature import verify_webhook_signature
 
@@ -33,6 +38,8 @@ __all__ = [
     "CmdResult",
     "FileWatchResponse",
     "MountSession",
+    "ProcessEventStream",
+    "ProcessEventWatchOptions",
     "RunOptions",
     "RunResult",
     "Sandboxes",
@@ -54,5 +61,6 @@ __all__ = [
     "Volumes",
     "VolumeSession",
     "is_claim_start_throttled",
+    "process_stdio_spec",
     "verify_webhook_signature",
 ]

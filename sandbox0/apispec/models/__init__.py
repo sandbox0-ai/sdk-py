@@ -93,6 +93,8 @@ from .fork_volume_request import ForkVolumeRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .grpc_action import GRPCAction
+from .http_channel_spec import HTTPChannelSpec
+from .http_channel_spec_headers import HTTPChannelSpecHeaders
 from .http_get_action import HTTPGetAction
 from .http_header import HTTPHeader
 from .http_headers_projection import HTTPHeadersProjection
@@ -133,6 +135,23 @@ from .pool_strategy import PoolStrategy
 from .port_spec import PortSpec
 from .preferred_scheduling_term import PreferredSchedulingTerm
 from .probe import Probe
+from .process_channel_framing import ProcessChannelFraming
+from .process_channel_kind import ProcessChannelKind
+from .process_channel_spec import ProcessChannelSpec
+from .process_cleanup_spec import ProcessCleanupSpec
+from .process_event import ProcessEvent
+from .process_event_log_snapshot import ProcessEventLogSnapshot
+from .process_event_payload import ProcessEventPayload
+from .process_event_type import ProcessEventType
+from .process_input_event import ProcessInputEvent
+from .process_input_event_payload import ProcessInputEventPayload
+from .process_restart_spec import ProcessRestartSpec
+from .process_restart_spec_policy import ProcessRestartSpecPolicy
+from .process_session import ProcessSession
+from .process_session_env_vars import ProcessSessionEnvVars
+from .process_session_state import ProcessSessionState
+from .process_spec import ProcessSpec
+from .process_spec_env_vars import ProcessSpecEnvVars
 from .process_type import ProcessType
 from .projected_header import ProjectedHeader
 from .projection_spec import ProjectionSpec
@@ -269,6 +288,14 @@ from .success_message_response_data import SuccessMessageResponseData
 from .success_moved_response import SuccessMovedResponse
 from .success_moved_response_data import SuccessMovedResponseData
 from .success_pause_sandbox_response import SuccessPauseSandboxResponse
+from .success_process_event_response import SuccessProcessEventResponse
+from .success_process_event_response_data import SuccessProcessEventResponseData
+from .success_process_session_list_response import SuccessProcessSessionListResponse
+from .success_process_session_list_response_data import (
+    SuccessProcessSessionListResponseData,
+)
+from .success_process_session_response import SuccessProcessSessionResponse
+from .success_process_session_response_data import SuccessProcessSessionResponseData
 from .success_refresh_response import SuccessRefreshResponse
 from .success_region_list_response import SuccessRegionListResponse
 from .success_region_list_response_data import SuccessRegionListResponseData
@@ -361,6 +388,8 @@ from .volume_backend import VolumeBackend
 from .volume_file_archive_import_response import VolumeFileArchiveImportResponse
 from .volume_mount_spec import VolumeMountSpec
 from .web_login_exchange_request import WebLoginExchangeRequest
+from .web_socket_channel_spec import WebSocketChannelSpec
+from .web_socket_channel_spec_headers import WebSocketChannelSpecHeaders
 from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
@@ -456,6 +485,8 @@ __all__ = (
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GRPCAction",
+    "HTTPChannelSpec",
+    "HTTPChannelSpecHeaders",
     "HTTPGetAction",
     "HTTPHeader",
     "HTTPHeadersProjection",
@@ -496,6 +527,23 @@ __all__ = (
     "PortSpec",
     "PreferredSchedulingTerm",
     "Probe",
+    "ProcessChannelFraming",
+    "ProcessChannelKind",
+    "ProcessChannelSpec",
+    "ProcessCleanupSpec",
+    "ProcessEvent",
+    "ProcessEventLogSnapshot",
+    "ProcessEventPayload",
+    "ProcessEventType",
+    "ProcessInputEvent",
+    "ProcessInputEventPayload",
+    "ProcessRestartSpec",
+    "ProcessRestartSpecPolicy",
+    "ProcessSession",
+    "ProcessSessionEnvVars",
+    "ProcessSessionState",
+    "ProcessSpec",
+    "ProcessSpecEnvVars",
     "ProcessType",
     "ProjectedHeader",
     "ProjectionSpec",
@@ -626,6 +674,12 @@ __all__ = (
     "SuccessMovedResponse",
     "SuccessMovedResponseData",
     "SuccessPauseSandboxResponse",
+    "SuccessProcessEventResponse",
+    "SuccessProcessEventResponseData",
+    "SuccessProcessSessionListResponse",
+    "SuccessProcessSessionListResponseData",
+    "SuccessProcessSessionResponse",
+    "SuccessProcessSessionResponseData",
     "SuccessRefreshResponse",
     "SuccessRegionListResponse",
     "SuccessRegionListResponseData",
@@ -703,5 +757,7 @@ __all__ = (
     "VolumeMountSpec",
     "WebhookConfig",
     "WebLoginExchangeRequest",
+    "WebSocketChannelSpec",
+    "WebSocketChannelSpecHeaders",
     "WeightedPodAffinityTerm",
 )
