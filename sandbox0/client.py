@@ -97,7 +97,10 @@ class Client(
         else:
             raise ValueError(f"unsupported URL scheme: {parsed.scheme}")
         normalized_path = path if path.startswith("/") else "/" + path
-        return urlunparse((ws_scheme, parsed.netloc, normalized_path, "", "", ""))
+        base_path = parsed.path.rstrip("/")
+        return urlunparse(
+            (ws_scheme, parsed.netloc, base_path + normalized_path, "", "", "")
+        )
 
     def ws_headers(self) -> dict[str, str]:
         # Reuse generated client's auth/header behavior for WebSocket upgrade requests.

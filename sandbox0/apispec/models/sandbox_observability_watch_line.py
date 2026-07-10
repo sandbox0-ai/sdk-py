@@ -19,9 +19,6 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.sandbox_observability_event import SandboxObservabilityEvent
     from ..models.sandbox_observability_log_entry import SandboxObservabilityLogEntry
-    from ..models.sandbox_observability_metric_sample import (
-        SandboxObservabilityMetricSample,
-    )
 
 
 T = TypeVar("T", bound="SandboxObservabilityWatchLine")
@@ -32,8 +29,7 @@ class SandboxObservabilityWatchLine:
     """
     Attributes:
         type_ (SandboxObservabilityWatchLineType):
-        data (Union['SandboxObservabilityEvent', 'SandboxObservabilityLogEntry', 'SandboxObservabilityMetricSample',
-            Unset]):
+        data (Union['SandboxObservabilityEvent', 'SandboxObservabilityLogEntry', Unset]):
         cursor (Union[Unset, str]): Watch resume cursor. Present on watermark lines.
         watermark (Union[Unset, str]): Backend watermark for the emitted batch.
         time (Union[Unset, datetime.datetime]): Heartbeat timestamp.
@@ -41,12 +37,9 @@ class SandboxObservabilityWatchLine:
     """
 
     type_: SandboxObservabilityWatchLineType
-    data: Union[
-        "SandboxObservabilityEvent",
-        "SandboxObservabilityLogEntry",
-        "SandboxObservabilityMetricSample",
-        Unset,
-    ] = UNSET
+    data: Union["SandboxObservabilityEvent", "SandboxObservabilityLogEntry", Unset] = (
+        UNSET
+    )
     cursor: Union[Unset, str] = UNSET
     watermark: Union[Unset, str] = UNSET
     time: Union[Unset, datetime.datetime] = UNSET
@@ -55,9 +48,6 @@ class SandboxObservabilityWatchLine:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.sandbox_observability_event import SandboxObservabilityEvent
-        from ..models.sandbox_observability_log_entry import (
-            SandboxObservabilityLogEntry,
-        )
 
         type_ = self.type_.value
 
@@ -65,8 +55,6 @@ class SandboxObservabilityWatchLine:
         if isinstance(self.data, Unset):
             data = UNSET
         elif isinstance(self.data, SandboxObservabilityEvent):
-            data = self.data.to_dict()
-        elif isinstance(self.data, SandboxObservabilityLogEntry):
             data = self.data.to_dict()
         else:
             data = self.data.to_dict()
@@ -107,21 +95,13 @@ class SandboxObservabilityWatchLine:
         from ..models.sandbox_observability_log_entry import (
             SandboxObservabilityLogEntry,
         )
-        from ..models.sandbox_observability_metric_sample import (
-            SandboxObservabilityMetricSample,
-        )
 
         d = dict(src_dict)
         type_ = SandboxObservabilityWatchLineType(d.pop("type"))
 
         def _parse_data(
             data: object,
-        ) -> Union[
-            "SandboxObservabilityEvent",
-            "SandboxObservabilityLogEntry",
-            "SandboxObservabilityMetricSample",
-            Unset,
-        ]:
+        ) -> Union["SandboxObservabilityEvent", "SandboxObservabilityLogEntry", Unset]:
             if isinstance(data, Unset):
                 return data
             try:
@@ -132,19 +112,11 @@ class SandboxObservabilityWatchLine:
                 return data_type_0
             except:  # noqa: E722
                 pass
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                data_type_1 = SandboxObservabilityLogEntry.from_dict(data)
-
-                return data_type_1
-            except:  # noqa: E722
-                pass
             if not isinstance(data, dict):
                 raise TypeError()
-            data_type_2 = SandboxObservabilityMetricSample.from_dict(data)
+            data_type_1 = SandboxObservabilityLogEntry.from_dict(data)
 
-            return data_type_2
+            return data_type_1
 
         data = _parse_data(d.pop("data", UNSET))
 

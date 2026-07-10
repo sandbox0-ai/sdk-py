@@ -6,7 +6,6 @@ class SandboxObservabilityWatchLineType(str, Enum):
     EVENT = "event"
     HEARTBEAT = "heartbeat"
     LOG = "log"
-    METRIC_SAMPLE = "metric_sample"
     WATERMARK = "watermark"
 
     def __str__(self) -> str:

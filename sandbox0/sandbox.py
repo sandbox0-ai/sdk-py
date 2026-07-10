@@ -22,6 +22,7 @@ from sandbox0.sandbox_files import SandboxFilesMixin
 from sandbox0.sandbox_network import SandboxNetworkMixin
 from sandbox0.sandbox_observability import SandboxObservabilityMixin
 from sandbox0.sandbox_services import SandboxServicesMixin
+from sandbox0.sandbox_sessions import SandboxSessionsMixin
 
 if TYPE_CHECKING:
     from websockets.sync.client import ClientConnection
@@ -172,6 +173,7 @@ class Sandbox(
     SandboxObservabilityMixin,
     SandboxNetworkMixin,
     SandboxServicesMixin,
+    SandboxSessionsMixin,
 ):
     def __init__(
         self,

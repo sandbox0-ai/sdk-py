@@ -17,12 +17,20 @@ from sandbox0.sandbox_observability import (
     SandboxObservabilityLogOptions,
     SandboxObservabilityLogWatchOptions,
     SandboxObservabilityMetricOptions,
-    SandboxObservabilityMetricWatchOptions,
     SandboxObservabilityQueryOptions,
     SandboxObservabilityWatchOptions,
     SandboxObservabilityWatchStream,
 )
 from sandbox0.sessions import MountSession, SandboxSession, VolumeSession
+from sandbox0.sandbox_sessions import (
+    ExecutionSessionConnection,
+    SessionCreateOptions,
+    SessionEventOptions,
+    SessionEventStream,
+    SessionEventStreamOptions,
+    SessionWebSocketMessage,
+    SessionWebSocketOptions,
+)
 from sandbox0.webhook_signature import verify_webhook_signature
 
 __all__ = [
@@ -32,6 +40,7 @@ __all__ = [
     "CmdOptions",
     "CmdResult",
     "FileWatchResponse",
+    "ExecutionSessionConnection",
     "MountSession",
     "RunOptions",
     "RunResult",
@@ -43,11 +52,16 @@ __all__ = [
     "SandboxObservabilityLogOptions",
     "SandboxObservabilityLogWatchOptions",
     "SandboxObservabilityMetricOptions",
-    "SandboxObservabilityMetricWatchOptions",
     "SandboxObservabilityQueryOptions",
     "SandboxObservabilityWatchOptions",
     "SandboxObservabilityWatchStream",
     "SandboxSession",
+    "SessionCreateOptions",
+    "SessionEventOptions",
+    "SessionEventStream",
+    "SessionEventStreamOptions",
+    "SessionWebSocketMessage",
+    "SessionWebSocketOptions",
     "StreamDone",
     "StreamInput",
     "StreamOutput",

@@ -1,31 +1,50 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import (
+    Any,
+    TypeVar,
+    Union,
+)
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="SandboxObservabilityMetricSampleAttributes")
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="CreateExecutionSessionAttemptRequest")
 
 
 @_attrs_define
-class SandboxObservabilityMetricSampleAttributes:
-    """ """
+class CreateExecutionSessionAttemptRequest:
+    """
+    Attributes:
+        replace_current (Union[Unset, bool]):  Default: False.
+    """
 
+    replace_current: Union[Unset, bool] = False
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        replace_current = self.replace_current
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if replace_current is not UNSET:
+            field_dict["replace_current"] = replace_current
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        sandbox_observability_metric_sample_attributes = cls()
+        replace_current = d.pop("replace_current", UNSET)
 
-        sandbox_observability_metric_sample_attributes.additional_properties = d
-        return sandbox_observability_metric_sample_attributes
+        create_execution_session_attempt_request = cls(
+            replace_current=replace_current,
+        )
+
+        create_execution_session_attempt_request.additional_properties = d
+        return create_execution_session_attempt_request
 
     @property
     def additional_keys(self) -> list[str]:
