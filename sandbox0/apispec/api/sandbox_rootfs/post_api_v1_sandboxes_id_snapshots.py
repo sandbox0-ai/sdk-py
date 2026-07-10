@@ -55,6 +55,11 @@ def _parse_response(
 
         return response_409
 
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -80,9 +85,16 @@ def sync_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxRootFSSnapshotResponse]]:
     """Create sandbox rootfs snapshot
 
+     Creates an immutable snapshot record from the source sandbox writable
+    rootfs. A paused source is snapshotted from its current rootfs head. A
+    running source is briefly barriered and checkpointed first; the source
+    sandbox remains running after the snapshot operation completes.
+
     Args:
         id (str):
-        body (CreateSandboxRootFSSnapshotRequest):
+        body (CreateSandboxRootFSSnapshotRequest): Optional snapshot metadata. The source sandbox
+            may be running or paused;
+            running sources are checkpointed before the snapshot record is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -112,9 +124,16 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxRootFSSnapshotResponse]]:
     """Create sandbox rootfs snapshot
 
+     Creates an immutable snapshot record from the source sandbox writable
+    rootfs. A paused source is snapshotted from its current rootfs head. A
+    running source is briefly barriered and checkpointed first; the source
+    sandbox remains running after the snapshot operation completes.
+
     Args:
         id (str):
-        body (CreateSandboxRootFSSnapshotRequest):
+        body (CreateSandboxRootFSSnapshotRequest): Optional snapshot metadata. The source sandbox
+            may be running or paused;
+            running sources are checkpointed before the snapshot record is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,9 +158,16 @@ async def asyncio_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxRootFSSnapshotResponse]]:
     """Create sandbox rootfs snapshot
 
+     Creates an immutable snapshot record from the source sandbox writable
+    rootfs. A paused source is snapshotted from its current rootfs head. A
+    running source is briefly barriered and checkpointed first; the source
+    sandbox remains running after the snapshot operation completes.
+
     Args:
         id (str):
-        body (CreateSandboxRootFSSnapshotRequest):
+        body (CreateSandboxRootFSSnapshotRequest): Optional snapshot metadata. The source sandbox
+            may be running or paused;
+            running sources are checkpointed before the snapshot record is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -169,9 +195,16 @@ async def asyncio(
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxRootFSSnapshotResponse]]:
     """Create sandbox rootfs snapshot
 
+     Creates an immutable snapshot record from the source sandbox writable
+    rootfs. A paused source is snapshotted from its current rootfs head. A
+    running source is briefly barriered and checkpointed first; the source
+    sandbox remains running after the snapshot operation completes.
+
     Args:
         id (str):
-        body (CreateSandboxRootFSSnapshotRequest):
+        body (CreateSandboxRootFSSnapshotRequest): Optional snapshot metadata. The source sandbox
+            may be running or paused;
+            running sources are checkpointed before the snapshot record is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

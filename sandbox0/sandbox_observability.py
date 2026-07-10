@@ -7,7 +7,6 @@ from typing import Any, Iterator, Optional
 
 import httpx
 
-from sandbox0.apispec.api.audit import get_api_v1_sandboxes_id_audit_events
 from sandbox0.apispec.api.observability import (
     get_api_v1_sandboxes_id_observability_events,
 )
@@ -163,24 +162,6 @@ class SandboxObservabilityMixin:
         )
         return ensure_data(resp, SuccessSandboxObservabilityEventsResponse)
 
-    def list_audit_events(
-        self,
-        options: Optional[SandboxObservabilityEventOptions] = None,
-    ) -> SandboxObservabilityEventsResponse:  # type: ignore[misc]
-        opts = options or SandboxObservabilityEventOptions()
-        resp = get_api_v1_sandboxes_id_audit_events.sync_detailed(
-            id=self.id,
-            client=self._client.api,
-            start_time=_value(opts.start_time),
-            end_time=_value(opts.end_time),
-            limit=_value(opts.limit),
-            cursor=_value(opts.cursor),
-            source=_value(opts.source),
-            event_type=_value(opts.event_type),
-            outcome=_value(opts.outcome),
-        )
-        return ensure_data(resp, SuccessSandboxObservabilityEventsResponse)
-
     def list_logs(
         self,
         options: Optional[SandboxObservabilityLogOptions] = None,
@@ -222,15 +203,6 @@ class SandboxObservabilityMixin:
     ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
         return self._watch_observability(
             f"/api/v1/sandboxes/{self.id}/observability/events",
-            _event_params(options or SandboxObservabilityEventWatchOptions()),
-        )
-
-    def watch_audit_events(
-        self,
-        options: Optional[SandboxObservabilityEventWatchOptions] = None,
-    ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
-        return self._watch_observability(
-            f"/api/v1/sandboxes/{self.id}/audit/events",
             _event_params(options or SandboxObservabilityEventWatchOptions()),
         )
 

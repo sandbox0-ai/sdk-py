@@ -51,6 +51,11 @@ def _parse_response(
 
         return response_409
 
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -74,12 +79,19 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox from paused rootfs
+    """Fork sandbox rootfs
+
+     Forks the source sandbox writable rootfs into a new paused sandbox. A paused
+    source is forked from its current rootfs head. A running source is briefly
+    barriered and checkpointed first; the source sandbox remains running after
+    the fork operation completes.
 
     Args:
         id (str):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
+            The source sandbox may be running or paused; running sources are checkpointed
+            before the paused child sandbox is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,12 +119,19 @@ def sync(
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox from paused rootfs
+    """Fork sandbox rootfs
+
+     Forks the source sandbox writable rootfs into a new paused sandbox. A paused
+    source is forked from its current rootfs head. A running source is briefly
+    barriered and checkpointed first; the source sandbox remains running after
+    the fork operation completes.
 
     Args:
         id (str):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
+            The source sandbox may be running or paused; running sources are checkpointed
+            before the paused child sandbox is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -135,12 +154,19 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox from paused rootfs
+    """Fork sandbox rootfs
+
+     Forks the source sandbox writable rootfs into a new paused sandbox. A paused
+    source is forked from its current rootfs head. A running source is briefly
+    barriered and checkpointed first; the source sandbox remains running after
+    the fork operation completes.
 
     Args:
         id (str):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
+            The source sandbox may be running or paused; running sources are checkpointed
+            before the paused child sandbox is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -166,12 +192,19 @@ async def asyncio(
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox from paused rootfs
+    """Fork sandbox rootfs
+
+     Forks the source sandbox writable rootfs into a new paused sandbox. A paused
+    source is forked from its current rootfs head. A running source is briefly
+    barriered and checkpointed first; the source sandbox remains running after
+    the fork operation completes.
 
     Args:
         id (str):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
+            The source sandbox may be running or paused; running sources are checkpointed
+            before the paused child sandbox is created.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

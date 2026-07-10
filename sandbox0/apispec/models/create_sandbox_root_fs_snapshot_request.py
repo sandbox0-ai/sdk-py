@@ -17,11 +17,13 @@ T = TypeVar("T", bound="CreateSandboxRootFSSnapshotRequest")
 
 @_attrs_define
 class CreateSandboxRootFSSnapshotRequest:
-    """
-    Attributes:
-        name (Union[Unset, str]):
-        description (Union[Unset, str]):
-        expires_at (Union[Unset, datetime.datetime]): Optional snapshot expiration timestamp. Zero value means not set.
+    """Optional snapshot metadata. The source sandbox may be running or paused;
+    running sources are checkpointed before the snapshot record is created.
+
+        Attributes:
+            name (Union[Unset, str]):
+            description (Union[Unset, str]):
+            expires_at (Union[Unset, datetime.datetime]): Optional snapshot expiration timestamp. Zero value means not set.
     """
 
     name: Union[Unset, str] = UNSET

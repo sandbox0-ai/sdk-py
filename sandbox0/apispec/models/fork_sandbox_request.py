@@ -20,9 +20,11 @@ T = TypeVar("T", bound="ForkSandboxRequest")
 @_attrs_define
 class ForkSandboxRequest:
     """Optional fork overrides. Omit config to inherit the source sandbox configuration.
+    The source sandbox may be running or paused; running sources are checkpointed
+    before the paused child sandbox is created.
 
-    Attributes:
-        config (Union[Unset, ForkSandboxConfig]):
+        Attributes:
+            config (Union[Unset, ForkSandboxConfig]):
     """
 
     config: Union[Unset, "ForkSandboxConfig"] = UNSET
