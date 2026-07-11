@@ -14,7 +14,10 @@ from sandbox0.apispec.api.observability import (
     get_api_v1_sandboxes_id_observability_logs,
 )
 from sandbox0.apispec.api.observability import (
-    get_api_v1_sandboxes_id_observability_metrics,
+    get_sandbox_runtime_metrics,
+)
+from sandbox0.apispec.api.observability import (
+    get_sandbox_runtime_metrics_catalog,
 )
 from sandbox0.apispec.models.observability_event_source import (
     ObservabilityEventSource,
@@ -31,8 +34,17 @@ from sandbox0.apispec.models.sandbox_observability_log_stream import (
 from sandbox0.apispec.models.sandbox_observability_logs_response import (
     SandboxObservabilityLogsResponse,
 )
-from sandbox0.apispec.models.sandbox_observability_metrics_response import (
-    SandboxObservabilityMetricsResponse,
+from sandbox0.apispec.models.sandbox_runtime_metric_name import (
+    SandboxRuntimeMetricName,
+)
+from sandbox0.apispec.models.sandbox_runtime_metric_statistic import (
+    SandboxRuntimeMetricStatistic,
+)
+from sandbox0.apispec.models.sandbox_runtime_metrics_catalog_response import (
+    SandboxRuntimeMetricsCatalogResponse,
+)
+from sandbox0.apispec.models.sandbox_runtime_metrics_response import (
+    SandboxRuntimeMetricsResponse,
 )
 from sandbox0.apispec.models.sandbox_observability_outcome import (
     SandboxObservabilityOutcome,
@@ -46,13 +58,17 @@ from sandbox0.apispec.models.success_sandbox_observability_events_response impor
 from sandbox0.apispec.models.success_sandbox_observability_logs_response import (
     SuccessSandboxObservabilityLogsResponse,
 )
-from sandbox0.apispec.models.success_sandbox_observability_metrics_response import (
-    SuccessSandboxObservabilityMetricsResponse,
+from sandbox0.apispec.models.success_sandbox_runtime_metrics_catalog_response import (
+    SuccessSandboxRuntimeMetricsCatalogResponse,
+)
+from sandbox0.apispec.models.success_sandbox_runtime_metrics_response import (
+    SuccessSandboxRuntimeMetricsResponse,
 )
 from sandbox0.apispec.types import UNSET
 from sandbox0.errors import APIError
 from sandbox0.response import ensure_data
 from sandbox0.response_normalize import SKIP_RESPONSE_NORMALIZE_EXTENSION
+
 
 @dataclass(frozen=True)
 class SandboxObservabilityQueryOptions:
@@ -96,17 +112,13 @@ class SandboxObservabilityLogWatchOptions(SandboxObservabilityWatchOptions):
 
 
 @dataclass(frozen=True)
-class SandboxObservabilityMetricOptions(SandboxObservabilityQueryOptions):
-    context_id: Optional[str] = None
-    name: Optional[list[str]] = None
-    names: Optional[str] = None
-
-
-@dataclass(frozen=True)
-class SandboxObservabilityMetricWatchOptions(SandboxObservabilityWatchOptions):
-    context_id: Optional[str] = None
-    name: Optional[list[str]] = None
-    names: Optional[str] = None
+class SandboxObservabilityMetricOptions:
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    metrics: Optional[list[SandboxRuntimeMetricName]] = None
+    step_seconds: Optional[int] = None
+    statistic: Optional[SandboxRuntimeMetricStatistic] = None
+    max_points: Optional[int] = None
 
 
 class SandboxObservabilityWatchStream:
@@ -182,20 +194,30 @@ class SandboxObservabilityMixin:
     def list_metrics(
         self,
         options: Optional[SandboxObservabilityMetricOptions] = None,
-    ) -> SandboxObservabilityMetricsResponse:  # type: ignore[misc]
+    ) -> SandboxRuntimeMetricsResponse:  # type: ignore[misc]
         opts = options or SandboxObservabilityMetricOptions()
-        resp = get_api_v1_sandboxes_id_observability_metrics.sync_detailed(
+        resp = get_sandbox_runtime_metrics.sync_detailed(
             id=self.id,
             client=self._client.api,
             start_time=_value(opts.start_time),
             end_time=_value(opts.end_time),
-            limit=_value(opts.limit),
-            cursor=_value(opts.cursor),
-            context_id=_value(opts.context_id),
-            name=_value(opts.name),
-            names=_value(opts.names),
+            metrics=_value(
+                ",".join(metric.value for metric in opts.metrics)
+                if opts.metrics
+                else None
+            ),
+            step_seconds=_value(opts.step_seconds),
+            statistic=_value(opts.statistic),
+            max_points=_value(opts.max_points),
         )
-        return ensure_data(resp, SuccessSandboxObservabilityMetricsResponse)
+        return ensure_data(resp, SuccessSandboxRuntimeMetricsResponse)
+
+    def get_metrics_catalog(self) -> SandboxRuntimeMetricsCatalogResponse:  # type: ignore[misc]
+        resp = get_sandbox_runtime_metrics_catalog.sync_detailed(
+            id=self.id,
+            client=self._client.api,
+        )
+        return ensure_data(resp, SuccessSandboxRuntimeMetricsCatalogResponse)
 
     def watch_observability_events(
         self,
@@ -213,15 +235,6 @@ class SandboxObservabilityMixin:
         return self._watch_observability(
             f"/api/v1/sandboxes/{self.id}/observability/logs",
             _log_params(options or SandboxObservabilityLogWatchOptions()),
-        )
-
-    def watch_metrics(
-        self,
-        options: Optional[SandboxObservabilityMetricWatchOptions] = None,
-    ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
-        return self._watch_observability(
-            f"/api/v1/sandboxes/{self.id}/observability/metrics",
-            _metric_params(options or SandboxObservabilityMetricWatchOptions()),
         )
 
     def _watch_observability(
@@ -270,17 +283,6 @@ def _log_params(options: SandboxObservabilityLogWatchOptions) -> dict[str, str]:
         params["context_id"] = options.context_id
     if options.stream is not None:
         params["stream"] = options.stream.value
-    return params
-
-
-def _metric_params(options: SandboxObservabilityMetricWatchOptions) -> dict[str, str]:
-    params = _watch_params(options)
-    if options.context_id:
-        params["context_id"] = options.context_id
-    if options.name:
-        params["name"] = ",".join(options.name)
-    if options.names:
-        params["names"] = options.names
     return params
 
 

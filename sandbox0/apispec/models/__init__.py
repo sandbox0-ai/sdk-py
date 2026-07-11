@@ -35,6 +35,9 @@ from .create_api_key_response import CreateAPIKeyResponse
 from .create_cmd_context_request import CreateCMDContextRequest
 from .create_context_request import CreateContextRequest
 from .create_context_request_env_vars import CreateContextRequestEnvVars
+from .create_execution_session_attempt_request import (
+    CreateExecutionSessionAttemptRequest,
+)
 from .create_region_request import CreateRegionRequest
 from .create_repl_context_request import CreateREPLContextRequest
 from .create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
@@ -70,6 +73,51 @@ from .error import Error
 from .error_envelope import ErrorEnvelope
 from .exec_action import ExecAction
 from .exec_candidate import ExecCandidate
+from .execution_session import ExecutionSession
+from .execution_session_attempt import ExecutionSessionAttempt
+from .execution_session_desired_state import ExecutionSessionDesiredState
+from .execution_session_desired_state_request import ExecutionSessionDesiredStateRequest
+from .execution_session_event import ExecutionSessionEvent
+from .execution_session_event_cursor import ExecutionSessionEventCursor
+from .execution_session_event_page import ExecutionSessionEventPage
+from .execution_session_event_retention_spec import ExecutionSessionEventRetentionSpec
+from .execution_session_event_stream import ExecutionSessionEventStream
+from .execution_session_input_request import ExecutionSessionInputRequest
+from .execution_session_input_response import ExecutionSessionInputResponse
+from .execution_session_io_mode import ExecutionSessionIOMode
+from .execution_session_io_spec import ExecutionSessionIOSpec
+from .execution_session_lifecycle_spec import ExecutionSessionLifecycleSpec
+from .execution_session_phase import ExecutionSessionPhase
+from .execution_session_readiness_spec import ExecutionSessionReadinessSpec
+from .execution_session_readiness_type import ExecutionSessionReadinessType
+from .execution_session_restart_policy import ExecutionSessionRestartPolicy
+from .execution_session_restart_spec import ExecutionSessionRestartSpec
+from .execution_session_runtime_recovery_policy import (
+    ExecutionSessionRuntimeRecoveryPolicy,
+)
+from .execution_session_signal_request import ExecutionSessionSignalRequest
+from .execution_session_spec import ExecutionSessionSpec
+from .execution_session_spec_env import ExecutionSessionSpecEnv
+from .execution_session_terminal_resize_request import (
+    ExecutionSessionTerminalResizeRequest,
+)
+from .execution_session_terminal_spec import ExecutionSessionTerminalSpec
+from .execution_session_web_socket_ack import ExecutionSessionWebSocketAck
+from .execution_session_web_socket_ack_type import ExecutionSessionWebSocketAckType
+from .execution_session_web_socket_error import ExecutionSessionWebSocketError
+from .execution_session_web_socket_error_type import ExecutionSessionWebSocketErrorType
+from .execution_session_web_socket_event import ExecutionSessionWebSocketEvent
+from .execution_session_web_socket_event_type import ExecutionSessionWebSocketEventType
+from .execution_session_web_socket_input import ExecutionSessionWebSocketInput
+from .execution_session_web_socket_input_type import ExecutionSessionWebSocketInputType
+from .execution_session_web_socket_resize import ExecutionSessionWebSocketResize
+from .execution_session_web_socket_resize_type import (
+    ExecutionSessionWebSocketResizeType,
+)
+from .execution_session_web_socket_signal import ExecutionSessionWebSocketSignal
+from .execution_session_web_socket_signal_type import (
+    ExecutionSessionWebSocketSignalType,
+)
 from .file_content_response import FileContentResponse
 from .file_content_response_encoding import FileContentResponseEncoding
 from .file_info import FileInfo
@@ -189,11 +237,6 @@ from .sandbox_observability_log_entry_attributes import (
 )
 from .sandbox_observability_log_stream import SandboxObservabilityLogStream
 from .sandbox_observability_logs_response import SandboxObservabilityLogsResponse
-from .sandbox_observability_metric_sample import SandboxObservabilityMetricSample
-from .sandbox_observability_metric_sample_attributes import (
-    SandboxObservabilityMetricSampleAttributes,
-)
-from .sandbox_observability_metrics_response import SandboxObservabilityMetricsResponse
 from .sandbox_observability_outcome import SandboxObservabilityOutcome
 from .sandbox_observability_watch_line import SandboxObservabilityWatchLine
 from .sandbox_observability_watch_line_type import SandboxObservabilityWatchLineType
@@ -202,6 +245,26 @@ from .sandbox_resource_config import SandboxResourceConfig
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from .sandbox_root_fs_snapshot_list import SandboxRootFSSnapshotList
+from .sandbox_runtime_metric_descriptor import SandboxRuntimeMetricDescriptor
+from .sandbox_runtime_metric_freshness import SandboxRuntimeMetricFreshness
+from .sandbox_runtime_metric_freshness_status import SandboxRuntimeMetricFreshnessStatus
+from .sandbox_runtime_metric_gap import SandboxRuntimeMetricGap
+from .sandbox_runtime_metric_gap_dimensions import SandboxRuntimeMetricGapDimensions
+from .sandbox_runtime_metric_gap_reason import SandboxRuntimeMetricGapReason
+from .sandbox_runtime_metric_kind import SandboxRuntimeMetricKind
+from .sandbox_runtime_metric_name import SandboxRuntimeMetricName
+from .sandbox_runtime_metric_point import SandboxRuntimeMetricPoint
+from .sandbox_runtime_metric_segment import SandboxRuntimeMetricSegment
+from .sandbox_runtime_metric_series import SandboxRuntimeMetricSeries
+from .sandbox_runtime_metric_series_dimensions import (
+    SandboxRuntimeMetricSeriesDimensions,
+)
+from .sandbox_runtime_metric_statistic import SandboxRuntimeMetricStatistic
+from .sandbox_runtime_metric_unit import SandboxRuntimeMetricUnit
+from .sandbox_runtime_metrics_catalog_response import (
+    SandboxRuntimeMetricsCatalogResponse,
+)
+from .sandbox_runtime_metrics_response import SandboxRuntimeMetricsResponse
 from .sandbox_services_update_request import SandboxServicesUpdateRequest
 from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
@@ -231,6 +294,8 @@ from .static_tls_client_certificate_source_spec import (
     StaticTLSClientCertificateSourceSpec,
 )
 from .static_username_password_source_spec import StaticUsernamePasswordSourceSpec
+from .success_accepted_response import SuccessAcceptedResponse
+from .success_accepted_response_data import SuccessAcceptedResponseData
 from .success_api_key_list_response import SuccessAPIKeyListResponse
 from .success_api_key_list_response_data import SuccessAPIKeyListResponseData
 from .success_auth_providers_response import SuccessAuthProvidersResponse
@@ -252,6 +317,17 @@ from .success_deleted_response_data import SuccessDeletedResponseData
 from .success_device_login_poll_response import SuccessDeviceLoginPollResponse
 from .success_device_login_start_response import SuccessDeviceLoginStartResponse
 from .success_envelope import SuccessEnvelope
+from .success_execution_session_event_page_response import (
+    SuccessExecutionSessionEventPageResponse,
+)
+from .success_execution_session_input_response import (
+    SuccessExecutionSessionInputResponse,
+)
+from .success_execution_session_list_response import SuccessExecutionSessionListResponse
+from .success_execution_session_list_response_data import (
+    SuccessExecutionSessionListResponseData,
+)
+from .success_execution_session_response import SuccessExecutionSessionResponse
 from .success_file_list_response import SuccessFileListResponse
 from .success_file_list_response_data import SuccessFileListResponseData
 from .success_file_read_response import SuccessFileReadResponse
@@ -291,15 +367,18 @@ from .success_sandbox_observability_events_response import (
 from .success_sandbox_observability_logs_response import (
     SuccessSandboxObservabilityLogsResponse,
 )
-from .success_sandbox_observability_metrics_response import (
-    SuccessSandboxObservabilityMetricsResponse,
-)
 from .success_sandbox_response import SuccessSandboxResponse
 from .success_sandbox_root_fs_snapshot_list_response import (
     SuccessSandboxRootFSSnapshotListResponse,
 )
 from .success_sandbox_root_fs_snapshot_response import (
     SuccessSandboxRootFSSnapshotResponse,
+)
+from .success_sandbox_runtime_metrics_catalog_response import (
+    SuccessSandboxRuntimeMetricsCatalogResponse,
+)
+from .success_sandbox_runtime_metrics_response import (
+    SuccessSandboxRuntimeMetricsResponse,
 )
 from .success_sandbox_services_response import SuccessSandboxServicesResponse
 from .success_sandbox_services_response_data import SuccessSandboxServicesResponseData
@@ -400,6 +479,7 @@ __all__ = (
     "CreateCMDContextRequest",
     "CreateContextRequest",
     "CreateContextRequestEnvVars",
+    "CreateExecutionSessionAttemptRequest",
     "CreateRegionRequest",
     "CreateREPLContextRequest",
     "CreateSandboxRootFSSnapshotRequest",
@@ -433,6 +513,43 @@ __all__ = (
     "ErrorEnvelope",
     "ExecAction",
     "ExecCandidate",
+    "ExecutionSession",
+    "ExecutionSessionAttempt",
+    "ExecutionSessionDesiredState",
+    "ExecutionSessionDesiredStateRequest",
+    "ExecutionSessionEvent",
+    "ExecutionSessionEventCursor",
+    "ExecutionSessionEventPage",
+    "ExecutionSessionEventRetentionSpec",
+    "ExecutionSessionEventStream",
+    "ExecutionSessionInputRequest",
+    "ExecutionSessionInputResponse",
+    "ExecutionSessionIOMode",
+    "ExecutionSessionIOSpec",
+    "ExecutionSessionLifecycleSpec",
+    "ExecutionSessionPhase",
+    "ExecutionSessionReadinessSpec",
+    "ExecutionSessionReadinessType",
+    "ExecutionSessionRestartPolicy",
+    "ExecutionSessionRestartSpec",
+    "ExecutionSessionRuntimeRecoveryPolicy",
+    "ExecutionSessionSignalRequest",
+    "ExecutionSessionSpec",
+    "ExecutionSessionSpecEnv",
+    "ExecutionSessionTerminalResizeRequest",
+    "ExecutionSessionTerminalSpec",
+    "ExecutionSessionWebSocketAck",
+    "ExecutionSessionWebSocketAckType",
+    "ExecutionSessionWebSocketError",
+    "ExecutionSessionWebSocketErrorType",
+    "ExecutionSessionWebSocketEvent",
+    "ExecutionSessionWebSocketEventType",
+    "ExecutionSessionWebSocketInput",
+    "ExecutionSessionWebSocketInputType",
+    "ExecutionSessionWebSocketResize",
+    "ExecutionSessionWebSocketResizeType",
+    "ExecutionSessionWebSocketSignal",
+    "ExecutionSessionWebSocketSignalType",
     "FileContentResponse",
     "FileContentResponseEncoding",
     "FileInfo",
@@ -550,9 +667,6 @@ __all__ = (
     "SandboxObservabilityLogEntryAttributes",
     "SandboxObservabilityLogsResponse",
     "SandboxObservabilityLogStream",
-    "SandboxObservabilityMetricSample",
-    "SandboxObservabilityMetricSampleAttributes",
-    "SandboxObservabilityMetricsResponse",
     "SandboxObservabilityOutcome",
     "SandboxObservabilityWatchLine",
     "SandboxObservabilityWatchLineType",
@@ -561,6 +675,22 @@ __all__ = (
     "SandboxResourceUsage",
     "SandboxRootFSSnapshot",
     "SandboxRootFSSnapshotList",
+    "SandboxRuntimeMetricDescriptor",
+    "SandboxRuntimeMetricFreshness",
+    "SandboxRuntimeMetricFreshnessStatus",
+    "SandboxRuntimeMetricGap",
+    "SandboxRuntimeMetricGapDimensions",
+    "SandboxRuntimeMetricGapReason",
+    "SandboxRuntimeMetricKind",
+    "SandboxRuntimeMetricName",
+    "SandboxRuntimeMetricPoint",
+    "SandboxRuntimeMetricsCatalogResponse",
+    "SandboxRuntimeMetricSegment",
+    "SandboxRuntimeMetricSeries",
+    "SandboxRuntimeMetricSeriesDimensions",
+    "SandboxRuntimeMetricsResponse",
+    "SandboxRuntimeMetricStatistic",
+    "SandboxRuntimeMetricUnit",
     "SandboxServicesUpdateRequest",
     "SandboxSSHConnection",
     "SandboxStatus",
@@ -588,6 +718,8 @@ __all__ = (
     "StaticSSHPrivateKeySourceSpec",
     "StaticTLSClientCertificateSourceSpec",
     "StaticUsernamePasswordSourceSpec",
+    "SuccessAcceptedResponse",
+    "SuccessAcceptedResponseData",
     "SuccessAPIKeyListResponse",
     "SuccessAPIKeyListResponseData",
     "SuccessAuthProvidersResponse",
@@ -609,6 +741,11 @@ __all__ = (
     "SuccessDeviceLoginPollResponse",
     "SuccessDeviceLoginStartResponse",
     "SuccessEnvelope",
+    "SuccessExecutionSessionEventPageResponse",
+    "SuccessExecutionSessionInputResponse",
+    "SuccessExecutionSessionListResponse",
+    "SuccessExecutionSessionListResponseData",
+    "SuccessExecutionSessionResponse",
     "SuccessFileListResponse",
     "SuccessFileListResponseData",
     "SuccessFileReadResponse",
@@ -642,10 +779,11 @@ __all__ = (
     "SuccessSandboxNetworkPolicyResponse",
     "SuccessSandboxObservabilityEventsResponse",
     "SuccessSandboxObservabilityLogsResponse",
-    "SuccessSandboxObservabilityMetricsResponse",
     "SuccessSandboxResponse",
     "SuccessSandboxRootFSSnapshotListResponse",
     "SuccessSandboxRootFSSnapshotResponse",
+    "SuccessSandboxRuntimeMetricsCatalogResponse",
+    "SuccessSandboxRuntimeMetricsResponse",
     "SuccessSandboxServicesResponse",
     "SuccessSandboxServicesResponseData",
     "SuccessSandboxStatusResponse",
