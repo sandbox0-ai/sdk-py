@@ -4,6 +4,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Iterator, Optional
+from uuid import UUID
 
 import httpx
 
@@ -22,6 +23,7 @@ from sandbox0.apispec.api.observability import (
 from sandbox0.apispec.models.observability_event_source import (
     ObservabilityEventSource,
 )
+from sandbox0.apispec.models.sandbox_audit_actor_kind import SandboxAuditActorKind
 from sandbox0.apispec.models.sandbox_observability_event_type import (
     SandboxObservabilityEventType,
 )
@@ -90,6 +92,12 @@ class SandboxObservabilityEventOptions(SandboxObservabilityQueryOptions):
     source: Optional[ObservabilityEventSource] = None
     event_type: Optional[SandboxObservabilityEventType] = None
     outcome: Optional[SandboxObservabilityOutcome] = None
+    actor_kind: Optional[SandboxAuditActorKind] = None
+    actor_id: Optional[str] = None
+    action: Optional[str] = None
+    resource_type: Optional[str] = None
+    operation_id: Optional[str] = None
+    event_id: Optional[UUID] = None
 
 
 @dataclass(frozen=True)
@@ -97,6 +105,11 @@ class SandboxObservabilityEventWatchOptions(SandboxObservabilityWatchOptions):
     source: Optional[ObservabilityEventSource] = None
     event_type: Optional[SandboxObservabilityEventType] = None
     outcome: Optional[SandboxObservabilityOutcome] = None
+    actor_kind: Optional[SandboxAuditActorKind] = None
+    actor_id: Optional[str] = None
+    action: Optional[str] = None
+    resource_type: Optional[str] = None
+    operation_id: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -171,6 +184,12 @@ class SandboxObservabilityMixin:
             source=_value(opts.source),
             event_type=_value(opts.event_type),
             outcome=_value(opts.outcome),
+            actor_kind=_value(opts.actor_kind),
+            actor_id=_value(opts.actor_id),
+            action=_value(opts.action),
+            resource_type=_value(opts.resource_type),
+            operation_id=_value(opts.operation_id),
+            event_id=_value(opts.event_id),
         )
         return ensure_data(resp, SuccessSandboxObservabilityEventsResponse)
 
@@ -274,6 +293,16 @@ def _event_params(options: SandboxObservabilityEventWatchOptions) -> dict[str, s
         params["event_type"] = options.event_type.value
     if options.outcome is not None:
         params["outcome"] = options.outcome.value
+    if options.actor_kind is not None:
+        params["actor_kind"] = options.actor_kind.value
+    if options.actor_id:
+        params["actor_id"] = options.actor_id
+    if options.action:
+        params["action"] = options.action
+    if options.resource_type:
+        params["resource_type"] = options.resource_type
+    if options.operation_id:
+        params["operation_id"] = options.operation_id
     return params
 
 

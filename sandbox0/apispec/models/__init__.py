@@ -218,6 +218,17 @@ from .sandbox_app_service_runtime import SandboxAppServiceRuntime
 from .sandbox_app_service_runtime_env_vars import SandboxAppServiceRuntimeEnvVars
 from .sandbox_app_service_runtime_type import SandboxAppServiceRuntimeType
 from .sandbox_app_service_view import SandboxAppServiceView
+from .sandbox_audit_actor import SandboxAuditActor
+from .sandbox_audit_actor_kind import SandboxAuditActorKind
+from .sandbox_audit_event_phase import SandboxAuditEventPhase
+from .sandbox_audit_integrity import SandboxAuditIntegrity
+from .sandbox_audit_integrity_algorithm import SandboxAuditIntegrityAlgorithm
+from .sandbox_audit_integrity_signature_status import (
+    SandboxAuditIntegritySignatureStatus,
+)
+from .sandbox_audit_producer import SandboxAuditProducer
+from .sandbox_audit_request import SandboxAuditRequest
+from .sandbox_audit_resource import SandboxAuditResource
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
 from .sandbox_function import SandboxFunction
@@ -229,6 +240,9 @@ from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_observability_event import SandboxObservabilityEvent
 from .sandbox_observability_event_attributes import SandboxObservabilityEventAttributes
+from .sandbox_observability_event_schema_version import (
+    SandboxObservabilityEventSchemaVersion,
+)
 from .sandbox_observability_event_type import SandboxObservabilityEventType
 from .sandbox_observability_events_response import SandboxObservabilityEventsResponse
 from .sandbox_observability_log_entry import SandboxObservabilityLogEntry
@@ -650,6 +664,15 @@ __all__ = (
     "SandboxAppServiceRuntimeEnvVars",
     "SandboxAppServiceRuntimeType",
     "SandboxAppServiceView",
+    "SandboxAuditActor",
+    "SandboxAuditActorKind",
+    "SandboxAuditEventPhase",
+    "SandboxAuditIntegrity",
+    "SandboxAuditIntegrityAlgorithm",
+    "SandboxAuditIntegritySignatureStatus",
+    "SandboxAuditProducer",
+    "SandboxAuditRequest",
+    "SandboxAuditResource",
     "SandboxConfig",
     "SandboxConfigEnvVars",
     "SandboxFunction",
@@ -661,6 +684,7 @@ __all__ = (
     "SandboxNetworkPolicyMode",
     "SandboxObservabilityEvent",
     "SandboxObservabilityEventAttributes",
+    "SandboxObservabilityEventSchemaVersion",
     "SandboxObservabilityEventsResponse",
     "SandboxObservabilityEventType",
     "SandboxObservabilityLogEntry",
