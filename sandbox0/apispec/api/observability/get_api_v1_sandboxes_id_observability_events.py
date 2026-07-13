@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
 from typing import Any, Optional, Union
+from uuid import UUID
 
 import httpx
 
@@ -8,6 +9,7 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.observability_event_source import ObservabilityEventSource
+from ...models.sandbox_audit_actor_kind import SandboxAuditActorKind
 from ...models.sandbox_observability_event_type import SandboxObservabilityEventType
 from ...models.sandbox_observability_outcome import SandboxObservabilityOutcome
 from ...models.success_sandbox_observability_events_response import (
@@ -27,6 +29,12 @@ def _get_kwargs(
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
+    actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
+    actor_id: Union[Unset, str] = UNSET,
+    action: Union[Unset, str] = UNSET,
+    resource_type: Union[Unset, str] = UNSET,
+    operation_id: Union[Unset, str] = UNSET,
+    event_id: Union[Unset, UUID] = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
@@ -63,6 +71,25 @@ def _get_kwargs(
         json_outcome = outcome.value
 
     params["outcome"] = json_outcome
+
+    json_actor_kind: Union[Unset, str] = UNSET
+    if not isinstance(actor_kind, Unset):
+        json_actor_kind = actor_kind.value
+
+    params["actor_kind"] = json_actor_kind
+
+    params["actor_id"] = actor_id
+
+    params["action"] = action
+
+    params["resource_type"] = resource_type
+
+    params["operation_id"] = operation_id
+
+    json_event_id: Union[Unset, str] = UNSET
+    if not isinstance(event_id, Unset):
+        json_event_id = str(event_id)
+    params["event_id"] = json_event_id
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -131,12 +158,19 @@ def sync_detailed(
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
+    actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
+    actor_id: Union[Unset, str] = UNSET,
+    action: Union[Unset, str] = UNSET,
+    resource_type: Union[Unset, str] = UNSET,
+    operation_id: Union[Unset, str] = UNSET,
+    event_id: Union[Unset, UUID] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxObservabilityEventsResponse]]:
-    """Query historical sandbox observability events
+    """Query canonical signed sandbox observability events
 
-     Queries the asynchronous per-sandbox observability projection for lifecycle,
-    network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and reads tables that are separate from the metering usage ledger.
+     Queries canonical signed per-sandbox audit facts from ClickHouse. Every returned
+    event includes an inline signature verification status, while event-ID payload
+    conflicts are reported independently. Access requires the enterprise sandbox_audit
+    feature and the sandboxaudit:read permission.
 
     Args:
         id (str):
@@ -148,6 +182,12 @@ def sync_detailed(
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
+        actor_kind (Union[Unset, SandboxAuditActorKind]):
+        actor_id (Union[Unset, str]):
+        action (Union[Unset, str]):
+        resource_type (Union[Unset, str]):
+        operation_id (Union[Unset, str]):
+        event_id (Union[Unset, UUID]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -167,6 +207,12 @@ def sync_detailed(
         source=source,
         event_type=event_type,
         outcome=outcome,
+        actor_kind=actor_kind,
+        actor_id=actor_id,
+        action=action,
+        resource_type=resource_type,
+        operation_id=operation_id,
+        event_id=event_id,
     )
 
     response = client.get_httpx_client().request(
@@ -188,12 +234,19 @@ def sync(
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
+    actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
+    actor_id: Union[Unset, str] = UNSET,
+    action: Union[Unset, str] = UNSET,
+    resource_type: Union[Unset, str] = UNSET,
+    operation_id: Union[Unset, str] = UNSET,
+    event_id: Union[Unset, UUID] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxObservabilityEventsResponse]]:
-    """Query historical sandbox observability events
+    """Query canonical signed sandbox observability events
 
-     Queries the asynchronous per-sandbox observability projection for lifecycle,
-    network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and reads tables that are separate from the metering usage ledger.
+     Queries canonical signed per-sandbox audit facts from ClickHouse. Every returned
+    event includes an inline signature verification status, while event-ID payload
+    conflicts are reported independently. Access requires the enterprise sandbox_audit
+    feature and the sandboxaudit:read permission.
 
     Args:
         id (str):
@@ -205,6 +258,12 @@ def sync(
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
+        actor_kind (Union[Unset, SandboxAuditActorKind]):
+        actor_id (Union[Unset, str]):
+        action (Union[Unset, str]):
+        resource_type (Union[Unset, str]):
+        operation_id (Union[Unset, str]):
+        event_id (Union[Unset, UUID]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -225,6 +284,12 @@ def sync(
         source=source,
         event_type=event_type,
         outcome=outcome,
+        actor_kind=actor_kind,
+        actor_id=actor_id,
+        action=action,
+        resource_type=resource_type,
+        operation_id=operation_id,
+        event_id=event_id,
     ).parsed
 
 
@@ -240,12 +305,19 @@ async def asyncio_detailed(
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
+    actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
+    actor_id: Union[Unset, str] = UNSET,
+    action: Union[Unset, str] = UNSET,
+    resource_type: Union[Unset, str] = UNSET,
+    operation_id: Union[Unset, str] = UNSET,
+    event_id: Union[Unset, UUID] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessSandboxObservabilityEventsResponse]]:
-    """Query historical sandbox observability events
+    """Query canonical signed sandbox observability events
 
-     Queries the asynchronous per-sandbox observability projection for lifecycle,
-    network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and reads tables that are separate from the metering usage ledger.
+     Queries canonical signed per-sandbox audit facts from ClickHouse. Every returned
+    event includes an inline signature verification status, while event-ID payload
+    conflicts are reported independently. Access requires the enterprise sandbox_audit
+    feature and the sandboxaudit:read permission.
 
     Args:
         id (str):
@@ -257,6 +329,12 @@ async def asyncio_detailed(
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
+        actor_kind (Union[Unset, SandboxAuditActorKind]):
+        actor_id (Union[Unset, str]):
+        action (Union[Unset, str]):
+        resource_type (Union[Unset, str]):
+        operation_id (Union[Unset, str]):
+        event_id (Union[Unset, UUID]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -276,6 +354,12 @@ async def asyncio_detailed(
         source=source,
         event_type=event_type,
         outcome=outcome,
+        actor_kind=actor_kind,
+        actor_id=actor_id,
+        action=action,
+        resource_type=resource_type,
+        operation_id=operation_id,
+        event_id=event_id,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -295,12 +379,19 @@ async def asyncio(
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
+    actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
+    actor_id: Union[Unset, str] = UNSET,
+    action: Union[Unset, str] = UNSET,
+    resource_type: Union[Unset, str] = UNSET,
+    operation_id: Union[Unset, str] = UNSET,
+    event_id: Union[Unset, UUID] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessSandboxObservabilityEventsResponse]]:
-    """Query historical sandbox observability events
+    """Query canonical signed sandbox observability events
 
-     Queries the asynchronous per-sandbox observability projection for lifecycle,
-    network audit, and runtime stats events. This endpoint does not expose backend SQL
-    and reads tables that are separate from the metering usage ledger.
+     Queries canonical signed per-sandbox audit facts from ClickHouse. Every returned
+    event includes an inline signature verification status, while event-ID payload
+    conflicts are reported independently. Access requires the enterprise sandbox_audit
+    feature and the sandboxaudit:read permission.
 
     Args:
         id (str):
@@ -312,6 +403,12 @@ async def asyncio(
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
+        actor_kind (Union[Unset, SandboxAuditActorKind]):
+        actor_id (Union[Unset, str]):
+        action (Union[Unset, str]):
+        resource_type (Union[Unset, str]):
+        operation_id (Union[Unset, str]):
+        event_id (Union[Unset, UUID]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -333,5 +430,11 @@ async def asyncio(
             source=source,
             event_type=event_type,
             outcome=outcome,
+            actor_kind=actor_kind,
+            actor_id=actor_id,
+            action=action,
+            resource_type=resource_type,
+            operation_id=operation_id,
+            event_id=event_id,
         )
     ).parsed
