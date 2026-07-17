@@ -44,7 +44,7 @@ class Sandbox:
         user_id (Union[Unset, str]):
         services (Union[Unset, list['SandboxAppService']]):
         resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
-            memory only and derives CPU from the platform memory-per-CPU ratio.
+            memory only and derives CPU from the platform memory-per-CPU ratio, with a minimum CPU limit of 150m.
         mounts (Union[Unset, list['ClaimMountRequest']]):
         ssh (Union[Unset, SandboxSSHConnection]):
     """

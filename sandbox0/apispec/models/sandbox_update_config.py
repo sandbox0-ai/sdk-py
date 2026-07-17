@@ -32,7 +32,7 @@ class SandboxUpdateConfig:
                 processes. Omitting this field preserves the existing environment map; passing
                 an empty object clears it.
             resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
-                memory only and derives CPU from the platform memory-per-CPU ratio.
+                memory only and derives CPU from the platform memory-per-CPU ratio, with a minimum CPU limit of 150m.
             ttl (Union[Unset, int]): Runtime soft time-to-live in seconds. When it expires, Sandbox0 checkpoints the
                 writable rootfs, pauses the sandbox, and releases runtime compute while preserving durable sandbox state.
             hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the

@@ -14,8 +14,8 @@ from sandbox0.apispec.models.template_update_request import TemplateUpdateReques
 from sandbox0.apispec.types import UNSET, Unset
 
 
-def resources(cpu: str, memory: str) -> ResourceQuota:
-    return ResourceQuota(cpu=cpu, memory=memory)
+def resources(memory: str) -> ResourceQuota:
+    return ResourceQuota(memory=memory)
 
 
 def container(

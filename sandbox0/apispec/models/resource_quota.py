@@ -17,31 +17,28 @@ T = TypeVar("T", bound="ResourceQuota")
 class ResourceQuota:
     """
     Attributes:
-        cpu (Union[Unset, str]):
-        memory (Union[Unset, str]):
+        memory (str): Memory limit used by default when a sandbox claim does not provide a memory override. Sandbox0
+            derives the internal CPU limit from platform configuration.
         ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
             logs. Defaults to 8Gi when omitted.
     """
 
-    cpu: Union[Unset, str] = UNSET
-    memory: Union[Unset, str] = UNSET
+    memory: str
     ephemeral_storage: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        cpu = self.cpu
-
         memory = self.memory
 
         ephemeral_storage = self.ephemeral_storage
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if cpu is not UNSET:
-            field_dict["cpu"] = cpu
-        if memory is not UNSET:
-            field_dict["memory"] = memory
+        field_dict.update(
+            {
+                "memory": memory,
+            }
+        )
         if ephemeral_storage is not UNSET:
             field_dict["ephemeralStorage"] = ephemeral_storage
 
@@ -50,14 +47,11 @@ class ResourceQuota:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        cpu = d.pop("cpu", UNSET)
-
-        memory = d.pop("memory", UNSET)
+        memory = d.pop("memory")
 
         ephemeral_storage = d.pop("ephemeralStorage", UNSET)
 
         resource_quota = cls(
-            cpu=cpu,
             memory=memory,
             ephemeral_storage=ephemeral_storage,
         )
