@@ -16,7 +16,7 @@ T = TypeVar("T", bound="SandboxResourceConfig")
 @_attrs_define
 class SandboxResourceConfig:
     """Instance-level sandbox resource override. Sandbox0 exposes memory only and derives CPU from the platform memory-per-
-    CPU ratio.
+    CPU ratio, with a minimum CPU limit of 150m.
 
         Attributes:
             memory (Union[Unset, str]): Sandbox memory limit. Must be at least 128Mi and no more than the platform sandbox

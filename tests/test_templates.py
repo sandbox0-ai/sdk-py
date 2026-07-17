@@ -25,7 +25,7 @@ class TestTemplates(TestCase):
             spec=SandboxTemplateSpec(
                 main_container=ContainerSpec(
                     image="nginx:1.27-alpine",
-                    resources=ResourceQuota(cpu="500m", memory="2Gi"),
+                    resources=ResourceQuota(memory="2Gi"),
                 ),
                 env_vars=SandboxTemplateSpecEnvVars.from_dict({"MODE": "template"}),
             ),
@@ -57,7 +57,7 @@ class TestTemplates(TestCase):
 
     def test_template_helpers_build_template_requests(self) -> None:
         spec = template_spec(
-            build_container("ubuntu:24.04", build_resources("1", "4Gi")),
+            build_container("ubuntu:24.04", build_resources("4Gi")),
             display_name="Helper Template",
             env_vars={"MODE": "template"},
         )
