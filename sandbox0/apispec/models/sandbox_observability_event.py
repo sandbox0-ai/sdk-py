@@ -23,6 +23,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.sandbox_audit_actor import SandboxAuditActor
+    from ..models.sandbox_audit_execution_scope import SandboxAuditExecutionScope
     from ..models.sandbox_audit_integrity import SandboxAuditIntegrity
     from ..models.sandbox_audit_producer import SandboxAuditProducer
     from ..models.sandbox_audit_request import SandboxAuditRequest
@@ -40,7 +41,8 @@ class SandboxObservabilityEvent:
     """
     Attributes:
         event_id (UUID):
-        schema_version (SandboxObservabilityEventSchemaVersion):
+        schema_version (SandboxObservabilityEventSchemaVersion): Schema v2 is used for unscoped facts; schema v3
+            requires execution_scope.
         team_id (str):
         sandbox_id (str):
         region_id (str):
@@ -57,6 +59,9 @@ class SandboxObservabilityEvent:
         operation_id (str):
         producer (SandboxAuditProducer):
         integrity (SandboxAuditIntegrity):
+        execution_scope (Union[Unset, SandboxAuditExecutionScope]): Attributes sandbox workload activity to one native
+            harness execution
+            scope. The sandbox workload remains the audit actor.
         parent_event_id (Union[Unset, UUID]):
         request (Union[Unset, SandboxAuditRequest]):
         attributes (Union[Unset, SandboxObservabilityEventAttributes]):
@@ -80,6 +85,7 @@ class SandboxObservabilityEvent:
     operation_id: str
     producer: "SandboxAuditProducer"
     integrity: "SandboxAuditIntegrity"
+    execution_scope: Union[Unset, "SandboxAuditExecutionScope"] = UNSET
     parent_event_id: Union[Unset, UUID] = UNSET
     request: Union[Unset, "SandboxAuditRequest"] = UNSET
     attributes: Union[Unset, "SandboxObservabilityEventAttributes"] = UNSET
@@ -122,6 +128,10 @@ class SandboxObservabilityEvent:
 
         integrity = self.integrity.to_dict()
 
+        execution_scope: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.execution_scope, Unset):
+            execution_scope = self.execution_scope.to_dict()
+
         parent_event_id: Union[Unset, str] = UNSET
         if not isinstance(self.parent_event_id, Unset):
             parent_event_id = str(self.parent_event_id)
@@ -158,6 +168,8 @@ class SandboxObservabilityEvent:
                 "integrity": integrity,
             }
         )
+        if execution_scope is not UNSET:
+            field_dict["execution_scope"] = execution_scope
         if parent_event_id is not UNSET:
             field_dict["parent_event_id"] = parent_event_id
         if request is not UNSET:
@@ -170,6 +182,7 @@ class SandboxObservabilityEvent:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_audit_actor import SandboxAuditActor
+        from ..models.sandbox_audit_execution_scope import SandboxAuditExecutionScope
         from ..models.sandbox_audit_integrity import SandboxAuditIntegrity
         from ..models.sandbox_audit_producer import SandboxAuditProducer
         from ..models.sandbox_audit_request import SandboxAuditRequest
@@ -215,6 +228,13 @@ class SandboxObservabilityEvent:
 
         integrity = SandboxAuditIntegrity.from_dict(d.pop("integrity"))
 
+        _execution_scope = d.pop("execution_scope", UNSET)
+        execution_scope: Union[Unset, SandboxAuditExecutionScope]
+        if isinstance(_execution_scope, Unset):
+            execution_scope = UNSET
+        else:
+            execution_scope = SandboxAuditExecutionScope.from_dict(_execution_scope)
+
         _parent_event_id = d.pop("parent_event_id", UNSET)
         parent_event_id: Union[Unset, UUID]
         if isinstance(_parent_event_id, Unset):
@@ -255,6 +275,7 @@ class SandboxObservabilityEvent:
             operation_id=operation_id,
             producer=producer,
             integrity=integrity,
+            execution_scope=execution_scope,
             parent_event_id=parent_event_id,
             request=request,
             attributes=attributes,
