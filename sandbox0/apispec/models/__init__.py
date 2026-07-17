@@ -95,7 +95,6 @@ from .execution_session_restart_spec import ExecutionSessionRestartSpec
 from .execution_session_runtime_recovery_policy import (
     ExecutionSessionRuntimeRecoveryPolicy,
 )
-from .execution_session_scope_spec import ExecutionSessionScopeSpec
 from .execution_session_signal_request import ExecutionSessionSignalRequest
 from .execution_session_spec import ExecutionSessionSpec
 from .execution_session_spec_env import ExecutionSessionSpecEnv
@@ -222,10 +221,6 @@ from .sandbox_app_service_view import SandboxAppServiceView
 from .sandbox_audit_actor import SandboxAuditActor
 from .sandbox_audit_actor_kind import SandboxAuditActorKind
 from .sandbox_audit_event_phase import SandboxAuditEventPhase
-from .sandbox_audit_execution_scope import SandboxAuditExecutionScope
-from .sandbox_audit_execution_scope_attribution import (
-    SandboxAuditExecutionScopeAttribution,
-)
 from .sandbox_audit_integrity import SandboxAuditIntegrity
 from .sandbox_audit_integrity_algorithm import SandboxAuditIntegrityAlgorithm
 from .sandbox_audit_integrity_signature_status import (
@@ -243,9 +238,6 @@ from .sandbox_function_source_type import SandboxFunctionSourceType
 from .sandbox_lifecycle_status import SandboxLifecycleStatus
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
-from .sandbox_observability_effective_event_query import (
-    SandboxObservabilityEffectiveEventQuery,
-)
 from .sandbox_observability_event import SandboxObservabilityEvent
 from .sandbox_observability_event_attributes import SandboxObservabilityEventAttributes
 from .sandbox_observability_event_schema_version import (
@@ -555,7 +547,6 @@ __all__ = (
     "ExecutionSessionRestartPolicy",
     "ExecutionSessionRestartSpec",
     "ExecutionSessionRuntimeRecoveryPolicy",
-    "ExecutionSessionScopeSpec",
     "ExecutionSessionSignalRequest",
     "ExecutionSessionSpec",
     "ExecutionSessionSpecEnv",
@@ -676,8 +667,6 @@ __all__ = (
     "SandboxAuditActor",
     "SandboxAuditActorKind",
     "SandboxAuditEventPhase",
-    "SandboxAuditExecutionScope",
-    "SandboxAuditExecutionScopeAttribution",
     "SandboxAuditIntegrity",
     "SandboxAuditIntegrityAlgorithm",
     "SandboxAuditIntegritySignatureStatus",
@@ -693,7 +682,6 @@ __all__ = (
     "SandboxLifecycleStatus",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
-    "SandboxObservabilityEffectiveEventQuery",
     "SandboxObservabilityEvent",
     "SandboxObservabilityEventAttributes",
     "SandboxObservabilityEventSchemaVersion",
