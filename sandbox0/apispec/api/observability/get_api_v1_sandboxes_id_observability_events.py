@@ -10,9 +10,6 @@ from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.observability_event_source import ObservabilityEventSource
 from ...models.sandbox_audit_actor_kind import SandboxAuditActorKind
-from ...models.sandbox_audit_execution_scope_attribution import (
-    SandboxAuditExecutionScopeAttribution,
-)
 from ...models.sandbox_observability_event_type import SandboxObservabilityEventType
 from ...models.sandbox_observability_outcome import SandboxObservabilityOutcome
 from ...models.success_sandbox_observability_events_response import (
@@ -29,18 +26,11 @@ def _get_kwargs(
     limit: Union[Unset, int] = 100,
     cursor: Union[Unset, str] = UNSET,
     watch: Union[Unset, bool] = False,
-    max_schema_version: Union[Unset, int] = 2,
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
     actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
     actor_id: Union[Unset, str] = UNSET,
-    execution_scope_namespace: Union[Unset, str] = UNSET,
-    execution_scope_kind: Union[Unset, str] = UNSET,
-    execution_scope_id: Union[Unset, str] = UNSET,
-    execution_scope_attribution: Union[
-        Unset, SandboxAuditExecutionScopeAttribution
-    ] = UNSET,
     action: Union[Unset, str] = UNSET,
     resource_type: Union[Unset, str] = UNSET,
     operation_id: Union[Unset, str] = UNSET,
@@ -63,8 +53,6 @@ def _get_kwargs(
     params["cursor"] = cursor
 
     params["watch"] = watch
-
-    params["max_schema_version"] = max_schema_version
 
     json_source: Union[Unset, str] = UNSET
     if not isinstance(source, Unset):
@@ -91,18 +79,6 @@ def _get_kwargs(
     params["actor_kind"] = json_actor_kind
 
     params["actor_id"] = actor_id
-
-    params["execution_scope_namespace"] = execution_scope_namespace
-
-    params["execution_scope_kind"] = execution_scope_kind
-
-    params["execution_scope_id"] = execution_scope_id
-
-    json_execution_scope_attribution: Union[Unset, str] = UNSET
-    if not isinstance(execution_scope_attribution, Unset):
-        json_execution_scope_attribution = execution_scope_attribution.value
-
-    params["execution_scope_attribution"] = json_execution_scope_attribution
 
     params["action"] = action
 
@@ -179,18 +155,11 @@ def sync_detailed(
     limit: Union[Unset, int] = 100,
     cursor: Union[Unset, str] = UNSET,
     watch: Union[Unset, bool] = False,
-    max_schema_version: Union[Unset, int] = 2,
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
     actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
     actor_id: Union[Unset, str] = UNSET,
-    execution_scope_namespace: Union[Unset, str] = UNSET,
-    execution_scope_kind: Union[Unset, str] = UNSET,
-    execution_scope_id: Union[Unset, str] = UNSET,
-    execution_scope_attribution: Union[
-        Unset, SandboxAuditExecutionScopeAttribution
-    ] = UNSET,
     action: Union[Unset, str] = UNSET,
     resource_type: Union[Unset, str] = UNSET,
     operation_id: Union[Unset, str] = UNSET,
@@ -210,16 +179,11 @@ def sync_detailed(
         limit (Union[Unset, int]):  Default: 100.
         cursor (Union[Unset, str]):
         watch (Union[Unset, bool]):  Default: False.
-        max_schema_version (Union[Unset, int]):  Default: 2.
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
         actor_kind (Union[Unset, SandboxAuditActorKind]):
         actor_id (Union[Unset, str]):
-        execution_scope_namespace (Union[Unset, str]):
-        execution_scope_kind (Union[Unset, str]):
-        execution_scope_id (Union[Unset, str]):
-        execution_scope_attribution (Union[Unset, SandboxAuditExecutionScopeAttribution]):
         action (Union[Unset, str]):
         resource_type (Union[Unset, str]):
         operation_id (Union[Unset, str]):
@@ -240,16 +204,11 @@ def sync_detailed(
         limit=limit,
         cursor=cursor,
         watch=watch,
-        max_schema_version=max_schema_version,
         source=source,
         event_type=event_type,
         outcome=outcome,
         actor_kind=actor_kind,
         actor_id=actor_id,
-        execution_scope_namespace=execution_scope_namespace,
-        execution_scope_kind=execution_scope_kind,
-        execution_scope_id=execution_scope_id,
-        execution_scope_attribution=execution_scope_attribution,
         action=action,
         resource_type=resource_type,
         operation_id=operation_id,
@@ -272,18 +231,11 @@ def sync(
     limit: Union[Unset, int] = 100,
     cursor: Union[Unset, str] = UNSET,
     watch: Union[Unset, bool] = False,
-    max_schema_version: Union[Unset, int] = 2,
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
     actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
     actor_id: Union[Unset, str] = UNSET,
-    execution_scope_namespace: Union[Unset, str] = UNSET,
-    execution_scope_kind: Union[Unset, str] = UNSET,
-    execution_scope_id: Union[Unset, str] = UNSET,
-    execution_scope_attribution: Union[
-        Unset, SandboxAuditExecutionScopeAttribution
-    ] = UNSET,
     action: Union[Unset, str] = UNSET,
     resource_type: Union[Unset, str] = UNSET,
     operation_id: Union[Unset, str] = UNSET,
@@ -303,16 +255,11 @@ def sync(
         limit (Union[Unset, int]):  Default: 100.
         cursor (Union[Unset, str]):
         watch (Union[Unset, bool]):  Default: False.
-        max_schema_version (Union[Unset, int]):  Default: 2.
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
         actor_kind (Union[Unset, SandboxAuditActorKind]):
         actor_id (Union[Unset, str]):
-        execution_scope_namespace (Union[Unset, str]):
-        execution_scope_kind (Union[Unset, str]):
-        execution_scope_id (Union[Unset, str]):
-        execution_scope_attribution (Union[Unset, SandboxAuditExecutionScopeAttribution]):
         action (Union[Unset, str]):
         resource_type (Union[Unset, str]):
         operation_id (Union[Unset, str]):
@@ -334,16 +281,11 @@ def sync(
         limit=limit,
         cursor=cursor,
         watch=watch,
-        max_schema_version=max_schema_version,
         source=source,
         event_type=event_type,
         outcome=outcome,
         actor_kind=actor_kind,
         actor_id=actor_id,
-        execution_scope_namespace=execution_scope_namespace,
-        execution_scope_kind=execution_scope_kind,
-        execution_scope_id=execution_scope_id,
-        execution_scope_attribution=execution_scope_attribution,
         action=action,
         resource_type=resource_type,
         operation_id=operation_id,
@@ -360,18 +302,11 @@ async def asyncio_detailed(
     limit: Union[Unset, int] = 100,
     cursor: Union[Unset, str] = UNSET,
     watch: Union[Unset, bool] = False,
-    max_schema_version: Union[Unset, int] = 2,
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
     actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
     actor_id: Union[Unset, str] = UNSET,
-    execution_scope_namespace: Union[Unset, str] = UNSET,
-    execution_scope_kind: Union[Unset, str] = UNSET,
-    execution_scope_id: Union[Unset, str] = UNSET,
-    execution_scope_attribution: Union[
-        Unset, SandboxAuditExecutionScopeAttribution
-    ] = UNSET,
     action: Union[Unset, str] = UNSET,
     resource_type: Union[Unset, str] = UNSET,
     operation_id: Union[Unset, str] = UNSET,
@@ -391,16 +326,11 @@ async def asyncio_detailed(
         limit (Union[Unset, int]):  Default: 100.
         cursor (Union[Unset, str]):
         watch (Union[Unset, bool]):  Default: False.
-        max_schema_version (Union[Unset, int]):  Default: 2.
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
         actor_kind (Union[Unset, SandboxAuditActorKind]):
         actor_id (Union[Unset, str]):
-        execution_scope_namespace (Union[Unset, str]):
-        execution_scope_kind (Union[Unset, str]):
-        execution_scope_id (Union[Unset, str]):
-        execution_scope_attribution (Union[Unset, SandboxAuditExecutionScopeAttribution]):
         action (Union[Unset, str]):
         resource_type (Union[Unset, str]):
         operation_id (Union[Unset, str]):
@@ -421,16 +351,11 @@ async def asyncio_detailed(
         limit=limit,
         cursor=cursor,
         watch=watch,
-        max_schema_version=max_schema_version,
         source=source,
         event_type=event_type,
         outcome=outcome,
         actor_kind=actor_kind,
         actor_id=actor_id,
-        execution_scope_namespace=execution_scope_namespace,
-        execution_scope_kind=execution_scope_kind,
-        execution_scope_id=execution_scope_id,
-        execution_scope_attribution=execution_scope_attribution,
         action=action,
         resource_type=resource_type,
         operation_id=operation_id,
@@ -451,18 +376,11 @@ async def asyncio(
     limit: Union[Unset, int] = 100,
     cursor: Union[Unset, str] = UNSET,
     watch: Union[Unset, bool] = False,
-    max_schema_version: Union[Unset, int] = 2,
     source: Union[Unset, ObservabilityEventSource] = UNSET,
     event_type: Union[Unset, SandboxObservabilityEventType] = UNSET,
     outcome: Union[Unset, SandboxObservabilityOutcome] = UNSET,
     actor_kind: Union[Unset, SandboxAuditActorKind] = UNSET,
     actor_id: Union[Unset, str] = UNSET,
-    execution_scope_namespace: Union[Unset, str] = UNSET,
-    execution_scope_kind: Union[Unset, str] = UNSET,
-    execution_scope_id: Union[Unset, str] = UNSET,
-    execution_scope_attribution: Union[
-        Unset, SandboxAuditExecutionScopeAttribution
-    ] = UNSET,
     action: Union[Unset, str] = UNSET,
     resource_type: Union[Unset, str] = UNSET,
     operation_id: Union[Unset, str] = UNSET,
@@ -482,16 +400,11 @@ async def asyncio(
         limit (Union[Unset, int]):  Default: 100.
         cursor (Union[Unset, str]):
         watch (Union[Unset, bool]):  Default: False.
-        max_schema_version (Union[Unset, int]):  Default: 2.
         source (Union[Unset, ObservabilityEventSource]):
         event_type (Union[Unset, SandboxObservabilityEventType]):
         outcome (Union[Unset, SandboxObservabilityOutcome]):
         actor_kind (Union[Unset, SandboxAuditActorKind]):
         actor_id (Union[Unset, str]):
-        execution_scope_namespace (Union[Unset, str]):
-        execution_scope_kind (Union[Unset, str]):
-        execution_scope_id (Union[Unset, str]):
-        execution_scope_attribution (Union[Unset, SandboxAuditExecutionScopeAttribution]):
         action (Union[Unset, str]):
         resource_type (Union[Unset, str]):
         operation_id (Union[Unset, str]):
@@ -514,16 +427,11 @@ async def asyncio(
             limit=limit,
             cursor=cursor,
             watch=watch,
-            max_schema_version=max_schema_version,
             source=source,
             event_type=event_type,
             outcome=outcome,
             actor_kind=actor_kind,
             actor_id=actor_id,
-            execution_scope_namespace=execution_scope_namespace,
-            execution_scope_kind=execution_scope_kind,
-            execution_scope_id=execution_scope_id,
-            execution_scope_attribution=execution_scope_attribution,
             action=action,
             resource_type=resource_type,
             operation_id=operation_id,
