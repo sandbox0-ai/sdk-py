@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Iterator, Optional
+from typing import Any, Iterator, Optional, Union
 from uuid import UUID
 
 import httpx
@@ -24,6 +24,9 @@ from sandbox0.apispec.models.observability_event_source import (
     ObservabilityEventSource,
 )
 from sandbox0.apispec.models.sandbox_audit_actor_kind import SandboxAuditActorKind
+from sandbox0.apispec.models.sandbox_audit_execution_scope_attribution import (
+    SandboxAuditExecutionScopeAttribution,
+)
 from sandbox0.apispec.models.sandbox_observability_event_type import (
     SandboxObservabilityEventType,
 )
@@ -89,11 +92,18 @@ class SandboxObservabilityWatchOptions:
 
 @dataclass(frozen=True)
 class SandboxObservabilityEventOptions(SandboxObservabilityQueryOptions):
+    max_schema_version: int = 3
     source: Optional[ObservabilityEventSource] = None
     event_type: Optional[SandboxObservabilityEventType] = None
     outcome: Optional[SandboxObservabilityOutcome] = None
     actor_kind: Optional[SandboxAuditActorKind] = None
     actor_id: Optional[str] = None
+    execution_scope_namespace: Optional[str] = None
+    execution_scope_kind: Optional[str] = None
+    execution_scope_id: Optional[str] = None
+    execution_scope_attribution: Optional[
+        SandboxAuditExecutionScopeAttribution
+    ] = None
     action: Optional[str] = None
     resource_type: Optional[str] = None
     operation_id: Optional[str] = None
@@ -102,11 +112,18 @@ class SandboxObservabilityEventOptions(SandboxObservabilityQueryOptions):
 
 @dataclass(frozen=True)
 class SandboxObservabilityEventWatchOptions(SandboxObservabilityWatchOptions):
+    max_schema_version: int = 3
     source: Optional[ObservabilityEventSource] = None
     event_type: Optional[SandboxObservabilityEventType] = None
     outcome: Optional[SandboxObservabilityOutcome] = None
     actor_kind: Optional[SandboxAuditActorKind] = None
     actor_id: Optional[str] = None
+    execution_scope_namespace: Optional[str] = None
+    execution_scope_kind: Optional[str] = None
+    execution_scope_id: Optional[str] = None
+    execution_scope_attribution: Optional[
+        SandboxAuditExecutionScopeAttribution
+    ] = None
     action: Optional[str] = None
     resource_type: Optional[str] = None
     operation_id: Optional[str] = None
@@ -174,6 +191,7 @@ class SandboxObservabilityMixin:
         options: Optional[SandboxObservabilityEventOptions] = None,
     ) -> SandboxObservabilityEventsResponse:  # type: ignore[misc]
         opts = options or SandboxObservabilityEventOptions()
+        _validate_execution_scope_schema(opts)
         resp = get_api_v1_sandboxes_id_observability_events.sync_detailed(
             id=self.id,
             client=self._client.api,
@@ -186,10 +204,17 @@ class SandboxObservabilityMixin:
             outcome=_value(opts.outcome),
             actor_kind=_value(opts.actor_kind),
             actor_id=_value(opts.actor_id),
+            execution_scope_namespace=_value(opts.execution_scope_namespace),
+            execution_scope_kind=_value(opts.execution_scope_kind),
+            execution_scope_id=_value(opts.execution_scope_id),
+            execution_scope_attribution=_value(
+                opts.execution_scope_attribution
+            ),
             action=_value(opts.action),
             resource_type=_value(opts.resource_type),
             operation_id=_value(opts.operation_id),
             event_id=_value(opts.event_id),
+            max_schema_version=opts.max_schema_version,
         )
         return ensure_data(resp, SuccessSandboxObservabilityEventsResponse)
 
@@ -242,9 +267,11 @@ class SandboxObservabilityMixin:
         self,
         options: Optional[SandboxObservabilityEventWatchOptions] = None,
     ) -> SandboxObservabilityWatchStream:  # type: ignore[misc]
+        opts = options or SandboxObservabilityEventWatchOptions()
+        _validate_execution_scope_schema(opts)
         return self._watch_observability(
             f"/api/v1/sandboxes/{self.id}/observability/events",
-            _event_params(options or SandboxObservabilityEventWatchOptions()),
+            _event_params(opts),
         )
 
     def watch_logs(
@@ -287,6 +314,7 @@ class SandboxObservabilityMixin:
 
 def _event_params(options: SandboxObservabilityEventWatchOptions) -> dict[str, str]:
     params = _watch_params(options)
+    params["max_schema_version"] = str(options.max_schema_version)
     if options.source is not None:
         params["source"] = options.source.value
     if options.event_type is not None:
@@ -297,6 +325,16 @@ def _event_params(options: SandboxObservabilityEventWatchOptions) -> dict[str, s
         params["actor_kind"] = options.actor_kind.value
     if options.actor_id:
         params["actor_id"] = options.actor_id
+    if options.execution_scope_namespace:
+        params["execution_scope_namespace"] = options.execution_scope_namespace
+    if options.execution_scope_kind:
+        params["execution_scope_kind"] = options.execution_scope_kind
+    if options.execution_scope_id:
+        params["execution_scope_id"] = options.execution_scope_id
+    if options.execution_scope_attribution is not None:
+        params["execution_scope_attribution"] = (
+            options.execution_scope_attribution.value
+        )
     if options.action:
         params["action"] = options.action
     if options.resource_type:
@@ -304,6 +342,27 @@ def _event_params(options: SandboxObservabilityEventWatchOptions) -> dict[str, s
     if options.operation_id:
         params["operation_id"] = options.operation_id
     return params
+
+
+def _validate_execution_scope_schema(
+    options: Union[
+        SandboxObservabilityEventOptions,
+        SandboxObservabilityEventWatchOptions,
+    ],
+) -> None:
+    has_scope_filter = any(
+        (
+            options.execution_scope_namespace,
+            options.execution_scope_kind,
+            options.execution_scope_id,
+            options.execution_scope_attribution,
+        )
+    )
+    if has_scope_filter and options.max_schema_version < 3:
+        raise ValueError(
+            "sandbox observability execution scope filters require "
+            "max_schema_version >= 3"
+        )
 
 
 def _log_params(options: SandboxObservabilityLogWatchOptions) -> dict[str, str]:

@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from ..models.execution_session_io_spec import ExecutionSessionIOSpec
     from ..models.execution_session_lifecycle_spec import ExecutionSessionLifecycleSpec
     from ..models.execution_session_readiness_spec import ExecutionSessionReadinessSpec
+    from ..models.execution_session_scope_spec import ExecutionSessionScopeSpec
     from ..models.execution_session_spec_env import ExecutionSessionSpecEnv
 
 
@@ -38,6 +39,10 @@ class ExecutionSessionSpec:
         lifecycle (Union[Unset, ExecutionSessionLifecycleSpec]):
         readiness (Union[Unset, ExecutionSessionReadinessSpec]):
         event_retention (Union[Unset, ExecutionSessionEventRetentionSpec]):
+        execution_scope (Union[Unset, ExecutionSessionScopeSpec]): Declares how descendants of this trusted supervisor
+            process expose a
+            logical execution scope. The runtime reads only the named environment
+            variable and never exports the descendant process environment.
     """
 
     command: list[str]
@@ -48,6 +53,7 @@ class ExecutionSessionSpec:
     lifecycle: Union[Unset, "ExecutionSessionLifecycleSpec"] = UNSET
     readiness: Union[Unset, "ExecutionSessionReadinessSpec"] = UNSET
     event_retention: Union[Unset, "ExecutionSessionEventRetentionSpec"] = UNSET
+    execution_scope: Union[Unset, "ExecutionSessionScopeSpec"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -77,6 +83,10 @@ class ExecutionSessionSpec:
         if not isinstance(self.event_retention, Unset):
             event_retention = self.event_retention.to_dict()
 
+        execution_scope: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.execution_scope, Unset):
+            execution_scope = self.execution_scope.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -98,6 +108,8 @@ class ExecutionSessionSpec:
             field_dict["readiness"] = readiness
         if event_retention is not UNSET:
             field_dict["event_retention"] = event_retention
+        if execution_scope is not UNSET:
+            field_dict["execution_scope"] = execution_scope
 
         return field_dict
 
@@ -113,6 +125,7 @@ class ExecutionSessionSpec:
         from ..models.execution_session_readiness_spec import (
             ExecutionSessionReadinessSpec,
         )
+        from ..models.execution_session_scope_spec import ExecutionSessionScopeSpec
         from ..models.execution_session_spec_env import ExecutionSessionSpecEnv
 
         d = dict(src_dict)
@@ -159,6 +172,13 @@ class ExecutionSessionSpec:
                 _event_retention
             )
 
+        _execution_scope = d.pop("execution_scope", UNSET)
+        execution_scope: Union[Unset, ExecutionSessionScopeSpec]
+        if isinstance(_execution_scope, Unset):
+            execution_scope = UNSET
+        else:
+            execution_scope = ExecutionSessionScopeSpec.from_dict(_execution_scope)
+
         execution_session_spec = cls(
             command=command,
             name=name,
@@ -168,6 +188,7 @@ class ExecutionSessionSpec:
             lifecycle=lifecycle,
             readiness=readiness,
             event_retention=event_retention,
+            execution_scope=execution_scope,
         )
 
         execution_session_spec.additional_properties = d

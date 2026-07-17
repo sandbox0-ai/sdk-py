@@ -17,6 +17,9 @@ from ..models.sandbox_observability_watch_line_type import (
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.sandbox_observability_effective_event_query import (
+        SandboxObservabilityEffectiveEventQuery,
+    )
     from ..models.sandbox_observability_event import SandboxObservabilityEvent
     from ..models.sandbox_observability_log_entry import SandboxObservabilityLogEntry
 
@@ -30,6 +33,9 @@ class SandboxObservabilityWatchLine:
     Attributes:
         type_ (SandboxObservabilityWatchLineType):
         data (Union['SandboxObservabilityEvent', 'SandboxObservabilityLogEntry', Unset]):
+        effective_query (Union[Unset, SandboxObservabilityEffectiveEventQuery]): Normalized schema ceiling and
+            execution-scope filters applied by the
+            server. This metadata is returned even when no events match.
         cursor (Union[Unset, str]): Watch resume cursor. Present on watermark lines.
         watermark (Union[Unset, str]): Backend watermark for the emitted batch.
         time (Union[Unset, datetime.datetime]): Heartbeat timestamp.
@@ -40,6 +46,7 @@ class SandboxObservabilityWatchLine:
     data: Union["SandboxObservabilityEvent", "SandboxObservabilityLogEntry", Unset] = (
         UNSET
     )
+    effective_query: Union[Unset, "SandboxObservabilityEffectiveEventQuery"] = UNSET
     cursor: Union[Unset, str] = UNSET
     watermark: Union[Unset, str] = UNSET
     time: Union[Unset, datetime.datetime] = UNSET
@@ -58,6 +65,10 @@ class SandboxObservabilityWatchLine:
             data = self.data.to_dict()
         else:
             data = self.data.to_dict()
+
+        effective_query: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.effective_query, Unset):
+            effective_query = self.effective_query.to_dict()
 
         cursor = self.cursor
 
@@ -78,6 +89,8 @@ class SandboxObservabilityWatchLine:
         )
         if data is not UNSET:
             field_dict["data"] = data
+        if effective_query is not UNSET:
+            field_dict["effective_query"] = effective_query
         if cursor is not UNSET:
             field_dict["cursor"] = cursor
         if watermark is not UNSET:
@@ -91,6 +104,9 @@ class SandboxObservabilityWatchLine:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.sandbox_observability_effective_event_query import (
+            SandboxObservabilityEffectiveEventQuery,
+        )
         from ..models.sandbox_observability_event import SandboxObservabilityEvent
         from ..models.sandbox_observability_log_entry import (
             SandboxObservabilityLogEntry,
@@ -120,6 +136,15 @@ class SandboxObservabilityWatchLine:
 
         data = _parse_data(d.pop("data", UNSET))
 
+        _effective_query = d.pop("effective_query", UNSET)
+        effective_query: Union[Unset, SandboxObservabilityEffectiveEventQuery]
+        if isinstance(_effective_query, Unset):
+            effective_query = UNSET
+        else:
+            effective_query = SandboxObservabilityEffectiveEventQuery.from_dict(
+                _effective_query
+            )
+
         cursor = d.pop("cursor", UNSET)
 
         watermark = d.pop("watermark", UNSET)
@@ -136,6 +161,7 @@ class SandboxObservabilityWatchLine:
         sandbox_observability_watch_line = cls(
             type_=type_,
             data=data,
+            effective_query=effective_query,
             cursor=cursor,
             watermark=watermark,
             time=time,
