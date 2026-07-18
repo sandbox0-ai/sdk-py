@@ -157,6 +157,45 @@ for mount in sandbox.bootstrap_mounts:
     print(mount.sandboxvolume_id, mount.state)
 ```
 
+## Create A Template From A Sandbox
+
+Capture the current root filesystem of an existing sandbox into a new template:
+
+```python
+from sandbox0 import CreateTemplateFromSandboxOptions
+from sandbox0.apispec.models.template_from_sandbox_create_request import (
+    TemplateFromSandboxCreateRequest,
+)
+from sandbox0.apispec.models.template_from_sandbox_spec_overrides import (
+    TemplateFromSandboxSpecOverrides,
+)
+
+template = client.create_template_from_sandbox(
+    TemplateFromSandboxCreateRequest(
+        template_id="python-ready",
+        sandbox_id=sandbox.id,
+        spec_overrides=TemplateFromSandboxSpecOverrides(
+            display_name="Python Ready",
+            tags=["python"],
+        ),
+    ),
+    CreateTemplateFromSandboxOptions(
+        idempotency_key="python-ready-v1",
+        wait=True,
+        timeout_sec=600,
+    ),
+)
+
+print(template.template_id, template.status.creation.state)
+```
+
+Without `wait=True`, creation returns as soon as Sandbox0 accepts the request.
+The rootfs capture point is `status.creation.captured_at`, not request
+acceptance, so keep the source sandbox available and avoid rootfs writes while
+the stage is `capturing`. Call `client.wait_template_ready("python-ready")` to
+wait later. A client-side timeout or interruption stops local waiting but does
+not cancel image creation on the server.
+
 ## Links
 
 - [Documentation](https://sandbox0.ai/docs)
