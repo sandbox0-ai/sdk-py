@@ -1,5 +1,12 @@
 from sandbox0.client import Client
-from sandbox0.errors import APIError, CLAIM_START_THROTTLED_CODE, is_claim_start_throttled
+from sandbox0.client_templates import CreateTemplateFromSandboxOptions
+from sandbox0.errors import (
+    APIError,
+    CLAIM_START_THROTTLED_CODE,
+    TemplateCreationFailedError,
+    TemplateWaitTimeoutError,
+    is_claim_start_throttled,
+)
 from sandbox0.models import (
     CmdResult,
     FileWatchResponse,
@@ -65,6 +72,9 @@ __all__ = [
     "StreamDone",
     "StreamInput",
     "StreamOutput",
+    "CreateTemplateFromSandboxOptions",
+    "TemplateCreationFailedError",
+    "TemplateWaitTimeoutError",
     "Volumes",
     "VolumeSession",
     "is_claim_start_throttled",

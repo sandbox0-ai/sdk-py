@@ -16,6 +16,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.sandbox_template_condition import SandboxTemplateCondition
+    from ..models.template_creation_status import TemplateCreationStatus
 
 
 T = TypeVar("T", bound="SandboxTemplateStatus")
@@ -29,12 +30,20 @@ class SandboxTemplateStatus:
         active_count (Union[Unset, int]):
         conditions (Union[Unset, list['SandboxTemplateCondition']]):
         last_update_time (Union[None, Unset, datetime.datetime]):
+        creation (Union[Unset, TemplateCreationStatus]): Asynchronous creation status for templates built from a
+            sandbox.
+            Traditional image-based templates omit this object and are ready
+            immediately after creation. Ready means the template is visible in at
+            least one data-plane cluster and the claim API accepts it; when the
+            pool is zero, it does not imply that a sandbox image has already been
+            pulled.
     """
 
     idle_count: Union[Unset, int] = UNSET
     active_count: Union[Unset, int] = UNSET
     conditions: Union[Unset, list["SandboxTemplateCondition"]] = UNSET
     last_update_time: Union[None, Unset, datetime.datetime] = UNSET
+    creation: Union[Unset, "TemplateCreationStatus"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -57,6 +66,10 @@ class SandboxTemplateStatus:
         else:
             last_update_time = self.last_update_time
 
+        creation: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.creation, Unset):
+            creation = self.creation.to_dict()
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -68,12 +81,15 @@ class SandboxTemplateStatus:
             field_dict["conditions"] = conditions
         if last_update_time is not UNSET:
             field_dict["lastUpdateTime"] = last_update_time
+        if creation is not UNSET:
+            field_dict["creation"] = creation
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_template_condition import SandboxTemplateCondition
+        from ..models.template_creation_status import TemplateCreationStatus
 
         d = dict(src_dict)
         idle_count = d.pop("idleCount", UNSET)
@@ -106,11 +122,19 @@ class SandboxTemplateStatus:
 
         last_update_time = _parse_last_update_time(d.pop("lastUpdateTime", UNSET))
 
+        _creation = d.pop("creation", UNSET)
+        creation: Union[Unset, TemplateCreationStatus]
+        if isinstance(_creation, Unset):
+            creation = UNSET
+        else:
+            creation = TemplateCreationStatus.from_dict(_creation)
+
         sandbox_template_status = cls(
             idle_count=idle_count,
             active_count=active_count,
             conditions=conditions,
             last_update_time=last_update_time,
+            creation=creation,
         )
 
         sandbox_template_status.additional_properties = d

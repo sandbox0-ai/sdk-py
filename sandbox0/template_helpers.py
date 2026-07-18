@@ -10,6 +10,12 @@ from sandbox0.apispec.models.sandbox_template_spec import SandboxTemplateSpec
 from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
 from sandbox0.apispec.models.security_context import SecurityContext
 from sandbox0.apispec.models.template_create_request import TemplateCreateRequest
+from sandbox0.apispec.models.template_from_sandbox_create_request import (
+    TemplateFromSandboxCreateRequest,
+)
+from sandbox0.apispec.models.template_from_sandbox_spec_overrides import (
+    TemplateFromSandboxSpecOverrides,
+)
 from sandbox0.apispec.models.template_update_request import TemplateUpdateRequest
 from sandbox0.apispec.types import UNSET, Unset
 
@@ -62,6 +68,18 @@ def template_spec(
 
 def template_create_request(template_id: str, spec: SandboxTemplateSpec) -> TemplateCreateRequest:
     return TemplateCreateRequest(template_id=template_id, spec=spec)
+
+
+def template_from_sandbox_create_request(
+    template_id: str,
+    sandbox_id: str,
+    spec_overrides: TemplateFromSandboxSpecOverrides | Unset = UNSET,
+) -> TemplateFromSandboxCreateRequest:
+    return TemplateFromSandboxCreateRequest(
+        template_id=template_id,
+        sandbox_id=sandbox_id,
+        spec_overrides=spec_overrides,
+    )
 
 
 def template_update_request(spec: SandboxTemplateSpec) -> TemplateUpdateRequest:

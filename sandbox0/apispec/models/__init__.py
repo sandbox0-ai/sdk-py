@@ -435,6 +435,11 @@ from .team_quota import TeamQuota
 from .team_quota_unit import TeamQuotaUnit
 from .template import Template
 from .template_create_request import TemplateCreateRequest
+from .template_creation_status import TemplateCreationStatus
+from .template_creation_status_stage import TemplateCreationStatusStage
+from .template_creation_status_state import TemplateCreationStatusState
+from .template_from_sandbox_create_request import TemplateFromSandboxCreateRequest
+from .template_from_sandbox_spec_overrides import TemplateFromSandboxSpecOverrides
 from .template_update_request import TemplateUpdateRequest
 from .tls_client_certificate_projection import TLSClientCertificateProjection
 from .toleration import Toleration
@@ -845,6 +850,11 @@ __all__ = (
     "TeamQuotaUnit",
     "Template",
     "TemplateCreateRequest",
+    "TemplateCreationStatus",
+    "TemplateCreationStatusStage",
+    "TemplateCreationStatusState",
+    "TemplateFromSandboxCreateRequest",
+    "TemplateFromSandboxSpecOverrides",
     "TemplateUpdateRequest",
     "TLSClientCertificateProjection",
     "Toleration",
