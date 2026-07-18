@@ -42,6 +42,10 @@ class SandboxVolume:
             proxy instances. RWO allows read-write mounts on a single instance; ROX allows read-only mounts across
             instances; RWX allows read-write mounts across instances.
         s3 (Union[Unset, SandboxVolumeS3Config]):
+        metered_storage_bytes (Union[None, Unset, int]): Latest metered logical payload bytes stored by this S0FS
+            volume. Null for external backends or when metering state is unavailable.
+        storage_observed_at (Union[None, Unset, datetime.datetime]): Time when metered_storage_bytes was last observed.
+            Null for external backends or when metering state is unavailable.
     """
 
     id: str
@@ -55,6 +59,8 @@ class SandboxVolume:
     default_posix_gid: Union[None, Unset, int] = UNSET
     access_mode: Union[Unset, VolumeAccessMode] = UNSET
     s3: Union[Unset, "SandboxVolumeS3Config"] = UNSET
+    metered_storage_bytes: Union[None, Unset, int] = UNSET
+    storage_observed_at: Union[None, Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -96,6 +102,20 @@ class SandboxVolume:
         if not isinstance(self.s3, Unset):
             s3 = self.s3.to_dict()
 
+        metered_storage_bytes: Union[None, Unset, int]
+        if isinstance(self.metered_storage_bytes, Unset):
+            metered_storage_bytes = UNSET
+        else:
+            metered_storage_bytes = self.metered_storage_bytes
+
+        storage_observed_at: Union[None, Unset, str]
+        if isinstance(self.storage_observed_at, Unset):
+            storage_observed_at = UNSET
+        elif isinstance(self.storage_observed_at, datetime.datetime):
+            storage_observed_at = self.storage_observed_at.isoformat()
+        else:
+            storage_observed_at = self.storage_observed_at
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -118,6 +138,10 @@ class SandboxVolume:
             field_dict["access_mode"] = access_mode
         if s3 is not UNSET:
             field_dict["s3"] = s3
+        if metered_storage_bytes is not UNSET:
+            field_dict["metered_storage_bytes"] = metered_storage_bytes
+        if storage_observed_at is not UNSET:
+            field_dict["storage_observed_at"] = storage_observed_at
 
         return field_dict
 
@@ -179,6 +203,38 @@ class SandboxVolume:
         else:
             s3 = SandboxVolumeS3Config.from_dict(_s3)
 
+        def _parse_metered_storage_bytes(data: object) -> Union[None, Unset, int]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, int], data)
+
+        metered_storage_bytes = _parse_metered_storage_bytes(
+            d.pop("metered_storage_bytes", UNSET)
+        )
+
+        def _parse_storage_observed_at(
+            data: object,
+        ) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                storage_observed_at_type_0 = isoparse(data)
+
+                return storage_observed_at_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        storage_observed_at = _parse_storage_observed_at(
+            d.pop("storage_observed_at", UNSET)
+        )
+
         sandbox_volume = cls(
             id=id,
             team_id=team_id,
@@ -191,6 +247,8 @@ class SandboxVolume:
             default_posix_gid=default_posix_gid,
             access_mode=access_mode,
             s3=s3,
+            metered_storage_bytes=metered_storage_bytes,
+            storage_observed_at=storage_observed_at,
         )
 
         sandbox_volume.additional_properties = d
