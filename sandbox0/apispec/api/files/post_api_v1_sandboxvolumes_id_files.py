@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_created_response import SuccessCreatedResponse
 from ...models.success_written_response import SuccessWrittenResponse
 from ...types import UNSET, File, Response, Unset
@@ -48,7 +49,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+) -> Optional[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     if response.status_code == 200:
         response_200 = SuccessWrittenResponse.from_dict(response.json())
 
@@ -59,6 +60,16 @@ def _parse_response(
 
         return response_201
 
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -67,7 +78,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+) -> Response[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -84,7 +95,7 @@ def sync_detailed(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-) -> Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+) -> Response[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
@@ -101,7 +112,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]
+        Response[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -127,7 +138,7 @@ def sync(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-) -> Optional[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+) -> Optional[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
@@ -144,7 +155,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[SuccessCreatedResponse, SuccessWrittenResponse]
+        Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]
     """
 
     return sync_detailed(
@@ -165,7 +176,7 @@ async def asyncio_detailed(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-) -> Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+) -> Response[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
@@ -182,7 +193,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[SuccessCreatedResponse, SuccessWrittenResponse]]
+        Response[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -206,7 +217,7 @@ async def asyncio(
     path: str,
     mkdir: Union[Unset, bool] = UNSET,
     recursive: Union[Unset, bool] = UNSET,
-) -> Optional[Union[SuccessCreatedResponse, SuccessWrittenResponse]]:
+) -> Optional[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write volume file or create directory
 
      Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
@@ -223,7 +234,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[SuccessCreatedResponse, SuccessWrittenResponse]
+        Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]
     """
 
     return (

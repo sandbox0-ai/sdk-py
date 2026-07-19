@@ -47,6 +47,16 @@ def _parse_response(
 
         return response_409
 
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -70,6 +80,14 @@ def sync_detailed(
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessMessageResponse, TeamDeleteConflictResponse]]:
     """Delete a team
+
+     Deletes a team through its home-region lifecycle coordinator. The
+    coordinator first installs a durable admission tombstone, then finalizes
+    Team Quota state before deleting identity data. The tombstone is retained
+    through the longest accepted access-token lifetime plus a safety margin,
+    and is pruned only after identity absence and quota-reference checks.
+    Global gateway deployments without home-region coordination reject this
+    operation with 503.
 
     Args:
         id (str):
@@ -100,6 +118,14 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse, TeamDeleteConflictResponse]]:
     """Delete a team
 
+     Deletes a team through its home-region lifecycle coordinator. The
+    coordinator first installs a durable admission tombstone, then finalizes
+    Team Quota state before deleting identity data. The tombstone is retained
+    through the longest accepted access-token lifetime plus a safety margin,
+    and is pruned only after identity absence and quota-reference checks.
+    Global gateway deployments without home-region coordination reject this
+    operation with 503.
+
     Args:
         id (str):
 
@@ -123,6 +149,14 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessMessageResponse, TeamDeleteConflictResponse]]:
     """Delete a team
+
+     Deletes a team through its home-region lifecycle coordinator. The
+    coordinator first installs a durable admission tombstone, then finalizes
+    Team Quota state before deleting identity data. The tombstone is retained
+    through the longest accepted access-token lifetime plus a safety margin,
+    and is pruned only after identity absence and quota-reference checks.
+    Global gateway deployments without home-region coordination reject this
+    operation with 503.
 
     Args:
         id (str):
@@ -150,6 +184,14 @@ async def asyncio(
     client: AuthenticatedClient,
 ) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse, TeamDeleteConflictResponse]]:
     """Delete a team
+
+     Deletes a team through its home-region lifecycle coordinator. The
+    coordinator first installs a durable admission tombstone, then finalizes
+    Team Quota state before deleting identity data. The tombstone is retained
+    through the longest accepted access-token lifetime plus a safety margin,
+    and is pruned only after identity absence and quota-reference checks.
+    Global gateway deployments without home-region coordination reject this
+    operation with 503.
 
     Args:
         id (str):

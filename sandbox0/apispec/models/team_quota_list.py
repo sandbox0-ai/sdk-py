@@ -1,63 +1,72 @@
 from collections.abc import Mapping
 from typing import (
+    TYPE_CHECKING,
     Any,
     TypeVar,
-    Union,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+if TYPE_CHECKING:
+    from ..models.team_quota_status import TeamQuotaStatus
 
-T = TypeVar("T", bound="ResourceQuota")
+
+T = TypeVar("T", bound="TeamQuotaList")
 
 
 @_attrs_define
-class ResourceQuota:
+class TeamQuotaList:
     """
     Attributes:
-        memory (str): Memory limit used by default when a sandbox claim does not provide a memory override. Sandbox0
-            derives the internal CPU limit from platform configuration.
-        ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
-            logs. Defaults to 8Gi when omitted.
+        team_id (str):
+        quotas (list['TeamQuotaStatus']):
     """
 
-    memory: str
-    ephemeral_storage: Union[Unset, str] = UNSET
+    team_id: str
+    quotas: list["TeamQuotaStatus"]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        memory = self.memory
+        team_id = self.team_id
 
-        ephemeral_storage = self.ephemeral_storage
+        quotas = []
+        for quotas_item_data in self.quotas:
+            quotas_item = quotas_item_data.to_dict()
+            quotas.append(quotas_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "memory": memory,
+                "team_id": team_id,
+                "quotas": quotas,
             }
         )
-        if ephemeral_storage is not UNSET:
-            field_dict["ephemeralStorage"] = ephemeral_storage
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.team_quota_status import TeamQuotaStatus
+
         d = dict(src_dict)
-        memory = d.pop("memory")
+        team_id = d.pop("team_id")
 
-        ephemeral_storage = d.pop("ephemeralStorage", UNSET)
+        quotas = []
+        _quotas = d.pop("quotas")
+        for quotas_item_data in _quotas:
+            quotas_item = TeamQuotaStatus.from_dict(quotas_item_data)
 
-        resource_quota = cls(
-            memory=memory,
-            ephemeral_storage=ephemeral_storage,
+            quotas.append(quotas_item)
+
+        team_quota_list = cls(
+            team_id=team_id,
+            quotas=quotas,
         )
 
-        resource_quota.additional_properties = d
-        return resource_quota
+        team_quota_list.additional_properties = d
+        return team_quota_list
 
     @property
     def additional_keys(self) -> list[str]:

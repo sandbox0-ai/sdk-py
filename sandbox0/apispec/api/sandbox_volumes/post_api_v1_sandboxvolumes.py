@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_sandbox_volume_request import CreateSandboxVolumeRequest
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_sandbox_volume_response import SuccessSandboxVolumeResponse
 from ...types import Response
 
@@ -31,11 +32,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessSandboxVolumeResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     if response.status_code == 201:
         response_201 = SuccessSandboxVolumeResponse.from_dict(response.json())
 
         return response_201
+
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -45,7 +56,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessSandboxVolumeResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,7 +69,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateSandboxVolumeRequest,
-) -> Response[SuccessSandboxVolumeResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     """Create sandbox volume
 
     Args:
@@ -69,7 +80,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessSandboxVolumeResponse]
+        Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -87,7 +98,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: CreateSandboxVolumeRequest,
-) -> Optional[SuccessSandboxVolumeResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     """Create sandbox volume
 
     Args:
@@ -98,7 +109,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessSandboxVolumeResponse
+        Union[ErrorEnvelope, SuccessSandboxVolumeResponse]
     """
 
     return sync_detailed(
@@ -111,7 +122,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateSandboxVolumeRequest,
-) -> Response[SuccessSandboxVolumeResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     """Create sandbox volume
 
     Args:
@@ -122,7 +133,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessSandboxVolumeResponse]
+        Response[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -138,7 +149,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: CreateSandboxVolumeRequest,
-) -> Optional[SuccessSandboxVolumeResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSandboxVolumeResponse]]:
     """Create sandbox volume
 
     Args:
@@ -149,7 +160,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessSandboxVolumeResponse
+        Union[ErrorEnvelope, SuccessSandboxVolumeResponse]
     """
 
     return (

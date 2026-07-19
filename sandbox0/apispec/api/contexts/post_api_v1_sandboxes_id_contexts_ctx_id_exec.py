@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.context_input_request import ContextInputRequest
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_context_exec_response import SuccessContextExecResponse
 from ...types import Response
 
@@ -36,11 +37,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessContextExecResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessContextExecResponse]]:
     if response.status_code == 200:
         response_200 = SuccessContextExecResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -50,7 +61,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessContextExecResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessContextExecResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +76,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: ContextInputRequest,
-) -> Response[SuccessContextExecResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessContextExecResponse]]:
     r"""Execute context input (sync)
 
      Sends input and blocks until the context completes or times out. For REPL contexts, the server
@@ -81,7 +92,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessContextExecResponse]
+        Response[Union[ErrorEnvelope, SuccessContextExecResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -103,7 +114,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: ContextInputRequest,
-) -> Optional[SuccessContextExecResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessContextExecResponse]]:
     r"""Execute context input (sync)
 
      Sends input and blocks until the context completes or times out. For REPL contexts, the server
@@ -119,7 +130,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessContextExecResponse
+        Union[ErrorEnvelope, SuccessContextExecResponse]
     """
 
     return sync_detailed(
@@ -136,7 +147,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: ContextInputRequest,
-) -> Response[SuccessContextExecResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessContextExecResponse]]:
     r"""Execute context input (sync)
 
      Sends input and blocks until the context completes or times out. For REPL contexts, the server
@@ -152,7 +163,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessContextExecResponse]
+        Response[Union[ErrorEnvelope, SuccessContextExecResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -172,7 +183,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: ContextInputRequest,
-) -> Optional[SuccessContextExecResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessContextExecResponse]]:
     r"""Execute context input (sync)
 
      Sends input and blocks until the context completes or times out. For REPL contexts, the server
@@ -188,7 +199,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessContextExecResponse
+        Union[ErrorEnvelope, SuccessContextExecResponse]
     """
 
     return (

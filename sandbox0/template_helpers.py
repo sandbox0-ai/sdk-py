@@ -4,7 +4,7 @@ from sandbox0.apispec.models.container_spec import ContainerSpec
 from sandbox0.apispec.models.env_var import EnvVar
 from sandbox0.apispec.models.pod_spec_override import PodSpecOverride
 from sandbox0.apispec.models.pool_strategy import PoolStrategy
-from sandbox0.apispec.models.resource_quota import ResourceQuota
+from sandbox0.apispec.models.sandbox_resource_limits import SandboxResourceLimits
 from sandbox0.apispec.models.sandbox_network_policy import SandboxNetworkPolicy
 from sandbox0.apispec.models.sandbox_template_spec import SandboxTemplateSpec
 from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
@@ -20,13 +20,13 @@ from sandbox0.apispec.models.template_update_request import TemplateUpdateReques
 from sandbox0.apispec.types import UNSET, Unset
 
 
-def resources(memory: str) -> ResourceQuota:
-    return ResourceQuota(memory=memory)
+def resources(memory: str) -> SandboxResourceLimits:
+    return SandboxResourceLimits(memory=memory)
 
 
 def container(
     image: str,
-    resource_quota: ResourceQuota,
+    resource_limits: SandboxResourceLimits,
     *,
     image_pull_policy: str | Unset = UNSET,
     env: list[EnvVar] | Unset = UNSET,
@@ -34,7 +34,7 @@ def container(
 ) -> ContainerSpec:
     return ContainerSpec(
         image=image,
-        resources=resource_quota,
+        resources=resource_limits,
         image_pull_policy=image_pull_policy,
         env=env,
         security_context=security_context,

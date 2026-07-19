@@ -187,7 +187,6 @@ from .projection_spec import ProjectionSpec
 from .protocol_rule import ProtocolRule
 from .protocol_rule_protocol import ProtocolRuleProtocol
 from .pty_size import PTYSize
-from .quota_dimension import QuotaDimension
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
 from .region import Region
@@ -200,7 +199,6 @@ from .repl_prompt_config import REPLPromptConfig
 from .repl_ready_config import REPLReadyConfig
 from .repl_ready_mode import REPLReadyMode
 from .resize_context_request import ResizeContextRequest
-from .resource_quota import ResourceQuota
 from .resource_usage import ResourceUsage
 from .restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
 from .restore_sandbox_root_fs_response import RestoreSandboxRootFSResponse
@@ -256,6 +254,7 @@ from .sandbox_observability_watch_line import SandboxObservabilityWatchLine
 from .sandbox_observability_watch_line_type import SandboxObservabilityWatchLineType
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_config import SandboxResourceConfig
+from .sandbox_resource_limits import SandboxResourceLimits
 from .sandbox_resource_usage import SandboxResourceUsage
 from .sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from .sandbox_root_fs_snapshot_list import SandboxRootFSSnapshotList
@@ -413,7 +412,8 @@ from .success_team_list_response_data import SuccessTeamListResponseData
 from .success_team_member_list_response import SuccessTeamMemberListResponse
 from .success_team_member_list_response_data import SuccessTeamMemberListResponseData
 from .success_team_member_response import SuccessTeamMemberResponse
-from .success_team_quota_response import SuccessTeamQuotaResponse
+from .success_team_quota_list_response import SuccessTeamQuotaListResponse
+from .success_team_quota_policy_response import SuccessTeamQuotaPolicyResponse
 from .success_team_response import SuccessTeamResponse
 from .success_template_list_response import SuccessTemplateListResponse
 from .success_template_list_response_data import SuccessTemplateListResponseData
@@ -431,7 +431,28 @@ from .team_delete_conflict_response import TeamDeleteConflictResponse
 from .team_delete_conflict_response_error import TeamDeleteConflictResponseError
 from .team_delete_resource_count import TeamDeleteResourceCount
 from .team_member import TeamMember
-from .team_quota import TeamQuota
+from .team_quota_capacity_policy_write_request import (
+    TeamQuotaCapacityPolicyWriteRequest,
+)
+from .team_quota_capacity_policy_write_request_kind import (
+    TeamQuotaCapacityPolicyWriteRequestKind,
+)
+from .team_quota_concurrency_policy_write_request import (
+    TeamQuotaConcurrencyPolicyWriteRequest,
+)
+from .team_quota_concurrency_policy_write_request_kind import (
+    TeamQuotaConcurrencyPolicyWriteRequestKind,
+)
+from .team_quota_key import TeamQuotaKey
+from .team_quota_kind import TeamQuotaKind
+from .team_quota_list import TeamQuotaList
+from .team_quota_policy import TeamQuotaPolicy
+from .team_quota_policy_source import TeamQuotaPolicySource
+from .team_quota_rate_policy_write_request import TeamQuotaRatePolicyWriteRequest
+from .team_quota_rate_policy_write_request_kind import (
+    TeamQuotaRatePolicyWriteRequestKind,
+)
+from .team_quota_status import TeamQuotaStatus
 from .team_quota_unit import TeamQuotaUnit
 from .template import Template
 from .template_create_request import TemplateCreateRequest
@@ -638,7 +659,6 @@ __all__ = (
     "ProtocolRule",
     "ProtocolRuleProtocol",
     "PTYSize",
-    "QuotaDimension",
     "RefreshRequest",
     "RefreshResponse",
     "Region",
@@ -651,7 +671,6 @@ __all__ = (
     "REPLReadyConfig",
     "REPLReadyMode",
     "ResizeContextRequest",
-    "ResourceQuota",
     "ResourceUsage",
     "RestoreSandboxRootFSRequest",
     "RestoreSandboxRootFSResponse",
@@ -701,6 +720,7 @@ __all__ = (
     "SandboxObservabilityWatchLineType",
     "SandboxRefreshRequest",
     "SandboxResourceConfig",
+    "SandboxResourceLimits",
     "SandboxResourceUsage",
     "SandboxRootFSSnapshot",
     "SandboxRootFSSnapshotList",
@@ -830,7 +850,8 @@ __all__ = (
     "SuccessTeamMemberListResponse",
     "SuccessTeamMemberListResponseData",
     "SuccessTeamMemberResponse",
-    "SuccessTeamQuotaResponse",
+    "SuccessTeamQuotaListResponse",
+    "SuccessTeamQuotaPolicyResponse",
     "SuccessTeamResponse",
     "SuccessTemplateListResponse",
     "SuccessTemplateListResponseData",
@@ -846,7 +867,18 @@ __all__ = (
     "TeamDeleteConflictResponseError",
     "TeamDeleteResourceCount",
     "TeamMember",
-    "TeamQuota",
+    "TeamQuotaCapacityPolicyWriteRequest",
+    "TeamQuotaCapacityPolicyWriteRequestKind",
+    "TeamQuotaConcurrencyPolicyWriteRequest",
+    "TeamQuotaConcurrencyPolicyWriteRequestKind",
+    "TeamQuotaKey",
+    "TeamQuotaKind",
+    "TeamQuotaList",
+    "TeamQuotaPolicy",
+    "TeamQuotaPolicySource",
+    "TeamQuotaRatePolicyWriteRequest",
+    "TeamQuotaRatePolicyWriteRequestKind",
+    "TeamQuotaStatus",
     "TeamQuotaUnit",
     "Template",
     "TemplateCreateRequest",

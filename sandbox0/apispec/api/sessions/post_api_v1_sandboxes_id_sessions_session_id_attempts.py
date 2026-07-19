@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...models.create_execution_session_attempt_request import (
     CreateExecutionSessionAttemptRequest,
 )
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_execution_session_response import SuccessExecutionSessionResponse
 from ...types import Response
 
@@ -38,11 +39,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessExecutionSessionResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     if response.status_code == 201:
         response_201 = SuccessExecutionSessionResponse.from_dict(response.json())
 
         return response_201
+
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -52,7 +63,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessExecutionSessionResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -67,7 +78,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateExecutionSessionAttemptRequest,
-) -> Response[SuccessExecutionSessionResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create a new execution session attempt
 
      Starts a new process attempt. Set replace_current to stop and replace a running attempt.
@@ -82,7 +93,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessExecutionSessionResponse]
+        Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -104,7 +115,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: CreateExecutionSessionAttemptRequest,
-) -> Optional[SuccessExecutionSessionResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create a new execution session attempt
 
      Starts a new process attempt. Set replace_current to stop and replace a running attempt.
@@ -119,7 +130,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessExecutionSessionResponse
+        Union[ErrorEnvelope, SuccessExecutionSessionResponse]
     """
 
     return sync_detailed(
@@ -136,7 +147,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateExecutionSessionAttemptRequest,
-) -> Response[SuccessExecutionSessionResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create a new execution session attempt
 
      Starts a new process attempt. Set replace_current to stop and replace a running attempt.
@@ -151,7 +162,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessExecutionSessionResponse]
+        Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -171,7 +182,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: CreateExecutionSessionAttemptRequest,
-) -> Optional[SuccessExecutionSessionResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create a new execution session attempt
 
      Starts a new process attempt. Set replace_current to stop and replace a running attempt.
@@ -186,7 +197,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessExecutionSessionResponse
+        Union[ErrorEnvelope, SuccessExecutionSessionResponse]
     """
 
     return (

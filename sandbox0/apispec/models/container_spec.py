@@ -13,7 +13,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.env_var import EnvVar
-    from ..models.resource_quota import ResourceQuota
+    from ..models.sandbox_resource_limits import SandboxResourceLimits
     from ..models.security_context import SecurityContext
 
 
@@ -25,14 +25,14 @@ class ContainerSpec:
     """
     Attributes:
         image (str):
-        resources (ResourceQuota):
+        resources (SandboxResourceLimits):
         image_pull_policy (Union[Unset, str]):
         env (Union[Unset, list['EnvVar']]):
         security_context (Union[Unset, SecurityContext]):
     """
 
     image: str
-    resources: "ResourceQuota"
+    resources: "SandboxResourceLimits"
     image_pull_policy: Union[Unset, str] = UNSET
     env: Union[Unset, list["EnvVar"]] = UNSET
     security_context: Union[Unset, "SecurityContext"] = UNSET
@@ -76,13 +76,13 @@ class ContainerSpec:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.env_var import EnvVar
-        from ..models.resource_quota import ResourceQuota
+        from ..models.sandbox_resource_limits import SandboxResourceLimits
         from ..models.security_context import SecurityContext
 
         d = dict(src_dict)
         image = d.pop("image")
 
-        resources = ResourceQuota.from_dict(d.pop("resources"))
+        resources = SandboxResourceLimits.from_dict(d.pop("resources"))
 
         image_pull_policy = d.pop("imagePullPolicy", UNSET)
 

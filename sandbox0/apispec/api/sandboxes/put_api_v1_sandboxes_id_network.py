@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.error_envelope import ErrorEnvelope
 from ...models.sandbox_network_policy import SandboxNetworkPolicy
 from ...models.success_sandbox_network_policy_response import (
     SuccessSandboxNetworkPolicyResponse,
@@ -36,11 +37,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessSandboxNetworkPolicyResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]:
     if response.status_code == 200:
         response_200 = SuccessSandboxNetworkPolicyResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -50,7 +61,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessSandboxNetworkPolicyResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -64,7 +75,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: SandboxNetworkPolicy,
-) -> Response[SuccessSandboxNetworkPolicyResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]:
     """Update sandbox network policy
 
     Args:
@@ -76,7 +87,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessSandboxNetworkPolicyResponse]
+        Response[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -96,7 +107,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: SandboxNetworkPolicy,
-) -> Optional[SuccessSandboxNetworkPolicyResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]:
     """Update sandbox network policy
 
     Args:
@@ -108,7 +119,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessSandboxNetworkPolicyResponse
+        Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]
     """
 
     return sync_detailed(
@@ -123,7 +134,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: SandboxNetworkPolicy,
-) -> Response[SuccessSandboxNetworkPolicyResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]:
     """Update sandbox network policy
 
     Args:
@@ -135,7 +146,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessSandboxNetworkPolicyResponse]
+        Response[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -153,7 +164,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: SandboxNetworkPolicy,
-) -> Optional[SuccessSandboxNetworkPolicyResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]]:
     """Update sandbox network policy
 
     Args:
@@ -165,7 +176,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessSandboxNetworkPolicyResponse
+        Union[ErrorEnvelope, SuccessSandboxNetworkPolicyResponse]
     """
 
     return (

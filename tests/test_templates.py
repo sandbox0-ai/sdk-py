@@ -11,7 +11,7 @@ from sandbox0 import (
     TemplateWaitTimeoutError,
 )
 from sandbox0.apispec.models.container_spec import ContainerSpec
-from sandbox0.apispec.models.resource_quota import ResourceQuota
+from sandbox0.apispec.models.sandbox_resource_limits import SandboxResourceLimits
 from sandbox0.apispec.models.sandbox_template_spec import SandboxTemplateSpec
 from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
 from sandbox0.apispec.models.success_template_response import SuccessTemplateResponse
@@ -39,7 +39,7 @@ class TestTemplates(TestCase):
             spec=SandboxTemplateSpec(
                 main_container=ContainerSpec(
                     image="nginx:1.27-alpine",
-                    resources=ResourceQuota(memory="2Gi"),
+                    resources=SandboxResourceLimits(memory="2Gi"),
                 ),
                 env_vars=SandboxTemplateSpecEnvVars.from_dict({"MODE": "template"}),
             ),

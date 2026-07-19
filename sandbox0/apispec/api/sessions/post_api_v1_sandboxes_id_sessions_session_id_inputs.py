@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.error_envelope import ErrorEnvelope
 from ...models.execution_session_input_request import ExecutionSessionInputRequest
 from ...models.success_execution_session_input_response import (
     SuccessExecutionSessionInputResponse,
@@ -38,11 +39,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessExecutionSessionInputResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]:
     if response.status_code == 202:
         response_202 = SuccessExecutionSessionInputResponse.from_dict(response.json())
 
         return response_202
+
+    if response.status_code == 429:
+        response_429 = ErrorEnvelope.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 503:
+        response_503 = ErrorEnvelope.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -52,7 +63,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessExecutionSessionInputResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -67,7 +78,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionInputRequest,
-) -> Response[SuccessExecutionSessionInputResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]:
     """Append execution session input
 
      Writes binary-safe input to the current attempt. Once an input receipt is recorded, retrying the
@@ -84,7 +95,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessExecutionSessionInputResponse]
+        Response[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -106,7 +117,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionInputRequest,
-) -> Optional[SuccessExecutionSessionInputResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]:
     """Append execution session input
 
      Writes binary-safe input to the current attempt. Once an input receipt is recorded, retrying the
@@ -123,7 +134,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessExecutionSessionInputResponse
+        Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]
     """
 
     return sync_detailed(
@@ -140,7 +151,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionInputRequest,
-) -> Response[SuccessExecutionSessionInputResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]:
     """Append execution session input
 
      Writes binary-safe input to the current attempt. Once an input receipt is recorded, retrying the
@@ -157,7 +168,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessExecutionSessionInputResponse]
+        Response[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -177,7 +188,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionInputRequest,
-) -> Optional[SuccessExecutionSessionInputResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]]:
     """Append execution session input
 
      Writes binary-safe input to the current attempt. Once an input receipt is recorded, retrying the
@@ -194,7 +205,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessExecutionSessionInputResponse
+        Union[ErrorEnvelope, SuccessExecutionSessionInputResponse]
     """
 
     return (
