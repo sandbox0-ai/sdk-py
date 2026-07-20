@@ -140,6 +140,7 @@ from .fork_sandbox_response import ForkSandboxResponse
 from .fork_volume_request import ForkVolumeRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
+from .get_api_v1_quotas_response_200 import GetApiV1QuotasResponse200
 from .grpc_action import GRPCAction
 from .http_get_action import HTTPGetAction
 from .http_header import HTTPHeader
@@ -432,6 +433,8 @@ from .team_delete_conflict_response_error import TeamDeleteConflictResponseError
 from .team_delete_resource_count import TeamDeleteResourceCount
 from .team_member import TeamMember
 from .team_quota import TeamQuota
+from .team_quota_kind import TeamQuotaKind
+from .team_quota_source import TeamQuotaSource
 from .team_quota_unit import TeamQuotaUnit
 from .template import Template
 from .template_create_request import TemplateCreateRequest
@@ -591,6 +594,7 @@ __all__ = (
     "ForkVolumeRequest",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
+    "GetApiV1QuotasResponse200",
     "GRPCAction",
     "HTTPGetAction",
     "HTTPHeader",
@@ -847,6 +851,8 @@ __all__ = (
     "TeamDeleteResourceCount",
     "TeamMember",
     "TeamQuota",
+    "TeamQuotaKind",
+    "TeamQuotaSource",
     "TeamQuotaUnit",
     "Template",
     "TemplateCreateRequest",

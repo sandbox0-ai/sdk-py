@@ -16,6 +16,11 @@ from sandbox0.models import (
     StreamInput,
     StreamOutput,
 )
+from sandbox0.apispec.models.quota_dimension import QuotaDimension
+from sandbox0.apispec.models.team_quota import TeamQuota
+from sandbox0.apispec.models.team_quota_kind import TeamQuotaKind
+from sandbox0.apispec.models.team_quota_source import TeamQuotaSource
+from sandbox0.apispec.models.team_quota_unit import TeamQuotaUnit
 from sandbox0.resources import Sandboxes, Volumes
 from sandbox0.sandbox import CmdOptions, RunOptions, Sandbox
 from sandbox0.sandbox_observability import (
@@ -49,6 +54,7 @@ __all__ = [
     "FileWatchResponse",
     "ExecutionSessionConnection",
     "MountSession",
+    "QuotaDimension",
     "RunOptions",
     "RunResult",
     "Sandboxes",
@@ -75,6 +81,10 @@ __all__ = [
     "CreateTemplateFromSandboxOptions",
     "TemplateCreationFailedError",
     "TemplateWaitTimeoutError",
+    "TeamQuota",
+    "TeamQuotaKind",
+    "TeamQuotaSource",
+    "TeamQuotaUnit",
     "Volumes",
     "VolumeSession",
     "is_claim_start_throttled",

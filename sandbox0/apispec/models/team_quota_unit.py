@@ -7,6 +7,7 @@ class TeamQuotaUnit(str, Enum):
     GB = "GB"
     MIB = "MiB"
     MILLICPU = "millicpu"
+    REQUESTS = "requests"
 
     def __str__(self) -> str:
         return str(self.value)
