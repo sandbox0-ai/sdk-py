@@ -28,8 +28,9 @@ class SandboxAppServiceRoute:
     """
     Attributes:
         id (str):
-        resume (bool): Allows this public route to wake a paused sandbox when sandbox auto_resume is true.
-            Resume-enabled public routes require a restartable service runtime: cmd or function.
+        resume (bool): Allows this public route to wake a paused sandbox or replace a failed runtime when
+            sandbox auto_resume is true. Resume-enabled public routes require a restartable service
+            runtime: cmd or function.
         path_prefix (Union[Unset, str]):
         methods (Union[Unset, list[str]]):
         rewrite_prefix (Union[None, Unset, str]):

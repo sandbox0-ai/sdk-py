@@ -21,6 +21,8 @@ from sandbox0.apispec.models.team_quota import TeamQuota
 from sandbox0.apispec.models.team_quota_kind import TeamQuotaKind
 from sandbox0.apispec.models.team_quota_source import TeamQuotaSource
 from sandbox0.apispec.models.team_quota_unit import TeamQuotaUnit
+from sandbox0.apispec.models.usage_window import UsageWindow
+from sandbox0.apispec.models.usage_window_page import UsageWindowPage
 from sandbox0.resources import Sandboxes, Volumes
 from sandbox0.sandbox import CmdOptions, RunOptions, Sandbox
 from sandbox0.sandbox_observability import (
@@ -85,6 +87,8 @@ __all__ = [
     "TeamQuotaKind",
     "TeamQuotaSource",
     "TeamQuotaUnit",
+    "UsageWindow",
+    "UsageWindowPage",
     "Volumes",
     "VolumeSession",
     "is_claim_start_throttled",

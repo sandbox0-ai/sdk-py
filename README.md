@@ -49,6 +49,24 @@ done = stream.wait()
 print(f"exit={done.exit_code} state={done.state}")
 ```
 
+## Usage Windows
+
+Usage windows are immutable, team-scoped usage records. Retain `next_cursor` to
+incrementally import only newly recorded windows:
+
+```python
+page = client.list_usage_windows(
+    cursor=saved_cursor,
+    limit=250,
+    window_type="sandbox.runtime_mib_milliseconds",
+)
+
+for window in page.windows:
+    print(window.window_id, window.value, window.unit)
+
+saved_cursor = page.next_cursor
+```
+
 ## OpenAI Agents SDK Sandbox
 
 Install the optional adapter dependency:

@@ -419,6 +419,7 @@ from .success_team_response import SuccessTeamResponse
 from .success_template_list_response import SuccessTemplateListResponse
 from .success_template_list_response_data import SuccessTemplateListResponseData
 from .success_template_response import SuccessTemplateResponse
+from .success_usage_windows_response import SuccessUsageWindowsResponse
 from .success_user_response import SuccessUserResponse
 from .success_volume_file_archive_import_response import (
     SuccessVolumeFileArchiveImportResponse,
@@ -455,6 +456,8 @@ from .update_team_member_request import UpdateTeamMemberRequest
 from .update_team_member_request_role import UpdateTeamMemberRequestRole
 from .update_team_request import UpdateTeamRequest
 from .update_user_request import UpdateUserRequest
+from .usage_window import UsageWindow
+from .usage_window_page import UsageWindowPage
 from .user import User
 from .username_password_projection import UsernamePasswordProjection
 from .volume_access_mode import VolumeAccessMode
@@ -839,6 +842,7 @@ __all__ = (
     "SuccessTemplateListResponse",
     "SuccessTemplateListResponseData",
     "SuccessTemplateResponse",
+    "SuccessUsageWindowsResponse",
     "SuccessUserResponse",
     "SuccessVolumeFileArchiveImportResponse",
     "SuccessWrittenResponse",
@@ -873,6 +877,8 @@ __all__ = (
     "UpdateTeamMemberRequestRole",
     "UpdateTeamRequest",
     "UpdateUserRequest",
+    "UsageWindow",
+    "UsageWindowPage",
     "User",
     "UsernamePasswordProjection",
     "VolumeAccessMode",
