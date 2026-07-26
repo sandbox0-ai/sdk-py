@@ -38,9 +38,9 @@ class SandboxUpdateConfig:
             hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the
                 sandbox identity and durable state, including paused rootfs checkpoints.
             network (Union[Unset, SandboxNetworkPolicy]):
-            auto_resume (Union[Unset, bool]): Sandbox-level resume gate for paused sandboxes. When false, any inbound
-                request
-                (API or public exposure) must not auto resume the sandbox.
+            auto_resume (Union[Unset, bool]): Sandbox-level runtime recovery gate. When false, inbound API or public
+                exposure
+                requests must not automatically resume a paused sandbox or replace a failed runtime.
                  Default: True.
             services (Union[Unset, list['SandboxAppService']]):
     """

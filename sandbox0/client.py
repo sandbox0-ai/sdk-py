@@ -10,6 +10,7 @@ from sandbox0.client_credential_sources import ClientCredentialSourcesMixin
 from sandbox0.client_quotas import ClientQuotasMixin
 from sandbox0.client_sandboxes import ClientSandboxesMixin
 from sandbox0.client_templates import ClientTemplatesMixin
+from sandbox0.client_usage import ClientUsageMixin
 from sandbox0.client_volumes import ClientVolumesMixin
 from sandbox0.resources import Sandboxes, Volumes
 from sandbox0.response_normalize import normalize_response_hook, normalize_response_hook_async
@@ -24,6 +25,7 @@ class Client(
     ClientVolumesMixin,
     ClientCredentialSourcesMixin,
     ClientQuotasMixin,
+    ClientUsageMixin,
 ):
     def __init__(
         self,
