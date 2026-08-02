@@ -5,6 +5,7 @@ from typing import (
     Any,
     TypeVar,
     Union,
+    cast,
 )
 
 from attrs import define as _attrs_define
@@ -36,8 +37,6 @@ class Sandbox:
         auto_resume (bool):
         pod_name (str):
         runtime_generation (int): Monotonically increasing runtime generation. Resume starts a new generation.
-        expires_at (datetime.datetime): Soft expiration timestamp. Zero value means not set.
-        hard_expires_at (datetime.datetime): Hard expiration timestamp. Zero value means not set.
         claimed_at (datetime.datetime):
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
@@ -47,6 +46,10 @@ class Sandbox:
             memory only and derives CPU from the platform memory-per-CPU ratio, with a minimum CPU limit of 150m.
         mounts (Union[Unset, list['ClaimMountRequest']]):
         ssh (Union[Unset, SandboxSSHConnection]):
+        expires_at (Union[None, Unset, datetime.datetime]): Soft expiration timestamp. Omitted or null means disabled or
+            not set.
+        hard_expires_at (Union[None, Unset, datetime.datetime]): Hard expiration timestamp. Omitted or null means
+            disabled or not set.
     """
 
     id: str
@@ -57,8 +60,6 @@ class Sandbox:
     auto_resume: bool
     pod_name: str
     runtime_generation: int
-    expires_at: datetime.datetime
-    hard_expires_at: datetime.datetime
     claimed_at: datetime.datetime
     created_at: datetime.datetime
     updated_at: datetime.datetime
@@ -67,6 +68,8 @@ class Sandbox:
     resources: Union[Unset, "SandboxResourceConfig"] = UNSET
     mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
     ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
+    expires_at: Union[None, Unset, datetime.datetime] = UNSET
+    hard_expires_at: Union[None, Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -85,10 +88,6 @@ class Sandbox:
         pod_name = self.pod_name
 
         runtime_generation = self.runtime_generation
-
-        expires_at = self.expires_at.isoformat()
-
-        hard_expires_at = self.hard_expires_at.isoformat()
 
         claimed_at = self.claimed_at.isoformat()
 
@@ -120,6 +119,22 @@ class Sandbox:
         if not isinstance(self.ssh, Unset):
             ssh = self.ssh.to_dict()
 
+        expires_at: Union[None, Unset, str]
+        if isinstance(self.expires_at, Unset):
+            expires_at = UNSET
+        elif isinstance(self.expires_at, datetime.datetime):
+            expires_at = self.expires_at.isoformat()
+        else:
+            expires_at = self.expires_at
+
+        hard_expires_at: Union[None, Unset, str]
+        if isinstance(self.hard_expires_at, Unset):
+            hard_expires_at = UNSET
+        elif isinstance(self.hard_expires_at, datetime.datetime):
+            hard_expires_at = self.hard_expires_at.isoformat()
+        else:
+            hard_expires_at = self.hard_expires_at
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -132,8 +147,6 @@ class Sandbox:
                 "auto_resume": auto_resume,
                 "pod_name": pod_name,
                 "runtime_generation": runtime_generation,
-                "expires_at": expires_at,
-                "hard_expires_at": hard_expires_at,
                 "claimed_at": claimed_at,
                 "created_at": created_at,
                 "updated_at": updated_at,
@@ -149,6 +162,10 @@ class Sandbox:
             field_dict["mounts"] = mounts
         if ssh is not UNSET:
             field_dict["ssh"] = ssh
+        if expires_at is not UNSET:
+            field_dict["expires_at"] = expires_at
+        if hard_expires_at is not UNSET:
+            field_dict["hard_expires_at"] = hard_expires_at
 
         return field_dict
 
@@ -175,10 +192,6 @@ class Sandbox:
         pod_name = d.pop("pod_name")
 
         runtime_generation = d.pop("runtime_generation")
-
-        expires_at = isoparse(d.pop("expires_at"))
-
-        hard_expires_at = isoparse(d.pop("hard_expires_at"))
 
         claimed_at = isoparse(d.pop("claimed_at"))
 
@@ -216,6 +229,42 @@ class Sandbox:
         else:
             ssh = SandboxSSHConnection.from_dict(_ssh)
 
+        def _parse_expires_at(data: object) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                expires_at_type_0 = isoparse(data)
+
+                return expires_at_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        expires_at = _parse_expires_at(d.pop("expires_at", UNSET))
+
+        def _parse_hard_expires_at(
+            data: object,
+        ) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                hard_expires_at_type_0 = isoparse(data)
+
+                return hard_expires_at_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        hard_expires_at = _parse_hard_expires_at(d.pop("hard_expires_at", UNSET))
+
         sandbox = cls(
             id=id,
             template_id=template_id,
@@ -225,8 +274,6 @@ class Sandbox:
             auto_resume=auto_resume,
             pod_name=pod_name,
             runtime_generation=runtime_generation,
-            expires_at=expires_at,
-            hard_expires_at=hard_expires_at,
             claimed_at=claimed_at,
             created_at=created_at,
             updated_at=updated_at,
@@ -235,6 +282,8 @@ class Sandbox:
             resources=resources,
             mounts=mounts,
             ssh=ssh,
+            expires_at=expires_at,
+            hard_expires_at=hard_expires_at,
         )
 
         sandbox.additional_properties = d

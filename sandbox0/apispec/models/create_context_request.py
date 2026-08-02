@@ -29,7 +29,9 @@ class CreateContextRequest:
         type_ (Union[Unset, ProcessType]):
         repl (Union[Unset, CreateREPLContextRequest]):
         cmd (Union[Unset, CreateCMDContextRequest]):
-        wait_until_done (Union[Unset, bool]):
+        wait_until_done (Union[Unset, bool]): Wait for the context process to finish before returning. For long-running
+            commands, prefer an asynchronous context with a bounded ttl_sec and follow it through the context WebSocket and
+            GET APIs. Use a supervised session when reconnectable, replayable, or restartable execution is required.
         cwd (Union[Unset, str]):
         env_vars (Union[Unset, CreateContextRequestEnvVars]):
         pty_size (Union[Unset, PTYSize]):
