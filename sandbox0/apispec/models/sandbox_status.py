@@ -1,12 +1,15 @@
+import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     TypeVar,
     Union,
+    cast,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
+from dateutil.parser import isoparse
 
 from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
@@ -25,8 +28,8 @@ class SandboxStatus:
         pod_name (Union[Unset, str]):
         status (Union[Unset, SandboxLifecycleStatus]):
         claimed_at (Union[Unset, str]):
-        expires_at (Union[Unset, str]):
-        hard_expires_at (Union[Unset, str]):
+        expires_at (Union[None, Unset, datetime.datetime]):
+        hard_expires_at (Union[None, Unset, datetime.datetime]):
         created_at (Union[Unset, str]):
     """
 
@@ -37,8 +40,8 @@ class SandboxStatus:
     pod_name: Union[Unset, str] = UNSET
     status: Union[Unset, SandboxLifecycleStatus] = UNSET
     claimed_at: Union[Unset, str] = UNSET
-    expires_at: Union[Unset, str] = UNSET
-    hard_expires_at: Union[Unset, str] = UNSET
+    expires_at: Union[None, Unset, datetime.datetime] = UNSET
+    hard_expires_at: Union[None, Unset, datetime.datetime] = UNSET
     created_at: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -59,9 +62,21 @@ class SandboxStatus:
 
         claimed_at = self.claimed_at
 
-        expires_at = self.expires_at
+        expires_at: Union[None, Unset, str]
+        if isinstance(self.expires_at, Unset):
+            expires_at = UNSET
+        elif isinstance(self.expires_at, datetime.datetime):
+            expires_at = self.expires_at.isoformat()
+        else:
+            expires_at = self.expires_at
 
-        hard_expires_at = self.hard_expires_at
+        hard_expires_at: Union[None, Unset, str]
+        if isinstance(self.hard_expires_at, Unset):
+            hard_expires_at = UNSET
+        elif isinstance(self.hard_expires_at, datetime.datetime):
+            hard_expires_at = self.hard_expires_at.isoformat()
+        else:
+            hard_expires_at = self.hard_expires_at
 
         created_at = self.created_at
 
@@ -113,9 +128,41 @@ class SandboxStatus:
 
         claimed_at = d.pop("claimed_at", UNSET)
 
-        expires_at = d.pop("expires_at", UNSET)
+        def _parse_expires_at(data: object) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                expires_at_type_0 = isoparse(data)
 
-        hard_expires_at = d.pop("hard_expires_at", UNSET)
+                return expires_at_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        expires_at = _parse_expires_at(d.pop("expires_at", UNSET))
+
+        def _parse_hard_expires_at(
+            data: object,
+        ) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                hard_expires_at_type_0 = isoparse(data)
+
+                return hard_expires_at_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        hard_expires_at = _parse_hard_expires_at(d.pop("hard_expires_at", UNSET))
 
         created_at = d.pop("created_at", UNSET)
 

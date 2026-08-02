@@ -38,9 +38,12 @@ class SandboxConfig:
             least once and consumers should deduplicate by event_id. For sandbox lifecycle events, procd persists signed
             delivery records to a manager-owned SandboxVolume outside the workspace before dispatch; manager also emits
             sandbox.deleted during pod deletion cleanup.
-        auto_resume (Union[Unset, bool]): Sandbox-level runtime recovery gate. When false, inbound API or public
-            exposure
-            requests must not automatically resume a paused sandbox or replace a failed runtime.
+        auto_resume (Union[Unset, bool]): Controls whether supported inbound API or public exposure requests may
+            automatically
+            make an inactive sandbox available. This setting does not control platform-initiated
+            runtime fault recovery. A supported access request returns `503 unavailable` with
+            `sandbox is waking up` when an accepted resume has not committed yet. It returns
+            `503 sandbox_resume_failed` when that resume attempt has ended unsuccessfully.
              Default: True.
         services (Union[Unset, list['SandboxAppService']]):
     """

@@ -17,8 +17,8 @@ T = TypeVar("T", bound="UpdateTeamRequest")
 class UpdateTeamRequest:
     """
     Attributes:
-        name (Union[Unset, str]):
-        slug (Union[Unset, str]):
+        name (Union[Unset, str]): Display name. Team names are not unique.
+        slug (Union[Unset, str]): Human-readable alias. Team slugs are not unique.
     """
 
     name: Union[Unset, str] = UNSET

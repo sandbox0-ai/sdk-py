@@ -21,8 +21,8 @@ class Team:
     """
     Attributes:
         id (str):
-        name (str):
-        slug (str):
+        name (str): Display name. Team names are not unique; use the team ID as the canonical identifier.
+        slug (str): Human-readable alias. Team slugs are not unique; use the team ID as the canonical identifier.
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
         owner_id (Union[None, Unset, str]):

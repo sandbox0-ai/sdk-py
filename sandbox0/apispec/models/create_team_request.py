@@ -18,8 +18,8 @@ T = TypeVar("T", bound="CreateTeamRequest")
 class CreateTeamRequest:
     """
     Attributes:
-        name (str):
-        slug (Union[Unset, str]):
+        name (str): Display name. Team names are not unique.
+        slug (Union[Unset, str]): Human-readable alias. Team slugs are not unique.
         home_region_id (Union[None, Unset, str]):
     """
 
