@@ -255,6 +255,11 @@ from .sandbox_observability_logs_response import SandboxObservabilityLogsRespons
 from .sandbox_observability_outcome import SandboxObservabilityOutcome
 from .sandbox_observability_watch_line import SandboxObservabilityWatchLine
 from .sandbox_observability_watch_line_type import SandboxObservabilityWatchLineType
+from .sandbox_preview_create_request import SandboxPreviewCreateRequest
+from .sandbox_preview_create_request_protocol import SandboxPreviewCreateRequestProtocol
+from .sandbox_preview_grant import SandboxPreviewGrant
+from .sandbox_preview_grant_protocol import SandboxPreviewGrantProtocol
+from .sandbox_preview_renew_request import SandboxPreviewRenewRequest
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_config import SandboxResourceConfig
 from .sandbox_resource_usage import SandboxResourceUsage
@@ -382,6 +387,7 @@ from .success_sandbox_observability_events_response import (
 from .success_sandbox_observability_logs_response import (
     SuccessSandboxObservabilityLogsResponse,
 )
+from .success_sandbox_preview_response import SuccessSandboxPreviewResponse
 from .success_sandbox_response import SuccessSandboxResponse
 from .success_sandbox_root_fs_snapshot_list_response import (
     SuccessSandboxRootFSSnapshotListResponse,
@@ -706,6 +712,11 @@ __all__ = (
     "SandboxObservabilityOutcome",
     "SandboxObservabilityWatchLine",
     "SandboxObservabilityWatchLineType",
+    "SandboxPreviewCreateRequest",
+    "SandboxPreviewCreateRequestProtocol",
+    "SandboxPreviewGrant",
+    "SandboxPreviewGrantProtocol",
+    "SandboxPreviewRenewRequest",
     "SandboxRefreshRequest",
     "SandboxResourceConfig",
     "SandboxResourceUsage",
@@ -815,6 +826,7 @@ __all__ = (
     "SuccessSandboxNetworkPolicyResponse",
     "SuccessSandboxObservabilityEventsResponse",
     "SuccessSandboxObservabilityLogsResponse",
+    "SuccessSandboxPreviewResponse",
     "SuccessSandboxResponse",
     "SuccessSandboxRootFSSnapshotListResponse",
     "SuccessSandboxRootFSSnapshotResponse",
