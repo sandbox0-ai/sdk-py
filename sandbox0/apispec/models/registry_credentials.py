@@ -24,6 +24,10 @@ class RegistryCredentials:
         pull_registry (str):
         username (str):
         password (str):
+        push_image (Union[Unset, str]): Complete provider-specific image reference to push. Clients should prefer this
+            over composing pushRegistry and targetImage.
+        pull_image (Union[Unset, str]): Complete image reference for templates and sandbox pulls. It may use a private
+            regional endpoint.
         expires_at (Union[Unset, datetime.datetime]):
     """
 
@@ -32,6 +36,8 @@ class RegistryCredentials:
     pull_registry: str
     username: str
     password: str
+    push_image: Union[Unset, str] = UNSET
+    pull_image: Union[Unset, str] = UNSET
     expires_at: Union[Unset, datetime.datetime] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -45,6 +51,10 @@ class RegistryCredentials:
         username = self.username
 
         password = self.password
+
+        push_image = self.push_image
+
+        pull_image = self.pull_image
 
         expires_at: Union[Unset, str] = UNSET
         if not isinstance(self.expires_at, Unset):
@@ -61,6 +71,10 @@ class RegistryCredentials:
                 "password": password,
             }
         )
+        if push_image is not UNSET:
+            field_dict["pushImage"] = push_image
+        if pull_image is not UNSET:
+            field_dict["pullImage"] = pull_image
         if expires_at is not UNSET:
             field_dict["expiresAt"] = expires_at
 
@@ -79,6 +93,10 @@ class RegistryCredentials:
 
         password = d.pop("password")
 
+        push_image = d.pop("pushImage", UNSET)
+
+        pull_image = d.pop("pullImage", UNSET)
+
         _expires_at = d.pop("expiresAt", UNSET)
         expires_at: Union[Unset, datetime.datetime]
         if isinstance(_expires_at, Unset):
@@ -92,6 +110,8 @@ class RegistryCredentials:
             pull_registry=pull_registry,
             username=username,
             password=password,
+            push_image=push_image,
+            pull_image=pull_image,
             expires_at=expires_at,
         )
 
