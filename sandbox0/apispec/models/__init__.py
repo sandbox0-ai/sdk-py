@@ -10,7 +10,6 @@ from .auth_provider import AuthProvider
 from .cache_policy_spec import CachePolicySpec
 from .capabilities import Capabilities
 from .change_password_request import ChangePasswordRequest
-from .claim_mount_request import ClaimMountRequest
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
 from .container_spec import ContainerSpec
@@ -41,12 +40,6 @@ from .create_execution_session_attempt_request import (
 from .create_region_request import CreateRegionRequest
 from .create_repl_context_request import CreateREPLContextRequest
 from .create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
-from .create_sandbox_volume_request import CreateSandboxVolumeRequest
-from .create_sandbox_volume_s3_config import CreateSandboxVolumeS3Config
-from .create_sandbox_volume_s3_config_provider import (
-    CreateSandboxVolumeS3ConfigProvider,
-)
-from .create_snapshot_request import CreateSnapshotRequest
 from .create_ssh_public_key_request import CreateSSHPublicKeyRequest
 from .create_team_request import CreateTeamRequest
 from .credential_binding import CredentialBinding
@@ -137,7 +130,6 @@ from .file_watch_unsubscribed_type import FileWatchUnsubscribedType
 from .fork_sandbox_config import ForkSandboxConfig
 from .fork_sandbox_request import ForkSandboxRequest
 from .fork_sandbox_response import ForkSandboxResponse
-from .fork_volume_request import ForkVolumeRequest
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .get_api_v1_quotas_response_200 import GetApiV1QuotasResponse200
@@ -158,8 +150,6 @@ from .login_request import LoginRequest
 from .login_response import LoginResponse
 from .mcp_protocol_rule import MCPProtocolRule
 from .mcp_tool_policy import MCPToolPolicy
-from .mount_status import MountStatus
-from .mount_status_state import MountStatusState
 from .move_file_request import MoveFileRequest
 from .network_egress_policy import NetworkEgressPolicy
 from .node_affinity import NodeAffinity
@@ -297,14 +287,10 @@ from .sandbox_template_status import SandboxTemplateStatus
 from .sandbox_update_config import SandboxUpdateConfig
 from .sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
 from .sandbox_update_request import SandboxUpdateRequest
-from .sandbox_volume import SandboxVolume
-from .sandbox_volume_s3_config import SandboxVolumeS3Config
-from .sandbox_volume_s3_config_provider import SandboxVolumeS3ConfigProvider
 from .seccomp_profile import SeccompProfile
 from .seccomp_profile_type import SeccompProfileType
 from .security_context import SecurityContext
 from .signal_context_request import SignalContextRequest
-from .snapshot import Snapshot
 from .ssh_proxy_projection import SSHProxyProjection
 from .ssh_public_key import SSHPublicKey
 from .static_headers_source_spec import StaticHeadersSourceSpec
@@ -372,8 +358,6 @@ from .success_region_response import SuccessRegionResponse
 from .success_registry_credentials_response import SuccessRegistryCredentialsResponse
 from .success_resized_response import SuccessResizedResponse
 from .success_resized_response_data import SuccessResizedResponseData
-from .success_restore_response import SuccessRestoreResponse
-from .success_restore_response_data import SuccessRestoreResponseData
 from .success_restore_sandbox_root_fs_response import (
     SuccessRestoreSandboxRootFSResponse,
 )
@@ -404,12 +388,8 @@ from .success_sandbox_runtime_metrics_response import (
 from .success_sandbox_services_response import SuccessSandboxServicesResponse
 from .success_sandbox_services_response_data import SuccessSandboxServicesResponseData
 from .success_sandbox_status_response import SuccessSandboxStatusResponse
-from .success_sandbox_volume_list_response import SuccessSandboxVolumeListResponse
-from .success_sandbox_volume_response import SuccessSandboxVolumeResponse
 from .success_signaled_response import SuccessSignaledResponse
 from .success_signaled_response_data import SuccessSignaledResponseData
-from .success_snapshot_list_response import SuccessSnapshotListResponse
-from .success_snapshot_response import SuccessSnapshotResponse
 from .success_ssh_public_key_list_response import SuccessSSHPublicKeyListResponse
 from .success_ssh_public_key_list_response_data import (
     SuccessSSHPublicKeyListResponseData,
@@ -427,9 +407,6 @@ from .success_template_list_response_data import SuccessTemplateListResponseData
 from .success_template_response import SuccessTemplateResponse
 from .success_usage_windows_response import SuccessUsageWindowsResponse
 from .success_user_response import SuccessUserResponse
-from .success_volume_file_archive_import_response import (
-    SuccessVolumeFileArchiveImportResponse,
-)
 from .success_written_response import SuccessWrittenResponse
 from .success_written_response_data import SuccessWrittenResponseData
 from .tcp_socket_action import TCPSocketAction
@@ -466,10 +443,6 @@ from .usage_window import UsageWindow
 from .usage_window_page import UsageWindowPage
 from .user import User
 from .username_password_projection import UsernamePasswordProjection
-from .volume_access_mode import VolumeAccessMode
-from .volume_backend import VolumeBackend
-from .volume_file_archive_import_response import VolumeFileArchiveImportResponse
-from .volume_mount_spec import VolumeMountSpec
 from .web_login_exchange_request import WebLoginExchangeRequest
 from .webhook_config import WebhookConfig
 from .weighted_pod_affinity_term import WeightedPodAffinityTerm
@@ -485,7 +458,6 @@ __all__ = (
     "CachePolicySpec",
     "Capabilities",
     "ChangePasswordRequest",
-    "ClaimMountRequest",
     "ClaimRequest",
     "ClaimResponse",
     "ContainerSpec",
@@ -514,10 +486,6 @@ __all__ = (
     "CreateRegionRequest",
     "CreateREPLContextRequest",
     "CreateSandboxRootFSSnapshotRequest",
-    "CreateSandboxVolumeRequest",
-    "CreateSandboxVolumeS3Config",
-    "CreateSandboxVolumeS3ConfigProvider",
-    "CreateSnapshotRequest",
     "CreateSSHPublicKeyRequest",
     "CreateTeamRequest",
     "CredentialBinding",
@@ -600,7 +568,6 @@ __all__ = (
     "ForkSandboxConfig",
     "ForkSandboxRequest",
     "ForkSandboxResponse",
-    "ForkVolumeRequest",
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GetApiV1QuotasResponse200",
@@ -621,8 +588,6 @@ __all__ = (
     "LoginResponse",
     "MCPProtocolRule",
     "MCPToolPolicy",
-    "MountStatus",
-    "MountStatusState",
     "MoveFileRequest",
     "NetworkEgressPolicy",
     "NodeAffinity",
@@ -750,14 +715,10 @@ __all__ = (
     "SandboxUpdateConfig",
     "SandboxUpdateConfigEnvVars",
     "SandboxUpdateRequest",
-    "SandboxVolume",
-    "SandboxVolumeS3Config",
-    "SandboxVolumeS3ConfigProvider",
     "SeccompProfile",
     "SeccompProfileType",
     "SecurityContext",
     "SignalContextRequest",
-    "Snapshot",
     "SSHProxyProjection",
     "SSHPublicKey",
     "StaticHeadersSourceSpec",
@@ -817,8 +778,6 @@ __all__ = (
     "SuccessRegistryCredentialsResponse",
     "SuccessResizedResponse",
     "SuccessResizedResponseData",
-    "SuccessRestoreResponse",
-    "SuccessRestoreResponseData",
     "SuccessRestoreSandboxRootFSResponse",
     "SuccessResumeSandboxResponse",
     "SuccessSandboxListResponse",
@@ -835,12 +794,8 @@ __all__ = (
     "SuccessSandboxServicesResponse",
     "SuccessSandboxServicesResponseData",
     "SuccessSandboxStatusResponse",
-    "SuccessSandboxVolumeListResponse",
-    "SuccessSandboxVolumeResponse",
     "SuccessSignaledResponse",
     "SuccessSignaledResponseData",
-    "SuccessSnapshotListResponse",
-    "SuccessSnapshotResponse",
     "SuccessSSHPublicKeyListResponse",
     "SuccessSSHPublicKeyListResponseData",
     "SuccessSSHPublicKeyResponse",
@@ -856,7 +811,6 @@ __all__ = (
     "SuccessTemplateResponse",
     "SuccessUsageWindowsResponse",
     "SuccessUserResponse",
-    "SuccessVolumeFileArchiveImportResponse",
     "SuccessWrittenResponse",
     "SuccessWrittenResponseData",
     "TCPSocketAction",
@@ -893,10 +847,6 @@ __all__ = (
     "UsageWindowPage",
     "User",
     "UsernamePasswordProjection",
-    "VolumeAccessMode",
-    "VolumeBackend",
-    "VolumeFileArchiveImportResponse",
-    "VolumeMountSpec",
     "WebhookConfig",
     "WebLoginExchangeRequest",
     "WeightedPodAffinityTerm",

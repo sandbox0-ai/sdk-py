@@ -37,48 +37,28 @@ class _FakeSnapshot(SnapshotBase):
         return True
 
 
-class _FakeVolumes:
-    def __init__(self) -> None:
-        self.created_request: Any = None
-        self.snapshots: list[tuple[str, Any]] = []
-        self.deleted: list[tuple[str, bool]] = []
-        self.files: dict[tuple[str, str], bytes] = {("vol_1", "/nested/file.txt"): b"existing"}
-        self.writes: list[tuple[str, str, bytes]] = []
-
-    def create(self, request: Any) -> Any:
-        self.created_request = request
-        return SimpleNamespace(id="vol_1")
-
-    def create_snapshot(self, volume_id: str, request: Any) -> Any:
-        self.snapshots.append((volume_id, request))
-        return SimpleNamespace(id="snap_1")
-
-    def delete(self, volume_id: str, *, force: bool = False) -> Any:
-        self.deleted.append((volume_id, force))
-        return SimpleNamespace()
-
-    def read_file(self, volume_id: str, path: str) -> bytes:
-        return self.files[(volume_id, path)]
-
-    def write_file(self, volume_id: str, path: str, data: bytes) -> Any:
-        self.writes.append((volume_id, path, data))
-        self.files[(volume_id, path)] = data
-        return SimpleNamespace()
-
-
 class _FakeSandboxes:
     def __init__(self, client: "_FakeSandbox0Client") -> None:
         self._client = client
         self.claims: list[tuple[str, Any, Any]] = []
+        self.snapshots: list[tuple[str, Any]] = []
+        self.deleted_snapshots: list[str] = []
 
-    def claim(self, template: str, config: Any = None, mounts: Optional[list[Any]] = None, snapshot_id: Optional[str] = None) -> Sandbox:
-        self.claims.append((template, config, mounts))
+    def claim(self, template: str, config: Any = None, snapshot_id: Optional[str] = None) -> Sandbox:
+        self.claims.append((template, config, snapshot_id))
         return Sandbox(id="sb_1", client=self._client, template=template, status="running")
+
+    def create_rootfs_snapshot(self, sandbox_id: str, request: Any) -> Any:
+        self.snapshots.append((sandbox_id, request))
+        return SimpleNamespace(id="snap_1")
+
+    def delete_rootfs_snapshot(self, snapshot_id: str) -> Any:
+        self.deleted_snapshots.append(snapshot_id)
+        return SimpleNamespace()
 
 
 class _FakeSandbox0Client:
     def __init__(self) -> None:
-        self.volumes = _FakeVolumes()
         self.sandboxes = _FakeSandboxes(self)
         self.deleted_sandboxes: list[str] = []
 
@@ -128,7 +108,6 @@ def _state(**updates: Any) -> Sandbox0SandboxSessionState:
         "snapshot": NoopSnapshot(id="noop_1"),
         "manifest": Manifest(),
         "sandbox_id": "sb_1",
-        "volume_id": "vol_1",
         "poll_interval_sec": 0.01,
         "start_timeout_sec": 1.0,
     }
@@ -137,7 +116,7 @@ def _state(**updates: Any) -> Sandbox0SandboxSessionState:
 
 
 class TestOpenAIAgentsAdapter(unittest.TestCase):
-    def test_create_claims_workspace_volume_and_delete_removes_volume_by_default(self) -> None:
+    def test_create_claims_persistent_rootfs_and_delete_removes_sandbox(self) -> None:
         fake_client = _FakeSandbox0Client()
         client = Sandbox0SandboxClient(client=fake_client)  # type: ignore[arg-type]
 
@@ -146,20 +125,17 @@ class TestOpenAIAgentsAdapter(unittest.TestCase):
         )
 
         self.assertEqual(session.state.sandbox_id, "sb_1")
-        self.assertEqual(session.state.volume_id, "vol_1")
-        self.assertFalse(session.state.volume_workspace_ready)
+        self.assertIsNone(session.state.rootfs_snapshot_id)
+        self.assertFalse(session.state.workspace_ready)
         self.assertEqual(fake_client.sandboxes.claims[0][0], "default")
-        mount = fake_client.sandboxes.claims[0][2][0]
-        self.assertEqual(mount.sandboxvolume_id, "vol_1")
-        self.assertEqual(mount.mount_point, "/workspace")
+        self.assertIsNone(fake_client.sandboxes.claims[0][2])
 
         asyncio.run(client.delete(session))
 
         self.assertEqual(fake_client.deleted_sandboxes, ["sb_1"])
-        self.assertEqual(fake_client.volumes.deleted, [("vol_1", True)])
         self.assertIsNone(session.state.sandbox_id)
 
-    def test_delete_preserves_volume_when_configured(self) -> None:
+    def test_delete_preserves_rootfs_snapshot_when_configured(self) -> None:
         fake_client = _FakeSandbox0Client()
         client = Sandbox0SandboxClient(client=fake_client)  # type: ignore[arg-type]
 
@@ -167,7 +143,8 @@ class TestOpenAIAgentsAdapter(unittest.TestCase):
             client.create(
                 options=Sandbox0SandboxClientOptions(
                     template="default",
-                    delete_volume_on_delete=False,
+                    rootfs_snapshot_id="snap_existing",
+                    delete_rootfs_snapshot_on_delete=False,
                 )
             )
         )
@@ -175,27 +152,26 @@ class TestOpenAIAgentsAdapter(unittest.TestCase):
         asyncio.run(client.delete(session))
 
         self.assertEqual(fake_client.deleted_sandboxes, ["sb_1"])
-        self.assertEqual(fake_client.volumes.deleted, [])
-        self.assertEqual(session.state.volume_id, "vol_1")
+        self.assertEqual(fake_client.sandboxes.deleted_snapshots, [])
+        self.assertEqual(session.state.rootfs_snapshot_id, "snap_existing")
 
     def test_state_round_trips_through_client_serialization(self) -> None:
         fake_client = _FakeSandbox0Client()
         client = Sandbox0SandboxClient(client=fake_client)  # type: ignore[arg-type]
-        state = _state(volume_snapshot_id="snap_1", volume_workspace_ready=True)
+        state = _state(rootfs_snapshot_id="snap_1", workspace_ready=True)
 
         payload = client.serialize_session_state(state)
         parsed = client.deserialize_session_state(payload)
 
         self.assertIsInstance(parsed, Sandbox0SandboxSessionState)
-        self.assertEqual(parsed.volume_id, "vol_1")
-        self.assertEqual(parsed.volume_snapshot_id, "snap_1")
-        self.assertTrue(parsed.volume_workspace_ready)
+        self.assertEqual(parsed.rootfs_snapshot_id, "snap_1")
+        self.assertTrue(parsed.workspace_ready)
 
     def test_create_rejects_generic_openai_snapshot_specs(self) -> None:
         fake_client = _FakeSandbox0Client()
         client = Sandbox0SandboxClient(client=fake_client)  # type: ignore[arg-type]
 
-        with self.assertRaisesRegex(ValueError, "volume_snapshot_id"):
+        with self.assertRaisesRegex(ValueError, "rootfs_snapshot_id"):
             asyncio.run(
                 client.create(
                     snapshot=_FakeSnapshot(id="snapshot_1"),
@@ -245,7 +221,7 @@ class TestOpenAIAgentsAdapter(unittest.TestCase):
 
         self.assertEqual(command_sandbox.deleted_contexts, ["ctx_1"])
 
-    def test_read_and_write_use_live_sandbox_file_api_under_workspace_mount(self) -> None:
+    def test_read_and_write_use_live_sandbox_file_api_under_workspace(self) -> None:
         fake_client = _FakeSandbox0Client()
         session = Sandbox0SandboxSession(
             state=_state(),
@@ -264,9 +240,8 @@ class TestOpenAIAgentsAdapter(unittest.TestCase):
 
         asyncio.run(session.write(Path("nested/file.txt"), io.BytesIO(b"updated")))
         self.assertEqual(command_sandbox.writes, [("/workspace/nested/file.txt", b"updated")])
-        self.assertEqual(fake_client.volumes.writes, [])
 
-    def test_persist_workspace_records_volume_snapshot_when_available(self) -> None:
+    def test_persist_workspace_records_rootfs_snapshot_when_available(self) -> None:
         fake_client = _FakeSandbox0Client()
         session = Sandbox0SandboxSession(
             state=_state(),
@@ -276,10 +251,10 @@ class TestOpenAIAgentsAdapter(unittest.TestCase):
         payload = asyncio.run(session.persist_workspace())
         data = payload.read().decode()
 
-        self.assertIn('"type": "sandbox0_volume_reference"', data)
-        self.assertIn('"volume_id": "vol_1"', data)
-        self.assertEqual(session.state.volume_snapshot_id, "snap_1")
-        self.assertEqual(len(fake_client.volumes.snapshots), 1)
+        self.assertIn('"type": "sandbox0_rootfs_reference"', data)
+        self.assertIn('"rootfs_snapshot_id": "snap_1"', data)
+        self.assertEqual(session.state.rootfs_snapshot_id, "snap_1")
+        self.assertEqual(len(fake_client.sandboxes.snapshots), 1)
 
 
 if __name__ == "__main__":

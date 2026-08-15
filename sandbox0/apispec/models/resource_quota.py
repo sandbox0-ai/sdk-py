@@ -17,8 +17,9 @@ T = TypeVar("T", bound="ResourceQuota")
 class ResourceQuota:
     """
     Attributes:
-        memory (str): Memory limit used by default when a sandbox claim does not provide a memory override. Sandbox0
-            derives the internal CPU limit from platform configuration.
+        memory (str): Memory limit used by default when a sandbox claim does not provide a memory override. It cannot
+            exceed the platform sandbox maximum, which defaults to 16Gi. Sandbox0 derives the internal CPU limit from
+            platform configuration.
         ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
             logs. Defaults to 8Gi when omitted.
     """

@@ -36,9 +36,8 @@ class SandboxConfig:
         network (Union[Unset, SandboxNetworkPolicy]):
         webhook (Union[Unset, WebhookConfig]): Per-sandbox webhook configuration. Retries can deliver the same event
             more than once, so consumers should deduplicate by event_id and must not assume every unavailable endpoint
-            eventually receives every event. Procd persists signed delivery records to a manager-owned SandboxVolume outside
-            the workspace. Manager transactionally queues sandbox.deleted in PostgreSQL, retries transient failures for up
-            to 24 hours, and never waits for the external endpoint before completing sandbox cleanup.
+            eventually receives every event. Sandbox0 persists delivery state outside the workspace, retries transient
+            failures for up to 24 hours, and never waits for the external endpoint before completing sandbox cleanup.
         auto_resume (Union[Unset, bool]): Controls whether supported inbound API or public exposure requests may
             automatically
             make an inactive sandbox available. This setting does not control platform-initiated

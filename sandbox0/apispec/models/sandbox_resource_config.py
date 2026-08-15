@@ -20,7 +20,8 @@ class SandboxResourceConfig:
 
         Attributes:
             memory (Union[Unset, str]): Sandbox memory limit. Must be at least 128Mi and no more than the platform sandbox
-                maximum, which defaults to 32Gi.
+                maximum, which defaults to 16Gi. The same maximum applies to template defaults and every sandbox lifecycle
+                operation.
     """
 
     memory: Union[Unset, str] = UNSET

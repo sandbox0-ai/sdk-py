@@ -1,9 +1,6 @@
 import unittest
 
-from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
-from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
-from sandbox0.apispec.models.mount_status_state import MountStatusState
 from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_config_env_vars import SandboxConfigEnvVars
@@ -72,27 +69,6 @@ class TestSandboxes(unittest.TestCase):
         sandbox = session.sandbox
         self.assertTrue(sandbox.id)
         session.close()
-
-    def test_claim_sandbox_with_bootstrap_mounts(self) -> None:
-        cfg = require_config(self)
-        client = new_client(cfg)
-        self.addCleanup(close_client, client)
-
-        volume = client.volumes.create(CreateSandboxVolumeRequest())
-        self.addCleanup(lambda: self._delete_volume(client, volume.id))
-        client.volumes.write_file(volume.id, "/claim-bootstrap/hello.txt", b"hello bootstrap claim mount")
-
-        sandbox = client.sandboxes.claim(
-            cfg.template,
-            mounts=[ClaimMountRequest(sandboxvolume_id=volume.id, mount_point="/workspace/bootstrap-data")],
-        )
-        self.addCleanup(lambda: self._delete_sandbox(client, sandbox.id))
-
-        self.assertTrue(sandbox.bootstrap_mounts)
-        self.assertEqual(sandbox.bootstrap_mounts[0].state, MountStatusState.MOUNTED)
-
-        content = sandbox.read_file("/workspace/bootstrap-data/claim-bootstrap/hello.txt")
-        self.assertEqual(content, b"hello bootstrap claim mount")
 
     def test_list_sandboxes(self) -> None:
         cfg = require_config(self)
@@ -197,12 +173,5 @@ class TestSandboxes(unittest.TestCase):
     def _delete_sandbox(client, sandbox_id: str) -> None:
         try:
             client.sandboxes.delete(sandbox_id)
-        except Exception:
-            pass
-
-    @staticmethod
-    def _delete_volume(client, volume_id: str) -> None:
-        try:
-            client.volumes.delete(volume_id)
         except Exception:
             pass
