@@ -12,7 +12,6 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.claim_mount_request import ClaimMountRequest
     from ..models.sandbox_config import SandboxConfig
 
 
@@ -27,15 +26,11 @@ class ClaimRequest:
         snapshot_id (Union[Unset, str]): Optional sandbox rootfs snapshot ID used to initialize the claimed sandbox
             writable root filesystem.
         config (Union[Unset, SandboxConfig]):
-        mounts (Union[Unset, list['ClaimMountRequest']]): Optional claim-time Sandbox Volume bindings. A claim may bind
-            any subset of template-declared mount points; omitted declared mount points remain writable rootfs-backed
-            directories and are included in rootfs checkpoints.
     """
 
     template: Union[Unset, str] = UNSET
     snapshot_id: Union[Unset, str] = UNSET
     config: Union[Unset, "SandboxConfig"] = UNSET
-    mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,13 +42,6 @@ class ClaimRequest:
         if not isinstance(self.config, Unset):
             config = self.config.to_dict()
 
-        mounts: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.mounts, Unset):
-            mounts = []
-            for mounts_item_data in self.mounts:
-                mounts_item = mounts_item_data.to_dict()
-                mounts.append(mounts_item)
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -63,14 +51,11 @@ class ClaimRequest:
             field_dict["snapshot_id"] = snapshot_id
         if config is not UNSET:
             field_dict["config"] = config
-        if mounts is not UNSET:
-            field_dict["mounts"] = mounts
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_config import SandboxConfig
 
         d = dict(src_dict)
@@ -85,18 +70,10 @@ class ClaimRequest:
         else:
             config = SandboxConfig.from_dict(_config)
 
-        mounts = []
-        _mounts = d.pop("mounts", UNSET)
-        for mounts_item_data in _mounts or []:
-            mounts_item = ClaimMountRequest.from_dict(mounts_item_data)
-
-            mounts.append(mounts_item)
-
         claim_request = cls(
             template=template,
             snapshot_id=snapshot_id,
             config=config,
-            mounts=mounts,
         )
 
         claim_request.additional_properties = d

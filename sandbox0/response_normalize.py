@@ -36,7 +36,6 @@ _NULL_ARRAY_KEYS = {
     "matchExpressions",
     "matchFields",
     "members",
-    "mounts",
     "namespaces",
     "nodeSelectorTerms",
     "preferredDuringSchedulingIgnoredDuringExecution",

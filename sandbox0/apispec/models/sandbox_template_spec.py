@@ -18,7 +18,6 @@ if TYPE_CHECKING:
     from ..models.pool_strategy import PoolStrategy
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
     from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-    from ..models.volume_mount_spec import VolumeMountSpec
 
 
 T = TypeVar("T", bound="SandboxTemplateSpec")
@@ -32,7 +31,6 @@ class SandboxTemplateSpec:
         display_name (Union[Unset, str]):
         tags (Union[Unset, list[str]]):
         main_container (Union[Unset, ContainerSpec]):
-        volume_mounts (Union[Unset, list['VolumeMountSpec']]):
         pod (Union[Unset, PodSpecOverride]):
         network (Union[Unset, SandboxNetworkPolicy]):
         pool (Union[Unset, PoolStrategy]):
@@ -44,7 +42,6 @@ class SandboxTemplateSpec:
     display_name: Union[Unset, str] = UNSET
     tags: Union[Unset, list[str]] = UNSET
     main_container: Union[Unset, "ContainerSpec"] = UNSET
-    volume_mounts: Union[Unset, list["VolumeMountSpec"]] = UNSET
     pod: Union[Unset, "PodSpecOverride"] = UNSET
     network: Union[Unset, "SandboxNetworkPolicy"] = UNSET
     pool: Union[Unset, "PoolStrategy"] = UNSET
@@ -64,13 +61,6 @@ class SandboxTemplateSpec:
         main_container: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.main_container, Unset):
             main_container = self.main_container.to_dict()
-
-        volume_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.volume_mounts, Unset):
-            volume_mounts = []
-            for volume_mounts_item_data in self.volume_mounts:
-                volume_mounts_item = volume_mounts_item_data.to_dict()
-                volume_mounts.append(volume_mounts_item)
 
         pod: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.pod, Unset):
@@ -101,8 +91,6 @@ class SandboxTemplateSpec:
             field_dict["tags"] = tags
         if main_container is not UNSET:
             field_dict["mainContainer"] = main_container
-        if volume_mounts is not UNSET:
-            field_dict["volumeMounts"] = volume_mounts
         if pod is not UNSET:
             field_dict["pod"] = pod
         if network is not UNSET:
@@ -123,7 +111,6 @@ class SandboxTemplateSpec:
         from ..models.pool_strategy import PoolStrategy
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
         from ..models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-        from ..models.volume_mount_spec import VolumeMountSpec
 
         d = dict(src_dict)
         description = d.pop("description", UNSET)
@@ -138,13 +125,6 @@ class SandboxTemplateSpec:
             main_container = UNSET
         else:
             main_container = ContainerSpec.from_dict(_main_container)
-
-        volume_mounts = []
-        _volume_mounts = d.pop("volumeMounts", UNSET)
-        for volume_mounts_item_data in _volume_mounts or []:
-            volume_mounts_item = VolumeMountSpec.from_dict(volume_mounts_item_data)
-
-            volume_mounts.append(volume_mounts_item)
 
         _pod = d.pop("pod", UNSET)
         pod: Union[Unset, PodSpecOverride]
@@ -181,7 +161,6 @@ class SandboxTemplateSpec:
             display_name=display_name,
             tags=tags,
             main_container=main_container,
-            volume_mounts=volume_mounts,
             pod=pod,
             network=network,
             pool=pool,

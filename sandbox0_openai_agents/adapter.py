@@ -31,11 +31,9 @@ from agents.sandbox.session.workspace_payloads import coerce_write_payload
 from agents.sandbox.snapshot import SnapshotBase, SnapshotSpec, resolve_snapshot
 from agents.sandbox.types import ExecResult, User
 
-from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.create_cmd_context_request import CreateCMDContextRequest
 from sandbox0.apispec.models.create_context_request import CreateContextRequest
-from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
-from sandbox0.apispec.models.create_snapshot_request import CreateSnapshotRequest
+from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
 from sandbox0.apispec.models.process_type import ProcessType
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
@@ -49,7 +47,7 @@ DEFAULT_TEMPLATE = "default"
 DEFAULT_WORKSPACE = "/workspace"
 DEFAULT_POLL_INTERVAL_SEC = 0.1
 DEFAULT_START_TIMEOUT_SEC = 60.0
-SANDBOX0_WORKSPACE_REFERENCE_TYPE = "sandbox0_volume_reference"
+SANDBOX0_WORKSPACE_REFERENCE_TYPE = "sandbox0_rootfs_reference"
 
 
 class Sandbox0SandboxClientOptions(BaseSandboxClientOptions):
@@ -58,17 +56,14 @@ class Sandbox0SandboxClientOptions(BaseSandboxClientOptions):
     type: Literal["sandbox0"] = "sandbox0"
     template: str = DEFAULT_TEMPLATE
     workspace_mount_path: str = DEFAULT_WORKSPACE
-    volume_id: Optional[str] = None
-    volume_snapshot_id: Optional[str] = None
+    rootfs_snapshot_id: Optional[str] = None
     sandbox_ttl_sec: Optional[int] = None
     delete_sandbox_on_delete: bool = True
-    delete_volume_on_delete: bool = True
-    create_volume_snapshot_on_stop: bool = True
+    delete_rootfs_snapshot_on_delete: bool = True
+    create_rootfs_snapshot_on_stop: bool = True
     exposed_ports: Tuple[int, ...] = ()
     poll_interval_sec: float = DEFAULT_POLL_INTERVAL_SEC
     start_timeout_sec: float = DEFAULT_START_TIMEOUT_SEC
-    default_posix_uid: int = 0
-    default_posix_gid: int = 0
 
 
 class Sandbox0SandboxSessionState(SandboxSessionState):
@@ -76,22 +71,21 @@ class Sandbox0SandboxSessionState(SandboxSessionState):
 
     type: Literal["sandbox0"] = "sandbox0"
     sandbox_id: Optional[str] = None
-    volume_id: str
-    volume_snapshot_id: Optional[str] = None
+    rootfs_snapshot_id: Optional[str] = None
     template: str = DEFAULT_TEMPLATE
     workspace_mount_path: str = DEFAULT_WORKSPACE
     sandbox_ttl_sec: Optional[int] = None
     delete_sandbox_on_delete: bool = True
-    delete_volume_on_delete: bool = True
-    create_volume_snapshot_on_stop: bool = True
+    delete_rootfs_snapshot_on_delete: bool = True
+    create_rootfs_snapshot_on_stop: bool = True
     poll_interval_sec: float = DEFAULT_POLL_INTERVAL_SEC
     start_timeout_sec: float = DEFAULT_START_TIMEOUT_SEC
-    volume_workspace_ready: bool = False
+    workspace_ready: bool = False
     replacement_count: int = 0
 
 
 class Sandbox0SandboxSession(BaseSandboxSession):
-    """OpenAI Agents SDK sandbox session backed by a Sandbox0 sandbox and volume."""
+    """OpenAI Agents SDK sandbox session backed by a persistent Sandbox0 rootfs."""
 
     state: Sandbox0SandboxSessionState
 
@@ -123,14 +117,14 @@ class Sandbox0SandboxSession(BaseSandboxSession):
             sandbox = await self._try_reconnect_sandbox(self.state.sandbox_id)
             if sandbox is not None:
                 self._sandbox = sandbox
-                self._set_start_state_preserved(self.state.volume_workspace_ready, system=True)
+                self._set_start_state_preserved(self.state.workspace_ready, system=True)
                 return
 
         sandbox = await self._claim_replacement_sandbox()
         self._sandbox = sandbox
         self.state.sandbox_id = sandbox.id
         self.state.replacement_count += 1
-        self._set_start_state_preserved(self.state.volume_workspace_ready, system=True)
+        self._set_start_state_preserved(self.state.workspace_ready, system=True)
 
     async def _prepare_backend_workspace(self) -> None:
         result = await self.exec("mkdir", "-p", self.state.workspace_mount_path, shell=False)
@@ -145,7 +139,7 @@ class Sandbox0SandboxSession(BaseSandboxSession):
             )
 
     async def _after_start(self) -> None:
-        self.state.volume_workspace_ready = True
+        self.state.workspace_ready = True
 
     def _wrap_start_error(self, error: Exception) -> Exception:
         if isinstance(error, SandboxError):
@@ -251,13 +245,12 @@ class Sandbox0SandboxSession(BaseSandboxSession):
         return _status_value(getattr(status, "status", UNSET)) == SandboxLifecycleStatus.RUNNING.value
 
     async def persist_workspace(self) -> io.IOBase:
-        if self.state.create_volume_snapshot_on_stop and self.state.volume_id:
-            await self._create_volume_snapshot_best_effort()
+        if self.state.create_rootfs_snapshot_on_stop and self.state.sandbox_id:
+            await self._create_rootfs_snapshot_best_effort()
 
         payload = {
             "type": SANDBOX0_WORKSPACE_REFERENCE_TYPE,
-            "volume_id": self.state.volume_id,
-            "volume_snapshot_id": self.state.volume_snapshot_id,
+            "rootfs_snapshot_id": self.state.rootfs_snapshot_id,
             "workspace_mount_path": self.state.workspace_mount_path,
         }
         return io.BytesIO(json.dumps(payload, sort_keys=True).encode())
@@ -274,19 +267,15 @@ class Sandbox0SandboxSession(BaseSandboxSession):
                 context={"reason": "unsupported_workspace_payload"},
             )
 
-        volume_id = payload.get("volume_id")
-        if isinstance(volume_id, str) and volume_id:
-            self.state.volume_id = volume_id
-
-        snapshot_id = payload.get("volume_snapshot_id")
+        snapshot_id = payload.get("rootfs_snapshot_id")
         if isinstance(snapshot_id, str) and snapshot_id:
-            self.state.volume_snapshot_id = snapshot_id
+            self.state.rootfs_snapshot_id = snapshot_id
 
         mount_path = payload.get("workspace_mount_path")
         if isinstance(mount_path, str) and mount_path:
             self.state.workspace_mount_path = mount_path
 
-        self.state.volume_workspace_ready = True
+        self.state.workspace_ready = True
 
     async def _persist_snapshot(self) -> None:
         data = await self.persist_workspace()
@@ -340,12 +329,7 @@ class Sandbox0SandboxSession(BaseSandboxSession):
                 self._client.sandboxes.claim,
                 self.state.template,
                 config=config,
-                mounts=[
-                    ClaimMountRequest(
-                        sandboxvolume_id=self.state.volume_id,
-                        mount_point=self.state.workspace_mount_path,
-                    )
-                ],
+                snapshot_id=self.state.rootfs_snapshot_id,
             )
         except Exception as exc:
             raise WorkspaceStartError(path=Path(self.state.workspace_mount_path), cause=exc) from exc
@@ -353,20 +337,31 @@ class Sandbox0SandboxSession(BaseSandboxSession):
         await self._wait_sandbox_running(sandbox.id)
         return sandbox
 
-    async def _create_volume_snapshot_best_effort(self) -> None:
-        request = CreateSnapshotRequest(
+    async def _create_rootfs_snapshot_best_effort(self) -> None:
+        if not self.state.sandbox_id:
+            return
+        request = CreateSandboxRootFSSnapshotRequest(
             name="openai-agents-{}".format(self.state.session_id.hex),
             description="OpenAI Agents SDK workspace snapshot",
         )
         try:
             snapshot = await asyncio.to_thread(
-                self._client.volumes.create_snapshot,
-                self.state.volume_id,
+                self._client.sandboxes.create_rootfs_snapshot,
+                self.state.sandbox_id,
                 request,
             )
         except APIError:
             return
-        self.state.volume_snapshot_id = snapshot.id
+        previous_snapshot_id = self.state.rootfs_snapshot_id
+        self.state.rootfs_snapshot_id = snapshot.id
+        if previous_snapshot_id and previous_snapshot_id != snapshot.id:
+            await self._delete_rootfs_snapshot_best_effort(previous_snapshot_id)
+
+    async def _delete_rootfs_snapshot_best_effort(self, snapshot_id: str) -> None:
+        try:
+            await asyncio.to_thread(self._client.sandboxes.delete_rootfs_snapshot, snapshot_id)
+        except APIError:
+            return
 
     async def _delete_context_best_effort(self, sandbox: Sandbox, context_id: str) -> None:
         try:
@@ -440,21 +435,9 @@ class Sandbox0SandboxClient(BaseSandboxClient[Sandbox0SandboxClientOptions]):
         resolved_snapshot = resolve_snapshot(snapshot, str(uuid.uuid4()))
         if getattr(resolved_snapshot, "type", None) != "noop":
             raise ValueError(
-                "Sandbox0SandboxClient uses Sandbox0 SandboxVolume persistence; "
-                "use Sandbox0SandboxClientOptions(volume_snapshot_id=...) instead of an OpenAI SDK snapshot"
+                "Sandbox0SandboxClient uses Sandbox0 rootfs snapshots; "
+                "use Sandbox0SandboxClientOptions(rootfs_snapshot_id=...) instead of an OpenAI SDK snapshot"
             )
-        volume_id = options.volume_id
-        volume_workspace_ready = bool(options.volume_id or options.volume_snapshot_id)
-        if not volume_id:
-            volume = await asyncio.to_thread(
-                self._client.volumes.create,
-                CreateSandboxVolumeRequest(
-                    snapshot_id=options.volume_snapshot_id or UNSET,
-                    default_posix_uid=options.default_posix_uid,
-                    default_posix_gid=options.default_posix_gid,
-                ),
-            )
-            volume_id = volume.id
 
         config = None
         if options.sandbox_ttl_sec is not None:
@@ -464,12 +447,7 @@ class Sandbox0SandboxClient(BaseSandboxClient[Sandbox0SandboxClientOptions]):
             self._client.sandboxes.claim,
             options.template,
             config=config,
-            mounts=[
-                ClaimMountRequest(
-                    sandboxvolume_id=volume_id,
-                    mount_point=options.workspace_mount_path,
-                )
-            ],
+            snapshot_id=options.rootfs_snapshot_id,
         )
 
         state = Sandbox0SandboxSessionState(
@@ -477,17 +455,16 @@ class Sandbox0SandboxClient(BaseSandboxClient[Sandbox0SandboxClientOptions]):
             manifest=manifest,
             exposed_ports=options.exposed_ports,
             sandbox_id=sandbox.id,
-            volume_id=volume_id,
-            volume_snapshot_id=options.volume_snapshot_id,
+            rootfs_snapshot_id=options.rootfs_snapshot_id,
             template=options.template,
             workspace_mount_path=options.workspace_mount_path,
             sandbox_ttl_sec=options.sandbox_ttl_sec,
             delete_sandbox_on_delete=options.delete_sandbox_on_delete,
-            delete_volume_on_delete=options.delete_volume_on_delete,
-            create_volume_snapshot_on_stop=options.create_volume_snapshot_on_stop,
+            delete_rootfs_snapshot_on_delete=options.delete_rootfs_snapshot_on_delete,
+            create_rootfs_snapshot_on_stop=options.create_rootfs_snapshot_on_stop,
             poll_interval_sec=options.poll_interval_sec,
             start_timeout_sec=options.start_timeout_sec,
-            volume_workspace_ready=volume_workspace_ready,
+            workspace_ready=bool(options.rootfs_snapshot_id),
         )
         inner = Sandbox0SandboxSession.from_state(state=state, client=self._client)
         return self._wrap_session(inner, instrumentation=self._instrumentation)
@@ -509,12 +486,16 @@ class Sandbox0SandboxClient(BaseSandboxClient[Sandbox0SandboxClientOptions]):
             inner.state.sandbox_id = None
             inner._sandbox = None
 
-        if inner.state.delete_volume_on_delete and inner.state.volume_id:
+        if inner.state.delete_rootfs_snapshot_on_delete and inner.state.rootfs_snapshot_id:
             try:
-                await asyncio.to_thread(self._client.volumes.delete, inner.state.volume_id, force=True)
+                await asyncio.to_thread(
+                    self._client.sandboxes.delete_rootfs_snapshot,
+                    inner.state.rootfs_snapshot_id,
+                )
             except APIError as exc:
                 if _api_status(exc) != 404:
                     raise
+            inner.state.rootfs_snapshot_id = None
 
         return session
 

@@ -23,7 +23,7 @@ from sandbox0.apispec.models.team_quota_source import TeamQuotaSource
 from sandbox0.apispec.models.team_quota_unit import TeamQuotaUnit
 from sandbox0.apispec.models.usage_window import UsageWindow
 from sandbox0.apispec.models.usage_window_page import UsageWindowPage
-from sandbox0.resources import Sandboxes, Volumes
+from sandbox0.resources import Sandboxes
 from sandbox0.sandbox import CmdOptions, RunOptions, Sandbox
 from sandbox0.sandbox_observability import (
     SandboxObservabilityEventOptions,
@@ -35,7 +35,7 @@ from sandbox0.sandbox_observability import (
     SandboxObservabilityWatchOptions,
     SandboxObservabilityWatchStream,
 )
-from sandbox0.sessions import MountSession, SandboxSession, VolumeSession
+from sandbox0.sessions import SandboxSession
 from sandbox0.sandbox_sessions import (
     ExecutionSessionConnection,
     SessionCreateOptions,
@@ -55,7 +55,6 @@ __all__ = [
     "CmdResult",
     "FileWatchResponse",
     "ExecutionSessionConnection",
-    "MountSession",
     "QuotaDimension",
     "RunOptions",
     "RunResult",
@@ -89,8 +88,6 @@ __all__ = [
     "TeamQuotaUnit",
     "UsageWindow",
     "UsageWindowPage",
-    "Volumes",
-    "VolumeSession",
     "is_claim_start_throttled",
     "verify_webhook_signature",
 ]

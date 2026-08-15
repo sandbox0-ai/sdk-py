@@ -16,10 +16,9 @@ T = TypeVar("T", bound="WebhookConfig")
 @_attrs_define
 class WebhookConfig:
     """Per-sandbox webhook configuration. Retries can deliver the same event more than once, so consumers should
-    deduplicate by event_id and must not assume every unavailable endpoint eventually receives every event. Procd
-    persists signed delivery records to a manager-owned SandboxVolume outside the workspace. Manager transactionally
-    queues sandbox.deleted in PostgreSQL, retries transient failures for up to 24 hours, and never waits for the
-    external endpoint before completing sandbox cleanup.
+    deduplicate by event_id and must not assume every unavailable endpoint eventually receives every event. Sandbox0
+    persists delivery state outside the workspace, retries transient failures for up to 24 hours, and never waits for
+    the external endpoint before completing sandbox cleanup.
 
         Attributes:
             url (Union[Unset, str]): Required when webhook is enabled. Target URL that receives event callbacks.

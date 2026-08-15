@@ -11,7 +11,6 @@ from sandbox0.apispec.models.create_cmd_context_request import CreateCMDContextR
 from sandbox0.apispec.models.create_context_request import CreateContextRequest
 from sandbox0.apispec.models.create_context_request_env_vars import CreateContextRequestEnvVars
 from sandbox0.apispec.models.create_repl_context_request import CreateREPLContextRequest
-from sandbox0.apispec.models.mount_status import MountStatus
 from sandbox0.apispec.models.pty_size import PTYSize
 from sandbox0.apispec.models.process_type import ProcessType
 from sandbox0.apispec.types import UNSET
@@ -184,14 +183,12 @@ class Sandbox(
         cluster_id: Optional[str] = None,
         pod_name: str = "",
         status: str = "",
-        bootstrap_mounts: Optional[list[MountStatus]] = None,
     ) -> None:
         self.id = id
         self.template = template
         self.cluster_id = cluster_id
         self.pod_name = pod_name
         self.status = status
-        self.bootstrap_mounts = list(bootstrap_mounts or [])
         self._client = client
         self._repl_context_by_lang: dict[str, str] = {}
         self._lock = threading.Lock()

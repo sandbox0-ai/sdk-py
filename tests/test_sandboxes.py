@@ -5,13 +5,10 @@ from unittest import TestCase
 from unittest.mock import patch
 
 from sandbox0 import Client
-from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
 from sandbox0.apispec.models.claim_response import ClaimResponse
 from sandbox0.apispec.models.fork_sandbox_config import ForkSandboxConfig
 from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
 from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
-from sandbox0.apispec.models.mount_status import MountStatus
-from sandbox0.apispec.models.mount_status_state import MountStatusState
 from sandbox0.apispec.models.restore_sandbox_root_fs_response import RestoreSandboxRootFSResponse
 from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
@@ -32,7 +29,7 @@ from sandbox0.sandbox import Sandbox
 
 
 class TestSandboxes(TestCase):
-    def test_claim_builds_request_with_bootstrap_mounts(self) -> None:
+    def test_claim_builds_request_with_options(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
         self.addCleanup(client.close)
 
@@ -52,13 +49,6 @@ class TestSandboxes(TestCase):
                         pod_name="pod-a",
                         status="running",
                         cluster_id="cluster-a",
-                        bootstrap_mounts=[
-                            MountStatus(
-                                sandboxvolume_id="vol_1",
-                                mount_point="/workspace/data",
-                                state=MountStatusState.MOUNTED,
-                            )
-                        ],
                     ),
                 ),
             )
@@ -68,7 +58,6 @@ class TestSandboxes(TestCase):
                 "default",
                 config=SandboxConfig(ttl=300),
                 memory="512Mi",
-                mounts=[ClaimMountRequest(sandboxvolume_id="vol_1", mount_point="/workspace/data")],
                 snapshot_id="snap_123",
             )
 
@@ -76,15 +65,11 @@ class TestSandboxes(TestCase):
         self.assertEqual(request.template, "default")
         self.assertEqual(request.config.ttl, 300)
         self.assertEqual(request.config.resources.memory, "512Mi")
-        self.assertEqual(len(request.mounts), 1)
-        self.assertEqual(request.mounts[0].sandboxvolume_id, "vol_1")
         self.assertEqual(request.snapshot_id, "snap_123")
         self.assertEqual(sandbox.id, "sb_123")
         self.assertEqual(sandbox.cluster_id, "cluster-a")
-        self.assertEqual(len(sandbox.bootstrap_mounts), 1)
-        self.assertEqual(sandbox.bootstrap_mounts[0].state, MountStatusState.MOUNTED)
 
-    def test_open_forwards_bootstrap_mount_options(self) -> None:
+    def test_open_forwards_claim_options(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
         self.addCleanup(client.close)
 
@@ -95,7 +80,6 @@ class TestSandboxes(TestCase):
             session = sandboxes.open(
                 "default",
                 config=SandboxConfig(ttl=120),
-                mounts=[ClaimMountRequest(sandboxvolume_id="vol_2", mount_point="/workspace/cache")],
                 snapshot_id="snap_456",
                 memory="1Gi",
             )
@@ -103,7 +87,6 @@ class TestSandboxes(TestCase):
         claim_mock.assert_called_once_with(
             "default",
             config=SandboxConfig(ttl=120),
-            mounts=[ClaimMountRequest(sandboxvolume_id="vol_2", mount_point="/workspace/cache")],
             snapshot_id="snap_456",
             memory="1Gi",
         )

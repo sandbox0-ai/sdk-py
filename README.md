@@ -109,13 +109,9 @@ result = Runner.run_sync(
 print(result.final_output)
 ```
 
-The adapter keeps the OpenAI SDK workspace at `/workspace` on a Sandbox0
-SandboxVolume. `delete()` releases the sandbox runtime and deletes the
-workspace volume by default. Set `delete_volume_on_delete=False` when serialized
-session state must resume the same workspace volume after cleanup. Use
-`Sandbox0SandboxClientOptions(volume_snapshot_id="...")` for Sandbox0-native
-volume snapshots; generic OpenAI SDK snapshot specs are not used by this
-adapter.
+The adapter keeps the OpenAI SDK workspace at `/workspace` in the Sandbox0
+root filesystem. It can create a rootfs snapshot when a session stops and use
+that snapshot when a replacement sandbox is needed.
 
 ## LangChain Deep Agents Sandbox
 
@@ -151,29 +147,6 @@ print(result.output)
 ## Documentation
 
 - [Sandbox0 docs](https://sandbox0.ai/docs)
-- [Volume mounts](https://sandbox0.ai/docs/volume/mounts)
-
-## Bootstrap Mounts At Claim Time
-
-```python
-from sandbox0.apispec.models.claim_mount_request import ClaimMountRequest
-from sandbox0.apispec.models.create_sandbox_volume_request import CreateSandboxVolumeRequest
-
-volume = client.volumes.create(CreateSandboxVolumeRequest())
-
-sandbox = client.sandboxes.claim(
-    "default",
-    mounts=[
-        ClaimMountRequest(
-            sandboxvolume_id=volume.id,
-            mount_point="/workspace/data",
-        )
-    ],
-)
-
-for mount in sandbox.bootstrap_mounts:
-    print(mount.sandboxvolume_id, mount.state)
-```
 
 ## Create A Template From A Sandbox
 

@@ -16,7 +16,6 @@ from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.claim_mount_request import ClaimMountRequest
     from ..models.sandbox_app_service import SandboxAppService
     from ..models.sandbox_resource_config import SandboxResourceConfig
     from ..models.sandbox_ssh_connection import SandboxSSHConnection
@@ -44,7 +43,6 @@ class Sandbox:
         services (Union[Unset, list['SandboxAppService']]):
         resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
             memory only and derives CPU from the platform memory-per-CPU ratio, with a minimum CPU limit of 150m.
-        mounts (Union[Unset, list['ClaimMountRequest']]):
         ssh (Union[Unset, SandboxSSHConnection]):
         expires_at (Union[None, Unset, datetime.datetime]): Soft expiration timestamp. Omitted or null means disabled or
             not set.
@@ -66,7 +64,6 @@ class Sandbox:
     user_id: Union[Unset, str] = UNSET
     services: Union[Unset, list["SandboxAppService"]] = UNSET
     resources: Union[Unset, "SandboxResourceConfig"] = UNSET
-    mounts: Union[Unset, list["ClaimMountRequest"]] = UNSET
     ssh: Union[Unset, "SandboxSSHConnection"] = UNSET
     expires_at: Union[None, Unset, datetime.datetime] = UNSET
     hard_expires_at: Union[None, Unset, datetime.datetime] = UNSET
@@ -107,13 +104,6 @@ class Sandbox:
         resources: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.resources, Unset):
             resources = self.resources.to_dict()
-
-        mounts: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.mounts, Unset):
-            mounts = []
-            for mounts_item_data in self.mounts:
-                mounts_item = mounts_item_data.to_dict()
-                mounts.append(mounts_item)
 
         ssh: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.ssh, Unset):
@@ -158,8 +148,6 @@ class Sandbox:
             field_dict["services"] = services
         if resources is not UNSET:
             field_dict["resources"] = resources
-        if mounts is not UNSET:
-            field_dict["mounts"] = mounts
         if ssh is not UNSET:
             field_dict["ssh"] = ssh
         if expires_at is not UNSET:
@@ -171,7 +159,6 @@ class Sandbox:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.claim_mount_request import ClaimMountRequest
         from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_resource_config import SandboxResourceConfig
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
@@ -214,13 +201,6 @@ class Sandbox:
             resources = UNSET
         else:
             resources = SandboxResourceConfig.from_dict(_resources)
-
-        mounts = []
-        _mounts = d.pop("mounts", UNSET)
-        for mounts_item_data in _mounts or []:
-            mounts_item = ClaimMountRequest.from_dict(mounts_item_data)
-
-            mounts.append(mounts_item)
 
         _ssh = d.pop("ssh", UNSET)
         ssh: Union[Unset, SandboxSSHConnection]
@@ -280,7 +260,6 @@ class Sandbox:
             user_id=user_id,
             services=services,
             resources=resources,
-            mounts=mounts,
             ssh=ssh,
             expires_at=expires_at,
             hard_expires_at=hard_expires_at,
