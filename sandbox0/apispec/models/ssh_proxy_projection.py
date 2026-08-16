@@ -20,7 +20,8 @@ class SSHProxyProjection:
 
     Attributes:
         sandbox_public_keys (Union[Unset, list[str]]): Fake public keys accepted from sandbox-side SSH clients.
-        upstream_username (Union[Unset, str]): Username used by netd when authenticating to the upstream SSH server.
+        upstream_username (Union[Unset, str]): Username used by the ctld network runtime when authenticating to the
+            upstream SSH server.
         known_hosts (Union[Unset, list[str]]): OpenSSH known_hosts entries used to verify upstream host keys.
     """
 
