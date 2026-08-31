@@ -1,8 +1,10 @@
 import unittest
 
 from sandbox0.apispec.models.create_context_request import CreateContextRequest
+from sandbox0.apispec.models.create_context_request_env_vars import CreateContextRequestEnvVars
 from sandbox0.apispec.models.create_repl_context_request import CreateREPLContextRequest
 from sandbox0.apispec.models.process_type import ProcessType
+from sandbox0.apispec.models.pty_size import PTYSize
 from sandbox0.sandbox import CmdOptions, RunOptions
 
 from tests.e2e.helpers import claim_sandbox, close_client, new_client, require_config
@@ -16,15 +18,17 @@ class TestSandboxRun(unittest.TestCase):
         sandbox = claim_sandbox(self, client, cfg)
 
         # Create a custom REPL context with specific settings
+        env_vars = CreateContextRequestEnvVars()
+        env_vars.additional_properties["SDK_PY_E2E"] = "true"
         custom_ctx = sandbox.create_context(
             request=CreateContextRequest(
                 type_=ProcessType.REPL,
                 repl=CreateREPLContextRequest(alias="python"),
                 cwd="/tmp",
-                env_vars={"SDK_PY_E2E": "true"},
+                env_vars=env_vars,
                 ttl_sec=120,
                 idle_timeout_sec=60,
-                pty_size={"rows": 24, "cols": 80},
+                pty_size=PTYSize(rows=24, cols=80),
             )
         )
         self.assertTrue(custom_ctx.id)

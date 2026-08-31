@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, List, Optional, TYPE_CHECKING, Union
+import time
+from typing import Any, Callable, List, Optional, TYPE_CHECKING, Union
 
 from sandbox0.apispec.api.sandboxes import delete_api_v1_sandboxes_id
 from sandbox0.apispec.api.sandboxes import get_api_v1_sandboxes
@@ -11,24 +12,38 @@ from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes_id_pause
 from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes_id_refresh
 from sandbox0.apispec.api.sandboxes import post_api_v1_sandboxes_id_resume
 from sandbox0.apispec.api.sandboxes import put_api_v1_sandboxes_id
-from sandbox0.apispec.api.sandbox_rootfs import delete_api_v1_sandbox_rootfs_snapshots_snapshot_id
-from sandbox0.apispec.api.sandbox_rootfs import get_api_v1_sandbox_rootfs_snapshots_snapshot_id
+from sandbox0.apispec.api.sandbox_rootfs import (
+    delete_api_v1_sandbox_rootfs_snapshots_snapshot_id,
+)
+from sandbox0.apispec.api.sandbox_rootfs import (
+    get_api_v1_sandbox_rootfs_snapshots_snapshot_id,
+)
 from sandbox0.apispec.api.sandbox_rootfs import get_api_v1_sandboxes_id_snapshots
 from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_fork
 from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_rootfs_restore
 from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_snapshots
 from sandbox0.apispec.api.sandbox_rootfs import put_api_v1_sandboxes_id_rootfs_rebase
 from sandbox0.apispec.models.claim_request import ClaimRequest
-from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
+from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import (
+    CreateSandboxRootFSSnapshotRequest,
+)
 from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
 from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
-from sandbox0.apispec.models.rebase_sandbox_root_fs_request import RebaseSandboxRootFSRequest
-from sandbox0.apispec.models.rebase_sandbox_root_fs_response import RebaseSandboxRootFSResponse
+from sandbox0.apispec.models.rebase_sandbox_root_fs_request import (
+    RebaseSandboxRootFSRequest,
+)
+from sandbox0.apispec.models.rebase_sandbox_root_fs_response import (
+    RebaseSandboxRootFSResponse,
+)
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.refresh_response import RefreshResponse
-from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
-from sandbox0.apispec.models.restore_sandbox_root_fs_response import RestoreSandboxRootFSResponse
+from sandbox0.apispec.models.restore_sandbox_root_fs_request import (
+    RestoreSandboxRootFSRequest,
+)
+from sandbox0.apispec.models.restore_sandbox_root_fs_response import (
+    RestoreSandboxRootFSResponse,
+)
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
@@ -41,19 +56,38 @@ from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
-from sandbox0.apispec.models.success_pause_sandbox_response import SuccessPauseSandboxResponse
-from sandbox0.apispec.models.success_rebase_sandbox_root_fs_response import SuccessRebaseSandboxRootFSResponse
-from sandbox0.apispec.models.success_fork_sandbox_response import SuccessForkSandboxResponse
+from sandbox0.apispec.models.success_pause_sandbox_response import (
+    SuccessPauseSandboxResponse,
+)
+from sandbox0.apispec.models.success_rebase_sandbox_root_fs_response import (
+    SuccessRebaseSandboxRootFSResponse,
+)
+from sandbox0.apispec.models.success_fork_sandbox_response import (
+    SuccessForkSandboxResponse,
+)
 from sandbox0.apispec.models.success_refresh_response import SuccessRefreshResponse
-from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import SuccessRestoreSandboxRootFSResponse
-from sandbox0.apispec.models.success_resume_sandbox_response import SuccessResumeSandboxResponse
-from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_list_response import SuccessSandboxRootFSSnapshotListResponse
-from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_response import SuccessSandboxRootFSSnapshotResponse
-from sandbox0.apispec.models.success_sandbox_list_response import SuccessSandboxListResponse
+from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import (
+    SuccessRestoreSandboxRootFSResponse,
+)
+from sandbox0.apispec.models.success_resume_sandbox_response import (
+    SuccessResumeSandboxResponse,
+)
+from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_list_response import (
+    SuccessSandboxRootFSSnapshotListResponse,
+)
+from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_response import (
+    SuccessSandboxRootFSSnapshotResponse,
+)
+from sandbox0.apispec.models.success_sandbox_list_response import (
+    SuccessSandboxListResponse,
+)
 from sandbox0.apispec.models.success_sandbox_response import SuccessSandboxResponse
-from sandbox0.apispec.models.success_sandbox_status_response import SuccessSandboxStatusResponse
+from sandbox0.apispec.models.success_sandbox_status_response import (
+    SuccessSandboxStatusResponse,
+)
 from sandbox0.apispec.types import UNSET
 from sandbox0.response import ensure_data, ensure_model
+from sandbox0.errors import SandboxWaitTimeoutError
 from sandbox0.sessions import SandboxSession
 
 if TYPE_CHECKING:
@@ -121,6 +155,36 @@ class Sandboxes:
         resp = get_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._client.api)
         return ensure_data(resp, SuccessSandboxResponse)
 
+    def wait_for_lifecycle(
+        self,
+        sandbox_id: str,
+        predicate: Callable[[APISandbox], bool],
+        *,
+        timeout_sec: float = 60.0,
+        poll_interval_sec: float = 0.5,
+    ) -> APISandbox:
+        """Poll committed sandbox details until ``predicate`` matches."""
+        if timeout_sec < 0:
+            raise ValueError("timeout_sec cannot be negative")
+        if poll_interval_sec <= 0:
+            raise ValueError("poll_interval_sec must be positive")
+
+        started_at = time.monotonic()
+        last_sandbox: Optional[APISandbox] = None
+        while True:
+            last_sandbox = self.get(sandbox_id)
+            if predicate(last_sandbox):
+                return last_sandbox
+
+            remaining = timeout_sec - (time.monotonic() - started_at)
+            if remaining <= 0:
+                raise SandboxWaitTimeoutError(
+                    sandbox_id=sandbox_id,
+                    timeout_sec=timeout_sec,
+                    last_sandbox=last_sandbox,
+                )
+            time.sleep(min(poll_interval_sec, remaining))
+
     def update(self, sandbox_id: str, request: SandboxUpdateRequest) -> APISandbox:
         resp = put_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._client.api, body=request)
         return ensure_data(resp, SuccessSandboxResponse)
@@ -137,9 +201,45 @@ class Sandboxes:
         resp = post_api_v1_sandboxes_id_pause.sync_detailed(id=sandbox_id, client=self._client.api)
         return ensure_data(resp, SuccessPauseSandboxResponse)
 
+    def pause_and_wait(
+        self,
+        sandbox_id: str,
+        *,
+        timeout_sec: float = 60.0,
+        poll_interval_sec: float = 0.5,
+    ) -> APISandbox:
+        """Request a pause and wait for its durable checkpoint to commit."""
+        self.pause(sandbox_id)
+        return self.wait_for_lifecycle(
+            sandbox_id,
+            lambda sandbox: sandbox.status == SandboxLifecycleStatus.PAUSED and sandbox.paused,
+            timeout_sec=timeout_sec,
+            poll_interval_sec=poll_interval_sec,
+        )
+
     def resume(self, sandbox_id: str) -> ResumeSandboxResponse:
         resp = post_api_v1_sandboxes_id_resume.sync_detailed(id=sandbox_id, client=self._client.api)
         return ensure_data(resp, SuccessResumeSandboxResponse)
+
+    def resume_and_wait(
+        self,
+        sandbox_id: str,
+        *,
+        timeout_sec: float = 60.0,
+        poll_interval_sec: float = 0.5,
+    ) -> APISandbox:
+        """Request a resume and wait for the committed running generation."""
+        before = self.get(sandbox_id)
+        self.resume(sandbox_id)
+        minimum_generation = before.runtime_generation
+        if before.paused or before.status == SandboxLifecycleStatus.PAUSED:
+            minimum_generation += 1
+        return self.wait_for_lifecycle(
+            sandbox_id,
+            lambda sandbox: sandbox.status == SandboxLifecycleStatus.RUNNING and not sandbox.paused and sandbox.runtime_generation >= minimum_generation,
+            timeout_sec=timeout_sec,
+            poll_interval_sec=poll_interval_sec,
+        )
 
     def refresh(self, sandbox_id: str, request: Optional[SandboxRefreshRequest] = None) -> RefreshResponse:
         body = request if request is not None else SandboxRefreshRequest()

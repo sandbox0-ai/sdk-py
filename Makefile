@@ -1,6 +1,6 @@
 .PHONY: apispec build check typecheck check-dist publish-test publish set-version release clean test-e2e install
 
-# E2E tests (requires S0_E2E_BASE_URL and S0_E2E_PASSWORD env vars)
+# E2E tests require a base URL and either an API token or login password.
 test-e2e:
 	@printf "Running E2E tests...\n"
 	python3 -m unittest discover -s tests/e2e -p "test_*.py" -v

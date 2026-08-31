@@ -2,6 +2,7 @@ from sandbox0.client import Client
 from sandbox0.client_templates import CreateTemplateFromSandboxOptions
 from sandbox0.errors import (
     APIError,
+    SandboxWaitTimeoutError,
     CLAIM_START_THROTTLED_CODE,
     TemplateCreationFailedError,
     TemplateWaitTimeoutError,
@@ -49,6 +50,7 @@ from sandbox0.webhook_signature import verify_webhook_signature
 
 __all__ = [
     "APIError",
+    "SandboxWaitTimeoutError",
     "CLAIM_START_THROTTLED_CODE",
     "Client",
     "CmdOptions",

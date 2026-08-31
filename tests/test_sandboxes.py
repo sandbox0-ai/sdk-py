@@ -4,30 +4,50 @@ from datetime import datetime, timezone
 from unittest import TestCase
 from unittest.mock import patch
 
-from sandbox0 import Client
+from sandbox0 import Client, SandboxWaitTimeoutError
 from sandbox0.apispec.models.claim_response import ClaimResponse
 from sandbox0.apispec.models.fork_sandbox_config import ForkSandboxConfig
 from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
 from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
-from sandbox0.apispec.models.rebase_sandbox_root_fs_request import RebaseSandboxRootFSRequest
-from sandbox0.apispec.models.rebase_sandbox_root_fs_response import RebaseSandboxRootFSResponse
-from sandbox0.apispec.models.restore_sandbox_root_fs_response import RestoreSandboxRootFSResponse
-from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
+from sandbox0.apispec.models.rebase_sandbox_root_fs_request import (
+    RebaseSandboxRootFSRequest,
+)
+from sandbox0.apispec.models.rebase_sandbox_root_fs_response import (
+    RebaseSandboxRootFSResponse,
+)
+from sandbox0.apispec.models.restore_sandbox_root_fs_response import (
+    RestoreSandboxRootFSResponse,
+)
+from sandbox0.apispec.models.restore_sandbox_root_fs_request import (
+    RestoreSandboxRootFSRequest,
+)
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from sandbox0.apispec.models.sandbox_root_fs_snapshot import SandboxRootFSSnapshot
-from sandbox0.apispec.models.sandbox_root_fs_snapshot_list import SandboxRootFSSnapshotList
+from sandbox0.apispec.models.sandbox_root_fs_snapshot_list import (
+    SandboxRootFSSnapshotList,
+)
 from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
-from sandbox0.apispec.models.success_fork_sandbox_response import SuccessForkSandboxResponse
-from sandbox0.apispec.models.success_rebase_sandbox_root_fs_response import SuccessRebaseSandboxRootFSResponse
-from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import SuccessRestoreSandboxRootFSResponse
+from sandbox0.apispec.models.success_fork_sandbox_response import (
+    SuccessForkSandboxResponse,
+)
+from sandbox0.apispec.models.success_rebase_sandbox_root_fs_response import (
+    SuccessRebaseSandboxRootFSResponse,
+)
+from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import (
+    SuccessRestoreSandboxRootFSResponse,
+)
 from sandbox0.apispec.models.success_sandbox_response import SuccessSandboxResponse
-from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_list_response import SuccessSandboxRootFSSnapshotListResponse
-from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_response import SuccessSandboxRootFSSnapshotResponse
+from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_list_response import (
+    SuccessSandboxRootFSSnapshotListResponse,
+)
+from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_response import (
+    SuccessSandboxRootFSSnapshotResponse,
+)
 from sandbox0.apispec.types import Response
 from sandbox0.resources import Sandboxes
 from sandbox0.sandbox import Sandbox
@@ -58,7 +78,10 @@ class TestSandboxes(TestCase):
                 ),
             )
 
-        with patch("sandbox0.resources.post_api_v1_sandboxes.sync_detailed", side_effect=fake_sync_detailed):
+        with patch(
+            "sandbox0.resources.post_api_v1_sandboxes.sync_detailed",
+            side_effect=fake_sync_detailed,
+        ):
             sandbox = client.sandboxes.claim(
                 "default",
                 config=SandboxConfig(ttl=300),
@@ -129,7 +152,10 @@ class TestSandboxes(TestCase):
                 parsed=SuccessSandboxResponse(success=True, data=updated),
             )
 
-        with patch("sandbox0.resources.put_api_v1_sandboxes_id.sync_detailed", side_effect=fake_sync_detailed):
+        with patch(
+            "sandbox0.resources.put_api_v1_sandboxes_id.sync_detailed",
+            side_effect=fake_sync_detailed,
+        ):
             result = client.sandboxes.update(
                 "sb_123",
                 SandboxUpdateRequest(
@@ -142,6 +168,117 @@ class TestSandboxes(TestCase):
         body = captured["body"]
         self.assertEqual(body.config.ttl, 600)
         self.assertTrue(body.config.auto_resume)
+
+    def test_pause_and_wait_polls_committed_projection(self) -> None:
+        client = Client(token="test-token", base_url="https://example.com")
+        self.addCleanup(client.close)
+        sandboxes = Sandboxes(client)
+        now = datetime.now(timezone.utc)
+        running = self._sandbox_projection(
+            now=now,
+            status=SandboxLifecycleStatus.RUNNING,
+            paused=False,
+            runtime_id="alloc-a",
+            runtime_generation=1,
+        )
+        paused = self._sandbox_projection(
+            now=now,
+            status=SandboxLifecycleStatus.PAUSED,
+            paused=True,
+            runtime_id="",
+            runtime_generation=1,
+        )
+
+        with (
+            patch.object(Sandboxes, "pause") as pause_mock,
+            patch.object(Sandboxes, "get", side_effect=[running, paused]) as get_mock,
+        ):
+            result = sandboxes.pause_and_wait("sb_123", timeout_sec=1, poll_interval_sec=0.001)
+
+        pause_mock.assert_called_once_with("sb_123")
+        self.assertEqual(get_mock.call_count, 2)
+        self.assertIs(result, paused)
+
+    def test_resume_and_wait_requires_next_runtime_generation(self) -> None:
+        client = Client(token="test-token", base_url="https://example.com")
+        self.addCleanup(client.close)
+        sandboxes = Sandboxes(client)
+        now = datetime.now(timezone.utc)
+        paused = self._sandbox_projection(
+            now=now,
+            status=SandboxLifecycleStatus.PAUSED,
+            paused=True,
+            runtime_id="",
+            runtime_generation=1,
+        )
+        running = self._sandbox_projection(
+            now=now,
+            status=SandboxLifecycleStatus.RUNNING,
+            paused=False,
+            runtime_id="alloc-b",
+            runtime_generation=2,
+        )
+
+        with (
+            patch.object(Sandboxes, "get", side_effect=[paused, paused, running]) as get_mock,
+            patch.object(Sandboxes, "resume") as resume_mock,
+        ):
+            result = sandboxes.resume_and_wait("sb_123", timeout_sec=1, poll_interval_sec=0.001)
+
+        resume_mock.assert_called_once_with("sb_123")
+        self.assertEqual(get_mock.call_count, 3)
+        self.assertIs(result, running)
+
+    def test_wait_for_lifecycle_timeout_preserves_last_projection(self) -> None:
+        client = Client(token="test-token", base_url="https://example.com")
+        self.addCleanup(client.close)
+        sandboxes = Sandboxes(client)
+        now = datetime.now(timezone.utc)
+        paused = self._sandbox_projection(
+            now=now,
+            status=SandboxLifecycleStatus.PAUSED,
+            paused=True,
+            runtime_id="",
+            runtime_generation=1,
+        )
+
+        with (
+            patch.object(Sandboxes, "get", return_value=paused),
+            self.assertRaises(SandboxWaitTimeoutError) as raised,
+        ):
+            sandboxes.wait_for_lifecycle(
+                "sb_123",
+                lambda _sandbox: False,
+                timeout_sec=0,
+                poll_interval_sec=0.001,
+            )
+
+        self.assertIs(raised.exception.last_sandbox, paused)
+
+    @staticmethod
+    def _sandbox_projection(
+        *,
+        now: datetime,
+        status: SandboxLifecycleStatus,
+        paused: bool,
+        runtime_id: str,
+        runtime_generation: int,
+    ) -> APISandbox:
+        return APISandbox(
+            id="sb_123",
+            template_id="default",
+            team_id="team_1",
+            status=status,
+            paused=paused,
+            auto_resume=False,
+            runtime_id=runtime_id,
+            runtime_generation=runtime_generation,
+            expires_at=now,
+            hard_expires_at=now,
+            claimed_at=now,
+            created_at=now,
+            updated_at=now,
+        )
 
     def test_rootfs_operations_use_generated_api(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
@@ -186,7 +323,10 @@ class TestSandboxes(TestCase):
             stack.enter_context(
                 patch(
                     "sandbox0.resources.post_api_v1_sandboxes_id_snapshots.sync_detailed",
-                    side_effect=capture_response("create", SuccessSandboxRootFSSnapshotResponse(success=True, data=snapshot)),
+                    side_effect=capture_response(
+                        "create",
+                        SuccessSandboxRootFSSnapshotResponse(success=True, data=snapshot),
+                    ),
                 )
             )
             stack.enter_context(
@@ -204,7 +344,10 @@ class TestSandboxes(TestCase):
             stack.enter_context(
                 patch(
                     "sandbox0.resources.get_api_v1_sandbox_rootfs_snapshots_snapshot_id.sync_detailed",
-                    side_effect=capture_response("get", SuccessSandboxRootFSSnapshotResponse(success=True, data=snapshot)),
+                    side_effect=capture_response(
+                        "get",
+                        SuccessSandboxRootFSSnapshotResponse(success=True, data=snapshot),
+                    ),
                 )
             )
             stack.enter_context(
@@ -239,9 +382,7 @@ class TestSandboxes(TestCase):
                             data=RebaseSandboxRootFSResponse(
                                 sandbox_id="sb_1",
                                 generation_id="gen_2",
-                                base_artifact_digest=(
-                                    "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                                ),
+                                base_artifact_digest=("sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
                                 rollback_expires_at=now,
                                 status=SandboxLifecycleStatus.PAUSED,
                             ),
@@ -269,9 +410,7 @@ class TestSandboxes(TestCase):
             rebased = client.sandboxes.rebase_rootfs(
                 "sb_1",
                 request=RebaseSandboxRootFSRequest(
-                    target_base_artifact_digest=(
-                        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                    ),
+                    target_base_artifact_digest=("sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
                     rollback_ttl=3600,
                 ),
             )
