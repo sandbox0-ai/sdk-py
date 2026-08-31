@@ -21,7 +21,7 @@ class TestSandboxExpirationDecoding(TestCase):
                 "status": "running",
                 "paused": False,
                 "auto_resume": True,
-                "pod_name": "sandbox-pod",
+                "runtime_id": "alloc-123",
                 "runtime_generation": 1,
                 "claimed_at": "2026-08-03T00:00:00Z",
                 **timestamps,

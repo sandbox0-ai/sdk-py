@@ -1,21 +1,17 @@
-import datetime
 from collections.abc import Mapping
 from typing import (
     TYPE_CHECKING,
     Any,
     TypeVar,
     Union,
-    cast,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.sandbox_template_condition import SandboxTemplateCondition
     from ..models.template_creation_status import TemplateCreationStatus
 
 
@@ -26,46 +22,17 @@ T = TypeVar("T", bound="SandboxTemplateStatus")
 class SandboxTemplateStatus:
     """
     Attributes:
-        idle_count (Union[Unset, int]):
-        active_count (Union[Unset, int]):
-        conditions (Union[Unset, list['SandboxTemplateCondition']]):
-        last_update_time (Union[None, Unset, datetime.datetime]):
         creation (Union[Unset, TemplateCreationStatus]): Asynchronous creation status for templates built from a
             sandbox.
             Traditional image-based templates omit this object and are ready
-            immediately after creation. Ready means the template is visible in at
-            least one data-plane cluster and the claim API accepts it; when the
-            pool is zero, it does not imply that a sandbox image has already been
-            pulled.
+            immediately after creation. Ready means the regional template source
+            has been committed and the claim API may consume it.
     """
 
-    idle_count: Union[Unset, int] = UNSET
-    active_count: Union[Unset, int] = UNSET
-    conditions: Union[Unset, list["SandboxTemplateCondition"]] = UNSET
-    last_update_time: Union[None, Unset, datetime.datetime] = UNSET
     creation: Union[Unset, "TemplateCreationStatus"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        idle_count = self.idle_count
-
-        active_count = self.active_count
-
-        conditions: Union[Unset, list[dict[str, Any]]] = UNSET
-        if not isinstance(self.conditions, Unset):
-            conditions = []
-            for conditions_item_data in self.conditions:
-                conditions_item = conditions_item_data.to_dict()
-                conditions.append(conditions_item)
-
-        last_update_time: Union[None, Unset, str]
-        if isinstance(self.last_update_time, Unset):
-            last_update_time = UNSET
-        elif isinstance(self.last_update_time, datetime.datetime):
-            last_update_time = self.last_update_time.isoformat()
-        else:
-            last_update_time = self.last_update_time
-
         creation: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.creation, Unset):
             creation = self.creation.to_dict()
@@ -73,14 +40,6 @@ class SandboxTemplateStatus:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if idle_count is not UNSET:
-            field_dict["idleCount"] = idle_count
-        if active_count is not UNSET:
-            field_dict["activeCount"] = active_count
-        if conditions is not UNSET:
-            field_dict["conditions"] = conditions
-        if last_update_time is not UNSET:
-            field_dict["lastUpdateTime"] = last_update_time
         if creation is not UNSET:
             field_dict["creation"] = creation
 
@@ -88,40 +47,9 @@ class SandboxTemplateStatus:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.sandbox_template_condition import SandboxTemplateCondition
         from ..models.template_creation_status import TemplateCreationStatus
 
         d = dict(src_dict)
-        idle_count = d.pop("idleCount", UNSET)
-
-        active_count = d.pop("activeCount", UNSET)
-
-        conditions = []
-        _conditions = d.pop("conditions", UNSET)
-        for conditions_item_data in _conditions or []:
-            conditions_item = SandboxTemplateCondition.from_dict(conditions_item_data)
-
-            conditions.append(conditions_item)
-
-        def _parse_last_update_time(
-            data: object,
-        ) -> Union[None, Unset, datetime.datetime]:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            try:
-                if not isinstance(data, str):
-                    raise TypeError()
-                last_update_time_type_0 = isoparse(data)
-
-                return last_update_time_type_0
-            except:  # noqa: E722
-                pass
-            return cast(Union[None, Unset, datetime.datetime], data)
-
-        last_update_time = _parse_last_update_time(d.pop("lastUpdateTime", UNSET))
-
         _creation = d.pop("creation", UNSET)
         creation: Union[Unset, TemplateCreationStatus]
         if isinstance(_creation, Unset):
@@ -130,10 +58,6 @@ class SandboxTemplateStatus:
             creation = TemplateCreationStatus.from_dict(_creation)
 
         sandbox_template_status = cls(
-            idle_count=idle_count,
-            active_count=active_count,
-            conditions=conditions,
-            last_update_time=last_update_time,
             creation=creation,
         )
 

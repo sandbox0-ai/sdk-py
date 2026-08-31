@@ -1,14 +1,13 @@
 from __future__ import annotations
 
 from sandbox0.apispec.models.container_spec import ContainerSpec
+from sandbox0.apispec.models.container_spec_security_class import ContainerSpecSecurityClass
+from sandbox0.apispec.models.ephemeral_mount_spec import EphemeralMountSpec
 from sandbox0.apispec.models.env_var import EnvVar
-from sandbox0.apispec.models.pod_spec_override import PodSpecOverride
-from sandbox0.apispec.models.pool_strategy import PoolStrategy
 from sandbox0.apispec.models.resource_quota import ResourceQuota
 from sandbox0.apispec.models.sandbox_network_policy import SandboxNetworkPolicy
 from sandbox0.apispec.models.sandbox_template_spec import SandboxTemplateSpec
 from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
-from sandbox0.apispec.models.security_context import SecurityContext
 from sandbox0.apispec.models.template_create_request import TemplateCreateRequest
 from sandbox0.apispec.models.template_from_sandbox_create_request import (
     TemplateFromSandboxCreateRequest,
@@ -28,17 +27,19 @@ def container(
     image: str,
     resource_quota: ResourceQuota,
     *,
-    image_pull_policy: str | Unset = UNSET,
     env: list[EnvVar] | Unset = UNSET,
-    security_context: SecurityContext | Unset = UNSET,
+    security_class: ContainerSpecSecurityClass | Unset = UNSET,
 ) -> ContainerSpec:
     return ContainerSpec(
         image=image,
         resources=resource_quota,
-        image_pull_policy=image_pull_policy,
         env=env,
-        security_context=security_context,
+        security_class=security_class,
     )
+
+
+def ephemeral_mount(mount_path: str, size_limit: str) -> EphemeralMountSpec:
+    return EphemeralMountSpec(mount_path=mount_path, size_limit=size_limit)
 
 
 def template_spec(
@@ -47,22 +48,18 @@ def template_spec(
     description: str | Unset = UNSET,
     display_name: str | Unset = UNSET,
     tags: list[str] | Unset = UNSET,
-    pod: PodSpecOverride | Unset = UNSET,
+    ephemeral_mounts: list[EphemeralMountSpec] | Unset = UNSET,
     network: SandboxNetworkPolicy | Unset = UNSET,
-    pool: PoolStrategy | Unset = UNSET,
     env_vars: SandboxTemplateSpecEnvVars | dict[str, str] | Unset = UNSET,
-    cluster_id: str | Unset = UNSET,
 ) -> SandboxTemplateSpec:
     return SandboxTemplateSpec(
         main_container=main_container,
         description=description,
         display_name=display_name,
         tags=tags,
-        pod=pod,
+        ephemeral_mounts=ephemeral_mounts,
         network=network,
-        pool=pool,
         env_vars=_template_env_vars(env_vars),
-        cluster_id=cluster_id,
     )
 
 

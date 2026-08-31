@@ -182,10 +182,11 @@ print(template.template_id, template.status.creation.state)
 
 Without `wait=True`, creation returns as soon as Sandbox0 accepts the request.
 The rootfs capture point is `status.creation.captured_at`, not request
-acceptance, so keep the source sandbox available and avoid rootfs writes while
-the stage is `capturing`. Call `client.wait_template_ready("python-ready")` to
-wait later. A client-side timeout or interruption stops local waiting but does
-not cancel image creation on the server.
+acceptance, so keep the source sandbox available until capture completes. A
+running source is briefly write-barriered and remains running afterward. Call
+`client.wait_template_ready("python-ready")` to wait later. A client-side
+timeout or interruption stops local waiting but does not cancel creation of the
+immutable RootFS base on the server.
 
 ## Links
 

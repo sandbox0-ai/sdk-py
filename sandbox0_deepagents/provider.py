@@ -149,12 +149,12 @@ class Sandbox0Provider(SandboxProvider):
             raise
         template = str(getattr(data, "template_id", "") or DEFAULT_TEMPLATE)
         status = str(getattr(data, "status", "") or "")
-        pod_name = str(getattr(data, "pod_name", "") or "")
+        runtime_id = str(getattr(data, "runtime_id", "") or "")
         return Sandbox(
             id=sandbox_id,
             client=client,
             template=template,
-            pod_name=pod_name,
+            runtime_id=runtime_id,
             status=status,
         )
 

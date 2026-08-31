@@ -68,7 +68,7 @@ class _FakeSandboxes:
         return SimpleNamespace(
             template_id="default",
             status="running",
-            pod_name="pod-a",
+            runtime_id="alloc-a",
         )
 
     def delete(self, sandbox_id: str) -> object:

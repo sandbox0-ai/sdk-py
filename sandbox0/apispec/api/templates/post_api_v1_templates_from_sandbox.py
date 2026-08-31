@@ -104,11 +104,12 @@ def sync_detailed(
     """Create template from sandbox
 
      Asynchronously captures the sandbox's writable root filesystem,
-    publishes it to the Sandbox0-configured team registry, and creates a
-    digest-pinned template. The capture point is reported by
+    retains the resulting immutable regional block-COW generation, and
+    creates a claimable template. The capture point is reported by
     `status.creation.capturedAt`, not by acceptance of this request. Keep
-    the source sandbox available and avoid rootfs writes until capture
-    completes. Poll the returned template with
+    the source sandbox available until capture completes. A running source
+    is briefly write-barriered while its exact writer publishes the capture;
+    it does not need to be paused. Poll the returned template with
     `GET /api/v1/templates/{id}` until `status.creation.state` is `ready`
     or `failed`. The caller needs both `template:create` and
     `sandbox:read` permissions.
@@ -147,11 +148,12 @@ def sync(
     """Create template from sandbox
 
      Asynchronously captures the sandbox's writable root filesystem,
-    publishes it to the Sandbox0-configured team registry, and creates a
-    digest-pinned template. The capture point is reported by
+    retains the resulting immutable regional block-COW generation, and
+    creates a claimable template. The capture point is reported by
     `status.creation.capturedAt`, not by acceptance of this request. Keep
-    the source sandbox available and avoid rootfs writes until capture
-    completes. Poll the returned template with
+    the source sandbox available until capture completes. A running source
+    is briefly write-barriered while its exact writer publishes the capture;
+    it does not need to be paused. Poll the returned template with
     `GET /api/v1/templates/{id}` until `status.creation.state` is `ready`
     or `failed`. The caller needs both `template:create` and
     `sandbox:read` permissions.
@@ -185,11 +187,12 @@ async def asyncio_detailed(
     """Create template from sandbox
 
      Asynchronously captures the sandbox's writable root filesystem,
-    publishes it to the Sandbox0-configured team registry, and creates a
-    digest-pinned template. The capture point is reported by
+    retains the resulting immutable regional block-COW generation, and
+    creates a claimable template. The capture point is reported by
     `status.creation.capturedAt`, not by acceptance of this request. Keep
-    the source sandbox available and avoid rootfs writes until capture
-    completes. Poll the returned template with
+    the source sandbox available until capture completes. A running source
+    is briefly write-barriered while its exact writer publishes the capture;
+    it does not need to be paused. Poll the returned template with
     `GET /api/v1/templates/{id}` until `status.creation.state` is `ready`
     or `failed`. The caller needs both `template:create` and
     `sandbox:read` permissions.
@@ -226,11 +229,12 @@ async def asyncio(
     """Create template from sandbox
 
      Asynchronously captures the sandbox's writable root filesystem,
-    publishes it to the Sandbox0-configured team registry, and creates a
-    digest-pinned template. The capture point is reported by
+    retains the resulting immutable regional block-COW generation, and
+    creates a claimable template. The capture point is reported by
     `status.creation.capturedAt`, not by acceptance of this request. Keep
-    the source sandbox available and avoid rootfs writes until capture
-    completes. Poll the returned template with
+    the source sandbox available until capture completes. A running source
+    is briefly write-barriered while its exact writer publishes the capture;
+    it does not need to be paused. Poll the returned template with
     `GET /api/v1/templates/{id}` until `status.creation.state` is `ready`
     or `failed`. The caller needs both `template:create` and
     `sandbox:read` permissions.

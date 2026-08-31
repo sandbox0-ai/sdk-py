@@ -9,12 +9,12 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.container_spec_security_class import ContainerSpecSecurityClass
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.env_var import EnvVar
     from ..models.resource_quota import ResourceQuota
-    from ..models.security_context import SecurityContext
 
 
 T = TypeVar("T", bound="ContainerSpec")
@@ -24,26 +24,26 @@ T = TypeVar("T", bound="ContainerSpec")
 class ContainerSpec:
     """
     Attributes:
-        image (str):
+        image (str): Canonical normalized OCI reference pinned by a lowercase SHA-256 digest. Mutable tags are rejected.
         resources (ResourceQuota):
-        image_pull_policy (Union[Unset, str]):
         env (Union[Unset, list['EnvVar']]):
-        security_context (Union[Unset, SecurityContext]):
+        security_class (Union[Unset, ContainerSpecSecurityClass]): Immutable gVisor guest privilege class. Privileged
+            capabilities remain confined by runsc and do not expose host devices. Default:
+            ContainerSpecSecurityClass.STANDARD.
     """
 
     image: str
     resources: "ResourceQuota"
-    image_pull_policy: Union[Unset, str] = UNSET
     env: Union[Unset, list["EnvVar"]] = UNSET
-    security_context: Union[Unset, "SecurityContext"] = UNSET
+    security_class: Union[Unset, ContainerSpecSecurityClass] = (
+        ContainerSpecSecurityClass.STANDARD
+    )
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         image = self.image
 
         resources = self.resources.to_dict()
-
-        image_pull_policy = self.image_pull_policy
 
         env: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.env, Unset):
@@ -52,9 +52,9 @@ class ContainerSpec:
                 env_item = env_item_data.to_dict()
                 env.append(env_item)
 
-        security_context: Union[Unset, dict[str, Any]] = UNSET
-        if not isinstance(self.security_context, Unset):
-            security_context = self.security_context.to_dict()
+        security_class: Union[Unset, str] = UNSET
+        if not isinstance(self.security_class, Unset):
+            security_class = self.security_class.value
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -64,12 +64,10 @@ class ContainerSpec:
                 "resources": resources,
             }
         )
-        if image_pull_policy is not UNSET:
-            field_dict["imagePullPolicy"] = image_pull_policy
         if env is not UNSET:
             field_dict["env"] = env
-        if security_context is not UNSET:
-            field_dict["securityContext"] = security_context
+        if security_class is not UNSET:
+            field_dict["securityClass"] = security_class
 
         return field_dict
 
@@ -77,14 +75,11 @@ class ContainerSpec:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.env_var import EnvVar
         from ..models.resource_quota import ResourceQuota
-        from ..models.security_context import SecurityContext
 
         d = dict(src_dict)
         image = d.pop("image")
 
         resources = ResourceQuota.from_dict(d.pop("resources"))
-
-        image_pull_policy = d.pop("imagePullPolicy", UNSET)
 
         env = []
         _env = d.pop("env", UNSET)
@@ -93,19 +88,18 @@ class ContainerSpec:
 
             env.append(env_item)
 
-        _security_context = d.pop("securityContext", UNSET)
-        security_context: Union[Unset, SecurityContext]
-        if isinstance(_security_context, Unset):
-            security_context = UNSET
+        _security_class = d.pop("securityClass", UNSET)
+        security_class: Union[Unset, ContainerSpecSecurityClass]
+        if isinstance(_security_class, Unset):
+            security_class = UNSET
         else:
-            security_context = SecurityContext.from_dict(_security_context)
+            security_class = ContainerSpecSecurityClass(_security_class)
 
         container_spec = cls(
             image=image,
             resources=resources,
-            image_pull_policy=image_pull_policy,
             env=env,
-            security_context=security_context,
+            security_class=security_class,
         )
 
         container_spec.additional_properties = d

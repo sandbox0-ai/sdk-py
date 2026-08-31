@@ -25,7 +25,8 @@ class SandboxStatus:
         template_id (Union[Unset, str]):
         team_id (Union[Unset, str]):
         user_id (Union[Unset, str]):
-        pod_name (Union[Unset, str]):
+        runtime_id (Union[Unset, str]): Opaque identifier of the current physical runtime allocation. Empty while
+            paused.
         status (Union[Unset, SandboxLifecycleStatus]):
         claimed_at (Union[Unset, str]):
         expires_at (Union[None, Unset, datetime.datetime]):
@@ -37,7 +38,7 @@ class SandboxStatus:
     template_id: Union[Unset, str] = UNSET
     team_id: Union[Unset, str] = UNSET
     user_id: Union[Unset, str] = UNSET
-    pod_name: Union[Unset, str] = UNSET
+    runtime_id: Union[Unset, str] = UNSET
     status: Union[Unset, SandboxLifecycleStatus] = UNSET
     claimed_at: Union[Unset, str] = UNSET
     expires_at: Union[None, Unset, datetime.datetime] = UNSET
@@ -54,7 +55,7 @@ class SandboxStatus:
 
         user_id = self.user_id
 
-        pod_name = self.pod_name
+        runtime_id = self.runtime_id
 
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
@@ -91,8 +92,8 @@ class SandboxStatus:
             field_dict["team_id"] = team_id
         if user_id is not UNSET:
             field_dict["user_id"] = user_id
-        if pod_name is not UNSET:
-            field_dict["pod_name"] = pod_name
+        if runtime_id is not UNSET:
+            field_dict["runtime_id"] = runtime_id
         if status is not UNSET:
             field_dict["status"] = status
         if claimed_at is not UNSET:
@@ -117,7 +118,7 @@ class SandboxStatus:
 
         user_id = d.pop("user_id", UNSET)
 
-        pod_name = d.pop("pod_name", UNSET)
+        runtime_id = d.pop("runtime_id", UNSET)
 
         _status = d.pop("status", UNSET)
         status: Union[Unset, SandboxLifecycleStatus]
@@ -171,7 +172,7 @@ class SandboxStatus:
             template_id=template_id,
             team_id=team_id,
             user_id=user_id,
-            pod_name=pod_name,
+            runtime_id=runtime_id,
             status=status,
             claimed_at=claimed_at,
             expires_at=expires_at,

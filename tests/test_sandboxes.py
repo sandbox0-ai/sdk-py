@@ -9,6 +9,8 @@ from sandbox0.apispec.models.claim_response import ClaimResponse
 from sandbox0.apispec.models.fork_sandbox_config import ForkSandboxConfig
 from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
 from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
+from sandbox0.apispec.models.rebase_sandbox_root_fs_request import RebaseSandboxRootFSRequest
+from sandbox0.apispec.models.rebase_sandbox_root_fs_response import RebaseSandboxRootFSResponse
 from sandbox0.apispec.models.restore_sandbox_root_fs_response import RestoreSandboxRootFSResponse
 from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
@@ -16,9 +18,12 @@ from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from sandbox0.apispec.models.sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from sandbox0.apispec.models.sandbox_root_fs_snapshot_list import SandboxRootFSSnapshotList
+from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
+from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
 from sandbox0.apispec.models.success_fork_sandbox_response import SuccessForkSandboxResponse
+from sandbox0.apispec.models.success_rebase_sandbox_root_fs_response import SuccessRebaseSandboxRootFSResponse
 from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import SuccessRestoreSandboxRootFSResponse
 from sandbox0.apispec.models.success_sandbox_response import SuccessSandboxResponse
 from sandbox0.apispec.models.success_sandbox_root_fs_snapshot_list_response import SuccessSandboxRootFSSnapshotListResponse
@@ -46,7 +51,7 @@ class TestSandboxes(TestCase):
                     data=ClaimResponse(
                         sandbox_id="sb_123",
                         template="default",
-                        pod_name="pod-a",
+                        runtime_id="alloc-a",
                         status="running",
                         cluster_id="cluster-a",
                     ),
@@ -68,6 +73,7 @@ class TestSandboxes(TestCase):
         self.assertEqual(request.snapshot_id, "snap_123")
         self.assertEqual(sandbox.id, "sb_123")
         self.assertEqual(sandbox.cluster_id, "cluster-a")
+        self.assertEqual(sandbox.runtime_id, "alloc-a")
 
     def test_open_forwards_claim_options(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
@@ -92,7 +98,7 @@ class TestSandboxes(TestCase):
         )
         self.assertIs(session.sandbox, sandbox)
 
-    def test_update_memory_builds_request(self) -> None:
+    def test_update_lifecycle_builds_request(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
         self.addCleanup(client.close)
 
@@ -104,7 +110,7 @@ class TestSandboxes(TestCase):
             status=SandboxLifecycleStatus.RUNNING,
             paused=False,
             auto_resume=True,
-            pod_name="pod-a",
+            runtime_id="alloc-a",
             runtime_generation=1,
             expires_at=now,
             hard_expires_at=now,
@@ -124,12 +130,18 @@ class TestSandboxes(TestCase):
             )
 
         with patch("sandbox0.resources.put_api_v1_sandboxes_id.sync_detailed", side_effect=fake_sync_detailed):
-            result = client.sandboxes.update_memory("sb_123", "2Gi")
+            result = client.sandboxes.update(
+                "sb_123",
+                SandboxUpdateRequest(
+                    config=SandboxUpdateConfig(ttl=600, auto_resume=True),
+                ),
+            )
 
         self.assertIs(result, updated)
         self.assertEqual(captured["id"], "sb_123")
         body = captured["body"]
-        self.assertEqual(body.config.resources.memory, "2Gi")
+        self.assertEqual(body.config.ttl, 600)
+        self.assertTrue(body.config.auto_resume)
 
     def test_rootfs_operations_use_generated_api(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
@@ -149,7 +161,7 @@ class TestSandboxes(TestCase):
             status=SandboxLifecycleStatus.PAUSED,
             paused=True,
             auto_resume=False,
-            pod_name="",
+            runtime_id="",
             runtime_generation=0,
             expires_at=now,
             hard_expires_at=now,
@@ -219,6 +231,26 @@ class TestSandboxes(TestCase):
             )
             stack.enter_context(
                 patch(
+                    "sandbox0.resources.put_api_v1_sandboxes_id_rootfs_rebase.sync_detailed",
+                    side_effect=capture_response(
+                        "rebase",
+                        SuccessRebaseSandboxRootFSResponse(
+                            success=True,
+                            data=RebaseSandboxRootFSResponse(
+                                sandbox_id="sb_1",
+                                generation_id="gen_2",
+                                base_artifact_digest=(
+                                    "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                                ),
+                                rollback_expires_at=now,
+                                status=SandboxLifecycleStatus.PAUSED,
+                            ),
+                        ),
+                    ),
+                )
+            )
+            stack.enter_context(
+                patch(
                     "sandbox0.resources.post_api_v1_sandboxes_id_fork.sync_detailed",
                     side_effect=capture_response(
                         "fork",
@@ -234,6 +266,15 @@ class TestSandboxes(TestCase):
             fetched = client.sandboxes.get_rootfs_snapshot("snap_1")
             deleted = client.sandboxes.delete_rootfs_snapshot("snap_1")
             restored = client.sandboxes.restore_rootfs("sb_1", request=RestoreSandboxRootFSRequest(snapshot_id="snap_1"))
+            rebased = client.sandboxes.rebase_rootfs(
+                "sb_1",
+                request=RebaseSandboxRootFSRequest(
+                    target_base_artifact_digest=(
+                        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    ),
+                    rollback_ttl=3600,
+                ),
+            )
             forked = client.sandboxes.fork(
                 "sb_1",
                 request=ForkSandboxRequest(config=ForkSandboxConfig(ttl=60, hard_ttl=120)),
@@ -244,12 +285,15 @@ class TestSandboxes(TestCase):
         self.assertEqual(fetched.id, "snap_1")
         self.assertTrue(deleted.success)
         self.assertEqual(restored.snapshot_id, "snap_1")
+        self.assertEqual(rebased.generation_id, "gen_2")
         self.assertEqual(forked.sandbox.id, "sb_fork")
         self.assertEqual(captured["create"]["id"], "sb_1")
         self.assertEqual(captured["list"]["id"], "sb_1")
         self.assertEqual(captured["get"]["snapshot_id"], "snap_1")
         self.assertEqual(captured["delete"]["snapshot_id"], "snap_1")
         self.assertEqual(captured["restore"]["id"], "sb_1")
+        self.assertEqual(captured["rebase"]["id"], "sb_1")
+        self.assertEqual(captured["rebase"]["body"].rollback_ttl, 3600)
         self.assertEqual(captured["fork"]["id"], "sb_1")
         self.assertEqual(captured["fork"]["body"].config.ttl, 60)
         self.assertEqual(captured["fork"]["body"].config.hard_ttl, 120)

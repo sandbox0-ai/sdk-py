@@ -1,65 +1,59 @@
+import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     TypeVar,
-    Union,
-    cast,
 )
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
+from dateutil.parser import isoparse
 
 from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
-from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="ClaimResponse")
+T = TypeVar("T", bound="RebaseSandboxRootFSResponse")
 
 
 @_attrs_define
-class ClaimResponse:
+class RebaseSandboxRootFSResponse:
     """
     Attributes:
         sandbox_id (str):
+        generation_id (str):
+        base_artifact_digest (str):
+        rollback_expires_at (datetime.datetime):
         status (SandboxLifecycleStatus):
-        runtime_id (str): Opaque identifier of the current physical runtime allocation.
-        template (str):
-        cluster_id (Union[None, Unset, str]):
     """
 
     sandbox_id: str
+    generation_id: str
+    base_artifact_digest: str
+    rollback_expires_at: datetime.datetime
     status: SandboxLifecycleStatus
-    runtime_id: str
-    template: str
-    cluster_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         sandbox_id = self.sandbox_id
 
+        generation_id = self.generation_id
+
+        base_artifact_digest = self.base_artifact_digest
+
+        rollback_expires_at = self.rollback_expires_at.isoformat()
+
         status = self.status.value
-
-        runtime_id = self.runtime_id
-
-        template = self.template
-
-        cluster_id: Union[None, Unset, str]
-        if isinstance(self.cluster_id, Unset):
-            cluster_id = UNSET
-        else:
-            cluster_id = self.cluster_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "sandbox_id": sandbox_id,
+                "generation_id": generation_id,
+                "base_artifact_digest": base_artifact_digest,
+                "rollback_expires_at": rollback_expires_at,
                 "status": status,
-                "runtime_id": runtime_id,
-                "template": template,
             }
         )
-        if cluster_id is not UNSET:
-            field_dict["cluster_id"] = cluster_id
 
         return field_dict
 
@@ -68,31 +62,24 @@ class ClaimResponse:
         d = dict(src_dict)
         sandbox_id = d.pop("sandbox_id")
 
+        generation_id = d.pop("generation_id")
+
+        base_artifact_digest = d.pop("base_artifact_digest")
+
+        rollback_expires_at = isoparse(d.pop("rollback_expires_at"))
+
         status = SandboxLifecycleStatus(d.pop("status"))
 
-        runtime_id = d.pop("runtime_id")
-
-        template = d.pop("template")
-
-        def _parse_cluster_id(data: object) -> Union[None, Unset, str]:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(Union[None, Unset, str], data)
-
-        cluster_id = _parse_cluster_id(d.pop("cluster_id", UNSET))
-
-        claim_response = cls(
+        rebase_sandbox_root_fs_response = cls(
             sandbox_id=sandbox_id,
+            generation_id=generation_id,
+            base_artifact_digest=base_artifact_digest,
+            rollback_expires_at=rollback_expires_at,
             status=status,
-            runtime_id=runtime_id,
-            template=template,
-            cluster_id=cluster_id,
         )
 
-        claim_response.additional_properties = d
-        return claim_response
+        rebase_sandbox_root_fs_response.additional_properties = d
+        return rebase_sandbox_root_fs_response
 
     @property
     def additional_keys(self) -> list[str]:

@@ -181,13 +181,13 @@ class Sandbox(
         client: Any,
         template: str = "",
         cluster_id: Optional[str] = None,
-        pod_name: str = "",
+        runtime_id: str = "",
         status: str = "",
     ) -> None:
         self.id = id
         self.template = template
         self.cluster_id = cluster_id
-        self.pod_name = pod_name
+        self.runtime_id = runtime_id
         self.status = status
         self._client = client
         self._repl_context_by_lang: dict[str, str] = {}

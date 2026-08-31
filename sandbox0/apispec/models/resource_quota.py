@@ -20,8 +20,8 @@ class ResourceQuota:
         memory (str): Memory limit used by default when a sandbox claim does not provide a memory override. It cannot
             exceed the platform sandbox maximum, which defaults to 16Gi. Sandbox0 derives the internal CPU limit from
             platform configuration.
-        ephemeral_storage (Union[Unset, str]): Ephemeral storage limit for the sandbox writable layer and container
-            logs. Defaults to 8Gi when omitted.
+        ephemeral_storage (Union[Unset, str]): Immutable RootFS block-device size. Defaults to 8Gi when omitted; it must
+            be an exact byte quantity between 300Mi and 1Ti and aligned to 4096 bytes.
     """
 
     memory: str

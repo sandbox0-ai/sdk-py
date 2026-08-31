@@ -17,11 +17,14 @@ from sandbox0.apispec.api.sandbox_rootfs import get_api_v1_sandboxes_id_snapshot
 from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_fork
 from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_rootfs_restore
 from sandbox0.apispec.api.sandbox_rootfs import post_api_v1_sandboxes_id_snapshots
+from sandbox0.apispec.api.sandbox_rootfs import put_api_v1_sandboxes_id_rootfs_rebase
 from sandbox0.apispec.models.claim_request import ClaimRequest
 from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
 from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
 from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
+from sandbox0.apispec.models.rebase_sandbox_root_fs_request import RebaseSandboxRootFSRequest
+from sandbox0.apispec.models.rebase_sandbox_root_fs_response import RebaseSandboxRootFSResponse
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
@@ -34,12 +37,12 @@ from sandbox0.apispec.models.sandbox_resource_config import SandboxResourceConfi
 from sandbox0.apispec.models.sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
-from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
 from sandbox0.apispec.models.success_pause_sandbox_response import SuccessPauseSandboxResponse
+from sandbox0.apispec.models.success_rebase_sandbox_root_fs_response import SuccessRebaseSandboxRootFSResponse
 from sandbox0.apispec.models.success_fork_sandbox_response import SuccessForkSandboxResponse
 from sandbox0.apispec.models.success_refresh_response import SuccessRefreshResponse
 from sandbox0.apispec.models.success_restore_sandbox_root_fs_response import SuccessRestoreSandboxRootFSResponse
@@ -95,7 +98,7 @@ class Sandboxes:
             client=self._client,
             template=data.template,
             cluster_id=None if data.cluster_id.__class__.__name__ == "Unset" else data.cluster_id,
-            pod_name=data.pod_name,
+            runtime_id=data.runtime_id,
             status=data.status,
         )
 
@@ -121,14 +124,6 @@ class Sandboxes:
     def update(self, sandbox_id: str, request: SandboxUpdateRequest) -> APISandbox:
         resp = put_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._client.api, body=request)
         return ensure_data(resp, SuccessSandboxResponse)
-
-    def update_memory(self, sandbox_id: str, memory: str) -> APISandbox:
-        return self.update(
-            sandbox_id,
-            SandboxUpdateRequest(
-                config=SandboxUpdateConfig(resources=SandboxResourceConfig(memory=memory)),
-            ),
-        )
 
     def delete(self, sandbox_id: str) -> SuccessMessageResponse:
         resp = delete_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._client.api)
@@ -190,6 +185,18 @@ class Sandboxes:
             body=request,
         )
         return ensure_data(resp, SuccessRestoreSandboxRootFSResponse)
+
+    def rebase_rootfs(
+        self,
+        sandbox_id: str,
+        request: RebaseSandboxRootFSRequest,
+    ) -> RebaseSandboxRootFSResponse:
+        resp = put_api_v1_sandboxes_id_rootfs_rebase.sync_detailed(
+            id=sandbox_id,
+            client=self._client.api,
+            body=request,
+        )
+        return ensure_data(resp, SuccessRebaseSandboxRootFSResponse)
 
     def fork(self, sandbox_id: str, request: Optional[ForkSandboxRequest] = None) -> ForkSandboxResponse:
         body = request if request is not None else ForkSandboxRequest()
