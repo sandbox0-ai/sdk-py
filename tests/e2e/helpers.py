@@ -22,6 +22,7 @@ class E2EConfig:
     email: str
     password: str
     template: str
+    token: str
 
 
 _CONFIG: Optional[E2EConfig] = None
@@ -32,25 +33,36 @@ def load_e2e_config() -> Optional[E2EConfig]:
     global _CONFIG
     if _CONFIG is not None:
         return _CONFIG
-    base_url = (os.getenv("S0_E2E_BASE_URL") or "").strip()
+    base_url = _first_env("S0_E2E_BASE_URL", "SANDBOX0_BASE_URL")
+    token = _first_env("S0_E2E_TOKEN", "SANDBOX0_TOKEN", "SANDBOX0_API_KEY")
     password = (os.getenv("S0_E2E_PASSWORD") or "").strip()
-    if not base_url or not password:
+    if not base_url or (not token and not password):
         return None
     email = (os.getenv("S0_E2E_EMAIL") or "").strip() or "admin@example.com"
-    template = (os.getenv("S0_E2E_TEMPLATE") or "").strip() or "default"
-    _CONFIG = E2EConfig(
+    template = _first_env("S0_E2E_TEMPLATE", "SANDBOX0_TEMPLATE") or "default"
+    config = E2EConfig(
         base_url=base_url,
         email=email,
         password=password,
         template=template,
+        token=token,
     )
-    return _CONFIG
+    _CONFIG = config
+    return config
+
+
+def _first_env(*names: str) -> str:
+    for name in names:
+        value = (os.getenv(name) or "").strip()
+        if value:
+            return value
+    return ""
 
 
 def require_config(testcase) -> E2EConfig:
     cfg = load_e2e_config()
     if cfg is None:
-        testcase.skipTest("S0_E2E_BASE_URL or S0_E2E_PASSWORD not set")
+        testcase.skipTest("S0_E2E_BASE_URL and S0_E2E_TOKEN/SANDBOX0_TOKEN or S0_E2E_PASSWORD must be set")
     return cfg
 
 
@@ -92,6 +104,8 @@ def login_once(api_client: APIClient, cfg: E2EConfig) -> str:
 
 def e2e_token(cfg: E2EConfig) -> str:
     global _TOKEN
+    if cfg.token:
+        return cfg.token
     if _TOKEN:
         return _TOKEN
     _TOKEN = login_with_retry(cfg)

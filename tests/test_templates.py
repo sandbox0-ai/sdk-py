@@ -11,6 +11,7 @@ from sandbox0 import (
     TemplateWaitTimeoutError,
 )
 from sandbox0.apispec.models.container_spec import ContainerSpec
+from sandbox0.apispec.models.container_spec_security_class import ContainerSpecSecurityClass
 from sandbox0.apispec.models.resource_quota import ResourceQuota
 from sandbox0.apispec.models.sandbox_template_spec import SandboxTemplateSpec
 from sandbox0.apispec.models.sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
@@ -24,6 +25,7 @@ from sandbox0.apispec.types import Response
 from sandbox0.response_normalize import normalize_response_json
 from sandbox0.template_helpers import (
     container as build_container,
+    ephemeral_mount,
     resources as build_resources,
     template_create_request,
     template_from_sandbox_create_request,
@@ -38,7 +40,7 @@ class TestTemplates(TestCase):
             template_id="tpl-env-vars",
             spec=SandboxTemplateSpec(
                 main_container=ContainerSpec(
-                    image="nginx:1.27-alpine",
+                    image="docker.io/library/nginx@sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                     resources=ResourceQuota(memory="2Gi"),
                 ),
                 env_vars=SandboxTemplateSpecEnvVars.from_dict({"MODE": "template"}),
@@ -71,8 +73,13 @@ class TestTemplates(TestCase):
 
     def test_template_helpers_build_template_requests(self) -> None:
         spec = template_spec(
-            build_container("ubuntu:24.04", build_resources("4Gi")),
+            build_container(
+                "docker.io/library/ubuntu@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                build_resources("4Gi"),
+                security_class=ContainerSpecSecurityClass.PRIVILEGED,
+            ),
             display_name="Helper Template",
+            ephemeral_mounts=[ephemeral_mount("/workspace/tmp", "2Gi")],
             env_vars={"MODE": "template"},
         )
 
@@ -86,6 +93,8 @@ class TestTemplates(TestCase):
 
         self.assertEqual(create_request.template_id, "tpl-helper")
         self.assertEqual(create_request.spec.display_name, "Helper Template")
+        self.assertEqual(create_request.spec.main_container.security_class, ContainerSpecSecurityClass.PRIVILEGED)
+        self.assertEqual(create_request.spec.ephemeral_mounts[0].mount_path, "/workspace/tmp")
         self.assertEqual(create_request.spec.env_vars.additional_properties["MODE"], "template")
         self.assertEqual(from_sandbox_request.template_id, "tpl-derived")
         self.assertEqual(from_sandbox_request.sandbox_id, "sb_123")
@@ -211,7 +220,12 @@ def _template_fixture(
         {
             "template_id": "tpl-derived",
             "scope": "team",
-            "spec": {},
+            "spec": {
+                "mainContainer": {
+                    "image": "docker.io/library/ubuntu@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                    "resources": {"memory": "1Gi"},
+                }
+            },
             "status": status,
             "created_at": "2026-07-18T00:00:00Z",
             "updated_at": "2026-07-18T00:00:00Z",

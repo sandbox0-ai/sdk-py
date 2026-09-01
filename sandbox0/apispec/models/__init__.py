@@ -2,17 +2,14 @@
 
 from .add_team_member_request import AddTeamMemberRequest
 from .add_team_member_request_role import AddTeamMemberRequestRole
-from .affinity import Affinity
 from .api_key import APIKey
-from .app_armor_profile import AppArmorProfile
-from .app_armor_profile_type import AppArmorProfileType
 from .auth_provider import AuthProvider
 from .cache_policy_spec import CachePolicySpec
-from .capabilities import Capabilities
 from .change_password_request import ChangePasswordRequest
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
 from .container_spec import ContainerSpec
+from .container_spec_security_class import ContainerSpecSecurityClass
 from .context_exec_response import ContextExecResponse
 from .context_input_request import ContextInputRequest
 from .context_resource_usage import ContextResourceUsage
@@ -60,11 +57,10 @@ from .egress_credential_rule import EgressCredentialRule
 from .egress_proxy_policy import EgressProxyPolicy
 from .egress_proxy_type import EgressProxyType
 from .egress_tls_mode import EgressTLSMode
-from .empty_dir_mount_spec import EmptyDirMountSpec
 from .env_var import EnvVar
+from .ephemeral_mount_spec import EphemeralMountSpec
 from .error import Error
 from .error_envelope import ErrorEnvelope
-from .exec_action import ExecAction
 from .exec_candidate import ExecCandidate
 from .execution_session import ExecutionSession
 from .execution_session_attempt import ExecutionSessionAttempt
@@ -133,9 +129,6 @@ from .fork_sandbox_response import ForkSandboxResponse
 from .gateway_metadata import GatewayMetadata
 from .gateway_metadata_gateway_mode import GatewayMetadataGatewayMode
 from .get_api_v1_quotas_response_200 import GetApiV1QuotasResponse200
-from .grpc_action import GRPCAction
-from .http_get_action import HTTPGetAction
-from .http_header import HTTPHeader
 from .http_headers_projection import HTTPHeadersProjection
 from .http_match import HTTPMatch
 from .http_method_policy import HTTPMethodPolicy
@@ -143,35 +136,18 @@ from .http_path_policy import HTTPPathPolicy
 from .http_protocol_rule import HTTPProtocolRule
 from .http_value_match import HTTPValueMatch
 from .identity import Identity
-from .label_selector import LabelSelector
-from .label_selector_match_labels import LabelSelectorMatchLabels
-from .label_selector_requirement import LabelSelectorRequirement
 from .login_request import LoginRequest
 from .login_response import LoginResponse
 from .mcp_protocol_rule import MCPProtocolRule
 from .mcp_tool_policy import MCPToolPolicy
 from .move_file_request import MoveFileRequest
 from .network_egress_policy import NetworkEgressPolicy
-from .node_affinity import NodeAffinity
-from .node_selector import NodeSelector
-from .node_selector_requirement import NodeSelectorRequirement
-from .node_selector_term import NodeSelectorTerm
-from .object_meta import ObjectMeta
-from .object_meta_annotations import ObjectMetaAnnotations
-from .object_meta_labels import ObjectMetaLabels
 from .observability_event_source import ObservabilityEventSource
 from .pause_sandbox_response import PauseSandboxResponse
 from .placeholder_replacement import PlaceholderReplacement
 from .placeholder_substitution_location import PlaceholderSubstitutionLocation
 from .placeholder_substitution_projection import PlaceholderSubstitutionProjection
-from .pod_affinity import PodAffinity
-from .pod_affinity_term import PodAffinityTerm
-from .pod_spec_override import PodSpecOverride
-from .pod_spec_override_node_selector import PodSpecOverrideNodeSelector
-from .pool_strategy import PoolStrategy
 from .port_spec import PortSpec
-from .preferred_scheduling_term import PreferredSchedulingTerm
-from .probe import Probe
 from .process_type import ProcessType
 from .projected_header import ProjectedHeader
 from .projection_spec import ProjectionSpec
@@ -179,6 +155,8 @@ from .protocol_rule import ProtocolRule
 from .protocol_rule_protocol import ProtocolRuleProtocol
 from .pty_size import PTYSize
 from .quota_dimension import QuotaDimension
+from .rebase_sandbox_root_fs_request import RebaseSandboxRootFSRequest
+from .rebase_sandbox_root_fs_response import RebaseSandboxRootFSResponse
 from .refresh_request import RefreshRequest
 from .refresh_response import RefreshResponse
 from .region import Region
@@ -279,17 +257,11 @@ from .sandbox_services_update_request import SandboxServicesUpdateRequest
 from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
 from .sandbox_summary import SandboxSummary
-from .sandbox_template import SandboxTemplate
-from .sandbox_template_condition import SandboxTemplateCondition
 from .sandbox_template_spec import SandboxTemplateSpec
 from .sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
 from .sandbox_template_status import SandboxTemplateStatus
 from .sandbox_update_config import SandboxUpdateConfig
-from .sandbox_update_config_env_vars import SandboxUpdateConfigEnvVars
 from .sandbox_update_request import SandboxUpdateRequest
-from .seccomp_profile import SeccompProfile
-from .seccomp_profile_type import SeccompProfileType
-from .security_context import SecurityContext
 from .signal_context_request import SignalContextRequest
 from .ssh_proxy_projection import SSHProxyProjection
 from .ssh_public_key import SSHPublicKey
@@ -351,6 +323,7 @@ from .success_message_response_data import SuccessMessageResponseData
 from .success_moved_response import SuccessMovedResponse
 from .success_moved_response_data import SuccessMovedResponseData
 from .success_pause_sandbox_response import SuccessPauseSandboxResponse
+from .success_rebase_sandbox_root_fs_response import SuccessRebaseSandboxRootFSResponse
 from .success_refresh_response import SuccessRefreshResponse
 from .success_region_list_response import SuccessRegionListResponse
 from .success_region_list_response_data import SuccessRegionListResponseData
@@ -409,7 +382,6 @@ from .success_usage_windows_response import SuccessUsageWindowsResponse
 from .success_user_response import SuccessUserResponse
 from .success_written_response import SuccessWrittenResponse
 from .success_written_response_data import SuccessWrittenResponseData
-from .tcp_socket_action import TCPSocketAction
 from .team import Team
 from .team_delete_conflict_details import TeamDeleteConflictDetails
 from .team_delete_conflict_response import TeamDeleteConflictResponse
@@ -429,7 +401,6 @@ from .template_from_sandbox_create_request import TemplateFromSandboxCreateReque
 from .template_from_sandbox_spec_overrides import TemplateFromSandboxSpecOverrides
 from .template_update_request import TemplateUpdateRequest
 from .tls_client_certificate_projection import TLSClientCertificateProjection
-from .toleration import Toleration
 from .traffic_rule import TrafficRule
 from .traffic_rule_action import TrafficRuleAction
 from .traffic_rule_app_protocol import TrafficRuleAppProtocol
@@ -445,22 +416,18 @@ from .user import User
 from .username_password_projection import UsernamePasswordProjection
 from .web_login_exchange_request import WebLoginExchangeRequest
 from .webhook_config import WebhookConfig
-from .weighted_pod_affinity_term import WeightedPodAffinityTerm
 
 __all__ = (
     "AddTeamMemberRequest",
     "AddTeamMemberRequestRole",
-    "Affinity",
     "APIKey",
-    "AppArmorProfile",
-    "AppArmorProfileType",
     "AuthProvider",
     "CachePolicySpec",
-    "Capabilities",
     "ChangePasswordRequest",
     "ClaimRequest",
     "ClaimResponse",
     "ContainerSpec",
+    "ContainerSpecSecurityClass",
     "ContextExecResponse",
     "ContextInputRequest",
     "ContextResourceUsage",
@@ -506,11 +473,10 @@ __all__ = (
     "EgressProxyPolicy",
     "EgressProxyType",
     "EgressTLSMode",
-    "EmptyDirMountSpec",
     "EnvVar",
+    "EphemeralMountSpec",
     "Error",
     "ErrorEnvelope",
-    "ExecAction",
     "ExecCandidate",
     "ExecutionSession",
     "ExecutionSessionAttempt",
@@ -571,9 +537,6 @@ __all__ = (
     "GatewayMetadata",
     "GatewayMetadataGatewayMode",
     "GetApiV1QuotasResponse200",
-    "GRPCAction",
-    "HTTPGetAction",
-    "HTTPHeader",
     "HTTPHeadersProjection",
     "HTTPMatch",
     "HTTPMethodPolicy",
@@ -581,35 +544,18 @@ __all__ = (
     "HTTPProtocolRule",
     "HTTPValueMatch",
     "Identity",
-    "LabelSelector",
-    "LabelSelectorMatchLabels",
-    "LabelSelectorRequirement",
     "LoginRequest",
     "LoginResponse",
     "MCPProtocolRule",
     "MCPToolPolicy",
     "MoveFileRequest",
     "NetworkEgressPolicy",
-    "NodeAffinity",
-    "NodeSelector",
-    "NodeSelectorRequirement",
-    "NodeSelectorTerm",
-    "ObjectMeta",
-    "ObjectMetaAnnotations",
-    "ObjectMetaLabels",
     "ObservabilityEventSource",
     "PauseSandboxResponse",
     "PlaceholderReplacement",
     "PlaceholderSubstitutionLocation",
     "PlaceholderSubstitutionProjection",
-    "PodAffinity",
-    "PodAffinityTerm",
-    "PodSpecOverride",
-    "PodSpecOverrideNodeSelector",
-    "PoolStrategy",
     "PortSpec",
-    "PreferredSchedulingTerm",
-    "Probe",
     "ProcessType",
     "ProjectedHeader",
     "ProjectionSpec",
@@ -617,6 +563,8 @@ __all__ = (
     "ProtocolRuleProtocol",
     "PTYSize",
     "QuotaDimension",
+    "RebaseSandboxRootFSRequest",
+    "RebaseSandboxRootFSResponse",
     "RefreshRequest",
     "RefreshResponse",
     "Region",
@@ -707,17 +655,11 @@ __all__ = (
     "SandboxSSHConnection",
     "SandboxStatus",
     "SandboxSummary",
-    "SandboxTemplate",
-    "SandboxTemplateCondition",
     "SandboxTemplateSpec",
     "SandboxTemplateSpecEnvVars",
     "SandboxTemplateStatus",
     "SandboxUpdateConfig",
-    "SandboxUpdateConfigEnvVars",
     "SandboxUpdateRequest",
-    "SeccompProfile",
-    "SeccompProfileType",
-    "SecurityContext",
     "SignalContextRequest",
     "SSHProxyProjection",
     "SSHPublicKey",
@@ -771,6 +713,7 @@ __all__ = (
     "SuccessMovedResponse",
     "SuccessMovedResponseData",
     "SuccessPauseSandboxResponse",
+    "SuccessRebaseSandboxRootFSResponse",
     "SuccessRefreshResponse",
     "SuccessRegionListResponse",
     "SuccessRegionListResponseData",
@@ -813,7 +756,6 @@ __all__ = (
     "SuccessUserResponse",
     "SuccessWrittenResponse",
     "SuccessWrittenResponseData",
-    "TCPSocketAction",
     "Team",
     "TeamDeleteConflictDetails",
     "TeamDeleteConflictResponse",
@@ -833,7 +775,6 @@ __all__ = (
     "TemplateFromSandboxSpecOverrides",
     "TemplateUpdateRequest",
     "TLSClientCertificateProjection",
-    "Toleration",
     "TrafficRule",
     "TrafficRuleAction",
     "TrafficRuleAppProtocol",
@@ -849,5 +790,4 @@ __all__ = (
     "UsernamePasswordProjection",
     "WebhookConfig",
     "WebLoginExchangeRequest",
-    "WeightedPodAffinityTerm",
 )

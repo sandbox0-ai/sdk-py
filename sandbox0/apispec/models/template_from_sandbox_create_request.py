@@ -27,9 +27,7 @@ class TemplateFromSandboxCreateRequest:
         template_id (str):
         sandbox_id (str):
         spec_overrides (Union[Unset, TemplateFromSandboxSpecOverrides]): Safe template fields that may override values
-            inherited from the source
-            sandbox's originating template. Pool defaults to zero idle sandboxes
-            when omitted.
+            inherited from the source sandbox's originating template.
     """
 
     template_id: str

@@ -21,10 +21,8 @@ T = TypeVar("T", bound="TemplateCreationStatus")
 class TemplateCreationStatus:
     """Asynchronous creation status for templates built from a sandbox.
     Traditional image-based templates omit this object and are ready
-    immediately after creation. Ready means the template is visible in at
-    least one data-plane cluster and the claim API accepts it; when the
-    pool is zero, it does not imply that a sandbox image has already been
-    pulled.
+    immediately after creation. Ready means the regional template source
+    has been committed and the claim API may consume it.
 
         Attributes:
             state (TemplateCreationStatusState):
@@ -32,7 +30,6 @@ class TemplateCreationStatus:
             started_at (Union[Unset, datetime.datetime]):
             captured_at (Union[Unset, datetime.datetime]):
             completed_at (Union[Unset, datetime.datetime]):
-            output_image (Union[Unset, str]): Digest-pinned image reference published to the configured team registry.
             reason (Union[Unset, str]):
             message (Union[Unset, str]):
     """
@@ -42,7 +39,6 @@ class TemplateCreationStatus:
     started_at: Union[Unset, datetime.datetime] = UNSET
     captured_at: Union[Unset, datetime.datetime] = UNSET
     completed_at: Union[Unset, datetime.datetime] = UNSET
-    output_image: Union[Unset, str] = UNSET
     reason: Union[Unset, str] = UNSET
     message: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -64,8 +60,6 @@ class TemplateCreationStatus:
         if not isinstance(self.completed_at, Unset):
             completed_at = self.completed_at.isoformat()
 
-        output_image = self.output_image
-
         reason = self.reason
 
         message = self.message
@@ -84,8 +78,6 @@ class TemplateCreationStatus:
             field_dict["capturedAt"] = captured_at
         if completed_at is not UNSET:
             field_dict["completedAt"] = completed_at
-        if output_image is not UNSET:
-            field_dict["outputImage"] = output_image
         if reason is not UNSET:
             field_dict["reason"] = reason
         if message is not UNSET:
@@ -121,8 +113,6 @@ class TemplateCreationStatus:
         else:
             completed_at = isoparse(_completed_at)
 
-        output_image = d.pop("outputImage", UNSET)
-
         reason = d.pop("reason", UNSET)
 
         message = d.pop("message", UNSET)
@@ -133,7 +123,6 @@ class TemplateCreationStatus:
             started_at=started_at,
             captured_at=captured_at,
             completed_at=completed_at,
-            output_image=output_image,
             reason=reason,
             message=message,
         )

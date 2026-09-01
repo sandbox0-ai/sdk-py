@@ -1,7 +1,11 @@
 import unittest
 
-from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import CreateSandboxRootFSSnapshotRequest
-from sandbox0.apispec.models.restore_sandbox_root_fs_request import RestoreSandboxRootFSRequest
+from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import (
+    CreateSandboxRootFSSnapshotRequest,
+)
+from sandbox0.apispec.models.restore_sandbox_root_fs_request import (
+    RestoreSandboxRootFSRequest,
+)
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_config_env_vars import SandboxConfigEnvVars
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
@@ -29,7 +33,11 @@ class TestSandboxes(unittest.TestCase):
             hard_ttl=600,
             auto_resume=True,
             network=SandboxNetworkPolicy(mode=SandboxNetworkPolicyMode.ALLOW_ALL),
-            webhook=WebhookConfig(url="https://example.com/webhook", secret="secret", watch_dir="/workspace"),
+            webhook=WebhookConfig(
+                url="https://example.com/webhook",
+                secret="secret",
+                watch_dir="/workspace",
+            ),
         )
 
         sandbox = claim_sandbox(self, client, cfg, config=config)
@@ -46,11 +54,11 @@ class TestSandboxes(unittest.TestCase):
         )
         self.assertFalse(updated.auto_resume)
 
-        paused = client.sandboxes.pause(sandbox.id)
+        paused = client.sandboxes.pause_and_wait(sandbox.id)
         self.assertTrue(paused.paused)
 
-        resumed = client.sandboxes.resume(sandbox.id)
-        self.assertTrue(resumed.resumed)
+        resumed = client.sandboxes.resume_and_wait(sandbox.id)
+        self.assertEqual(resumed.status, SandboxLifecycleStatus.RUNNING)
 
         refresh = client.sandboxes.refresh(sandbox.id)
         self.assertEqual(refresh.sandbox_id, sandbox.id)
@@ -110,7 +118,7 @@ class TestSandboxes(unittest.TestCase):
         client = new_client(cfg)
         self.addCleanup(close_client, client)
 
-        source = client.sandboxes.claim(cfg.template)
+        source = client.sandboxes.claim(cfg.template, config=SandboxConfig(hard_ttl=600))
         self.addCleanup(lambda: self._delete_sandbox(client, source.id))
 
         snapshot_id = ""
@@ -132,8 +140,6 @@ class TestSandboxes(unittest.TestCase):
 
         marker_path = "/tmp/sdk-py-rootfs-marker.txt"
         source.write_file(marker_path, b"rootfs-v1\n")
-        paused = client.sandboxes.pause(source.id)
-        self.assertTrue(paused.paused)
 
         snapshot = client.sandboxes.create_rootfs_snapshot(
             source.id,
@@ -148,26 +154,26 @@ class TestSandboxes(unittest.TestCase):
         fetched_snapshot = client.sandboxes.get_rootfs_snapshot(snapshot.id)
         self.assertEqual(fetched_snapshot.id, snapshot.id)
 
-        client.sandboxes.resume(source.id)
         source.write_file(marker_path, b"rootfs-v2\n")
-        client.sandboxes.pause(source.id)
-
-        restored = client.sandboxes.restore_rootfs(source.id, RestoreSandboxRootFSRequest(snapshot_id=snapshot.id))
-        self.assertEqual(restored.snapshot_id, snapshot.id)
 
         forked = client.sandboxes.fork(source.id)
         fork_id = forked.sandbox.id
         self.assertEqual(forked.source_sandbox_id, source.id)
-        self.assertTrue(fork_id)
+        self.assertTrue(forked.sandbox.paused)
+
+        client.sandboxes.pause_and_wait(source.id)
+
+        restored = client.sandboxes.restore_rootfs(source.id, RestoreSandboxRootFSRequest(snapshot_id=snapshot.id))
+        self.assertEqual(restored.snapshot_id, snapshot.id)
 
         client.sandboxes.delete_rootfs_snapshot(snapshot.id)
         snapshot_id = ""
 
-        client.sandboxes.resume(source.id)
-        client.sandboxes.resume(fork_id)
+        client.sandboxes.resume_and_wait(source.id)
+        client.sandboxes.resume_and_wait(fork_id)
 
         self.assertEqual(source.read_file(marker_path), b"rootfs-v1\n")
-        self.assertEqual(client.sandbox(fork_id).read_file(marker_path), b"rootfs-v1\n")
+        self.assertEqual(client.sandbox(fork_id).read_file(marker_path), b"rootfs-v2\n")
 
     @staticmethod
     def _delete_sandbox(client, sandbox_id: str) -> None:

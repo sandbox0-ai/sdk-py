@@ -22,9 +22,10 @@ T = TypeVar("T", bound="SandboxUpdateRequest")
 class SandboxUpdateRequest:
     """
     Attributes:
-        config (Union[Unset, SandboxUpdateConfig]): Subset of SandboxConfig fields that can be updated at runtime
-            without restarting the sandbox.
-            Note: env_vars only affect new processes. webhook is not included as it requires restart.
+        config (Union[Unset, SandboxUpdateConfig]): Durable lifecycle and service fields that can be updated without
+            replacing
+            the current runtime allocation. Network policy uses the dedicated network
+            endpoint. Environment, resource, and webhook changes require a new runtime.
     """
 
     config: Union[Unset, "SandboxUpdateConfig"] = UNSET

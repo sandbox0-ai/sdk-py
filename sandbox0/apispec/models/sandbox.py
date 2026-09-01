@@ -34,7 +34,7 @@ class Sandbox:
         status (SandboxLifecycleStatus):
         paused (bool): True when status is paused.
         auto_resume (bool):
-        pod_name (str):
+        runtime_id (str): Opaque identifier of the current physical runtime allocation. Empty while paused.
         runtime_generation (int): Monotonically increasing runtime generation. Resume starts a new generation.
         claimed_at (datetime.datetime):
         created_at (datetime.datetime):
@@ -42,7 +42,7 @@ class Sandbox:
         user_id (Union[Unset, str]):
         services (Union[Unset, list['SandboxAppService']]):
         resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
-            memory only and derives CPU from the platform memory-per-CPU ratio, with a minimum CPU limit of 150m.
+            memory only and derives CPU from the platform memory-per-CPU ratio.
         ssh (Union[Unset, SandboxSSHConnection]):
         expires_at (Union[None, Unset, datetime.datetime]): Soft expiration timestamp. Omitted or null means disabled or
             not set.
@@ -56,7 +56,7 @@ class Sandbox:
     status: SandboxLifecycleStatus
     paused: bool
     auto_resume: bool
-    pod_name: str
+    runtime_id: str
     runtime_generation: int
     claimed_at: datetime.datetime
     created_at: datetime.datetime
@@ -82,7 +82,7 @@ class Sandbox:
 
         auto_resume = self.auto_resume
 
-        pod_name = self.pod_name
+        runtime_id = self.runtime_id
 
         runtime_generation = self.runtime_generation
 
@@ -135,7 +135,7 @@ class Sandbox:
                 "status": status,
                 "paused": paused,
                 "auto_resume": auto_resume,
-                "pod_name": pod_name,
+                "runtime_id": runtime_id,
                 "runtime_generation": runtime_generation,
                 "claimed_at": claimed_at,
                 "created_at": created_at,
@@ -176,7 +176,7 @@ class Sandbox:
 
         auto_resume = d.pop("auto_resume")
 
-        pod_name = d.pop("pod_name")
+        runtime_id = d.pop("runtime_id")
 
         runtime_generation = d.pop("runtime_generation")
 
@@ -252,7 +252,7 @@ class Sandbox:
             status=status,
             paused=paused,
             auto_resume=auto_resume,
-            pod_name=pod_name,
+            runtime_id=runtime_id,
             runtime_generation=runtime_generation,
             claimed_at=claimed_at,
             created_at=created_at,

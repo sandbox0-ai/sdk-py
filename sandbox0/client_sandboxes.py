@@ -23,7 +23,6 @@ from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleSta
 from sandbox0.apispec.models.sandbox_resource_config import SandboxResourceConfig
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
-from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_message_response import SuccessMessageResponse
@@ -68,7 +67,7 @@ class ClientSandboxesMixin:
             client=self,
             template=data.template,
             cluster_id=None if data.cluster_id.__class__.__name__ == "Unset" else data.cluster_id,
-            pod_name=data.pod_name,
+            runtime_id=data.runtime_id,
             status=data.status,
         )
 
@@ -79,14 +78,6 @@ class ClientSandboxesMixin:
     def update_sandbox(self: "Client", sandbox_id: str, request: SandboxUpdateRequest) -> APISandbox:  # type: ignore[misc]
         resp = put_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._api, body=request)
         return ensure_data(resp, SuccessSandboxResponse)
-
-    def update_sandbox_memory(self: "Client", sandbox_id: str, memory: str) -> APISandbox:  # type: ignore[misc]
-        return self.update_sandbox(
-            sandbox_id,
-            SandboxUpdateRequest(
-                config=SandboxUpdateConfig(resources=SandboxResourceConfig(memory=memory)),
-            ),
-        )
 
     def delete_sandbox(self: "Client", sandbox_id: str) -> SuccessMessageResponse:  # type: ignore[misc]
         resp = delete_api_v1_sandboxes_id.sync_detailed(id=sandbox_id, client=self._api)

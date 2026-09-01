@@ -4,32 +4,33 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="HTTPHeader")
+T = TypeVar("T", bound="EphemeralMountSpec")
 
 
 @_attrs_define
-class HTTPHeader:
+class EphemeralMountSpec:
     """
     Attributes:
-        name (str):
-        value (str):
+        mount_path (str):
+        size_limit (str): Exact byte quantity between 1Mi and 1Ti. The tmpfs remains subject to the sandbox memory
+            cgroup.
     """
 
-    name: str
-    value: str
+    mount_path: str
+    size_limit: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        name = self.name
+        mount_path = self.mount_path
 
-        value = self.value
+        size_limit = self.size_limit
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "name": name,
-                "value": value,
+                "mountPath": mount_path,
+                "sizeLimit": size_limit,
             }
         )
 
@@ -38,17 +39,17 @@ class HTTPHeader:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        name = d.pop("name")
+        mount_path = d.pop("mountPath")
 
-        value = d.pop("value")
+        size_limit = d.pop("sizeLimit")
 
-        http_header = cls(
-            name=name,
-            value=value,
+        ephemeral_mount_spec = cls(
+            mount_path=mount_path,
+            size_limit=size_limit,
         )
 
-        http_header.additional_properties = d
-        return http_header
+        ephemeral_mount_spec.additional_properties = d
+        return ephemeral_mount_spec
 
     @property
     def additional_keys(self) -> list[str]:
