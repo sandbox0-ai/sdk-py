@@ -26,10 +26,15 @@ def _get_kwargs(
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Optional[Union[ErrorEnvelope, SuccessMessageResponse]]:
-    if response.status_code == 200:
-        response_200 = SuccessMessageResponse.from_dict(response.json())
+    if response.status_code == 202:
+        response_202 = SuccessMessageResponse.from_dict(response.json())
 
-        return response_200
+        return response_202
+
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
 
     if response.status_code == 403:
         response_403 = ErrorEnvelope.from_dict(response.json())

@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_template_response import SuccessTemplateResponse
 from ...models.template_create_request import TemplateCreateRequest
 from ...types import Response
@@ -31,11 +32,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessTemplateResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessTemplateResponse]]:
     if response.status_code == 201:
         response_201 = SuccessTemplateResponse.from_dict(response.json())
 
         return response_201
+
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -45,7 +51,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessTemplateResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessTemplateResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,7 +64,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: TemplateCreateRequest,
-) -> Response[SuccessTemplateResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessTemplateResponse]]:
     """Create template
 
     Args:
@@ -69,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessTemplateResponse]
+        Response[Union[ErrorEnvelope, SuccessTemplateResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -87,7 +93,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: TemplateCreateRequest,
-) -> Optional[SuccessTemplateResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessTemplateResponse]]:
     """Create template
 
     Args:
@@ -98,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessTemplateResponse
+        Union[ErrorEnvelope, SuccessTemplateResponse]
     """
 
     return sync_detailed(
@@ -111,7 +117,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: TemplateCreateRequest,
-) -> Response[SuccessTemplateResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessTemplateResponse]]:
     """Create template
 
     Args:
@@ -122,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessTemplateResponse]
+        Response[Union[ErrorEnvelope, SuccessTemplateResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -138,7 +144,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: TemplateCreateRequest,
-) -> Optional[SuccessTemplateResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessTemplateResponse]]:
     """Create template
 
     Args:
@@ -149,7 +155,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessTemplateResponse
+        Union[ErrorEnvelope, SuccessTemplateResponse]
     """
 
     return (

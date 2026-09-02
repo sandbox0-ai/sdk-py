@@ -32,6 +32,7 @@ from sandbox0.apispec.models.sandbox_update_config import SandboxUpdateConfig
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
 from sandbox0.apispec.models.success_claim_response import SuccessClaimResponse
 from sandbox0.apispec.models.success_deleted_response import SuccessDeletedResponse
+from sandbox0.apispec.models.success_deleted_response_data import SuccessDeletedResponseData
 from sandbox0.apispec.models.success_fork_sandbox_response import (
     SuccessForkSandboxResponse,
 )
@@ -353,7 +354,10 @@ class TestSandboxes(TestCase):
             stack.enter_context(
                 patch(
                     "sandbox0.resources.delete_api_v1_sandbox_rootfs_snapshots_snapshot_id.sync_detailed",
-                    side_effect=capture_response("delete", SuccessDeletedResponse(success=True)),
+                side_effect=capture_response(
+                    "delete",
+                    SuccessDeletedResponse(success=True, data=SuccessDeletedResponseData(deleted=True)),
+                ),
                 )
             )
             stack.enter_context(
@@ -417,6 +421,7 @@ class TestSandboxes(TestCase):
             forked = client.sandboxes.fork(
                 "sb_1",
                 request=ForkSandboxRequest(config=ForkSandboxConfig(ttl=60, hard_ttl=120)),
+                idempotency_key="fork-request-one",
             )
 
         self.assertEqual(created.id, "snap_1")
@@ -436,3 +441,4 @@ class TestSandboxes(TestCase):
         self.assertEqual(captured["fork"]["id"], "sb_1")
         self.assertEqual(captured["fork"]["body"].config.ttl, 60)
         self.assertEqual(captured["fork"]["body"].config.hard_ttl, 120)
+        self.assertEqual(captured["fork"]["idempotency_key"], "fork-request-one")

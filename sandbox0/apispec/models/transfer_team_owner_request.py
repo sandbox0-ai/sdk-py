@@ -1,5 +1,6 @@
 from collections.abc import Mapping
 from typing import Any, TypeVar
+from uuid import UUID
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -11,14 +12,14 @@ T = TypeVar("T", bound="TransferTeamOwnerRequest")
 class TransferTeamOwnerRequest:
     """
     Attributes:
-        user_id (str):
+        user_id (UUID):
     """
 
-    user_id: str
+    user_id: UUID
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        user_id = self.user_id
+        user_id = str(self.user_id)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -33,7 +34,7 @@ class TransferTeamOwnerRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        user_id = d.pop("user_id")
+        user_id = UUID(d.pop("user_id"))
 
         transfer_team_owner_request = cls(
             user_id=user_id,

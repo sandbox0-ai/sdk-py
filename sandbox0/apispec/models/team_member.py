@@ -5,6 +5,7 @@ from typing import (
     TypeVar,
     Union,
 )
+from uuid import UUID
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,9 +20,9 @@ T = TypeVar("T", bound="TeamMember")
 class TeamMember:
     """
     Attributes:
-        id (str):
-        team_id (str):
-        user_id (str):
+        id (UUID):
+        team_id (UUID):
+        user_id (UUID):
         role (str):
         joined_at (datetime.datetime):
         email (Union[Unset, str]): User email address. Present in team member list responses.
@@ -29,9 +30,9 @@ class TeamMember:
         avatar_url (Union[Unset, str]): User avatar URL. Present in team member list responses.
     """
 
-    id: str
-    team_id: str
-    user_id: str
+    id: UUID
+    team_id: UUID
+    user_id: UUID
     role: str
     joined_at: datetime.datetime
     email: Union[Unset, str] = UNSET
@@ -40,11 +41,11 @@ class TeamMember:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        id = str(self.id)
 
-        team_id = self.team_id
+        team_id = str(self.team_id)
 
-        user_id = self.user_id
+        user_id = str(self.user_id)
 
         role = self.role
 
@@ -79,11 +80,11 @@ class TeamMember:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id")
+        id = UUID(d.pop("id"))
 
-        team_id = d.pop("team_id")
+        team_id = UUID(d.pop("team_id"))
 
-        user_id = d.pop("user_id")
+        user_id = UUID(d.pop("user_id"))
 
         role = d.pop("role")
 

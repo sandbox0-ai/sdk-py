@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.error_envelope import ErrorEnvelope
 from ...models.execution_session_signal_request import ExecutionSessionSignalRequest
 from ...models.success_accepted_response import SuccessAcceptedResponse
 from ...types import Response
@@ -36,11 +37,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessAcceptedResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessAcceptedResponse]]:
     if response.status_code == 202:
         response_202 = SuccessAcceptedResponse.from_dict(response.json())
 
         return response_202
+
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -50,7 +56,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessAcceptedResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessAcceptedResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +71,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionSignalRequest,
-) -> Response[SuccessAcceptedResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessAcceptedResponse]]:
     """Send a signal to an execution session attempt
 
     Args:
@@ -78,7 +84,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessAcceptedResponse]
+        Response[Union[ErrorEnvelope, SuccessAcceptedResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -100,7 +106,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionSignalRequest,
-) -> Optional[SuccessAcceptedResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessAcceptedResponse]]:
     """Send a signal to an execution session attempt
 
     Args:
@@ -113,7 +119,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessAcceptedResponse
+        Union[ErrorEnvelope, SuccessAcceptedResponse]
     """
 
     return sync_detailed(
@@ -130,7 +136,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionSignalRequest,
-) -> Response[SuccessAcceptedResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessAcceptedResponse]]:
     """Send a signal to an execution session attempt
 
     Args:
@@ -143,7 +149,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessAcceptedResponse]
+        Response[Union[ErrorEnvelope, SuccessAcceptedResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -163,7 +169,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: ExecutionSessionSignalRequest,
-) -> Optional[SuccessAcceptedResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessAcceptedResponse]]:
     """Send a signal to an execution session attempt
 
     Args:
@@ -176,7 +182,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessAcceptedResponse
+        Union[ErrorEnvelope, SuccessAcceptedResponse]
     """
 
     return (
