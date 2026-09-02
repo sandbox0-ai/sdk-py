@@ -417,6 +417,7 @@ class TestSandboxes(TestCase):
             forked = client.sandboxes.fork(
                 "sb_1",
                 request=ForkSandboxRequest(config=ForkSandboxConfig(ttl=60, hard_ttl=120)),
+                idempotency_key="fork-request-one",
             )
 
         self.assertEqual(created.id, "snap_1")
@@ -436,3 +437,4 @@ class TestSandboxes(TestCase):
         self.assertEqual(captured["fork"]["id"], "sb_1")
         self.assertEqual(captured["fork"]["body"].config.ttl, 60)
         self.assertEqual(captured["fork"]["body"].config.hard_ttl, 120)
+        self.assertEqual(captured["fork"]["idempotency_key"], "fork-request-one")

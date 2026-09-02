@@ -298,9 +298,20 @@ class Sandboxes:
         )
         return ensure_data(resp, SuccessRebaseSandboxRootFSResponse)
 
-    def fork(self, sandbox_id: str, request: Optional[ForkSandboxRequest] = None) -> ForkSandboxResponse:
+    def fork(
+        self,
+        sandbox_id: str,
+        request: Optional[ForkSandboxRequest] = None,
+        *,
+        idempotency_key: Optional[str] = None,
+    ) -> ForkSandboxResponse:
         body = request if request is not None else ForkSandboxRequest()
-        resp = post_api_v1_sandboxes_id_fork.sync_detailed(id=sandbox_id, client=self._client.api, body=body)
+        resp = post_api_v1_sandboxes_id_fork.sync_detailed(
+            id=sandbox_id,
+            client=self._client.api,
+            body=body,
+            idempotency_key=idempotency_key if idempotency_key is not None else UNSET,
+        )
         return ensure_data(resp, SuccessForkSandboxResponse)
 
     def list(
