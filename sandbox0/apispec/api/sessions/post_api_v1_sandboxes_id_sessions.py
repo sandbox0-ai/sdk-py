@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.error_envelope import ErrorEnvelope
 from ...models.execution_session_spec import ExecutionSessionSpec
 from ...models.success_execution_session_response import SuccessExecutionSessionResponse
 from ...types import UNSET, Response, Unset
@@ -37,7 +38,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessExecutionSessionResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     if response.status_code == 200:
         response_200 = SuccessExecutionSessionResponse.from_dict(response.json())
 
@@ -48,6 +49,11 @@ def _parse_response(
 
         return response_201
 
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -56,7 +62,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessExecutionSessionResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,7 +77,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: ExecutionSessionSpec,
     idempotency_key: Union[Unset, str] = UNSET,
-) -> Response[SuccessExecutionSessionResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create an execution session
 
      Creates a durable process-backed session. The client connection does not own the session lifecycle.
@@ -87,7 +93,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessExecutionSessionResponse]
+        Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -109,7 +115,7 @@ def sync(
     client: AuthenticatedClient,
     body: ExecutionSessionSpec,
     idempotency_key: Union[Unset, str] = UNSET,
-) -> Optional[SuccessExecutionSessionResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create an execution session
 
      Creates a durable process-backed session. The client connection does not own the session lifecycle.
@@ -125,7 +131,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessExecutionSessionResponse
+        Union[ErrorEnvelope, SuccessExecutionSessionResponse]
     """
 
     return sync_detailed(
@@ -142,7 +148,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: ExecutionSessionSpec,
     idempotency_key: Union[Unset, str] = UNSET,
-) -> Response[SuccessExecutionSessionResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create an execution session
 
      Creates a durable process-backed session. The client connection does not own the session lifecycle.
@@ -158,7 +164,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessExecutionSessionResponse]
+        Response[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -178,7 +184,7 @@ async def asyncio(
     client: AuthenticatedClient,
     body: ExecutionSessionSpec,
     idempotency_key: Union[Unset, str] = UNSET,
-) -> Optional[SuccessExecutionSessionResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessExecutionSessionResponse]]:
     """Create an execution session
 
      Creates a durable process-backed session. The client connection does not own the session lifecycle.
@@ -194,7 +200,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessExecutionSessionResponse
+        Union[ErrorEnvelope, SuccessExecutionSessionResponse]
     """
 
     return (

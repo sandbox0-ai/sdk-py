@@ -9,8 +9,6 @@ from typing import (
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.file_content_response import FileContentResponse
     from ..models.file_info import FileInfo
@@ -27,13 +25,11 @@ class SuccessFileReadResponse:
     """
     Attributes:
         success (bool):
-        data (Union['FileContentResponse', 'FileInfo', 'SuccessFileReadResponseDataType1', Unset]):
+        data (Union['FileContentResponse', 'FileInfo', 'SuccessFileReadResponseDataType1']):
     """
 
     success: bool
-    data: Union[
-        "FileContentResponse", "FileInfo", "SuccessFileReadResponseDataType1", Unset
-    ] = UNSET
+    data: Union["FileContentResponse", "FileInfo", "SuccessFileReadResponseDataType1"]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -44,10 +40,8 @@ class SuccessFileReadResponse:
 
         success = self.success
 
-        data: Union[Unset, dict[str, Any]]
-        if isinstance(self.data, Unset):
-            data = UNSET
-        elif isinstance(self.data, FileInfo):
+        data: dict[str, Any]
+        if isinstance(self.data, FileInfo):
             data = self.data.to_dict()
         elif isinstance(self.data, SuccessFileReadResponseDataType1):
             data = self.data.to_dict()
@@ -59,10 +53,9 @@ class SuccessFileReadResponse:
         field_dict.update(
             {
                 "success": success,
+                "data": data,
             }
         )
-        if data is not UNSET:
-            field_dict["data"] = data
 
         return field_dict
 
@@ -80,10 +73,8 @@ class SuccessFileReadResponse:
         def _parse_data(
             data: object,
         ) -> Union[
-            "FileContentResponse", "FileInfo", "SuccessFileReadResponseDataType1", Unset
+            "FileContentResponse", "FileInfo", "SuccessFileReadResponseDataType1"
         ]:
-            if isinstance(data, Unset):
-                return data
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
@@ -106,7 +97,7 @@ class SuccessFileReadResponse:
 
             return data_type_2
 
-        data = _parse_data(d.pop("data", UNSET))
+        data = _parse_data(d.pop("data"))
 
         success_file_read_response = cls(
             success=success,

@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from typing import Any, Optional, Union
+from uuid import UUID
 
 import httpx
 
@@ -12,8 +13,8 @@ from ...types import Response
 
 
 def _get_kwargs(
-    id: str,
-    user_id: str,
+    id: UUID,
+    user_id: UUID,
     *,
     body: UpdateTeamMemberRequest,
 ) -> dict[str, Any]:
@@ -48,6 +49,11 @@ def _parse_response(
 
         return response_400
 
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
+
     if response.status_code == 403:
         response_403 = ErrorEnvelope.from_dict(response.json())
 
@@ -76,8 +82,8 @@ def _build_response(
 
 
 def sync_detailed(
-    id: str,
-    user_id: str,
+    id: UUID,
+    user_id: UUID,
     *,
     client: AuthenticatedClient,
     body: UpdateTeamMemberRequest,
@@ -85,8 +91,8 @@ def sync_detailed(
     """Update team member role
 
     Args:
-        id (str):
-        user_id (str):
+        id (UUID):
+        user_id (UUID):
         body (UpdateTeamMemberRequest):
 
     Raises:
@@ -111,8 +117,8 @@ def sync_detailed(
 
 
 def sync(
-    id: str,
-    user_id: str,
+    id: UUID,
+    user_id: UUID,
     *,
     client: AuthenticatedClient,
     body: UpdateTeamMemberRequest,
@@ -120,8 +126,8 @@ def sync(
     """Update team member role
 
     Args:
-        id (str):
-        user_id (str):
+        id (UUID):
+        user_id (UUID):
         body (UpdateTeamMemberRequest):
 
     Raises:
@@ -141,8 +147,8 @@ def sync(
 
 
 async def asyncio_detailed(
-    id: str,
-    user_id: str,
+    id: UUID,
+    user_id: UUID,
     *,
     client: AuthenticatedClient,
     body: UpdateTeamMemberRequest,
@@ -150,8 +156,8 @@ async def asyncio_detailed(
     """Update team member role
 
     Args:
-        id (str):
-        user_id (str):
+        id (UUID):
+        user_id (UUID):
         body (UpdateTeamMemberRequest):
 
     Raises:
@@ -174,8 +180,8 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    id: str,
-    user_id: str,
+    id: UUID,
+    user_id: UUID,
     *,
     client: AuthenticatedClient,
     body: UpdateTeamMemberRequest,
@@ -183,8 +189,8 @@ async def asyncio(
     """Update team member role
 
     Args:
-        id (str):
-        user_id (str):
+        id (UUID):
+        user_id (UUID):
         body (UpdateTeamMemberRequest):
 
     Raises:

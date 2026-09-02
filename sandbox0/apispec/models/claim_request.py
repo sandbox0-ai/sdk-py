@@ -22,13 +22,13 @@ T = TypeVar("T", bound="ClaimRequest")
 class ClaimRequest:
     """
     Attributes:
-        template (Union[Unset, str]):
+        template (str):
         snapshot_id (Union[Unset, str]): Optional sandbox rootfs snapshot ID used to initialize the claimed sandbox
             writable root filesystem.
         config (Union[Unset, SandboxConfig]):
     """
 
-    template: Union[Unset, str] = UNSET
+    template: str
     snapshot_id: Union[Unset, str] = UNSET
     config: Union[Unset, "SandboxConfig"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -44,9 +44,11 @@ class ClaimRequest:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if template is not UNSET:
-            field_dict["template"] = template
+        field_dict.update(
+            {
+                "template": template,
+            }
+        )
         if snapshot_id is not UNSET:
             field_dict["snapshot_id"] = snapshot_id
         if config is not UNSET:
@@ -59,7 +61,7 @@ class ClaimRequest:
         from ..models.sandbox_config import SandboxConfig
 
         d = dict(src_dict)
-        template = d.pop("template", UNSET)
+        template = d.pop("template")
 
         snapshot_id = d.pop("snapshot_id", UNSET)
 

@@ -5,6 +5,7 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.error_envelope import ErrorEnvelope
 from ...models.success_deleted_response import SuccessDeletedResponse
 from ...types import Response
 
@@ -26,11 +27,16 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[SuccessDeletedResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     if response.status_code == 200:
         response_200 = SuccessDeletedResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -40,7 +46,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[SuccessDeletedResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,7 +60,7 @@ def sync_detailed(
     session_id: str,
     *,
     client: AuthenticatedClient,
-) -> Response[SuccessDeletedResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete an execution session
 
     Args:
@@ -66,7 +72,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessDeletedResponse]
+        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -86,7 +92,7 @@ def sync(
     session_id: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[SuccessDeletedResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete an execution session
 
     Args:
@@ -98,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessDeletedResponse
+        Union[ErrorEnvelope, SuccessDeletedResponse]
     """
 
     return sync_detailed(
@@ -113,7 +119,7 @@ async def asyncio_detailed(
     session_id: str,
     *,
     client: AuthenticatedClient,
-) -> Response[SuccessDeletedResponse]:
+) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete an execution session
 
     Args:
@@ -125,7 +131,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SuccessDeletedResponse]
+        Response[Union[ErrorEnvelope, SuccessDeletedResponse]]
     """
 
     kwargs = _get_kwargs(
@@ -143,7 +149,7 @@ async def asyncio(
     session_id: str,
     *,
     client: AuthenticatedClient,
-) -> Optional[SuccessDeletedResponse]:
+) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete an execution session
 
     Args:
@@ -155,7 +161,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SuccessDeletedResponse
+        Union[ErrorEnvelope, SuccessDeletedResponse]
     """
 
     return (

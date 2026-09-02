@@ -6,6 +6,7 @@ from typing import (
     Union,
     cast,
 )
+from uuid import UUID
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -20,26 +21,26 @@ T = TypeVar("T", bound="Team")
 class Team:
     """
     Attributes:
-        id (str):
+        id (UUID):
         name (str): Display name. Team names are not unique; use the team ID as the canonical identifier.
         slug (str): Human-readable alias. Team slugs are not unique; use the team ID as the canonical identifier.
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
-        owner_id (Union[None, Unset, str]):
+        owner_id (Union[None, UUID, Unset]):
         home_region_id (Union[None, Unset, str]):
     """
 
-    id: str
+    id: UUID
     name: str
     slug: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    owner_id: Union[None, Unset, str] = UNSET
+    owner_id: Union[None, UUID, Unset] = UNSET
     home_region_id: Union[None, Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        id = str(self.id)
 
         name = self.name
 
@@ -52,6 +53,8 @@ class Team:
         owner_id: Union[None, Unset, str]
         if isinstance(self.owner_id, Unset):
             owner_id = UNSET
+        elif isinstance(self.owner_id, UUID):
+            owner_id = str(self.owner_id)
         else:
             owner_id = self.owner_id
 
@@ -82,7 +85,7 @@ class Team:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id")
+        id = UUID(d.pop("id"))
 
         name = d.pop("name")
 
@@ -92,12 +95,20 @@ class Team:
 
         updated_at = isoparse(d.pop("updated_at"))
 
-        def _parse_owner_id(data: object) -> Union[None, Unset, str]:
+        def _parse_owner_id(data: object) -> Union[None, UUID, Unset]:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                owner_id_type_0 = UUID(data)
+
+                return owner_id_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, UUID, Unset], data)
 
         owner_id = _parse_owner_id(d.pop("owner_id", UNSET))
 

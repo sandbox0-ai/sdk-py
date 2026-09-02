@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from typing import Any, Optional, Union
+from uuid import UUID
 
 import httpx
 
@@ -11,7 +12,7 @@ from ...types import Response
 
 
 def _get_kwargs(
-    id: str,
+    id: UUID,
 ) -> dict[str, Any]:
     _kwargs: dict[str, Any] = {
         "method": "get",
@@ -30,6 +31,16 @@ def _parse_response(
         response_200 = SuccessTeamResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+        return response_400
+
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
 
     if response.status_code == 403:
         response_403 = ErrorEnvelope.from_dict(response.json())
@@ -59,14 +70,14 @@ def _build_response(
 
 
 def sync_detailed(
-    id: str,
+    id: UUID,
     *,
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Get a team
 
     Args:
-        id (str):
+        id (UUID):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,14 +99,14 @@ def sync_detailed(
 
 
 def sync(
-    id: str,
+    id: UUID,
     *,
     client: AuthenticatedClient,
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Get a team
 
     Args:
-        id (str):
+        id (UUID):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -112,14 +123,14 @@ def sync(
 
 
 async def asyncio_detailed(
-    id: str,
+    id: UUID,
     *,
     client: AuthenticatedClient,
 ) -> Response[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Get a team
 
     Args:
-        id (str):
+        id (UUID):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,14 +150,14 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    id: str,
+    id: UUID,
     *,
     client: AuthenticatedClient,
 ) -> Optional[Union[ErrorEnvelope, SuccessTeamResponse]]:
     """Get a team
 
     Args:
-        id (str):
+        id (UUID):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

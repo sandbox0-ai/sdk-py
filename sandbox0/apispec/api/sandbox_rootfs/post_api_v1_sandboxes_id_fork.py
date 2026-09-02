@@ -8,15 +8,18 @@ from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.fork_sandbox_request import ForkSandboxRequest
 from ...models.success_fork_sandbox_response import SuccessForkSandboxResponse
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
     *,
     body: ForkSandboxRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -40,6 +43,11 @@ def _parse_response(
         response_201 = SuccessForkSandboxResponse.from_dict(response.json())
 
         return response_201
+
+    if response.status_code == 401:
+        response_401 = ErrorEnvelope.from_dict(response.json())
+
+        return response_401
 
     if response.status_code == 404:
         response_404 = ErrorEnvelope.from_dict(response.json())
@@ -78,6 +86,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
     """Fork sandbox rootfs
 
@@ -88,6 +97,7 @@ def sync_detailed(
 
     Args:
         id (str):
+        idempotency_key (Union[Unset, str]):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
             The source sandbox may be running or paused; running sources are checkpointed
@@ -104,6 +114,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = client.get_httpx_client().request(
@@ -118,6 +129,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
     """Fork sandbox rootfs
 
@@ -128,6 +140,7 @@ def sync(
 
     Args:
         id (str):
+        idempotency_key (Union[Unset, str]):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
             The source sandbox may be running or paused; running sources are checkpointed
@@ -145,6 +158,7 @@ def sync(
         id=id,
         client=client,
         body=body,
+        idempotency_key=idempotency_key,
     ).parsed
 
 
@@ -153,6 +167,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
     """Fork sandbox rootfs
 
@@ -163,6 +178,7 @@ async def asyncio_detailed(
 
     Args:
         id (str):
+        idempotency_key (Union[Unset, str]):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
             The source sandbox may be running or paused; running sources are checkpointed
@@ -179,6 +195,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -191,6 +208,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: ForkSandboxRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
     """Fork sandbox rootfs
 
@@ -201,6 +219,7 @@ async def asyncio(
 
     Args:
         id (str):
+        idempotency_key (Union[Unset, str]):
         body (ForkSandboxRequest): Optional fork overrides. Omit config to inherit the source
             sandbox configuration.
             The source sandbox may be running or paused; running sources are checkpointed
@@ -219,5 +238,6 @@ async def asyncio(
             id=id,
             client=client,
             body=body,
+            idempotency_key=idempotency_key,
         )
     ).parsed
