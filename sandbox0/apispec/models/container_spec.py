@@ -27,9 +27,8 @@ class ContainerSpec:
         image (str): Canonical normalized OCI reference pinned by a lowercase SHA-256 digest. Mutable tags are rejected.
         resources (ResourceQuota):
         env (Union[Unset, list['EnvVar']]):
-        security_class (Union[Unset, ContainerSpecSecurityClass]): New templates and sandboxes use privileged. Standard
-            remains valid for existing sandbox records and resume. Privileged capabilities remain confined by runsc and do
-            not expose host devices. Default: ContainerSpecSecurityClass.PRIVILEGED.
+        security_class (Union[Unset, ContainerSpecSecurityClass]): Sandboxes use privileged capabilities inside the
+            gVisor guest. This does not bypass runsc or expose host devices. Default: ContainerSpecSecurityClass.PRIVILEGED.
     """
 
     image: str
