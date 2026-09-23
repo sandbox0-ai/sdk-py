@@ -24,12 +24,18 @@ class ForkSandboxRequest:
     before the paused child sandbox is created.
 
         Attributes:
+            memory (Union[Unset, bool]): Preserve process execution state together with RootFS. Requires Idempotency-Key. A
+                paused source must have a retained memory image; a running source is captured and resumed before completion.
+                Unsupported or unavailable memory never falls back to filesystem-only. Default: False.
             config (Union[Unset, ForkSandboxConfig]):
     """
 
+    memory: Union[Unset, bool] = False
     config: Union[Unset, "ForkSandboxConfig"] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
+        memory = self.memory
+
         config: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.config, Unset):
             config = self.config.to_dict()
@@ -37,6 +43,8 @@ class ForkSandboxRequest:
         field_dict: dict[str, Any] = {}
 
         field_dict.update({})
+        if memory is not UNSET:
+            field_dict["memory"] = memory
         if config is not UNSET:
             field_dict["config"] = config
 
@@ -47,6 +55,8 @@ class ForkSandboxRequest:
         from ..models.fork_sandbox_config import ForkSandboxConfig
 
         d = dict(src_dict)
+        memory = d.pop("memory", UNSET)
+
         _config = d.pop("config", UNSET)
         config: Union[Unset, ForkSandboxConfig]
         if isinstance(_config, Unset):
@@ -55,6 +65,7 @@ class ForkSandboxRequest:
             config = ForkSandboxConfig.from_dict(_config)
 
         fork_sandbox_request = cls(
+            memory=memory,
             config=config,
         )
 

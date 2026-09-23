@@ -6,13 +6,18 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
+from ...models.sandbox_execution_state_request import SandboxExecutionStateRequest
 from ...models.success_resume_sandbox_response import SuccessResumeSandboxResponse
 from ...types import Response
 
 
 def _get_kwargs(
     id: str,
+    *,
+    body: SandboxExecutionStateRequest,
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/api/v1/sandboxes/{id}/resume".format(
@@ -20,6 +25,11 @@ def _get_kwargs(
         ),
     }
 
+    _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -30,6 +40,11 @@ def _parse_response(
         response_200 = SuccessResumeSandboxResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+        return response_400
 
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
@@ -82,11 +97,17 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
+    body: SandboxExecutionStateRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
+     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
+    retained execution image. Missing or incompatible memory is an error; it never falls back to a
+    filesystem-only resume. A disconnected request may continue through background recovery.
+
     Args:
         id (str):
+        body (SandboxExecutionStateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -98,6 +119,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -111,11 +133,17 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
+    body: SandboxExecutionStateRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
+     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
+    retained execution image. Missing or incompatible memory is an error; it never falls back to a
+    filesystem-only resume. A disconnected request may continue through background recovery.
+
     Args:
         id (str):
+        body (SandboxExecutionStateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -128,6 +156,7 @@ def sync(
     return sync_detailed(
         id=id,
         client=client,
+        body=body,
     ).parsed
 
 
@@ -135,11 +164,17 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
+    body: SandboxExecutionStateRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
+     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
+    retained execution image. Missing or incompatible memory is an error; it never falls back to a
+    filesystem-only resume. A disconnected request may continue through background recovery.
+
     Args:
         id (str):
+        body (SandboxExecutionStateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -151,6 +186,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -162,11 +198,17 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
+    body: SandboxExecutionStateRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
+     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
+    retained execution image. Missing or incompatible memory is an error; it never falls back to a
+    filesystem-only resume. A disconnected request may continue through background recovery.
+
     Args:
         id (str):
+        body (SandboxExecutionStateRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -180,5 +222,6 @@ async def asyncio(
         await asyncio_detailed(
             id=id,
             client=client,
+            body=body,
         )
     ).parsed

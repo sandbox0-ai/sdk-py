@@ -27,16 +27,16 @@ class ContainerSpec:
         image (str): Canonical normalized OCI reference pinned by a lowercase SHA-256 digest. Mutable tags are rejected.
         resources (ResourceQuota):
         env (Union[Unset, list['EnvVar']]):
-        security_class (Union[Unset, ContainerSpecSecurityClass]): Immutable gVisor guest privilege class. Privileged
-            capabilities remain confined by runsc and do not expose host devices. Default:
-            ContainerSpecSecurityClass.STANDARD.
+        security_class (Union[Unset, ContainerSpecSecurityClass]): New templates and sandboxes use privileged. Standard
+            remains valid for existing sandbox records and resume. Privileged capabilities remain confined by runsc and do
+            not expose host devices. Default: ContainerSpecSecurityClass.PRIVILEGED.
     """
 
     image: str
     resources: "ResourceQuota"
     env: Union[Unset, list["EnvVar"]] = UNSET
     security_class: Union[Unset, ContainerSpecSecurityClass] = (
-        ContainerSpecSecurityClass.STANDARD
+        ContainerSpecSecurityClass.PRIVILEGED
     )
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 

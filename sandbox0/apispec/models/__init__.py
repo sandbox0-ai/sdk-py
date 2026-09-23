@@ -200,6 +200,7 @@ from .sandbox_audit_request import SandboxAuditRequest
 from .sandbox_audit_resource import SandboxAuditResource
 from .sandbox_config import SandboxConfig
 from .sandbox_config_env_vars import SandboxConfigEnvVars
+from .sandbox_execution_state_request import SandboxExecutionStateRequest
 from .sandbox_function import SandboxFunction
 from .sandbox_function_runtime import SandboxFunctionRuntime
 from .sandbox_function_source import SandboxFunctionSource
@@ -606,6 +607,7 @@ __all__ = (
     "SandboxAuditResource",
     "SandboxConfig",
     "SandboxConfigEnvVars",
+    "SandboxExecutionStateRequest",
     "SandboxFunction",
     "SandboxFunctionRuntime",
     "SandboxFunctionSource",

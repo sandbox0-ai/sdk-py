@@ -29,6 +29,7 @@ from sandbox0.apispec.models.create_sandbox_root_fs_snapshot_request import (
 )
 from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
 from sandbox0.apispec.models.fork_sandbox_response import ForkSandboxResponse
+from sandbox0.apispec.models.sandbox_execution_state_request import SandboxExecutionStateRequest
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.rebase_sandbox_root_fs_request import (
     RebaseSandboxRootFSRequest,
@@ -87,7 +88,7 @@ from sandbox0.apispec.models.success_sandbox_status_response import (
 )
 from sandbox0.apispec.types import UNSET
 from sandbox0.response import ensure_data, ensure_model
-from sandbox0.errors import SandboxWaitTimeoutError
+from sandbox0.errors import SandboxWaitTimeoutError, SandboxLifecycleFailedError
 from sandbox0.sessions import SandboxSession
 
 if TYPE_CHECKING:
@@ -197,49 +198,61 @@ class Sandboxes:
         resp = get_api_v1_sandboxes_id_status.sync_detailed(id=sandbox_id, client=self._client.api)
         return ensure_data(resp, SuccessSandboxStatusResponse)
 
-    def pause(self, sandbox_id: str) -> PauseSandboxResponse:
-        resp = post_api_v1_sandboxes_id_pause.sync_detailed(id=sandbox_id, client=self._client.api)
+    def pause(self, sandbox_id: str, *, memory: bool = False) -> PauseSandboxResponse:
+        resp = post_api_v1_sandboxes_id_pause.sync_detailed(id=sandbox_id, client=self._client.api, body=SandboxExecutionStateRequest(memory=memory))
         return ensure_data(resp, SuccessPauseSandboxResponse)
 
     def pause_and_wait(
         self,
         sandbox_id: str,
         *,
+        memory: bool = False,
         timeout_sec: float = 60.0,
         poll_interval_sec: float = 0.5,
     ) -> APISandbox:
         """Request a pause and wait for its durable checkpoint to commit."""
-        self.pause(sandbox_id)
-        return self.wait_for_lifecycle(
+        self.pause(sandbox_id, memory=memory)
+        sandbox = self.wait_for_lifecycle(
             sandbox_id,
-            lambda sandbox: sandbox.status == SandboxLifecycleStatus.PAUSED and sandbox.paused,
+            lambda sandbox: (sandbox.status == SandboxLifecycleStatus.PAUSED and sandbox.paused)
+            or (memory and sandbox.status == SandboxLifecycleStatus.FAILED),
             timeout_sec=timeout_sec,
             poll_interval_sec=poll_interval_sec,
         )
+        if memory and sandbox.status == SandboxLifecycleStatus.FAILED:
+            raise SandboxLifecycleFailedError(sandbox_id, "memory pause", sandbox)
+        return sandbox
 
-    def resume(self, sandbox_id: str) -> ResumeSandboxResponse:
-        resp = post_api_v1_sandboxes_id_resume.sync_detailed(id=sandbox_id, client=self._client.api)
+    def resume(self, sandbox_id: str, *, memory: bool = False) -> ResumeSandboxResponse:
+        resp = post_api_v1_sandboxes_id_resume.sync_detailed(id=sandbox_id, client=self._client.api, body=SandboxExecutionStateRequest(memory=memory))
         return ensure_data(resp, SuccessResumeSandboxResponse)
 
     def resume_and_wait(
         self,
         sandbox_id: str,
         *,
+        memory: bool = False,
         timeout_sec: float = 60.0,
         poll_interval_sec: float = 0.5,
     ) -> APISandbox:
         """Request a resume and wait for the committed running generation."""
         before = self.get(sandbox_id)
-        self.resume(sandbox_id)
+        self.resume(sandbox_id, memory=memory)
         minimum_generation = before.runtime_generation
         if before.paused or before.status == SandboxLifecycleStatus.PAUSED:
             minimum_generation += 1
-        return self.wait_for_lifecycle(
+        sandbox = self.wait_for_lifecycle(
             sandbox_id,
-            lambda sandbox: sandbox.status == SandboxLifecycleStatus.RUNNING and not sandbox.paused and sandbox.runtime_generation >= minimum_generation,
+            lambda sandbox: sandbox.runtime_generation >= minimum_generation and (
+                (sandbox.status == SandboxLifecycleStatus.RUNNING and not sandbox.paused)
+                or (memory and sandbox.status == SandboxLifecycleStatus.FAILED)
+            ),
             timeout_sec=timeout_sec,
             poll_interval_sec=poll_interval_sec,
         )
+        if memory and sandbox.status == SandboxLifecycleStatus.FAILED:
+            raise SandboxLifecycleFailedError(sandbox_id, "memory resume", sandbox)
+        return sandbox
 
     def refresh(self, sandbox_id: str, request: Optional[SandboxRefreshRequest] = None) -> RefreshResponse:
         body = request if request is not None else SandboxRefreshRequest()
@@ -306,6 +319,8 @@ class Sandboxes:
         idempotency_key: Optional[str] = None,
     ) -> ForkSandboxResponse:
         body = request if request is not None else ForkSandboxRequest()
+        if body.memory is True and (not idempotency_key or not idempotency_key.strip() or len(idempotency_key.encode("utf-8")) > 255):
+            raise ValueError("memory fork requires a stable idempotency_key of at most 255 bytes")
         resp = post_api_v1_sandboxes_id_fork.sync_detailed(
             id=sandbox_id,
             client=self._client.api,

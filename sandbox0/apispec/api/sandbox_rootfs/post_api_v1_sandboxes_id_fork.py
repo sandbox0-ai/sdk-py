@@ -44,6 +44,11 @@ def _parse_response(
 
         return response_201
 
+    if response.status_code == 400:
+        response_400 = ErrorEnvelope.from_dict(response.json())
+
+        return response_400
+
     if response.status_code == 401:
         response_401 = ErrorEnvelope.from_dict(response.json())
 
@@ -88,12 +93,15 @@ def sync_detailed(
     body: ForkSandboxRequest,
     idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox rootfs
+    """Fork a sandbox
 
      Forks the source sandbox writable rootfs into a new paused sandbox. A paused
     source is forked from its current rootfs head. A running source is briefly
     barriered and checkpointed first; the source sandbox remains running after
-    the fork operation completes.
+    the fork operation completes. Set memory=true to retain execution state as
+    well. Memory forks require a stable Idempotency-Key. While capture or parent
+    restoration is pending, retry 503 responses with that same key and request.
+    A successful response always contains a committed paused child.
 
     Args:
         id (str):
@@ -131,12 +139,15 @@ def sync(
     body: ForkSandboxRequest,
     idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox rootfs
+    """Fork a sandbox
 
      Forks the source sandbox writable rootfs into a new paused sandbox. A paused
     source is forked from its current rootfs head. A running source is briefly
     barriered and checkpointed first; the source sandbox remains running after
-    the fork operation completes.
+    the fork operation completes. Set memory=true to retain execution state as
+    well. Memory forks require a stable Idempotency-Key. While capture or parent
+    restoration is pending, retry 503 responses with that same key and request.
+    A successful response always contains a committed paused child.
 
     Args:
         id (str):
@@ -169,12 +180,15 @@ async def asyncio_detailed(
     body: ForkSandboxRequest,
     idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox rootfs
+    """Fork a sandbox
 
      Forks the source sandbox writable rootfs into a new paused sandbox. A paused
     source is forked from its current rootfs head. A running source is briefly
     barriered and checkpointed first; the source sandbox remains running after
-    the fork operation completes.
+    the fork operation completes. Set memory=true to retain execution state as
+    well. Memory forks require a stable Idempotency-Key. While capture or parent
+    restoration is pending, retry 503 responses with that same key and request.
+    A successful response always contains a committed paused child.
 
     Args:
         id (str):
@@ -210,12 +224,15 @@ async def asyncio(
     body: ForkSandboxRequest,
     idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessForkSandboxResponse]]:
-    """Fork sandbox rootfs
+    """Fork a sandbox
 
      Forks the source sandbox writable rootfs into a new paused sandbox. A paused
     source is forked from its current rootfs head. A running source is briefly
     barriered and checkpointed first; the source sandbox remains running after
-    the fork operation completes.
+    the fork operation completes. Set memory=true to retain execution state as
+    well. Memory forks require a stable Idempotency-Key. While capture or parent
+    restoration is pending, retry 503 responses with that same key and request.
+    A successful response always contains a committed paused child.
 
     Args:
         id (str):

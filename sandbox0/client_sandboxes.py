@@ -16,6 +16,7 @@ from sandbox0.apispec.models.claim_response import ClaimResponse
 from sandbox0.apispec.models.sandbox_refresh_request import SandboxRefreshRequest
 from sandbox0.apispec.models.refresh_response import RefreshResponse
 from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxResponse
+from sandbox0.apispec.models.sandbox_execution_state_request import SandboxExecutionStateRequest
 from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
@@ -87,12 +88,12 @@ class ClientSandboxesMixin:
         resp = get_api_v1_sandboxes_id_status.sync_detailed(id=sandbox_id, client=self._api)
         return ensure_data(resp, SuccessSandboxStatusResponse)
 
-    def pause_sandbox(self: "Client", sandbox_id: str) -> PauseSandboxResponse:  # type: ignore[misc]
-        resp = post_api_v1_sandboxes_id_pause.sync_detailed(id=sandbox_id, client=self._api)
+    def pause_sandbox(self: "Client", sandbox_id: str, *, memory: bool = False) -> PauseSandboxResponse:  # type: ignore[misc]
+        resp = post_api_v1_sandboxes_id_pause.sync_detailed(id=sandbox_id, client=self._api, body=SandboxExecutionStateRequest(memory=memory))
         return ensure_data(resp, SuccessPauseSandboxResponse)
 
-    def resume_sandbox(self: "Client", sandbox_id: str) -> ResumeSandboxResponse:  # type: ignore[misc]
-        resp = post_api_v1_sandboxes_id_resume.sync_detailed(id=sandbox_id, client=self._api)
+    def resume_sandbox(self: "Client", sandbox_id: str, *, memory: bool = False) -> ResumeSandboxResponse:  # type: ignore[misc]
+        resp = post_api_v1_sandboxes_id_resume.sync_detailed(id=sandbox_id, client=self._api, body=SandboxExecutionStateRequest(memory=memory))
         return ensure_data(resp, SuccessResumeSandboxResponse)
 
     def refresh_sandbox(self: "Client", sandbox_id: str, request: Optional[SandboxRefreshRequest] = None) -> RefreshResponse:  # type: ignore[misc]
