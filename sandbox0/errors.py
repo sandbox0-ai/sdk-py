@@ -51,6 +51,14 @@ class SandboxWaitTimeoutError(TimeoutError):
         self.last_sandbox = last_sandbox
 
 
+class SandboxLifecycleFailedError(RuntimeError):
+    def __init__(self, sandbox_id: str, action: str, last_sandbox: Sandbox) -> None:
+        super().__init__(f"sandbox {sandbox_id} {action} reached failed status")
+        self.sandbox_id = sandbox_id
+        self.action = action
+        self.last_sandbox = last_sandbox
+
+
 class TemplateWaitTimeoutError(TimeoutError):
     def __init__(
         self,

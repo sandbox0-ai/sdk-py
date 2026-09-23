@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from unittest import TestCase
 from unittest.mock import patch
 
-from sandbox0 import Client, SandboxWaitTimeoutError
+from sandbox0 import Client, SandboxWaitTimeoutError, SandboxLifecycleFailedError
 from sandbox0.apispec.models.claim_response import ClaimResponse
 from sandbox0.apispec.models.fork_sandbox_config import ForkSandboxConfig
 from sandbox0.apispec.models.fork_sandbox_request import ForkSandboxRequest
@@ -194,11 +194,52 @@ class TestSandboxes(TestCase):
             patch.object(Sandboxes, "pause") as pause_mock,
             patch.object(Sandboxes, "get", side_effect=[running, paused]) as get_mock,
         ):
-            result = sandboxes.pause_and_wait("sb_123", timeout_sec=1, poll_interval_sec=0.001)
+            result = sandboxes.pause_and_wait("sb_123", memory=True, timeout_sec=1, poll_interval_sec=0.001)
 
-        pause_mock.assert_called_once_with("sb_123")
+        pause_mock.assert_called_once_with("sb_123", memory=True)
         self.assertEqual(get_mock.call_count, 2)
         self.assertIs(result, paused)
+
+    def test_memory_pause_wait_rejects_failed_capture_without_cold_fallback(self) -> None:
+        client = Client(token="test-token", base_url="https://example.com")
+        self.addCleanup(client.close)
+        sandboxes = Sandboxes(client)
+        failed = self._sandbox_projection(
+            now=datetime.now(timezone.utc), status=SandboxLifecycleStatus.FAILED,
+            paused=True, runtime_id="", runtime_generation=1,
+        )
+        with (
+            patch.object(Sandboxes, "pause") as pause_mock,
+            patch.object(Sandboxes, "get", return_value=failed) as get_mock,
+            self.assertRaises(SandboxLifecycleFailedError) as caught,
+        ):
+            sandboxes.pause_and_wait("sb_123", memory=True)
+        pause_mock.assert_called_once_with("sb_123", memory=True)
+        get_mock.assert_called_once_with("sb_123")
+        self.assertIs(caught.exception.last_sandbox, failed)
+
+    def test_memory_resume_wait_reports_new_failure_without_retry(self) -> None:
+        client = Client(token="test-token", base_url="https://example.com")
+        self.addCleanup(client.close)
+        sandboxes = Sandboxes(client)
+        old = self._sandbox_projection(
+            now=datetime.now(timezone.utc), status=SandboxLifecycleStatus.FAILED,
+            paused=True, runtime_id="", runtime_generation=1,
+        )
+        failed = self._sandbox_projection(
+            now=datetime.now(timezone.utc), status=SandboxLifecycleStatus.FAILED,
+            paused=True, runtime_id="", runtime_generation=2,
+        )
+        with (
+            patch.object(Sandboxes, "resume") as resume_mock,
+            patch.object(Sandboxes, "get", side_effect=[old, old, failed]) as get_mock,
+            self.assertRaises(SandboxLifecycleFailedError) as caught,
+        ):
+            sandboxes.resume_and_wait("sb_123", memory=True, poll_interval_sec=0.001)
+        resume_mock.assert_called_once_with("sb_123", memory=True)
+        self.assertEqual(get_mock.call_count, 3)
+        self.assertEqual(caught.exception.action, "memory resume")
+        self.assertIs(caught.exception.last_sandbox, failed)
 
     def test_resume_and_wait_requires_next_runtime_generation(self) -> None:
         client = Client(token="test-token", base_url="https://example.com")
@@ -224,9 +265,9 @@ class TestSandboxes(TestCase):
             patch.object(Sandboxes, "get", side_effect=[paused, paused, running]) as get_mock,
             patch.object(Sandboxes, "resume") as resume_mock,
         ):
-            result = sandboxes.resume_and_wait("sb_123", timeout_sec=1, poll_interval_sec=0.001)
+            result = sandboxes.resume_and_wait("sb_123", memory=True, timeout_sec=1, poll_interval_sec=0.001)
 
-        resume_mock.assert_called_once_with("sb_123")
+        resume_mock.assert_called_once_with("sb_123", memory=True)
         self.assertEqual(get_mock.call_count, 3)
         self.assertIs(result, running)
 
