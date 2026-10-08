@@ -38,6 +38,17 @@ class TestQuotas(TestCase):
         self.client = Client(token="test-token", base_url="https://example.com")
         self.addCleanup(self.client.close)
 
+    def test_decodes_paused_capacity_wire_response(self) -> None:
+        quota = TeamQuota.from_dict({
+            "team_id": "team-1", "dimension": "paused_sandboxes",
+            "kind": "capacity", "limit_value": 2000, "interval_ms": None,
+            "burst_value": None, "current": 2001, "remaining": 0,
+            "unlimited": False, "unit": "count", "source": "region_default",
+        })
+        self.assertEqual(quota.dimension, QuotaDimension.PAUSED_SANDBOXES)
+        self.assertEqual(quota.current, 2001)
+        self.assertEqual(quota.remaining, 0)
+
     def test_list_team_quotas(self) -> None:
         quota = rate_quota()
         response = Response(
