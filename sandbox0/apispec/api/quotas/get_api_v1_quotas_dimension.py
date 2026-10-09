@@ -67,7 +67,11 @@ def sync_detailed(
     """Get team quota
 
     Args:
-        dimension (QuotaDimension):
+        dimension (QuotaDimension): snapshots_per_sandbox limits retained public snapshots
+            independently on
+            each sandbox (default 10). Excess snapshots are automatically removed,
+            oldest first. Its capacity current value is the highest snapshot count
+            on any sandbox in the team, rather than the team's total snapshot count.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -96,7 +100,11 @@ def sync(
     """Get team quota
 
     Args:
-        dimension (QuotaDimension):
+        dimension (QuotaDimension): snapshots_per_sandbox limits retained public snapshots
+            independently on
+            each sandbox (default 10). Excess snapshots are automatically removed,
+            oldest first. Its capacity current value is the highest snapshot count
+            on any sandbox in the team, rather than the team's total snapshot count.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -120,7 +128,11 @@ async def asyncio_detailed(
     """Get team quota
 
     Args:
-        dimension (QuotaDimension):
+        dimension (QuotaDimension): snapshots_per_sandbox limits retained public snapshots
+            independently on
+            each sandbox (default 10). Excess snapshots are automatically removed,
+            oldest first. Its capacity current value is the highest snapshot count
+            on any sandbox in the team, rather than the team's total snapshot count.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,7 +159,11 @@ async def asyncio(
     """Get team quota
 
     Args:
-        dimension (QuotaDimension):
+        dimension (QuotaDimension): snapshots_per_sandbox limits retained public snapshots
+            independently on
+            each sandbox (default 10). Excess snapshots are automatically removed,
+            oldest first. Its capacity current value is the highest snapshot count
+            on any sandbox in the team, rather than the team's total snapshot count.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
