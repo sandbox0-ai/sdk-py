@@ -13,6 +13,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.sandbox_app_service import SandboxAppService
+    from ..models.sandbox_resource_config import SandboxResourceConfig
 
 
 T = TypeVar("T", bound="SandboxUpdateConfig")
@@ -20,11 +21,18 @@ T = TypeVar("T", bound="SandboxUpdateConfig")
 
 @_attrs_define
 class SandboxUpdateConfig:
-    """Durable lifecycle and service fields that can be updated without replacing
-    the current runtime allocation. Network policy uses the dedicated network
-    endpoint. Environment, resource, and webhook changes require a new runtime.
+    """Durable lifecycle and service fields, or a standalone resources.memory change.
+    Resource changes preserve the sandbox ID and durable files but restart processes
+    through filesystem pause and a fresh CPU/memory lease. Paused sandboxes stay
+    paused with the new next-start configuration; retained memory is discarded.
+    Submit resources separately from lifecycle and service fields. The operation
+    survives request timeout and manager restart. Retry the same limit after 503;
+    an already-applied limit is a no-op. Network policy uses its dedicated endpoint.
+    Environment and webhook changes require a new runtime.
 
         Attributes:
+            resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
+                memory only and derives CPU from the platform memory-per-CPU ratio.
             ttl (Union[Unset, int]): Runtime soft time-to-live in seconds. When it expires, Sandbox0 checkpoints the
                 writable rootfs, pauses the sandbox, and releases runtime compute while preserving durable sandbox state.
             hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the
@@ -39,6 +47,7 @@ class SandboxUpdateConfig:
             services (Union[Unset, list['SandboxAppService']]):
     """
 
+    resources: Union[Unset, "SandboxResourceConfig"] = UNSET
     ttl: Union[Unset, int] = UNSET
     hard_ttl: Union[Unset, int] = UNSET
     auto_resume: Union[Unset, bool] = True
@@ -46,6 +55,10 @@ class SandboxUpdateConfig:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        resources: Union[Unset, dict[str, Any]] = UNSET
+        if not isinstance(self.resources, Unset):
+            resources = self.resources.to_dict()
+
         ttl = self.ttl
 
         hard_ttl = self.hard_ttl
@@ -62,6 +75,8 @@ class SandboxUpdateConfig:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if resources is not UNSET:
+            field_dict["resources"] = resources
         if ttl is not UNSET:
             field_dict["ttl"] = ttl
         if hard_ttl is not UNSET:
@@ -76,8 +91,16 @@ class SandboxUpdateConfig:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.sandbox_app_service import SandboxAppService
+        from ..models.sandbox_resource_config import SandboxResourceConfig
 
         d = dict(src_dict)
+        _resources = d.pop("resources", UNSET)
+        resources: Union[Unset, SandboxResourceConfig]
+        if isinstance(_resources, Unset):
+            resources = UNSET
+        else:
+            resources = SandboxResourceConfig.from_dict(_resources)
+
         ttl = d.pop("ttl", UNSET)
 
         hard_ttl = d.pop("hard_ttl", UNSET)
@@ -92,6 +115,7 @@ class SandboxUpdateConfig:
             services.append(services_item)
 
         sandbox_update_config = cls(
+            resources=resources,
             ttl=ttl,
             hard_ttl=hard_ttl,
             auto_resume=auto_resume,

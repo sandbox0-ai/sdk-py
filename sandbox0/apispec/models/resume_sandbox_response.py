@@ -18,7 +18,8 @@ class ResumeSandboxResponse:
     """
     Attributes:
         sandbox_id (str):
-        resumed (bool):
+        resumed (bool): True after a command-ready runtime has committed. False means an accepted durable resume is
+            still pending (memory retry, cleanup, or RootFS fallback); poll sandbox status until running.
         restored_memory (Union[Unset, str]):
     """
 

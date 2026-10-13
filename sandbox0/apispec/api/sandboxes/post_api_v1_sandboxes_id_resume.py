@@ -101,9 +101,11 @@ def sync_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
-    retained execution image. Missing or incompatible memory is an error; it never falls back to a
-    filesystem-only resume. A disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
+    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
+    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
+    with resumed=false means durable fallback is pending; poll sandbox status until running. A
+    disconnected request may continue through background recovery.
 
     Args:
         id (str):
@@ -137,9 +139,11 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
-    retained execution image. Missing or incompatible memory is an error; it never falls back to a
-    filesystem-only resume. A disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
+    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
+    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
+    with resumed=false means durable fallback is pending; poll sandbox status until running. A
+    disconnected request may continue through background recovery.
 
     Args:
         id (str):
@@ -168,9 +172,11 @@ async def asyncio_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
-    retained execution image. Missing or incompatible memory is an error; it never falls back to a
-    filesystem-only resume. A disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
+    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
+    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
+    with resumed=false means durable fallback is pending; poll sandbox status until running. A
+    disconnected request may continue through background recovery.
 
     Args:
         id (str):
@@ -202,9 +208,11 @@ async def asyncio(
 ) -> Optional[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to restore a
-    retained execution image. Missing or incompatible memory is an error; it never falls back to a
-    filesystem-only resume. A disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
+    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
+    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
+    with resumed=false means durable fallback is pending; poll sandbox status until running. A
+    disconnected request may continue through background recovery.
 
     Args:
         id (str):

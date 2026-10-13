@@ -22,7 +22,10 @@ class TeamQuota:
     """
     Attributes:
         team_id (str):
-        dimension (QuotaDimension):
+        dimension (QuotaDimension): snapshots_per_sandbox limits retained public snapshots independently on
+            each sandbox (default 10). Excess snapshots are automatically removed,
+            oldest first. Its capacity current value is the highest snapshot count
+            on any sandbox in the team, rather than the team's total snapshot count.
         kind (TeamQuotaKind):
         limit_value (Union[None, int]):
         interval_ms (Union[None, int]):

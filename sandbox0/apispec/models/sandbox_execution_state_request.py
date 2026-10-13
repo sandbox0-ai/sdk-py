@@ -16,9 +16,9 @@ T = TypeVar("T", bound="SandboxExecutionStateRequest")
 class SandboxExecutionStateRequest:
     """
     Attributes:
-        memory (Union[Unset, bool]): Explicitly preserve or restore process memory and execution state. Omitted or false
-            retains the existing filesystem-only behavior. Memory failures are reported without a cold fallback. Default:
-            False.
+        memory (Union[Unset, bool]): On pause, retain process memory and execution state; capture failures remain
+            errors. On resume, prefer retained memory and fall back to the committed RootFS if memory is missing,
+            incompatible, or cannot be restored. Omitted or false uses filesystem-only behavior. Default: False.
     """
 
     memory: Union[Unset, bool] = False
