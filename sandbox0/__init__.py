@@ -1,4 +1,6 @@
 from sandbox0.client import Client
+from sandbox0.sandbox_managed_files import ManagedFiles, ManagedFileRead
+from sandbox0.restart_final_capture import RestartFinalCaptureFile
 from sandbox0.client_templates import CreateTemplateFromSandboxOptions
 from sandbox0.errors import (
     APIError,
@@ -50,6 +52,9 @@ from sandbox0.sandbox_sessions import (
 from sandbox0.webhook_signature import verify_webhook_signature
 
 __all__ = [
+    "ManagedFiles",
+    "ManagedFileRead",
+    "RestartFinalCaptureFile",
     "APIError",
     "SandboxWaitTimeoutError",
     "SandboxLifecycleFailedError",

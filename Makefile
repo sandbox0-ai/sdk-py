@@ -25,7 +25,7 @@ apispec:
 	@test -x .venv/bin/python || python3 -m venv .venv
 	@$(OPENAPI_PYTHON_CLIENT) --version >/dev/null 2>&1 || \
 		.venv/bin/python -m pip install openapi-python-client==0.26.2
-	@$(OPENAPI_PYTHON_CLIENT) generate \
+	@PATH="$(CURDIR)/.venv/bin:$$PATH" $(OPENAPI_PYTHON_CLIENT) generate \
 		--path openapi.yaml \
 		--meta none \
 		--overwrite \

@@ -6,17 +6,20 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
-from ...models.sandbox_execution_state_request import SandboxExecutionStateRequest
+from ...models.sandbox_pause_request import SandboxPauseRequest
 from ...models.success_pause_sandbox_response import SuccessPauseSandboxResponse
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
     *,
-    body: SandboxExecutionStateRequest,
+    body: SandboxPauseRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -97,17 +100,21 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: SandboxExecutionStateRequest,
+    body: SandboxPauseRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessPauseSandboxResponse]]:
     """Pause a sandbox
 
      The default checkpoints only the writable RootFS. Set memory=true to also retain process execution
     state before releasing the runtime. A 202 response means checkpoint publication and cleanup are
-    still pending.
+    still pending. For conditional memory pause, send expected_runtime_generation and Idempotency-Key
+    together with memory=true. Retries bind the same source generation and checkpoint operation;
+    mismatched or aborted operations conflict.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxPauseRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -120,6 +127,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = client.get_httpx_client().request(
@@ -133,17 +141,21 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: SandboxExecutionStateRequest,
+    body: SandboxPauseRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessPauseSandboxResponse]]:
     """Pause a sandbox
 
      The default checkpoints only the writable RootFS. Set memory=true to also retain process execution
     state before releasing the runtime. A 202 response means checkpoint publication and cleanup are
-    still pending.
+    still pending. For conditional memory pause, send expected_runtime_generation and Idempotency-Key
+    together with memory=true. Retries bind the same source generation and checkpoint operation;
+    mismatched or aborted operations conflict.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxPauseRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -157,6 +169,7 @@ def sync(
         id=id,
         client=client,
         body=body,
+        idempotency_key=idempotency_key,
     ).parsed
 
 
@@ -164,17 +177,21 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: SandboxExecutionStateRequest,
+    body: SandboxPauseRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessPauseSandboxResponse]]:
     """Pause a sandbox
 
      The default checkpoints only the writable RootFS. Set memory=true to also retain process execution
     state before releasing the runtime. A 202 response means checkpoint publication and cleanup are
-    still pending.
+    still pending. For conditional memory pause, send expected_runtime_generation and Idempotency-Key
+    together with memory=true. Retries bind the same source generation and checkpoint operation;
+    mismatched or aborted operations conflict.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxPauseRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -187,6 +204,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -198,17 +216,21 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient,
-    body: SandboxExecutionStateRequest,
+    body: SandboxPauseRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessPauseSandboxResponse]]:
     """Pause a sandbox
 
      The default checkpoints only the writable RootFS. Set memory=true to also retain process execution
     state before releasing the runtime. A 202 response means checkpoint publication and cleanup are
-    still pending.
+    still pending. For conditional memory pause, send expected_runtime_generation and Idempotency-Key
+    together with memory=true. Retries bind the same source generation and checkpoint operation;
+    mismatched or aborted operations conflict.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxPauseRequest):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -223,5 +245,6 @@ async def asyncio(
             id=id,
             client=client,
             body=body,
+            idempotency_key=idempotency_key,
         )
     ).parsed

@@ -22,6 +22,9 @@ class SandboxRootFSSnapshot:
         id (str):
         sandbox_id (str):
         created_at (datetime.datetime):
+        generation_id (Union[Unset, str]): Immutable storage generation captured by this snapshot. Use this exact value
+            as snapshot_generation_id for conditional recovery; never substitute the sandbox's current head. May be absent
+            on older servers, which cannot supply a conditional recovery target.
         name (Union[Unset, str]):
         description (Union[Unset, str]):
         expires_at (Union[Unset, datetime.datetime]): Optional snapshot expiration timestamp. Zero value means not set.
@@ -30,6 +33,7 @@ class SandboxRootFSSnapshot:
     id: str
     sandbox_id: str
     created_at: datetime.datetime
+    generation_id: Union[Unset, str] = UNSET
     name: Union[Unset, str] = UNSET
     description: Union[Unset, str] = UNSET
     expires_at: Union[Unset, datetime.datetime] = UNSET
@@ -41,6 +45,8 @@ class SandboxRootFSSnapshot:
         sandbox_id = self.sandbox_id
 
         created_at = self.created_at.isoformat()
+
+        generation_id = self.generation_id
 
         name = self.name
 
@@ -59,6 +65,8 @@ class SandboxRootFSSnapshot:
                 "created_at": created_at,
             }
         )
+        if generation_id is not UNSET:
+            field_dict["generation_id"] = generation_id
         if name is not UNSET:
             field_dict["name"] = name
         if description is not UNSET:
@@ -77,6 +85,8 @@ class SandboxRootFSSnapshot:
 
         created_at = isoparse(d.pop("created_at"))
 
+        generation_id = d.pop("generation_id", UNSET)
+
         name = d.pop("name", UNSET)
 
         description = d.pop("description", UNSET)
@@ -92,6 +102,7 @@ class SandboxRootFSSnapshot:
             id=id,
             sandbox_id=sandbox_id,
             created_at=created_at,
+            generation_id=generation_id,
             name=name,
             description=description,
             expires_at=expires_at,
