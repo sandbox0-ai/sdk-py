@@ -73,6 +73,8 @@ def sync_detailed(
      Use query params:
     - path=/tmp/a.txt: target file path
     When `Accept` or `Content-Type` is `application/json`, returns a base64 JSON payload.
+    Reads the persistent RootFS while paused without starting or resuming compute, including memory-
+    paused sandboxes.
 
     Args:
         id (str):
@@ -109,6 +111,8 @@ def sync(
      Use query params:
     - path=/tmp/a.txt: target file path
     When `Accept` or `Content-Type` is `application/json`, returns a base64 JSON payload.
+    Reads the persistent RootFS while paused without starting or resuming compute, including memory-
+    paused sandboxes.
 
     Args:
         id (str):
@@ -140,6 +144,8 @@ async def asyncio_detailed(
      Use query params:
     - path=/tmp/a.txt: target file path
     When `Accept` or `Content-Type` is `application/json`, returns a base64 JSON payload.
+    Reads the persistent RootFS while paused without starting or resuming compute, including memory-
+    paused sandboxes.
 
     Args:
         id (str):
@@ -174,6 +180,8 @@ async def asyncio(
      Use query params:
     - path=/tmp/a.txt: target file path
     When `Accept` or `Content-Type` is `application/json`, returns a base64 JSON payload.
+    Reads the persistent RootFS while paused without starting or resuming compute, including memory-
+    paused sandboxes.
 
     Args:
         id (str):

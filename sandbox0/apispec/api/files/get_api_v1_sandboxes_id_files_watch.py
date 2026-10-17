@@ -58,7 +58,8 @@ def sync_detailed(
 ) -> Response[Union[Any, ErrorEnvelope]]:
     r"""File watch WebSocket
 
-     Upgrades to WebSocket for file watch events.
+     Upgrades to WebSocket for file watch events. Requires a running guest and follows auto_resume;
+    offline file access does not provide watch events.
     Client messages:
     - { \"action\": \"subscribe\", \"path\": \"/tmp\", \"recursive\": false }
     - { \"action\": \"unsubscribe\", \"watch_id\": \"watch-id\" }
@@ -98,7 +99,8 @@ def sync(
 ) -> Optional[Union[Any, ErrorEnvelope]]:
     r"""File watch WebSocket
 
-     Upgrades to WebSocket for file watch events.
+     Upgrades to WebSocket for file watch events. Requires a running guest and follows auto_resume;
+    offline file access does not provide watch events.
     Client messages:
     - { \"action\": \"subscribe\", \"path\": \"/tmp\", \"recursive\": false }
     - { \"action\": \"unsubscribe\", \"watch_id\": \"watch-id\" }
@@ -133,7 +135,8 @@ async def asyncio_detailed(
 ) -> Response[Union[Any, ErrorEnvelope]]:
     r"""File watch WebSocket
 
-     Upgrades to WebSocket for file watch events.
+     Upgrades to WebSocket for file watch events. Requires a running guest and follows auto_resume;
+    offline file access does not provide watch events.
     Client messages:
     - { \"action\": \"subscribe\", \"path\": \"/tmp\", \"recursive\": false }
     - { \"action\": \"unsubscribe\", \"watch_id\": \"watch-id\" }
@@ -171,7 +174,8 @@ async def asyncio(
 ) -> Optional[Union[Any, ErrorEnvelope]]:
     r"""File watch WebSocket
 
-     Upgrades to WebSocket for file watch events.
+     Upgrades to WebSocket for file watch events. Requires a running guest and follows auto_resume;
+    offline file access does not provide watch events.
     Client messages:
     - { \"action\": \"subscribe\", \"path\": \"/tmp\", \"recursive\": false }
     - { \"action\": \"unsubscribe\", \"watch_id\": \"watch-id\" }

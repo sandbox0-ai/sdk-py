@@ -71,7 +71,8 @@ def sync_detailed(
     """Stat a file
 
      Use query params:
-    - path=/tmp/a.txt: target file path
+    - path=/workspace/a.txt: target file path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):
@@ -106,7 +107,8 @@ def sync(
     """Stat a file
 
      Use query params:
-    - path=/tmp/a.txt: target file path
+    - path=/workspace/a.txt: target file path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):
@@ -136,7 +138,8 @@ async def asyncio_detailed(
     """Stat a file
 
      Use query params:
-    - path=/tmp/a.txt: target file path
+    - path=/workspace/a.txt: target file path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):
@@ -169,7 +172,8 @@ async def asyncio(
     """Stat a file
 
      Use query params:
-    - path=/tmp/a.txt: target file path
+    - path=/workspace/a.txt: target file path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):

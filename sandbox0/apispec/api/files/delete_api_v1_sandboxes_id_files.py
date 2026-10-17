@@ -70,6 +70,9 @@ def sync_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete file or directory
 
+     Works during filesystem-only pauses without starting compute. Offline deletion returns 409 conflict
+    while a memory checkpoint is retained.
+
     Args:
         id (str):
         path (str):
@@ -102,6 +105,9 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete file or directory
 
+     Works during filesystem-only pauses without starting compute. Offline deletion returns 409 conflict
+    while a memory checkpoint is retained.
+
     Args:
         id (str):
         path (str):
@@ -128,6 +134,9 @@ async def asyncio_detailed(
     path: str,
 ) -> Response[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete file or directory
+
+     Works during filesystem-only pauses without starting compute. Offline deletion returns 409 conflict
+    while a memory checkpoint is retained.
 
     Args:
         id (str):
@@ -158,6 +167,9 @@ async def asyncio(
     path: str,
 ) -> Optional[Union[ErrorEnvelope, SuccessDeletedResponse]]:
     """Delete file or directory
+
+     Works during filesystem-only pauses without starting compute. Offline deletion returns 409 conflict
+    while a memory checkpoint is retained.
 
     Args:
         id (str):
