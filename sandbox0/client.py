@@ -9,6 +9,9 @@ from sandbox0.apispec.client import AuthenticatedClient
 from sandbox0.client_credential_sources import ClientCredentialSourcesMixin
 from sandbox0.client_quotas import ClientQuotasMixin
 from sandbox0.client_sandboxes import ClientSandboxesMixin
+from sandbox0.memory_restoration import ClientMemoryRestorationMixin
+from sandbox0.memory_operation import ClientMemoryOperationMixin
+from sandbox0.restart_final_capture import ClientRestartFinalCaptureMixin
 from sandbox0.client_templates import ClientTemplatesMixin
 from sandbox0.client_usage import ClientUsageMixin
 from sandbox0.resources import Sandboxes
@@ -20,6 +23,9 @@ DEFAULT_BASE_URL = "https://api.sandbox0.ai"
 
 class Client(
     ClientSandboxesMixin,
+    ClientRestartFinalCaptureMixin,
+    ClientMemoryRestorationMixin,
+    ClientMemoryOperationMixin,
     ClientTemplatesMixin,
     ClientCredentialSourcesMixin,
     ClientQuotasMixin,

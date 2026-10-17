@@ -26,6 +26,9 @@ class PauseSandboxResponse:
         sandbox_id (str):
         paused (bool): True when checkpoint persistence has finished, runtime deletion has been accepted, and the
             sandbox is paused.
+        operation_id (Union[Unset, str]): Exact checkpoint operation accepted for a conditional memory pause; stable
+            across retries.
+        runtime_generation (Union[Unset, int]): Source runtime generation bound by the conditional memory pause.
         status (Union[Unset, SandboxLifecycleStatus]):
         resource_usage (Union[Unset, SandboxResourceUsage]):
         updated_memory (Union[Unset, str]):
@@ -34,6 +37,8 @@ class PauseSandboxResponse:
 
     sandbox_id: str
     paused: bool
+    operation_id: Union[Unset, str] = UNSET
+    runtime_generation: Union[Unset, int] = UNSET
     status: Union[Unset, SandboxLifecycleStatus] = UNSET
     resource_usage: Union[Unset, "SandboxResourceUsage"] = UNSET
     updated_memory: Union[Unset, str] = UNSET
@@ -44,6 +49,10 @@ class PauseSandboxResponse:
         sandbox_id = self.sandbox_id
 
         paused = self.paused
+
+        operation_id = self.operation_id
+
+        runtime_generation = self.runtime_generation
 
         status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
@@ -65,6 +74,10 @@ class PauseSandboxResponse:
                 "paused": paused,
             }
         )
+        if operation_id is not UNSET:
+            field_dict["operation_id"] = operation_id
+        if runtime_generation is not UNSET:
+            field_dict["runtime_generation"] = runtime_generation
         if status is not UNSET:
             field_dict["status"] = status
         if resource_usage is not UNSET:
@@ -84,6 +97,10 @@ class PauseSandboxResponse:
         sandbox_id = d.pop("sandbox_id")
 
         paused = d.pop("paused")
+
+        operation_id = d.pop("operation_id", UNSET)
+
+        runtime_generation = d.pop("runtime_generation", UNSET)
 
         _status = d.pop("status", UNSET)
         status: Union[Unset, SandboxLifecycleStatus]
@@ -106,6 +123,8 @@ class PauseSandboxResponse:
         pause_sandbox_response = cls(
             sandbox_id=sandbox_id,
             paused=paused,
+            operation_id=operation_id,
+            runtime_generation=runtime_generation,
             status=status,
             resource_usage=resource_usage,
             updated_memory=updated_memory,

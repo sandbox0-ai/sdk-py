@@ -4,17 +4,20 @@ import json
 import threading
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Iterator, Optional, Union
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 import httpx
 
 from sandbox0.apispec.api.sessions import delete_api_v1_sandboxes_id_sessions_session_id
 from sandbox0.apispec.api.sessions import get_api_v1_sandboxes_id_sessions
+from sandbox0.apispec.api.sessions import get_api_v1_sandboxes_id_sessions_conditional_lookup
 from sandbox0.apispec.api.sessions import get_api_v1_sandboxes_id_sessions_session_id
 from sandbox0.apispec.api.sessions import (
     get_api_v1_sandboxes_id_sessions_session_id_events,
 )
 from sandbox0.apispec.api.sessions import post_api_v1_sandboxes_id_sessions
+from sandbox0.apispec.api.sessions import post_api_v1_sandboxes_id_sessions_conditional
+from sandbox0.apispec.models.conditional_execution_session_request import ConditionalExecutionSessionRequest
 from sandbox0.apispec.api.sessions import (
     post_api_v1_sandboxes_id_sessions_session_id_attempts,
 )
@@ -97,6 +100,8 @@ class SessionCreateOptions:
     """Options for creating a durable execution session."""
 
     idempotency_key: Optional[str] = None
+    # Exact running generation; requires a key. No auto-resume or fallback.
+    runtime_generation: Optional[int] = None
 
 
 @dataclass(frozen=True)
@@ -238,6 +243,20 @@ class SandboxSessionsMixin:
         options: Optional[SessionCreateOptions] = None,
     ) -> ExecutionSession:
         opts = options or SessionCreateOptions()
+        if opts.runtime_generation is not None:
+            if (type(opts.runtime_generation) is not int or opts.runtime_generation <= 0
+                    or opts.runtime_generation > 9223372036854775807
+                    or not opts.idempotency_key or not opts.idempotency_key.strip()
+                    or len(opts.idempotency_key) > 255):
+                raise ValueError("Conditional session creation requires a positive int64 generation and idempotency key")
+            response = post_api_v1_sandboxes_id_sessions_conditional.sync_detailed(
+                id=self.id, client=self._client.api, idempotency_key=opts.idempotency_key,
+                body=ConditionalExecutionSessionRequest(sandbox_id=self.id, runtime_generation=opts.runtime_generation, spec=spec),
+            )
+            value = ensure_data(response, SuccessExecutionSessionResponse)
+            if value.runtime_generation != opts.runtime_generation:
+                raise ValueError("Conditional session response has a different runtime generation; reconcile before retrying")
+            return value
         response = post_api_v1_sandboxes_id_sessions.sync_detailed(
             id=self.id,
             client=self._client.api,
@@ -245,6 +264,45 @@ class SandboxSessionsMixin:
             idempotency_key=_value(opts.idempotency_key),
         )
         return ensure_data(response, SuccessExecutionSessionResponse)
+
+    def find_conditional_session(  # type: ignore[misc]
+        self: "Sandbox", creation_key: str, runtime_generation: int,
+    ) -> ExecutionSession:
+        """Read-only receipt lookup. Never auto-resume, create, or fall back."""
+        if (type(runtime_generation) is not int or runtime_generation <= 0
+                or runtime_generation > 9223372036854775807
+                or not creation_key or not creation_key.strip() or len(creation_key) > 255):
+            raise ValueError("Conditional session lookup requires a positive int64 generation and original creation key")
+        response = get_api_v1_sandboxes_id_sessions_conditional_lookup.sync_detailed(
+            id=self.id, client=self._client.api, runtime_generation=runtime_generation,
+            idempotency_key=creation_key,
+        )
+        value = ensure_data(response, SuccessExecutionSessionResponse)
+        if value.runtime_generation != runtime_generation:
+            raise ValueError("Conditional session response has a different runtime generation; reconcile before retrying")
+        return value
+
+    def find_restored_conditional_session(  # type: ignore[misc]
+        self: "Sandbox", creation_key: str, runtime_generation: int, creation_runtime_generation: int,
+    ) -> ExecutionSession:
+        """Read-only receipt lookup. Never auto-resume, create, or fall back."""
+        if type(creation_runtime_generation) is not int or not 0 < creation_runtime_generation < runtime_generation:
+            raise ValueError("Restored lookup requires an earlier positive creation generation")
+        if (type(runtime_generation) is not int or runtime_generation <= 0
+                or runtime_generation > 9223372036854775807
+                or not creation_key or not creation_key.strip() or len(creation_key) > 255):
+            raise ValueError("Conditional session lookup requires a positive int64 generation and original creation key")
+        response = get_api_v1_sandboxes_id_sessions_conditional_lookup.sync_detailed(
+            id=self.id, client=self._client.api, runtime_generation=runtime_generation,
+            idempotency_key=creation_key, creation_runtime_generation=creation_runtime_generation,
+        )
+        value = ensure_data(response, SuccessExecutionSessionResponse)
+        if value.runtime_generation != runtime_generation:
+            raise ValueError("Conditional session response has a different runtime generation; reconcile before retrying")
+        if (value.phase != "running" or value.attempt is UNSET or
+                type(value.attempt.runtime_generation) is not int or value.attempt.runtime_generation != creation_runtime_generation or value.attempt.finished_at is not UNSET):
+            raise ValueError("Restored lookup requires the running original attempt")
+        return value
 
     def get_session(self: "Sandbox", session_id: str) -> ExecutionSession:  # type: ignore[misc]
         response = get_api_v1_sandboxes_id_sessions_session_id.sync_detailed(
@@ -374,6 +432,52 @@ class SandboxSessionsMixin:
         if opts.after is not None:
             ws_url += f"?after={opts.after}"
         conn = connect(ws_url, additional_headers=self._client.ws_headers())
+        return ExecutionSessionConnection(conn)
+
+    def connect_conditional_session(  # type: ignore[misc]
+        self: "Sandbox", session_id: str, creation_key: str,
+        runtime_generation: int, attempt_id: str,
+        options: Optional[SessionWebSocketOptions] = None,
+    ) -> ExecutionSessionConnection:
+        """Attach to one exact creation and attempt; never retry or fall back."""
+        from websockets.sync.client import connect
+
+        opts = options or SessionWebSocketOptions()
+        if (not session_id or not attempt_id or not creation_key.strip() or len(creation_key) > 255
+                or type(runtime_generation) is not int or not 0 < runtime_generation <= 2**63 - 1
+                or (opts.after is not None and (type(opts.after) is not int or not 0 <= opts.after <= 2**63 - 1))):
+            raise ValueError("conditional attachment requires session, creation key, positive generation, attempt and nonnegative cursor")
+        path = f"/api/v1/sandboxes/{quote(self.id, safe='')}/sessions/{quote(session_id, safe='')}/conditional/ws"
+        query = {"runtime_generation": str(runtime_generation), "attempt_id": attempt_id}
+        if opts.after is not None:
+            query["after"] = str(opts.after)
+        ws_url = self._client.websocket_url(path) + "?" + urlencode(query)
+        headers = {**self._client.ws_headers(), "Idempotency-Key": creation_key}
+        conn = connect(ws_url, additional_headers=headers)
+        return ExecutionSessionConnection(conn)
+
+    def connect_restored_conditional_session(  # type: ignore[misc]
+        self: "Sandbox", session_id: str, creation_key: str,
+        runtime_generation: int, creation_runtime_generation: int, attempt_id: str,
+        options: Optional[SessionWebSocketOptions] = None,
+    ) -> ExecutionSessionConnection:
+        """Attach to one exact creation and attempt; never retry or fall back."""
+        from websockets.sync.client import connect
+
+        if type(creation_runtime_generation) is not int or not 0 < creation_runtime_generation < runtime_generation:
+            raise ValueError("Restored attachment requires an earlier positive creation generation")
+        opts = options or SessionWebSocketOptions()
+        if (not session_id or not attempt_id or not creation_key.strip() or len(creation_key) > 255
+                or type(runtime_generation) is not int or not 0 < runtime_generation <= 2**63 - 1
+                or (opts.after is not None and (type(opts.after) is not int or not 0 <= opts.after <= 2**63 - 1))):
+            raise ValueError("conditional attachment requires session, creation key, positive generation, attempt and nonnegative cursor")
+        path = f"/api/v1/sandboxes/{quote(self.id, safe='')}/sessions/{quote(session_id, safe='')}/conditional/ws"
+        query = {"creation_runtime_generation": str(creation_runtime_generation), "runtime_generation": str(runtime_generation), "attempt_id": attempt_id}
+        if opts.after is not None:
+            query["after"] = str(opts.after)
+        ws_url = self._client.websocket_url(path) + "?" + urlencode(query)
+        headers = {**self._client.ws_headers(), "Idempotency-Key": creation_key}
+        conn = connect(ws_url, additional_headers=headers)
         return ExecutionSessionConnection(conn)
 
 

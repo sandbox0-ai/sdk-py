@@ -5,9 +5,13 @@ from .add_team_member_request_role import AddTeamMemberRequestRole
 from .api_key import APIKey
 from .auth_provider import AuthProvider
 from .cache_policy_spec import CachePolicySpec
+from .capture_sandbox_root_fs_snapshot_request import (
+    CaptureSandboxRootFSSnapshotRequest,
+)
 from .change_password_request import ChangePasswordRequest
 from .claim_request import ClaimRequest
 from .claim_response import ClaimResponse
+from .conditional_execution_session_request import ConditionalExecutionSessionRequest
 from .container_spec import ContainerSpec
 from .container_spec_security_class import ContainerSpecSecurityClass
 from .context_exec_response import ContextExecResponse
@@ -138,6 +142,11 @@ from .http_value_match import HTTPValueMatch
 from .identity import Identity
 from .login_request import LoginRequest
 from .login_response import LoginResponse
+from .lookup_sandbox_memory_operation_action import LookupSandboxMemoryOperationAction
+from .managed_file_read_response import ManagedFileReadResponse
+from .managed_file_write_request import ManagedFileWriteRequest
+from .managed_files_state import ManagedFilesState
+from .managed_files_state_guest_path import ManagedFilesStateGuestPath
 from .mcp_protocol_rule import MCPProtocolRule
 from .mcp_tool_policy import MCPToolPolicy
 from .move_file_request import MoveFileRequest
@@ -205,7 +214,19 @@ from .sandbox_function import SandboxFunction
 from .sandbox_function_runtime import SandboxFunctionRuntime
 from .sandbox_function_source import SandboxFunctionSource
 from .sandbox_function_source_type import SandboxFunctionSourceType
+from .sandbox_health import SandboxHealth
+from .sandbox_health_desired_state import SandboxHealthDesiredState
+from .sandbox_health_observation import SandboxHealthObservation
+from .sandbox_health_observation_reason import SandboxHealthObservationReason
+from .sandbox_health_observation_source import SandboxHealthObservationSource
+from .sandbox_health_observation_state import SandboxHealthObservationState
 from .sandbox_lifecycle_status import SandboxLifecycleStatus
+from .sandbox_memory_operation import SandboxMemoryOperation
+from .sandbox_memory_operation_action import SandboxMemoryOperationAction
+from .sandbox_memory_operation_reason import SandboxMemoryOperationReason
+from .sandbox_memory_operation_state import SandboxMemoryOperationState
+from .sandbox_memory_restoration import SandboxMemoryRestoration
+from .sandbox_memory_restoration_step import SandboxMemoryRestorationStep
 from .sandbox_network_policy import SandboxNetworkPolicy
 from .sandbox_network_policy_mode import SandboxNetworkPolicyMode
 from .sandbox_observability_event import SandboxObservabilityEvent
@@ -224,6 +245,7 @@ from .sandbox_observability_logs_response import SandboxObservabilityLogsRespons
 from .sandbox_observability_outcome import SandboxObservabilityOutcome
 from .sandbox_observability_watch_line import SandboxObservabilityWatchLine
 from .sandbox_observability_watch_line_type import SandboxObservabilityWatchLineType
+from .sandbox_pause_request import SandboxPauseRequest
 from .sandbox_preview_create_request import SandboxPreviewCreateRequest
 from .sandbox_preview_create_request_protocol import SandboxPreviewCreateRequestProtocol
 from .sandbox_preview_grant import SandboxPreviewGrant
@@ -232,8 +254,38 @@ from .sandbox_preview_renew_request import SandboxPreviewRenewRequest
 from .sandbox_refresh_request import SandboxRefreshRequest
 from .sandbox_resource_config import SandboxResourceConfig
 from .sandbox_resource_usage import SandboxResourceUsage
+from .sandbox_restart_final_capture import SandboxRestartFinalCapture
+from .sandbox_restart_final_capture_acknowledgement import (
+    SandboxRestartFinalCaptureAcknowledgement,
+)
+from .sandbox_restart_final_capture_file import SandboxRestartFinalCaptureFile
+from .sandbox_restart_final_capture_state import SandboxRestartFinalCaptureState
+from .sandbox_restart_operation import SandboxRestartOperation
+from .sandbox_restart_operation_reason import SandboxRestartOperationReason
+from .sandbox_restart_operation_state import SandboxRestartOperationState
+from .sandbox_restart_request import SandboxRestartRequest
+from .sandbox_restart_retry_observation import SandboxRestartRetryObservation
+from .sandbox_restart_retry_observation_blocked_reason import (
+    SandboxRestartRetryObservationBlockedReason,
+)
+from .sandbox_restart_retry_observation_observed_stage import (
+    SandboxRestartRetryObservationObservedStage,
+)
+from .sandbox_root_fs_fork_launch import SandboxRootFSForkLaunch
+from .sandbox_root_fs_fork_launch_lifecycle_epoch import (
+    SandboxRootFSForkLaunchLifecycleEpoch,
+)
+from .sandbox_root_fs_fork_launch_request import SandboxRootFSForkLaunchRequest
+from .sandbox_root_fs_fork_launch_runtime_generation import (
+    SandboxRootFSForkLaunchRuntimeGeneration,
+)
+from .sandbox_root_fs_fork_launch_state import SandboxRootFSForkLaunchState
+from .sandbox_root_fs_fork_observation import SandboxRootFSForkObservation
+from .sandbox_root_fs_identity import SandboxRootFSIdentity
+from .sandbox_root_fs_identity_desired_state import SandboxRootFSIdentityDesiredState
 from .sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from .sandbox_root_fs_snapshot_list import SandboxRootFSSnapshotList
+from .sandbox_runtime_health import SandboxRuntimeHealth
 from .sandbox_runtime_metric_descriptor import SandboxRuntimeMetricDescriptor
 from .sandbox_runtime_metric_freshness import SandboxRuntimeMetricFreshness
 from .sandbox_runtime_metric_freshness_status import SandboxRuntimeMetricFreshnessStatus
@@ -255,8 +307,17 @@ from .sandbox_runtime_metrics_catalog_response import (
 )
 from .sandbox_runtime_metrics_response import SandboxRuntimeMetricsResponse
 from .sandbox_services_update_request import SandboxServicesUpdateRequest
+from .sandbox_snapshot_restore_operation import SandboxSnapshotRestoreOperation
+from .sandbox_snapshot_restore_operation_reason import (
+    SandboxSnapshotRestoreOperationReason,
+)
+from .sandbox_snapshot_restore_operation_state import (
+    SandboxSnapshotRestoreOperationState,
+)
+from .sandbox_snapshot_restore_request import SandboxSnapshotRestoreRequest
 from .sandbox_ssh_connection import SandboxSSHConnection
 from .sandbox_status import SandboxStatus
+from .sandbox_storage_health import SandboxStorageHealth
 from .sandbox_summary import SandboxSummary
 from .sandbox_template_spec import SandboxTemplateSpec
 from .sandbox_template_spec_env_vars import SandboxTemplateSpecEnvVars
@@ -319,6 +380,8 @@ from .success_health_response_data import SuccessHealthResponseData
 from .success_identity_list_response import SuccessIdentityListResponse
 from .success_identity_list_response_data import SuccessIdentityListResponseData
 from .success_login_response import SuccessLoginResponse
+from .success_managed_file_read_response import SuccessManagedFileReadResponse
+from .success_managed_files_state_response import SuccessManagedFilesStateResponse
 from .success_message_response import SuccessMessageResponse
 from .success_message_response_data import SuccessMessageResponseData
 from .success_moved_response import SuccessMovedResponse
@@ -336,8 +399,15 @@ from .success_restore_sandbox_root_fs_response import (
     SuccessRestoreSandboxRootFSResponse,
 )
 from .success_resume_sandbox_response import SuccessResumeSandboxResponse
+from .success_sandbox_health_response import SuccessSandboxHealthResponse
 from .success_sandbox_list_response import SuccessSandboxListResponse
 from .success_sandbox_list_response_data import SuccessSandboxListResponseData
+from .success_sandbox_memory_operation_response import (
+    SuccessSandboxMemoryOperationResponse,
+)
+from .success_sandbox_memory_restoration_response import (
+    SuccessSandboxMemoryRestorationResponse,
+)
 from .success_sandbox_network_policy_response import SuccessSandboxNetworkPolicyResponse
 from .success_sandbox_observability_events_response import (
     SuccessSandboxObservabilityEventsResponse,
@@ -347,6 +417,24 @@ from .success_sandbox_observability_logs_response import (
 )
 from .success_sandbox_preview_response import SuccessSandboxPreviewResponse
 from .success_sandbox_response import SuccessSandboxResponse
+from .success_sandbox_restart_final_capture_file_response import (
+    SuccessSandboxRestartFinalCaptureFileResponse,
+)
+from .success_sandbox_restart_final_capture_response import (
+    SuccessSandboxRestartFinalCaptureResponse,
+)
+from .success_sandbox_restart_operation_response import (
+    SuccessSandboxRestartOperationResponse,
+)
+from .success_sandbox_root_fs_fork_launch_response import (
+    SuccessSandboxRootFSForkLaunchResponse,
+)
+from .success_sandbox_root_fs_fork_observation_response import (
+    SuccessSandboxRootFSForkObservationResponse,
+)
+from .success_sandbox_root_fs_identity_response import (
+    SuccessSandboxRootFSIdentityResponse,
+)
 from .success_sandbox_root_fs_snapshot_list_response import (
     SuccessSandboxRootFSSnapshotListResponse,
 )
@@ -361,6 +449,9 @@ from .success_sandbox_runtime_metrics_response import (
 )
 from .success_sandbox_services_response import SuccessSandboxServicesResponse
 from .success_sandbox_services_response_data import SuccessSandboxServicesResponseData
+from .success_sandbox_snapshot_restore_operation_response import (
+    SuccessSandboxSnapshotRestoreOperationResponse,
+)
 from .success_sandbox_status_response import SuccessSandboxStatusResponse
 from .success_signaled_response import SuccessSignaledResponse
 from .success_signaled_response_data import SuccessSignaledResponseData
@@ -424,9 +515,11 @@ __all__ = (
     "APIKey",
     "AuthProvider",
     "CachePolicySpec",
+    "CaptureSandboxRootFSSnapshotRequest",
     "ChangePasswordRequest",
     "ClaimRequest",
     "ClaimResponse",
+    "ConditionalExecutionSessionRequest",
     "ContainerSpec",
     "ContainerSpecSecurityClass",
     "ContextExecResponse",
@@ -547,6 +640,11 @@ __all__ = (
     "Identity",
     "LoginRequest",
     "LoginResponse",
+    "LookupSandboxMemoryOperationAction",
+    "ManagedFileReadResponse",
+    "ManagedFilesState",
+    "ManagedFilesStateGuestPath",
+    "ManagedFileWriteRequest",
     "MCPProtocolRule",
     "MCPToolPolicy",
     "MoveFileRequest",
@@ -612,7 +710,19 @@ __all__ = (
     "SandboxFunctionRuntime",
     "SandboxFunctionSource",
     "SandboxFunctionSourceType",
+    "SandboxHealth",
+    "SandboxHealthDesiredState",
+    "SandboxHealthObservation",
+    "SandboxHealthObservationReason",
+    "SandboxHealthObservationSource",
+    "SandboxHealthObservationState",
     "SandboxLifecycleStatus",
+    "SandboxMemoryOperation",
+    "SandboxMemoryOperationAction",
+    "SandboxMemoryOperationReason",
+    "SandboxMemoryOperationState",
+    "SandboxMemoryRestoration",
+    "SandboxMemoryRestorationStep",
     "SandboxNetworkPolicy",
     "SandboxNetworkPolicyMode",
     "SandboxObservabilityEvent",
@@ -627,6 +737,7 @@ __all__ = (
     "SandboxObservabilityOutcome",
     "SandboxObservabilityWatchLine",
     "SandboxObservabilityWatchLineType",
+    "SandboxPauseRequest",
     "SandboxPreviewCreateRequest",
     "SandboxPreviewCreateRequestProtocol",
     "SandboxPreviewGrant",
@@ -635,8 +746,28 @@ __all__ = (
     "SandboxRefreshRequest",
     "SandboxResourceConfig",
     "SandboxResourceUsage",
+    "SandboxRestartFinalCapture",
+    "SandboxRestartFinalCaptureAcknowledgement",
+    "SandboxRestartFinalCaptureFile",
+    "SandboxRestartFinalCaptureState",
+    "SandboxRestartOperation",
+    "SandboxRestartOperationReason",
+    "SandboxRestartOperationState",
+    "SandboxRestartRequest",
+    "SandboxRestartRetryObservation",
+    "SandboxRestartRetryObservationBlockedReason",
+    "SandboxRestartRetryObservationObservedStage",
+    "SandboxRootFSForkLaunch",
+    "SandboxRootFSForkLaunchLifecycleEpoch",
+    "SandboxRootFSForkLaunchRequest",
+    "SandboxRootFSForkLaunchRuntimeGeneration",
+    "SandboxRootFSForkLaunchState",
+    "SandboxRootFSForkObservation",
+    "SandboxRootFSIdentity",
+    "SandboxRootFSIdentityDesiredState",
     "SandboxRootFSSnapshot",
     "SandboxRootFSSnapshotList",
+    "SandboxRuntimeHealth",
     "SandboxRuntimeMetricDescriptor",
     "SandboxRuntimeMetricFreshness",
     "SandboxRuntimeMetricFreshnessStatus",
@@ -654,8 +785,13 @@ __all__ = (
     "SandboxRuntimeMetricStatistic",
     "SandboxRuntimeMetricUnit",
     "SandboxServicesUpdateRequest",
+    "SandboxSnapshotRestoreOperation",
+    "SandboxSnapshotRestoreOperationReason",
+    "SandboxSnapshotRestoreOperationState",
+    "SandboxSnapshotRestoreRequest",
     "SandboxSSHConnection",
     "SandboxStatus",
+    "SandboxStorageHealth",
     "SandboxSummary",
     "SandboxTemplateSpec",
     "SandboxTemplateSpecEnvVars",
@@ -710,6 +846,8 @@ __all__ = (
     "SuccessIdentityListResponse",
     "SuccessIdentityListResponseData",
     "SuccessLoginResponse",
+    "SuccessManagedFileReadResponse",
+    "SuccessManagedFilesStateResponse",
     "SuccessMessageResponse",
     "SuccessMessageResponseData",
     "SuccessMovedResponse",
@@ -725,19 +863,29 @@ __all__ = (
     "SuccessResizedResponseData",
     "SuccessRestoreSandboxRootFSResponse",
     "SuccessResumeSandboxResponse",
+    "SuccessSandboxHealthResponse",
     "SuccessSandboxListResponse",
     "SuccessSandboxListResponseData",
+    "SuccessSandboxMemoryOperationResponse",
+    "SuccessSandboxMemoryRestorationResponse",
     "SuccessSandboxNetworkPolicyResponse",
     "SuccessSandboxObservabilityEventsResponse",
     "SuccessSandboxObservabilityLogsResponse",
     "SuccessSandboxPreviewResponse",
     "SuccessSandboxResponse",
+    "SuccessSandboxRestartFinalCaptureFileResponse",
+    "SuccessSandboxRestartFinalCaptureResponse",
+    "SuccessSandboxRestartOperationResponse",
+    "SuccessSandboxRootFSForkLaunchResponse",
+    "SuccessSandboxRootFSForkObservationResponse",
+    "SuccessSandboxRootFSIdentityResponse",
     "SuccessSandboxRootFSSnapshotListResponse",
     "SuccessSandboxRootFSSnapshotResponse",
     "SuccessSandboxRuntimeMetricsCatalogResponse",
     "SuccessSandboxRuntimeMetricsResponse",
     "SuccessSandboxServicesResponse",
     "SuccessSandboxServicesResponseData",
+    "SuccessSandboxSnapshotRestoreOperationResponse",
     "SuccessSandboxStatusResponse",
     "SuccessSignaledResponse",
     "SuccessSignaledResponseData",

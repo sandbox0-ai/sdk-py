@@ -24,16 +24,23 @@ class ForkSandboxRequest:
     before the paused child sandbox is created.
 
         Attributes:
+            expected_runtime_generation (Union[Unset, int]): Optional exact source runtime generation. Requires a stable
+                Idempotency-Key. First admission checks the source under its lifecycle lock; retries compare the original
+                accepted capture, even after the parent resumes. Zero is valid for a never-run paused source. With memory=true
+                the value must be below the maximum. Keep the original value and key after an uncertain response.
             memory (Union[Unset, bool]): Preserve process execution state together with RootFS. Requires Idempotency-Key. A
                 paused source must have a retained memory image; a running source is captured and resumed before completion.
                 Unsupported or unavailable memory never falls back to filesystem-only. Default: False.
             config (Union[Unset, ForkSandboxConfig]):
     """
 
+    expected_runtime_generation: Union[Unset, int] = UNSET
     memory: Union[Unset, bool] = False
     config: Union[Unset, "ForkSandboxConfig"] = UNSET
 
     def to_dict(self) -> dict[str, Any]:
+        expected_runtime_generation = self.expected_runtime_generation
+
         memory = self.memory
 
         config: Union[Unset, dict[str, Any]] = UNSET
@@ -43,6 +50,8 @@ class ForkSandboxRequest:
         field_dict: dict[str, Any] = {}
 
         field_dict.update({})
+        if expected_runtime_generation is not UNSET:
+            field_dict["expected_runtime_generation"] = expected_runtime_generation
         if memory is not UNSET:
             field_dict["memory"] = memory
         if config is not UNSET:
@@ -55,6 +64,8 @@ class ForkSandboxRequest:
         from ..models.fork_sandbox_config import ForkSandboxConfig
 
         d = dict(src_dict)
+        expected_runtime_generation = d.pop("expected_runtime_generation", UNSET)
+
         memory = d.pop("memory", UNSET)
 
         _config = d.pop("config", UNSET)
@@ -65,6 +76,7 @@ class ForkSandboxRequest:
             config = ForkSandboxConfig.from_dict(_config)
 
         fork_sandbox_request = cls(
+            expected_runtime_generation=expected_runtime_generation,
             memory=memory,
             config=config,
         )

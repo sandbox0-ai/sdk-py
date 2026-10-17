@@ -8,15 +8,18 @@ from ...client import AuthenticatedClient, Client
 from ...models.error_envelope import ErrorEnvelope
 from ...models.sandbox_execution_state_request import SandboxExecutionStateRequest
 from ...models.success_resume_sandbox_response import SuccessResumeSandboxResponse
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: str,
     *,
     body: SandboxExecutionStateRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -98,18 +101,24 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: SandboxExecutionStateRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
-    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
-    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
-    with resumed=false means durable fallback is pending; poll sandbox status until running. A
-    disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to require a
+    retained execution image. Missing, incompatible, or failed memory restoration returns an error and
+    never authorizes a filesystem-only replacement. Accepted memory operations may continue through
+    background recovery after a disconnected request. For conditional memory resume, send memory=true,
+    expected_runtime_generation, checkpoint_id and Idempotency-Key together. Keep the same authenticated
+    identity, key, checkpoint and source generation on retries. A successful conditional response proves
+    this request committed its exact restore; unrelated running state or a later lifecycle conflicts. An
+    aborted request cannot create a new restore attempt.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxExecutionStateRequest): Resume execution-state selection. Conditional memory
+            resume requires all three body fields together with Idempotency-Key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,6 +131,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = client.get_httpx_client().request(
@@ -136,18 +146,24 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: SandboxExecutionStateRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
-    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
-    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
-    with resumed=false means durable fallback is pending; poll sandbox status until running. A
-    disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to require a
+    retained execution image. Missing, incompatible, or failed memory restoration returns an error and
+    never authorizes a filesystem-only replacement. Accepted memory operations may continue through
+    background recovery after a disconnected request. For conditional memory resume, send memory=true,
+    expected_runtime_generation, checkpoint_id and Idempotency-Key together. Keep the same authenticated
+    identity, key, checkpoint and source generation on retries. A successful conditional response proves
+    this request committed its exact restore; unrelated running state or a later lifecycle conflicts. An
+    aborted request cannot create a new restore attempt.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxExecutionStateRequest): Resume execution-state selection. Conditional memory
+            resume requires all three body fields together with Idempotency-Key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -161,6 +177,7 @@ def sync(
         id=id,
         client=client,
         body=body,
+        idempotency_key=idempotency_key,
     ).parsed
 
 
@@ -169,18 +186,24 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: SandboxExecutionStateRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Response[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
-    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
-    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
-    with resumed=false means durable fallback is pending; poll sandbox status until running. A
-    disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to require a
+    retained execution image. Missing, incompatible, or failed memory restoration returns an error and
+    never authorizes a filesystem-only replacement. Accepted memory operations may continue through
+    background recovery after a disconnected request. For conditional memory resume, send memory=true,
+    expected_runtime_generation, checkpoint_id and Idempotency-Key together. Keep the same authenticated
+    identity, key, checkpoint and source generation on retries. A successful conditional response proves
+    this request committed its exact restore; unrelated running state or a later lifecycle conflicts. An
+    aborted request cannot create a new restore attempt.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxExecutionStateRequest): Resume execution-state selection. Conditional memory
+            resume requires all three body fields together with Idempotency-Key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -193,6 +216,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
         body=body,
+        idempotency_key=idempotency_key,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -205,18 +229,24 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: SandboxExecutionStateRequest,
+    idempotency_key: Union[Unset, str] = UNSET,
 ) -> Optional[Union[ErrorEnvelope, SuccessResumeSandboxResponse]]:
     """Resume a sandbox
 
-     The default starts a new process runtime from the committed RootFS. Set memory=true to prefer a
-    retained execution image. Missing or incompatible memory falls back to the committed RootFS. A
-    failed memory target is physically reclaimed before a filesystem-only replacement starts. A response
-    with resumed=false means durable fallback is pending; poll sandbox status until running. A
-    disconnected request may continue through background recovery.
+     The default starts a new process runtime from the committed RootFS. Set memory=true to require a
+    retained execution image. Missing, incompatible, or failed memory restoration returns an error and
+    never authorizes a filesystem-only replacement. Accepted memory operations may continue through
+    background recovery after a disconnected request. For conditional memory resume, send memory=true,
+    expected_runtime_generation, checkpoint_id and Idempotency-Key together. Keep the same authenticated
+    identity, key, checkpoint and source generation on retries. A successful conditional response proves
+    this request committed its exact restore; unrelated running state or a later lifecycle conflicts. An
+    aborted request cannot create a new restore attempt.
 
     Args:
         id (str):
-        body (SandboxExecutionStateRequest):
+        idempotency_key (Union[Unset, str]):
+        body (SandboxExecutionStateRequest): Resume execution-state selection. Conditional memory
+            resume requires all three body fields together with Idempotency-Key.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -231,5 +261,6 @@ async def asyncio(
             id=id,
             client=client,
             body=body,
+            idempotency_key=idempotency_key,
         )
     ).parsed

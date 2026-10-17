@@ -1,0 +1,40 @@
+from enum import Enum
+
+
+class SandboxHealthObservationReason(str, Enum):
+    COMMAND_COMPLETED = "command_completed"
+    COMMAND_FAILED = "command_failed"
+    COMMAND_START_FAILED = "command_start_failed"
+    CURRENT_WRITER_LEASE_PRESENT = "current_writer_lease_present"
+    CURRENT_WRITER_LEASE_UNVERIFIED = "current_writer_lease_unverified"
+    DIAGNOSTICS_NOT_CONFIGURED = "diagnostics_not_configured"
+    DIAGNOSTIC_ADDRESS_UNAVAILABLE = "diagnostic_address_unavailable"
+    DIAGNOSTIC_AUTH_UNAVAILABLE = "diagnostic_auth_unavailable"
+    DIAGNOSTIC_PROBE_BUSY = "diagnostic_probe_busy"
+    DIAGNOSTIC_RUNTIME_CHANGED = "diagnostic_runtime_changed"
+    EXTERNAL_LAUNCH_AUTHORITY_PRESENT = "external_launch_authority_present"
+    EXTERNAL_LAUNCH_UNVERIFIED = "external_launch_unverified"
+    EXTERNAL_RUNTIME_UNAVAILABLE = "external_runtime_unavailable"
+    GUEST_DIAGNOSTICS_UNAVAILABLE = "guest_diagnostics_unavailable"
+    LAUNCH_UNOBSERVED = "launch_unobserved"
+    LIFECYCLE_TRANSITION = "lifecycle_transition"
+    PROBE_CANCELED = "probe_canceled"
+    PROBE_TIMEOUT = "probe_timeout"
+    ROOTFS_IDENTITY_PRESENT = "rootfs_identity_present"
+    ROOTFS_IDENTITY_UNINITIALIZED = "rootfs_identity_uninitialized"
+    RUNSC_ABSENT = "runsc_absent"
+    RUNSC_RUNNING = "runsc_running"
+    RUNSC_STOPPED = "runsc_stopped"
+    RUNSC_UNAVAILABLE = "runsc_unavailable"
+    RUNTIME_HEARTBEAT_EXPIRED = "runtime_heartbeat_expired"
+    RUNTIME_IDENTITY_CHANGED = "runtime_identity_changed"
+    RUNTIME_LIVENESS_UNOBSERVED = "runtime_liveness_unobserved"
+    RUNTIME_NOT_REQUESTED = "runtime_not_requested"
+    RUNTIME_SLOT_INACTIVE = "runtime_slot_inactive"
+    RUNTIME_SLOT_MISSING = "runtime_slot_missing"
+    RUNTIME_UNAVAILABLE_FOR_DIAGNOSTICS = "runtime_unavailable_for_diagnostics"
+    STORAGE_IO_UNOBSERVED = "storage_io_unobserved"
+    WRITER_UNOBSERVED = "writer_unobserved"
+
+    def __str__(self) -> str:
+        return str(self.value)
