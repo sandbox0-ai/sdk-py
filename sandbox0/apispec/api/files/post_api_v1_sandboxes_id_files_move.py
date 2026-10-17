@@ -71,6 +71,9 @@ def sync_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessMovedResponse]]:
     """Move a file or directory
 
+     Works during a filesystem-only pause without starting compute. A retained memory checkpoint prevents
+    offline mutations (409 conflict).
+
     Args:
         id (str):
         body (MoveFileRequest):
@@ -103,6 +106,9 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessMovedResponse]]:
     """Move a file or directory
 
+     Works during a filesystem-only pause without starting compute. A retained memory checkpoint prevents
+    offline mutations (409 conflict).
+
     Args:
         id (str):
         body (MoveFileRequest):
@@ -129,6 +135,9 @@ async def asyncio_detailed(
     body: MoveFileRequest,
 ) -> Response[Union[ErrorEnvelope, SuccessMovedResponse]]:
     """Move a file or directory
+
+     Works during a filesystem-only pause without starting compute. A retained memory checkpoint prevents
+    offline mutations (409 conflict).
 
     Args:
         id (str):
@@ -159,6 +168,9 @@ async def asyncio(
     body: MoveFileRequest,
 ) -> Optional[Union[ErrorEnvelope, SuccessMovedResponse]]:
     """Move a file or directory
+
+     Works during a filesystem-only pause without starting compute. A retained memory checkpoint prevents
+    offline mutations (409 conflict).
 
     Args:
         id (str):

@@ -71,7 +71,8 @@ def sync_detailed(
     """List directory entries
 
      Use query params:
-    - path=/tmp: target directory path
+    - path=/workspace: target directory path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):
@@ -106,7 +107,8 @@ def sync(
     """List directory entries
 
      Use query params:
-    - path=/tmp: target directory path
+    - path=/workspace: target directory path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):
@@ -136,7 +138,8 @@ async def asyncio_detailed(
     """List directory entries
 
      Use query params:
-    - path=/tmp: target directory path
+    - path=/workspace: target directory path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):
@@ -169,7 +172,8 @@ async def asyncio(
     """List directory entries
 
      Use query params:
-    - path=/tmp: target directory path
+    - path=/workspace: target directory path
+    Also works on the committed RootFS while paused, without resuming compute.
 
     Args:
         id (str):

@@ -93,7 +93,9 @@ def sync_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write file or create directory
 
-     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
+     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content
+    (maximum 100 MiB). Works during filesystem-only pauses without starting compute. Offline mutations
+    return 409 conflict while a memory checkpoint is retained.
 
     Args:
         id (str):
@@ -136,7 +138,9 @@ def sync(
 ) -> Optional[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write file or create directory
 
-     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
+     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content
+    (maximum 100 MiB). Works during filesystem-only pauses without starting compute. Offline mutations
+    return 409 conflict while a memory checkpoint is retained.
 
     Args:
         id (str):
@@ -174,7 +178,9 @@ async def asyncio_detailed(
 ) -> Response[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write file or create directory
 
-     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
+     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content
+    (maximum 100 MiB). Works during filesystem-only pauses without starting compute. Offline mutations
+    return 409 conflict while a memory checkpoint is retained.
 
     Args:
         id (str):
@@ -215,7 +221,9 @@ async def asyncio(
 ) -> Optional[Union[ErrorEnvelope, SuccessCreatedResponse, SuccessWrittenResponse]]:
     """Write file or create directory
 
-     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content.
+     Use `path` query param and `mkdir=true` to create directories, otherwise writes file content
+    (maximum 100 MiB). Works during filesystem-only pauses without starting compute. Offline mutations
+    return 409 conflict while a memory checkpoint is retained.
 
     Args:
         id (str):
