@@ -16,6 +16,7 @@ from ..models.sandbox_lifecycle_status import SandboxLifecycleStatus
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.external_mount_binding import ExternalMountBinding
     from ..models.sandbox_app_service import SandboxAppService
     from ..models.sandbox_resource_config import SandboxResourceConfig
     from ..models.sandbox_ssh_connection import SandboxSSHConnection
@@ -39,6 +40,8 @@ class Sandbox:
         claimed_at (datetime.datetime):
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
+        external_mounts (Union[Unset, list['ExternalMountBinding']]): Persisted credential-free external mount bindings.
+            Present while paused as well as running; this is configuration, not a worker health assertion.
         user_id (Union[Unset, str]):
         services (Union[Unset, list['SandboxAppService']]):
         resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
@@ -61,6 +64,7 @@ class Sandbox:
     claimed_at: datetime.datetime
     created_at: datetime.datetime
     updated_at: datetime.datetime
+    external_mounts: Union[Unset, list["ExternalMountBinding"]] = UNSET
     user_id: Union[Unset, str] = UNSET
     services: Union[Unset, list["SandboxAppService"]] = UNSET
     resources: Union[Unset, "SandboxResourceConfig"] = UNSET
@@ -91,6 +95,13 @@ class Sandbox:
         created_at = self.created_at.isoformat()
 
         updated_at = self.updated_at.isoformat()
+
+        external_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.external_mounts, Unset):
+            external_mounts = []
+            for external_mounts_item_data in self.external_mounts:
+                external_mounts_item = external_mounts_item_data.to_dict()
+                external_mounts.append(external_mounts_item)
 
         user_id = self.user_id
 
@@ -142,6 +153,8 @@ class Sandbox:
                 "updated_at": updated_at,
             }
         )
+        if external_mounts is not UNSET:
+            field_dict["external_mounts"] = external_mounts
         if user_id is not UNSET:
             field_dict["user_id"] = user_id
         if services is not UNSET:
@@ -159,6 +172,7 @@ class Sandbox:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.external_mount_binding import ExternalMountBinding
         from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_resource_config import SandboxResourceConfig
         from ..models.sandbox_ssh_connection import SandboxSSHConnection
@@ -185,6 +199,15 @@ class Sandbox:
         created_at = isoparse(d.pop("created_at"))
 
         updated_at = isoparse(d.pop("updated_at"))
+
+        external_mounts = []
+        _external_mounts = d.pop("external_mounts", UNSET)
+        for external_mounts_item_data in _external_mounts or []:
+            external_mounts_item = ExternalMountBinding.from_dict(
+                external_mounts_item_data
+            )
+
+            external_mounts.append(external_mounts_item)
 
         user_id = d.pop("user_id", UNSET)
 
@@ -257,6 +280,7 @@ class Sandbox:
             claimed_at=claimed_at,
             created_at=created_at,
             updated_at=updated_at,
+            external_mounts=external_mounts,
             user_id=user_id,
             services=services,
             resources=resources,

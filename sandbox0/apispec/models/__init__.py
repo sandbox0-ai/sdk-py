@@ -111,6 +111,8 @@ from .execution_session_web_socket_signal import ExecutionSessionWebSocketSignal
 from .execution_session_web_socket_signal_type import (
     ExecutionSessionWebSocketSignalType,
 )
+from .external_mount_binding import ExternalMountBinding
+from .external_mount_binding_access import ExternalMountBindingAccess
 from .file_content_response import FileContentResponse
 from .file_content_response_encoding import FileContentResponseEncoding
 from .file_info import FileInfo
@@ -329,6 +331,7 @@ from .ssh_proxy_projection import SSHProxyProjection
 from .ssh_public_key import SSHPublicKey
 from .static_headers_source_spec import StaticHeadersSourceSpec
 from .static_headers_source_spec_values import StaticHeadersSourceSpecValues
+from .static_s3_source_spec import StaticS3SourceSpec
 from .static_ssh_private_key_source_spec import StaticSSHPrivateKeySourceSpec
 from .static_tls_client_certificate_source_spec import (
     StaticTLSClientCertificateSourceSpec,
@@ -609,6 +612,8 @@ __all__ = (
     "ExecutionSessionWebSocketResizeType",
     "ExecutionSessionWebSocketSignal",
     "ExecutionSessionWebSocketSignalType",
+    "ExternalMountBinding",
+    "ExternalMountBindingAccess",
     "FileContentResponse",
     "FileContentResponseEncoding",
     "FileInfo",
@@ -803,6 +808,7 @@ __all__ = (
     "SSHPublicKey",
     "StaticHeadersSourceSpec",
     "StaticHeadersSourceSpecValues",
+    "StaticS3SourceSpec",
     "StaticSSHPrivateKeySourceSpec",
     "StaticTLSClientCertificateSourceSpec",
     "StaticUsernamePasswordSourceSpec",
