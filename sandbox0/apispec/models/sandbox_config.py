@@ -12,6 +12,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.external_mount_binding import ExternalMountBinding
     from ..models.sandbox_app_service import SandboxAppService
     from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
     from ..models.sandbox_network_policy import SandboxNetworkPolicy
@@ -26,6 +27,10 @@ T = TypeVar("T", bound="SandboxConfig")
 class SandboxConfig:
     """
     Attributes:
+        external_mounts (Union[Unset, list['ExternalMountBinding']]): Creation-time bindings to team-owned static_s3
+            credential sources. Available only in enabled regions. Bindings persist across filesystem pause/resume and
+            cannot be changed by sandbox update. External objects are excluded from RootFS snapshots and forks; forks drop
+            bindings. Memory pause/resume, memory fork and migration with mounts are unsupported.
         env_vars (Union[Unset, SandboxConfigEnvVars]):
         resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
             memory only and derives CPU from the platform memory-per-CPU ratio.
@@ -48,6 +53,7 @@ class SandboxConfig:
         services (Union[Unset, list['SandboxAppService']]):
     """
 
+    external_mounts: Union[Unset, list["ExternalMountBinding"]] = UNSET
     env_vars: Union[Unset, "SandboxConfigEnvVars"] = UNSET
     resources: Union[Unset, "SandboxResourceConfig"] = UNSET
     ttl: Union[Unset, int] = UNSET
@@ -59,6 +65,13 @@ class SandboxConfig:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        external_mounts: Union[Unset, list[dict[str, Any]]] = UNSET
+        if not isinstance(self.external_mounts, Unset):
+            external_mounts = []
+            for external_mounts_item_data in self.external_mounts:
+                external_mounts_item = external_mounts_item_data.to_dict()
+                external_mounts.append(external_mounts_item)
+
         env_vars: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.env_vars, Unset):
             env_vars = self.env_vars.to_dict()
@@ -91,6 +104,8 @@ class SandboxConfig:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if external_mounts is not UNSET:
+            field_dict["external_mounts"] = external_mounts
         if env_vars is not UNSET:
             field_dict["env_vars"] = env_vars
         if resources is not UNSET:
@@ -112,6 +127,7 @@ class SandboxConfig:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.external_mount_binding import ExternalMountBinding
         from ..models.sandbox_app_service import SandboxAppService
         from ..models.sandbox_config_env_vars import SandboxConfigEnvVars
         from ..models.sandbox_network_policy import SandboxNetworkPolicy
@@ -119,6 +135,15 @@ class SandboxConfig:
         from ..models.webhook_config import WebhookConfig
 
         d = dict(src_dict)
+        external_mounts = []
+        _external_mounts = d.pop("external_mounts", UNSET)
+        for external_mounts_item_data in _external_mounts or []:
+            external_mounts_item = ExternalMountBinding.from_dict(
+                external_mounts_item_data
+            )
+
+            external_mounts.append(external_mounts_item)
+
         _env_vars = d.pop("env_vars", UNSET)
         env_vars: Union[Unset, SandboxConfigEnvVars]
         if isinstance(_env_vars, Unset):
@@ -161,6 +186,7 @@ class SandboxConfig:
             services.append(services_item)
 
         sandbox_config = cls(
+            external_mounts=external_mounts,
             env_vars=env_vars,
             resources=resources,
             ttl=ttl,
