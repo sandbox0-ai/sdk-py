@@ -28,6 +28,9 @@ class SandboxAppServiceRuntime:
     """
     Attributes:
         type_ (SandboxAppServiceRuntimeType): Runtime strategy for restarting a service process.
+        service_id (Union[Unset, str]): For type service, the ID of a different cmd service in the same sandbox whose
+            supervised runtime is shared. References cannot override command, cwd, env_vars or function, and cannot form
+            chains.
         command (Union[Unset, list[str]]): Process argv used when type is cmd.
         cwd (Union[Unset, str]):
         env_vars (Union[Unset, SandboxAppServiceRuntimeEnvVars]):
@@ -36,6 +39,7 @@ class SandboxAppServiceRuntime:
     """
 
     type_: SandboxAppServiceRuntimeType
+    service_id: Union[Unset, str] = UNSET
     command: Union[Unset, list[str]] = UNSET
     cwd: Union[Unset, str] = UNSET
     env_vars: Union[Unset, "SandboxAppServiceRuntimeEnvVars"] = UNSET
@@ -44,6 +48,8 @@ class SandboxAppServiceRuntime:
 
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_.value
+
+        service_id = self.service_id
 
         command: Union[Unset, list[str]] = UNSET
         if not isinstance(self.command, Unset):
@@ -66,6 +72,8 @@ class SandboxAppServiceRuntime:
                 "type": type_,
             }
         )
+        if service_id is not UNSET:
+            field_dict["service_id"] = service_id
         if command is not UNSET:
             field_dict["command"] = command
         if cwd is not UNSET:
@@ -87,6 +95,8 @@ class SandboxAppServiceRuntime:
         d = dict(src_dict)
         type_ = SandboxAppServiceRuntimeType(d.pop("type"))
 
+        service_id = d.pop("service_id", UNSET)
+
         command = cast(list[str], d.pop("command", UNSET))
 
         cwd = d.pop("cwd", UNSET)
@@ -107,6 +117,7 @@ class SandboxAppServiceRuntime:
 
         sandbox_app_service_runtime = cls(
             type_=type_,
+            service_id=service_id,
             command=command,
             cwd=cwd,
             env_vars=env_vars,
