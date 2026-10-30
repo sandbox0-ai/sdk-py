@@ -16,9 +16,8 @@ from tests.e2e.helpers import close_client, load_e2e_config, new_client
 class TestSandbox0DeepAgentsStandard(SandboxIntegrationTests):
     """LangChain standard tests for the Sandbox0 Deep Agents backend."""
 
-    @classmethod
     @pytest.fixture(scope="class")
-    def sandbox(cls) -> Iterator[Sandbox0DeepAgentsSandbox]:
+    def sandbox(self) -> Iterator[Sandbox0DeepAgentsSandbox]:
         cfg = load_e2e_config()
         if cfg is None:
             pytest.skip("S0_E2E_BASE_URL or S0_E2E_PASSWORD not set")
