@@ -41,7 +41,6 @@ from sandbox0.apispec.models.pause_sandbox_response import PauseSandboxResponse
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
-from sandbox0.apispec.models.sandbox_resource_config import SandboxResourceConfig
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
 from sandbox0.apispec.models.sandbox_update_request import SandboxUpdateRequest
@@ -71,13 +70,9 @@ class ClientSandboxesMixin:
         memory: Optional[str] = None,
     ) -> "Sandbox":
         if memory is not None:
-            resources = SandboxResourceConfig(memory=memory)
-            if config is None:
-                config = SandboxConfig(resources=resources)
-            else:
-                config_data = config.to_dict()
-                config_data["resources"] = resources.to_dict()
-                config = SandboxConfig.from_dict(config_data)
+            config_data = config.to_dict() if config is not None else {}
+            config_data["resources"] = {**config_data.get("resources", {}), "memory": memory}
+            config = SandboxConfig.from_dict(config_data)
         request = ClaimRequest(template=template, config=config) if config is not None else ClaimRequest(template=template)
         resp = post_api_v1_sandboxes.sync_detailed(client=self._api, body=request)
         data = ensure_data(resp, SuccessClaimResponse)

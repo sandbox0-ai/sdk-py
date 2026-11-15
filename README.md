@@ -48,6 +48,26 @@ The initial size is distinct from stored data usage and service storage quotas.
 Automatic growth requires operator enablement; see the
 [deployment guide](https://github.com/sandbox0-ai/sandbox0/blob/main/deploy/nomad/rootfs-autogrow.md).
 
+## Optional memory burst
+
+Where the region enables memory burst, preauthorize up to 50% extra RAM. A
+4 GiB base with 50% allowance can move between 4 GiB and 6 GiB hard limits
+without restarting processes. CPU remains based on 4 GiB; billing follows the
+applied memory limit. Growth depends on physical headroom, and shrink waits until
+safe. Omit the percentage or use `0` to disable burst. Changing the resource
+configuration explicitly still uses the process-restarting resize operation.
+
+```python
+from sandbox0.apispec.models.sandbox_config import SandboxConfig
+from sandbox0.apispec.models.sandbox_resource_config import SandboxResourceConfig
+
+sandbox = client.sandboxes.claim(
+    "default",
+    memory="4Gi",
+    config=SandboxConfig(resources=SandboxResourceConfig(memory_burst_percent=50)),
+)
+```
+
 ## Configuration
 
 | Environment Variable | Required | Default                   | Description          |
