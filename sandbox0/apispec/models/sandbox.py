@@ -41,8 +41,8 @@ class Sandbox:
         updated_at (datetime.datetime):
         user_id (Union[Unset, str]):
         services (Union[Unset, list['SandboxAppService']]):
-        resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
-            memory only and derives CPU from the platform memory-per-CPU ratio.
+        resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. CPU is derived from
+            base memory; optional preauthorized memory burst does not increase CPU.
         ssh (Union[Unset, SandboxSSHConnection]):
         expires_at (Union[None, Unset, datetime.datetime]): Soft expiration timestamp. Omitted or null means disabled or
             not set.

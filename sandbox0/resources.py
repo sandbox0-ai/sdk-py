@@ -69,7 +69,6 @@ from sandbox0.apispec.models.resume_sandbox_response import ResumeSandboxRespons
 from sandbox0.apispec.models.sandbox import Sandbox as APISandbox
 from sandbox0.apispec.models.sandbox_config import SandboxConfig
 from sandbox0.apispec.models.sandbox_lifecycle_status import SandboxLifecycleStatus
-from sandbox0.apispec.models.sandbox_resource_config import SandboxResourceConfig
 from sandbox0.apispec.models.sandbox_root_fs_snapshot import SandboxRootFSSnapshot
 from sandbox0.apispec.models.sandbox_status import SandboxStatus
 from sandbox0.apispec.models.sandbox_summary import SandboxSummary
@@ -119,11 +118,8 @@ if TYPE_CHECKING:
 def _sandbox_config_with_memory(config: Optional[SandboxConfig], memory: Optional[str]) -> Optional[SandboxConfig]:
     if memory is None:
         return config
-    resources = SandboxResourceConfig(memory=memory)
-    if config is None:
-        return SandboxConfig(resources=resources)
-    data = config.to_dict()
-    data["resources"] = resources.to_dict()
+    data = config.to_dict() if config is not None else {}
+    data["resources"] = {**data.get("resources", {}), "memory": memory}
     return SandboxConfig.from_dict(data)
 
 

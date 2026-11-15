@@ -31,8 +31,8 @@ class SandboxUpdateConfig:
     Environment and webhook changes require a new runtime.
 
         Attributes:
-            resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. Sandbox0 exposes
-                memory only and derives CPU from the platform memory-per-CPU ratio.
+            resources (Union[Unset, SandboxResourceConfig]): Instance-level sandbox resource override. CPU is derived from
+                base memory; optional preauthorized memory burst does not increase CPU.
             ttl (Union[Unset, int]): Runtime soft time-to-live in seconds. When it expires, Sandbox0 checkpoints the
                 writable rootfs, pauses the sandbox, and releases runtime compute while preserving durable sandbox state.
             hard_ttl (Union[Unset, int]): Sandbox hard time-to-live in seconds. When it expires, Sandbox0 deletes the
